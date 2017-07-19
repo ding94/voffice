@@ -76,8 +76,7 @@ class SiteController extends Controller
 
         $model = new AdminLogin();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //var_dump('a');exit;
-            return $this->render('index');
+              return $this->goBack();
         } else {
             return $this->render('login', [
                 'model' => $model,
