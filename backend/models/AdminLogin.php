@@ -1,15 +1,13 @@
 <?php
+
 namespace backend\models;
 
 use Yii;
 use yii\base\Model;
 
-/**
- * Login form
- */
 class AdminLogin extends Model
 {
-    public $adminname;
+	public $username;
     public $password;
     public $rememberMe = true;
 
@@ -23,11 +21,20 @@ class AdminLogin extends Model
     {
         return [
             // username and password are both required
-            [['adminname', 'password'], 'required'],
+            [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            
+            'username' => 'Admin name',
+            'password' => 'Password',
         ];
     }
 
@@ -70,7 +77,7 @@ class AdminLogin extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = Admin::findByUsername($this->adminname);
+            $this->_user = Admin::findByUsername($this->username);
         }
 
         return $this->_user;

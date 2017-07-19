@@ -8,6 +8,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+
 /**
  * This is the model class for table "admin".
  *
@@ -21,7 +22,7 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Admin extends  ActiveRecord implements IdentityInterface
+class Admin extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
@@ -34,14 +35,24 @@ class Admin extends  ActiveRecord implements IdentityInterface
         return 'admin';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
-     * @inheritdoc
-     */
-       /**
      * @inheritdoc
      */
     public function rules()
     {
+       /* return [
+            [['adminname', 'auth_key', 'password', 'email', 'created_at', 'updated_at'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['adminname', 'password', 'password_reset_token', 'email'], 'string', 'max' => 100],
+            [['auth_key'], 'string', 'max' => 32],
+        ];*/
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
@@ -49,6 +60,24 @@ class Admin extends  ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    // public function attributeLabels()
+    // {
+    //     return [
+    //         'id' => 'ID',
+    //         'adminname' => 'Adminname',
+    //         'auth_key' => 'Auth Key',
+    //         'password' => 'Password',
+    //         'password_reset_token' => 'Password Reset Token',
+    //         'email' => 'Email',
+    //         'status' => 'Status',
+    //         'created_at' => 'Created At',
+    //         'updated_at' => 'Updated At',
+    //     ];
+    // }
+
+        /**
      * @inheritdoc
      */
     public static function findIdentity($id)
@@ -70,9 +99,9 @@ class Admin extends  ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($adminname)
     {
-        return static::findOne(['adminname' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['adminname' => $adminname, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
