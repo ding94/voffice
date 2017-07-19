@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\AdminLogin;
 
 /**
  * Site controller
@@ -74,9 +74,10 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
+        $model = new AdminLogin();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //var_dump('a');exit;
+            return $this->render('index');
         } else {
             return $this->render('login', [
                 'model' => $model,
