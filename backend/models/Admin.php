@@ -47,42 +47,17 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
-       /* return [
-            [['adminname', 'auth_key', 'password', 'email', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
-            [['adminname', 'password', 'password_reset_token', 'email'], 'string', 'max' => 100],
-            [['auth_key'], 'string', 'max' => 32],
-        ];*/
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => range(self::STATUS_DELETED+1, self::STATUS_ACTIVE)],
         ];
     }
-
-    /**
-     * @inheritdoc
-     */
-    // public function attributeLabels()
-    // {
-    //     return [
-    //         'id' => 'ID',
-    //         'adminname' => 'Adminname',
-    //         'auth_key' => 'Auth Key',
-    //         'password' => 'Password',
-    //         'password_reset_token' => 'Password Reset Token',
-    //         'email' => 'Email',
-    //         'status' => 'Status',
-    //         'created_at' => 'Created At',
-    //         'updated_at' => 'Updated At',
-    //     ];
-    // }
 
         /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::find()->where('id = :id',[':id' => $id])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
     }
 
     /**
@@ -101,7 +76,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($adminname)
     {
-        return static::findOne(['adminname' => $adminname, 'status' => self::STATUS_ACTIVE]);
+        return static::find()->where('adminname = :adminname',[':adminname' => $adminname])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
     }
 
     /**
