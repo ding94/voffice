@@ -12,3 +12,4 @@ $("#mainNav a,.intro-text a").on('click',function(event){
 		
 	}
 });
+
