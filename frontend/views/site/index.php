@@ -48,7 +48,7 @@ $this->title = 'Virtual Office';
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                         <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Administrative Support</h4>
                     <p class="text-muted">---</p>
@@ -56,7 +56,7 @@ $this->title = 'Virtual Office';
                 <div class="col-md-4">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
+                       <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Mail Received</h4>
                     <p class="text-muted">---</p>
@@ -226,5 +226,43 @@ $this->title = 'Virtual Office';
             </div>
         </div>
     </section>
-</div>
+	
+
  
+<!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Virtual Office</h2>
+                                <p class="item-intro text-muted">---</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/roundicons-free.png" alt="">
+                                <p> ---</p>
+                                <p>
+                                    <strong>Interested with Virtual Office?</strong>You can subscribe <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase  <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
+                                <ul class="list-inline">
+                                    <li>Date: </li>
+                                    <li>Client: </li>
+                                    <li>Category: </li>
+                                </ul>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
