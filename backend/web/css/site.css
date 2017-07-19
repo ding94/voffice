@@ -118,3 +118,11 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+#sidebar-nav {
+    position: absolute;
+    width: 180px;
+    float: left;
+    margin: 0em;
+    padding-top: 10em;
+}

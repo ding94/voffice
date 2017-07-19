@@ -29,8 +29,9 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'Voffice backend',
         'brandUrl' => Yii::$app->homeUrl,
+        'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -56,7 +57,14 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
+    <div id="sidebar-nav">
+       <ul>
+           <li>AA</li>
+           <li>AA</li>
+           <li>AA</li>
+           <li>AA</li>
+       </ul>
+    </div>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -64,15 +72,8 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>

@@ -90,11 +90,7 @@ class Admin extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
+        return static::find()->where('password_reset_token = :token',[':token' => $token])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
     }
 
     /**
