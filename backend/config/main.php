@@ -46,5 +46,27 @@ return [
         ],
         */
     ],
+
+    /*
+     *deny all guest to view page
+    */
+    'as beforeRequest' =>[
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['login', 'error'],
+                'allow' => true,
+            ],
+            [
+                'actions' => ['logout', 'index'],
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+        'denyCallback' => function () {
+            return Yii::$app->response->redirect(['site/login']);
+        },
+       
+    ],
     'params' => $params,
 ];

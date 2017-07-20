@@ -10,7 +10,7 @@ use yii\grid\ActionColumn;
 ?>
 <div class="container">
 	<h1><?= Html::encode($this->title)?></h1>
-
+	<?= Html::a('Add New Package', ['/package/add'], ['class'=>'btn btn-success']) ?>
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
