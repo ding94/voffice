@@ -93,6 +93,9 @@ BowerAsset::register($this);
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
+					<li>
+                        <a class="page-scroll" href="#">Login</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -118,7 +121,9 @@ BowerAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
-<!-- Contact Form JavaScript -->
+ <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
 </body>
 </html>
 <?php $this->endPage() ?>
