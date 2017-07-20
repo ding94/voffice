@@ -14,7 +14,7 @@ use yii\data\ActiveDataProvider;
  */
 class Package extends \yii\db\ActiveRecord
 {
-    public $packageTitle;
+    public $packageTittle;
     /**
      * @inheritdoc
      */
