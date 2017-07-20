@@ -54,11 +54,10 @@ return [
         'class' => 'yii\filters\AccessControl',
         'rules' => [
             [
-                'actions' => ['login', 'error'],
+                'actions' => ['login'],
                 'allow' => true,
             ],
             [
-                'actions' => ['logout', 'index'],
                 'allow' => true,
                 'roles' => ['@'],
             ],
@@ -66,7 +65,6 @@ return [
         'denyCallback' => function () {
             return Yii::$app->response->redirect(['site/login']);
         },
-       
     ],
     'params' => $params,
 ];
