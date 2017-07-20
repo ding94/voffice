@@ -39,12 +39,12 @@ Class PackageController extends Controller
 
     /**
    	 * Displays addEdit page
-	 * Save data to database if post me
+	 * Save data to database if post 
      */
     public function actionAdd()
     {
     	$model = new Package;
-    	$model->packageTitle = "Add Package";
+    	$model->packageTittle = "Add Package";
     	if($model->load(Yii::$app->request->post()) && $model->save()){
     		return $this->redirect(['index']);
     	}
@@ -53,7 +53,7 @@ Class PackageController extends Controller
 
     /**
    	 * Displays addEdit page
-	 * Update data to database if post me
+	 * Update data to database if post 
      */
     public function actionUpdate($id)
     {
@@ -77,7 +77,7 @@ Class PackageController extends Controller
      * Finds the Country model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Country the loaded model
+     * @return Package the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

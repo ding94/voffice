@@ -8,7 +8,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-
 /**
  * This is the model class for table "admin".
  *
@@ -26,6 +25,7 @@ class Admin extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    public $adminTittle;
 
     /**
      * @inheritdoc
@@ -152,7 +152,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
