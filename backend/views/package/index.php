@@ -1,11 +1,9 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\grid\ActionColumn;
 
 	$this->title = 'Package List';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -17,12 +15,13 @@ use yii\grid\GridView;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
+        
             ['class' => 'yii\grid\SerialColumn'],
 
             'type',
 	        'price',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>
 </div>

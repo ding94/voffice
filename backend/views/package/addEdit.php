@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 	$this->title = $model->packageTitle;
+	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Package'), 'url' => ['index']];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
