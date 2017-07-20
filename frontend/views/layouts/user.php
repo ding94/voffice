@@ -75,7 +75,7 @@ BowerAsset::register($this);
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Virtual Office</a>
+                <a class="navbar-brand page-scroll" href="<?php echo yii\helpers\Url::to(['site/index'])?>">Virtual Office</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -93,33 +93,41 @@ BowerAsset::register($this);
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
-                    <?php if (Yii::$app->user->isGuest): ?>
                     <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/login'])?>">Login</a>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['site/logout'])?>">Logout</a>
                     </li>
-                    <?php else : ?>
-                    <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>">User</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/logout'])?>" data-method="post">Logout</a>
-                    </li>
-                    <?php endif ;?>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
+            <!-- /.navbar-collapse -->           
         </div>
         <!-- /.container-fluid -->
     </nav>
 
+    <!-- Side Nav -->
+
+<div class="row">
+    <div class="col-md-2">
+        <nav id="sideNav" class="nav-sidebar">
+        <ul class="nav tabs">
+          <li class="active"><a href="#tab1" data-toggle="tab">User Profile</a></li>
+          <li class=""><a href="#tab2" data-toggle="tab">Package/Parcel</a></li>
+          <li class=""><a href="#tab3" data-toggle="tab">Loren Ipsum</a></li>                               
+        </ul>
+    </nav>
+    </div>
     <div class="container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="content"><?= $content ?></div>
     </div>
 </div>
+</div>
+
+
+
+    
 
 <footer class="footer">
     <div class="container">

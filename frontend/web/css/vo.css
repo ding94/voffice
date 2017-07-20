@@ -742,3 +742,12 @@ img::-moz-selection {
 body {
   webkit-tap-highlight-color: #fed136;
 }
+
+#sideNav{
+  margin: 100px 5px 0px 5px;
+  border-right: 1px solid #ddd;
+}
+
+.content{
+  margin-top: 100px; 
+}
