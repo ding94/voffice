@@ -16,6 +16,12 @@ Class UserController extends Controller
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
+	public function actionView($id)
+	{
+		$model = $this->findModel($id);
+		return $this->render('view',['model' => $model]);
+	}
+
 	/**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

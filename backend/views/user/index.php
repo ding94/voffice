@@ -18,7 +18,7 @@ use yii\grid\ActionColumn;
             'username',
             'email',
             'status',
-            ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
