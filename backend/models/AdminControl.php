@@ -6,7 +6,7 @@ use yii\base\Model;
 use backend\models\Admin;
 use yii\data\ActiveDataProvider;
 
-class AdminControl extends Admin
+class AdminControl extends Admin 
 {
 	public $id;
 	public $adminname;
@@ -33,6 +33,9 @@ class AdminControl extends Admin
 
             ['status' ,'required' , 'on' => ['addAdmin']],
             ['status' , 'in', 'range' => range(1,10) , 'on' => ['addAdmin']],
+
+            ['email'  , 'unique' ,'on' => ['searchAdmin']],
+            ['adminname'  ,'safe' ,'on' => ['searchAdmin']],
         ];
     }
 
@@ -70,6 +73,5 @@ class AdminControl extends Admin
     	$model->generateAuthKey();
         return $model->save();
     }
-
 
 }
