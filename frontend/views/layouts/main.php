@@ -99,7 +99,7 @@ BowerAsset::register($this);
                     </li>
                     <?php else : ?>
                     <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>">User</a>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
                     </li>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/logout'])?>" data-method="post">Logout</a>

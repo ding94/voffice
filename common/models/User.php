@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\data\ActiveDataProvider;
 
 /**
  * User model
@@ -25,6 +26,8 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+
+    public $loginname;
 
 
     /**
@@ -55,6 +58,19 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
+
+    // public function login($data)
+    // {
+    //     $this->scenario = "login";
+    //     if ($this->load($data) && $this->validate())
+    //     {
+    //         $session = Yii::$app->session;
+    //         $session['loginname'] = $this->loginname;
+    //         $session['isLogin'] = 1;
+    //         return (bool)$session['isLogin'];
+    //     }
+    //     return false;
+    // }
 
     /**
      * @inheritdoc
