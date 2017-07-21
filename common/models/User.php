@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\data\ActiveDataProvider;
 
 /**
  * User model
@@ -53,6 +54,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['email' , 'unique'],
+            [ 'username'  ,'safe'],
         ];
     }
 
@@ -185,5 +188,28 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function search($params)
+    {
+        $query = self::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'username' => $this->username,
+            'email' => $this->email,
+            'status' => $this->status,
+        ]);
+
+         $query->andFilterWhere(['like','username' , $this->username]);
+
+
+        return $dataProvider;
     }
 }

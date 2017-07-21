@@ -19,6 +19,7 @@ Class AdminController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new AdminControl();
+		$searchModel->scenario ='searchAdmin';
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);

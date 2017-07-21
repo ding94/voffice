@@ -15,12 +15,9 @@ use yii\grid\ActionColumn;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-        
             ['class' => 'yii\grid\SerialColumn'],
-
             'type',
 	        'price',
-
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>

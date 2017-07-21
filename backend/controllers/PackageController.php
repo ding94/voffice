@@ -44,7 +44,7 @@ Class PackageController extends Controller
     public function actionAdd()
     {
     	$model = new Package;
-    	$model->packageTittle = "Add Package";
+    	$models->packageTittle = "Add Package";
     	if($model->load(Yii::$app->request->post()) && $model->save()){
     		return $this->redirect(['index']);
     	}
@@ -74,7 +74,7 @@ Class PackageController extends Controller
     }
 
      /**
-     * Finds the Country model based on its primary key value.
+     * Finds the Package model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
      * @return Package the loaded model
