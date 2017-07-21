@@ -71,5 +71,4 @@ class AdminControl extends Admin
         return $model->save();
     }
 
-
 }

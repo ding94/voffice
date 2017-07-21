@@ -17,7 +17,9 @@ use yii\bootstrap\ActiveForm;
 	<?php $form = ActiveForm::begin();?>
     	<?= $form->field($model, 'adminname')->textInput() ?>
     	<?= $form->field($model, 'email')->textInput() ?>
-    	<?= $form->field($model, 'password')->passwordInput() ?>
+    	<?php if(is_null($model->passwordOff)):?>
+    		<?= $form->field($model, 'password')->passwordInput() ?>
+    	<?php endif ;?>
     	<?= $form->field($model, 'status')->textInput() ?>
     	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

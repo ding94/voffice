@@ -29,34 +29,24 @@ Class AdminController extends Controller
 		$model = new AdminControl();
 		$model->scenario = 'addAdmin';
 		$model->adminTittle = "Add Admin";
-		if($model->load(Yii::$app->request->post()))
+		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
-			if($model->add())
-			{
-				Yii::$app->session->setFlash('success', "Add completed");
-    			return $this->redirect(['index']);
-			}
+
+			Yii::$app->session->setFlash('success', "Add completed");
+    		return $this->redirect(['index']);
 		}
 		return $this->render('addEdit' ,['model' => $model]);
 	}
 
 	public function actionUpdate($id)
 	{
-		$model =$this->findModel($id);
-		$model->adminTittle = "Edit Admin Info";
-		if(Yii::$app->request->ispost)
+		$model = $this->findModel($id);
+		$model->scenario = 'changeAdmin';
+		$model->passwordOff = '1';
+		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
-			$data = Yii::$app->request->post('Admin');
-			$model->adminname = $data['adminname'];
-	    	$model->email =$data['email'];
-	    	$model->status = $data['status'];
-	    	$model->setPassword($data['password']);
-	    	$model->generateAuthKey();
-	    	if($model->save())
-	    	{
-	    		Yii::$app->session->setFlash('success', "Update completed");
-    			return $this->redirect(['index']);
-	    	}
+			Yii::$app->session->setFlash('success', "Update completed");
+    		return $this->redirect(['index']);
 		}
 		return $this->render('addEdit', ['model' => $model]);
 	}

@@ -26,6 +26,7 @@ class Admin extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     public $adminTittle;
+    public $passwordOff;
 
     /**
      * @inheritdoc
@@ -42,12 +43,36 @@ class Admin extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert))
+        {
+            if($this->isNewRecord)
+            {
+                $this->auth_key = \Yii::$app->security->generateRandomString();
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
+            ['adminname', 'trim' ,'on' => ['changeAdmin']],
+            ['adminname', 'required' , 'on' => ['changeAdmin']],
+            ['adminname', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This username has already been taken.' , 'on' => ['changeAdmin']],
+            ['adminname', 'string', 'min' => 2, 'max' => 255 , 'on' => ['changeAdmin']],
+
+            ['email', 'trim' , 'on' => ['changeAdmin']],
+            ['email', 'required' , 'on' => ['changeAdmin']],
+            ['email', 'email' , 'on' => ['changeAdmin']],
+            ['email', 'string', 'max' => 255 , 'on' => ['changeAdmin']],
+            ['email', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This email address has already been taken.' , 'on' => ['changeAdmin']],
+
             ['status', 'in', 'range' => range(self::STATUS_DELETED+1, self::STATUS_ACTIVE)],
         ];
     }
