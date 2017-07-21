@@ -82,19 +82,7 @@ BowerAsset::register($this);
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Package</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['site/logout'])?>">Logout</a>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['site/logout'])?>" data-method="post">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -109,8 +97,8 @@ BowerAsset::register($this);
     <div class="col-md-2">
         <nav id="sideNav" class="nav-sidebar">
         <ul class="nav tabs">
-          <li class="active"><a href="#tab1" data-toggle="tab">User Profile</a></li>
-          <li class=""><a href="#tab2" data-toggle="tab">Package/Parcel</a></li>
+          <li class="active"><a href="<?php echo yii\helpers\Url::to(['user/index'])?>" data-toggle="tab">User Profile</a></li>
+          <li class=""><a href="#tab2" data-toggle="tab">Parcel<span class="badge pull-right">22</span></a></li>
           <li class=""><a href="#tab3" data-toggle="tab">Loren Ipsum</a></li>                               
         </ul>
     </nav>
