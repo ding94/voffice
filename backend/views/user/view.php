@@ -4,7 +4,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Country */
-//var_dump($pid);exit;
+
 $this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -38,6 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td>Status</td>
                 <td><?php echo $model->status ?></td>
             </tr>
+            <?php if (!empty($pid)) { ?>
+
             <tr class="reward-table-tr">
                 <td>Number of Parcel</td>
                 <td><?php 
@@ -58,6 +60,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                 </td>
             </tr>
+            <?php }?>
+
+
         </table>
     </div>
 
@@ -65,22 +70,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'username',
-            'email',
-            'status',
-        ],
-    ]) ?>
-    <?= DetailView::widget([
-        'model' => $pid,
-        'attributes' => [
-            'id',
-            'uid',
-            'recieved_time',
-        ],
-    ]) ?>
+
+
+
+
+
 
 
 </div>
