@@ -6,6 +6,7 @@ use yii\web\Controller;
 use backend\models\Admin;
 use backend\models\AdminControl;
 use backend\models\AdminResetPasswordForm;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
 
@@ -16,6 +17,25 @@ Class AdminController extends Controller
      *
      * @return string
      */
+
+	/*public function behaviors()
+    {
+        return [
+			'access' => [
+			    'class' => AccessControl::className(),
+			        'rules' => [
+			            [
+			                'actions' => ['index', 'Add' ,'Update' ,'Delete'],
+			                'allow' => true,
+			        	],
+			                   
+			    ],
+			]          
+        ];
+    }*/
+
+ 
+
 	public function actionIndex()
 	{
 		$searchModel = new AdminControl();
@@ -73,6 +93,7 @@ Class AdminController extends Controller
 		//detect whether current user id is current user session id
 		if((int)$id !==  Yii::$app->user->identity->id)
 		{
+			Yii::$app->session->setFlash('danger', "Wrong access format");
 			return $this->goBack();
 		}
 		if(Yii::$app->request->isPost)
