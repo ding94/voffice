@@ -5,7 +5,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User;
-
+use common\models\UserParcel;
 Class UserController extends Controller
 {
 	public function actionIndex()
@@ -19,7 +19,17 @@ Class UserController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
-		return $this->render('view',['model' => $model]);
+        
+        $parcel = UserParcel::find()->where('uid = :id' ,[':id' => $id])->all();
+        if(!empty($parcel)) {
+
+             return $this->render('view',['model' => $model, 'pid'=>$parcel]);
+             
+        }
+        else{
+            return $this->render('view',['model' => $model]);
+        }
+		
 	}
 
 	/**
