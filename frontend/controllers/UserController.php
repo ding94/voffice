@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use common\models\User;
 use common\models\UserContact;
-use common\models\UserDetails;
 use yii\filters\AccessControl;
 
 class UserController extends \yii\web\Controller
@@ -38,19 +37,19 @@ class UserController extends \yii\web\Controller
 		}
 
 		$user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
-		$userdetails = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+		$usercontact = UserContact::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 
     	$this->layout = 'user';
-        return $this->render('index', ['user' => $user, 'userdetails' => $userdetails]);
+        return $this->render('index', ['user' => $user, 'usercontact' => $usercontact]);
     }
 
     public function actionUseredit()
 	{
 		$userid = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
-		$model = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+		$model = UserContact::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 		if(empty($model))
 			{
-			$model = new UserDetails;
+			$model = new UserContact;
 			if(Yii::$app->request->isPost)
 			{
 				$post = Yii::$app->request->post();
@@ -63,7 +62,7 @@ class UserController extends \yii\web\Controller
 			}
 		else
 		{
-			$model = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
+			$model = UserContact::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
 			if(Yii::$app->request->isPost)
 			{
 				$post = Yii::$app->request->post();

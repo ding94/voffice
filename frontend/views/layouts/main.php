@@ -130,9 +130,8 @@ BowerAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
- <!-- Contact Form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>
-</body>
+ <!-- Contact Form JavaScript
+  <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>  -->
 </html>
 <?php $this->endPage() ?>
