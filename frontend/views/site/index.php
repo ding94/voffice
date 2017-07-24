@@ -1,12 +1,21 @@
 <?php
 
 /* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use common\widgets\Alert;
+
 
 $this->title = 'Virtual Office';
 ?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <div class="alert alert-success">
+            Thank you for contacting us. We will respond to you as soon as possible.
+        </div>
     <!-- Header -->
     <header>
+	
         <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in">Welcome To Virtual Office!</div>
@@ -173,6 +182,8 @@ $this->title = 'Virtual Office';
      <!-- Contact Section -->
     <section id="contact">
         <div class="container">
+		<!--<h1><?= Html::encode($this->title) ?></h1> -->
+		<?php $form = ActiveForm::begin();?>
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Contact Us<br>
@@ -188,14 +199,30 @@ $this->title = 'Virtual Office';
 					<p><font size="4" color="gold">Leave Us Message</font></p><br>
                 </div>
 				</div>
-            </div>
-            <div class="row">
+            </div> 
+		<div class="col-lg-8 col-lg-offset-2">
+    	<?= $form->field($model, 'username') ?>
+    	<?= $form->field($model, 'email') ?>
+    	<?= $form->field($model, 'phone')  ?>
+    	<?= $form->field($model, 'message')->textarea(['rows' => 1]) ?>
+    	
+    	
+		 <div class="text-center">
+    	<div class="form-group">
+	        <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
+	   </div>
+	   	</div>
+		</div>
+	   </div>
+	<?php ActiveForm::end();?>
+			
+           <!-- <div class="row">
                 <div class="col-lg-12">
                     <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row">
                             <div class="col-md-6">
                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Name *" id="name" required data-validation-required-message="Please enter your name.">
+                                    <input type="text" class="form-control" placeholder="Your Name *" id="username" required data-validation-required-message="Please enter your name.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="form-group">
@@ -216,12 +243,14 @@ $this->title = 'Virtual Office';
                             <div class="clearfix"></div>
                             <div class="col-lg-12 text-center">
                                 <div id="success"></div>
-                                <button type="submit" class="btn btn-xl">Send Message</button>
-                            </div>
-                        </div>
+								 
+                             <button type="submit" class="btn btn-xl">Send Message</button>
+							</div>
+                               
+                        </div> 
                     </form>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 	
