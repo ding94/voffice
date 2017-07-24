@@ -33,7 +33,6 @@ class UserContact extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'address1', 'address2', 'address3', 'postcode', 'state', 'city', 'country', 'phonenumber'], 'required'],
             [['uid', 'postcode', 'phonenumber'], 'integer'],
             [['address1', 'address2', 'address3', 'state', 'city', 'country'], 'string'],
         ];
@@ -46,14 +45,30 @@ class UserContact extends \yii\db\ActiveRecord
     {
         return [
             'uid' => 'Uid',
-            'address1' => 'Address1',
-            'address2' => 'Address2',
-            'address3' => 'Address3',
+            'address1' => 'Address 1',
+            'address2' => 'Address 2',
+            'address3' => 'Address 3',
             'postcode' => 'Postcode',
             'state' => 'State',
             'city' => 'City',
             'country' => 'Country',
-            'phonenumber' => 'Phonenumber',
+            'phonenumber' => 'Phone Number',
         ];
     }
+
+    public function add($data)
+    {
+        $this->uid = Yii::$app->user->identity->id;
+        if($this->load($data) && $this->save())
+        {
+
+            return true;
+        }
+        return false;
+    }
+
+    public static function primaryKey()
+{
+    return ['uid'];
+}
 }

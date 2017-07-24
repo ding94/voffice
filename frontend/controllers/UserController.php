@@ -56,19 +56,21 @@ class UserController extends \yii\web\Controller
 				$post['Profile']['userid'] = $userid;
 				if($model->add($post))
 				{
-				   echo "<script type='text/javascript'>alert('创建成功');</script>";
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['index']);
 				}
 			}
 			}
 		else
 		{
-			$model = UserContact::find()->where('userid = :uid'  , [':uid' => $userid])->one();
+			$model = UserContact::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
 			if(Yii::$app->request->isPost)
 			{
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   echo "<script type='text/javascript'>alert('修改成功');</script>";
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['index']);
 				}
 			}
 			}
