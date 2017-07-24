@@ -5,12 +5,12 @@ namespace backend\controllers;
 use yii\web\Controller;
 use backend\models\Admin;
 use backend\models\AdminControl;
+use backend\models\AdminResetPasswordForm;
 use yii\filters\VerbFilter;
 use Yii;
 
 Class AdminController extends Controller
 {
-
 	/**
      * Displays admin homepage.
      *
@@ -68,11 +68,22 @@ Class AdminController extends Controller
 
 	public function actionChangepass($id)
 	{
-		var_dump($id);exit;
-		if($id !==  Yii::$app->user->identity->id)
+		$model = new AdminResetPasswordForm();
+
+		//detect whether current user id is current user session id
+		if((int)$id !==  Yii::$app->user->identity->id)
 		{
-			
+			return $this->goBack();
 		}
+		if(Yii::$app->request->isPost)
+		{
+			$model->id = $id;
+			if($model->load(Yii::$app->request->post()) && $model->changepass())
+			{
+				Yii::$app->session->setFlash('success', "Password change completed");	
+			}
+		}
+		return $this->render('changepass' , ['model' => $model]);
 	}
 
   	/**

@@ -13,7 +13,6 @@ class AdminLogin extends Model
 
     private $_user;
 
-
     /**
      * @inheritdoc
      */
@@ -57,7 +56,6 @@ class AdminLogin extends Model
 
     /**
      * Logs in a user using the provided username and password.
-     *
      * @return bool whether the user is logged in successfully
      */
     public function login()
