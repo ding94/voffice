@@ -1,12 +1,14 @@
 <?php
-use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
-use yii\jui\DatePicker;
+use kartik\widgets\ActiveForm;
+use kartik\widgets\DatePicker;
+use common\widgets\Alert;
 /* @var $this yii\web\View */
 ?>
 
+<?= Alert::widget() ?>
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php $form = ActiveForm::begin();?>
@@ -18,8 +20,12 @@ use yii\jui\DatePicker;
 		    ],
 		    ['prompt'=>'Select Gender']
 		)?>
-		<?= $form->field($model, 'DOB')->widget(\yii\jui\DatePicker::classname(), [
-		    'dateFormat' => 'yyyy-MM-dd',
+		<?= $form->field($model, 'DOB')->widget(DatePicker::classname(), [
+		    'options' => ['placeholder' => 'Enter birth date ...'],
+		    'pluginOptions' => [
+		    	'format' => 'yyyy-mm-dd',
+		        'autoclose'=>true
+		    ]
 		]) ?>
 		<?= $form->field($model, 'cmpyname')->textInput() ?>
 		<?= $form->field($model, 'cmpycategory')->textInput() ?>
