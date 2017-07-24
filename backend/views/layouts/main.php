@@ -42,6 +42,10 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => 'Setting' ,
+                        'items' => [
+                            ['label' => 'change password' , 'url' => ['/admin/changepass' ,'id' => Yii::$app->user->identity->id]],
+                        ]];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
