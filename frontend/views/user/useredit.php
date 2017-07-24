@@ -3,12 +3,27 @@ use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 ?>
 
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php $form = ActiveForm::begin();?>
+		<?= $form->field($model, 'Fname')->textInput() ?>
+		<?= $form->field($model, 'Lname')->textInput() ?>
+		<?= $form->field($model, 'gender')->dropdownList([
+		        'Male' => 'Male', 
+		        'Female' => 'Female'
+		    ],
+		    ['prompt'=>'Select Gender']
+		)?>
+		<?= $form->field($model, 'DOB')->widget(\yii\jui\DatePicker::classname(), [
+		    'dateFormat' => 'yyyy-MM-dd',
+		]) ?>
+		<?= $form->field($model, 'cmpyname')->textInput() ?>
+		<?= $form->field($model, 'cmpycategory')->textInput() ?>
+		<?= $form->field($model, 'IC_passport')->textInput() ?>
     	<?= $form->field($model, 'address1')->textInput() ?>
     	<?= $form->field($model, 'address2')->textInput() ?>
     	<?= $form->field($model, 'address3')->textInput() ?>
