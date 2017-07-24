@@ -54,7 +54,6 @@ class UserController extends \yii\web\Controller
 			if(Yii::$app->request->isPost)
 			{
 				$post = Yii::$app->request->post();
-				$post['Profile']['userid'] = $userid;
 				if($model->add($post))
 				{
 				   Yii::$app->session->setFlash('success', "Update Successful");
