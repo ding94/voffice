@@ -6,8 +6,8 @@ use Yii;
 use yii\web\Controller;
 use common\models\User;
 use common\models\UserContact;
-use common\models\UserDetails;
 use yii\filters\AccessControl;
+use common\models\UserDetails;
 
 class UserController extends \yii\web\Controller
 {
@@ -54,7 +54,6 @@ class UserController extends \yii\web\Controller
 			if(Yii::$app->request->isPost)
 			{
 				$post = Yii::$app->request->post();
-				$post['Profile']['userid'] = $userid;
 				if($model->add($post))
 				{
 				   Yii::$app->session->setFlash('success', "Update Successful");
