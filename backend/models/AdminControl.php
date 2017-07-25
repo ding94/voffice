@@ -77,7 +77,12 @@ class AdminControl extends Admin
     	$model->status = $this->status;
     	$model->setPassword($this->password);
     	$model->generateAuthKey();
-        return $model->save();
+        $model->save();
+        
+        $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('author');
+        $auth->assign($authorRole, $model->getId());
+        return $model;
     }
 
 }

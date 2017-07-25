@@ -53,7 +53,6 @@ class Contact extends \yii\db\ActiveRecord
        
         if($this->load($data) && $this->save())
         {
-
             return true;
         }
         return false;

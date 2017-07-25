@@ -39,8 +39,6 @@ Class AdminController extends Controller
         ];
     }
 
- 
-
 	public function actionIndex()
 	{
 
