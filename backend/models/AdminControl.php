@@ -60,8 +60,8 @@ class AdminControl extends Admin
         $dataProvider->sort->attributes['authAssignment.item_name'] = [
               'asc' => ['authAssignment.item_name' => SORT_ASC],
               'desc' => ['authAssignment.item_name' => SORT_DESC],
-         ];
-
+              'label' => 'Role',
+        ];
 
         $query->joinWith(['authAssignment']);
 
@@ -69,7 +69,7 @@ class AdminControl extends Admin
 
         $query->andFilterWhere(['like','adminname' , $this->adminname]);
         $query->andFilterWhere(['like','email' , $this->email]);
-        $query->andFilterWhere(['like','authAssignment.item_name' , $this->getAttribute('authAssignment.item_name')]);
+        $query->andFilterWhere(['like','item_name',$this->getAttribute('authAssignment.item_name')]);
         
         return $dataProvider;
     }

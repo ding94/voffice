@@ -26,10 +26,7 @@ use yii\grid\ActionColumn;
                     }
 
                 ],
-                [
-                    'attribute' => 'item_name',
-                    'value' => 'authAssignment.item_name'
-                ],
+                'authAssignment.item_name',
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>
