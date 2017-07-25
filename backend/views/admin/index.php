@@ -18,7 +18,13 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\SerialColumn'],
             'adminname',
             'email',
-	        'status',
+	        [
+                'attribute' => 'status',
+                'value' => function($model)
+                {
+                    return $model->status ==10 ? 'Active' : 'Inactive';
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>

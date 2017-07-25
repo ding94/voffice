@@ -67,6 +67,7 @@ Class AdminController extends Controller
 	{
 		$model = $this->findModel($id);
 		$model->scenario = 'changeAdmin';
+		$model->adminTittle = "Update Admin";
 		$model->passwordOff = '1';
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{

@@ -73,7 +73,8 @@ class Admin extends ActiveRecord implements IdentityInterface
             ['email', 'string', 'max' => 255 , 'on' => ['changeAdmin']],
             ['email', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This email address has already been taken.' , 'on' => ['changeAdmin']],
 
-            ['status', 'in', 'range' => range(self::STATUS_DELETED+1, self::STATUS_ACTIVE)],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
@@ -82,7 +83,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::find()->where('id = :id',[':id' => $id])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
+          return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -101,7 +102,7 @@ class Admin extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($adminname)
     {
-        return static::find()->where('adminname = :adminname',[':adminname' => $adminname])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
+         return static::findOne(['adminname' => $adminname, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -115,7 +116,10 @@ class Admin extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-        return static::find()->where('password_reset_token = :token',[':token' => $token])->andWhere(['between', 'status', self::STATUS_DELETED+1, self::STATUS_ACTIVE])->one();
+        return static::findOne([
+            'password_reset_token' => $token,
+            'status' => self::STATUS_ACTIVE,
+        ]);
     }
 
     /**
