@@ -18,26 +18,32 @@ Class AdminController extends Controller
      * @return string
      */
 
-	/*public function behaviors()
+	public function behaviors()
     {
         return [
 			'access' => [
 			    'class' => AccessControl::className(),
 			        'rules' => [
 			            [
-			                'actions' => ['index', 'Add' ,'Update' ,'Delete'],
 			                'allow' => true,
+			                'roles' =>['admin'],
 			        	],
+			        	[
+			        	 	'actions' => ['changepass'],
+			        		'allow' =>  true,
+			        		'roles' => ['@'],
+			        	]
 			                   
 			    ],
 			]          
         ];
-    }*/
+    }
 
  
 
 	public function actionIndex()
 	{
+
 		$searchModel = new AdminControl();
 		$searchModel->scenario ='searchAdmin';
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
