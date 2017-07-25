@@ -7,6 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use backend\models\auth\AuthAssignment;
 
 /**
  * This is the model class for table "admin".
@@ -207,4 +208,10 @@ class Admin extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function getAuthAssignment()
+    {
+        return $this->hasOne(AuthAssignment::className(),['user_id' => 'id']);
+    }
+
 }

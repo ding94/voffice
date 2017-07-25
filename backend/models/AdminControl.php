@@ -4,6 +4,7 @@ namespace backend\models;
 
 use yii\base\Model;
 use backend\models\Admin;
+use backend\models\auth\AuthAssignment;
 use yii\data\ActiveDataProvider;
 
 class AdminControl extends Admin 
@@ -13,6 +14,11 @@ class AdminControl extends Admin
 	public $email;
 	public $status;
 	public $adminTittle;
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(),['authAssignment.item_name']);
+    }
 
 	public function rules()
     {
@@ -31,13 +37,11 @@ class AdminControl extends Admin
             ['password', 'required', 'on' => ['addAdmin']],
             ['password', 'string', 'min' => 6 , 'on' => ['addAdmin']],
 
-            ['status' ,'required' , 'on' => ['addAdmin']],
-            ['status' , 'in', 'range' => range(1,10) , 'on' => ['addAdmin']],
-
             ['email'  , 'unique' ,'on' => ['searchAdmin']],
-            ['adminname'  ,'safe' ,'on' => ['searchAdmin']],
+            [['adminname','authAssignment.item_name']  ,'safe' ,'on' => ['searchAdmin']],
         ];
     }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -48,21 +52,25 @@ class AdminControl extends Admin
 	public function search($params)
     {
         $query = Admin::find();
-
+       
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $dataProvider->sort->attributes['authAssignment.item_name'] = [
+              'asc' => ['authAssignment.item_name' => SORT_ASC],
+              'desc' => ['authAssignment.item_name' => SORT_DESC],
+         ];
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-        ]);
+
+        $query->joinWith(['authAssignment']);
+
+        $this->load($params);
 
         $query->andFilterWhere(['like','adminname' , $this->adminname]);
         $query->andFilterWhere(['like','email' , $this->email]);
-
+        $query->andFilterWhere(['like','authAssignment.item_name' , $this->getAttribute('authAssignment.item_name')]);
+        
         return $dataProvider;
     }
 
@@ -74,13 +82,13 @@ class AdminControl extends Admin
     	$model = new Admin;
     	$model->adminname = $this->adminname;
     	$model->email = $this->email;
-    	$model->status = $this->status;
+    	$model->status = Admin::STATUS_ACTIVE;
     	$model->setPassword($this->password);
     	$model->generateAuthKey();
         $model->save();
         
         $auth = \Yii::$app->authManager;
-        $authorRole = $auth->getRole('author');
+        $authorRole = $auth->getRole('user');
         $auth->assign($authorRole, $model->getId());
         return $model;
     }

@@ -19,8 +19,9 @@ use yii\bootstrap\ActiveForm;
     	<?= $form->field($model, 'email')->textInput() ?>
     	<?php if(is_null($model->passwordOff)):?>
     		<?= $form->field($model, 'password')->passwordInput() ?>
+    	<?php else :?>
+    		<?= $form->field($model , 'status')->dropDownList(['10' => 'Active' , '0' => 'Inactive']) ?>
     	<?php endif ;?>
-    	<?= $form->field($model , 'status')->dropDownList(['10' => 'Active' , '0' => 'Inactive']) ?>
     	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	   </div>

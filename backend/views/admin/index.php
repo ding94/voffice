@@ -16,15 +16,20 @@ use yii\grid\ActionColumn;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'adminname',
-            'email',
-	        [
-                'attribute' => 'status',
-                'value' => function($model)
-                {
-                    return $model->status ==10 ? 'Active' : 'Inactive';
-                }
-            ],
+                'adminname',
+                'email',
+    	        [
+                    'attribute' => 'status',
+                    'value' => function($model)
+                    {
+                        return $model->status ==10 ? 'Active' : 'Inactive';
+                    }
+
+                ],
+                [
+                    'attribute' => 'item_name',
+                    'value' => 'authAssignment.item_name'
+                ],
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>

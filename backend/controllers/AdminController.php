@@ -25,7 +25,13 @@ Class AdminController extends Controller
 			    'class' => AccessControl::className(),
 			        'rules' => [
 			            [
+			            	'actions' => ['delete'],
 			                'allow' => true,
+			                'roles' =>['super admin'],
+			        	],
+			        	[
+			        		'actions' => ['index' , 'add' , 'update'],
+ 							'allow' => true,
 			                'roles' =>['admin'],
 			        	],
 			        	[

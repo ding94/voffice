@@ -3,6 +3,7 @@
 namespace backend\models\auth;
 
 use Yii;
+use backend\models\Admin;
 
 /**
  * This is the model class for table "auth_assignment".
@@ -42,8 +43,8 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'item_name' => 'Item Name',
-            'user_id' => 'User ID',
+            'item_name' => 'Role',
+            'user_id' => 'ID',
             'created_at' => 'Created At',
         ];
     }
@@ -54,5 +55,10 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getItemName()
     {
         return $this->hasOne(AuthItem::className(), ['name' => 'item_name']);
+    }
+
+    public function getAdmin()
+    {
+        return $this->hasOne(Admin::className() ,['id' => 'user_id']);
     }
 }
