@@ -57,11 +57,11 @@ class AdminControl extends Admin
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'email' => $this->email,
             'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like','adminname' , $this->adminname]);
+        $query->andFilterWhere(['like','email' , $this->email]);
 
         return $dataProvider;
     }
