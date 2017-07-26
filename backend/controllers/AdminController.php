@@ -6,8 +6,10 @@ use yii\web\Controller;
 use backend\models\Admin;
 use backend\models\AdminControl;
 use backend\models\AdminResetPasswordForm;
+use backend\models\auth\AuthItem;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use Yii;
 
 Class AdminController extends Controller
@@ -25,7 +27,7 @@ Class AdminController extends Controller
 			    'class' => AccessControl::className(),
 			        'rules' => [
 			            [
-			            	'actions' => ['delete'],
+			            	'actions' => ['delete' ,'active'],
 			                'allow' => true,
 			                'roles' =>['super admin'],
 			        	],
@@ -60,13 +62,17 @@ Class AdminController extends Controller
 		$model = new AdminControl();
 		$model->scenario = 'addAdmin';
 		$model->adminTittle = "Add Admin";
+		$model->passwordOff = '1';
+
+		$list = ArrayHelper::map(AuthItem::find()->where(['type' => 1])->all() ,'name' ,'name');
+		//var_dump(Yii::$app->request->post());exit;
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
 
 			Yii::$app->session->setFlash('success', "Add completed");
     		return $this->redirect(['index']);
 		}
-		return $this->render('addEdit' ,['model' => $model]);
+		return $this->render('addEdit' ,['model' => $model ,'list' => $list]);
 	}
 
 	public function actionUpdate($id)
@@ -74,7 +80,7 @@ Class AdminController extends Controller
 		$model = $this->findModel($id);
 		$model->scenario = 'changeAdmin';
 		$model->adminTittle = "Update Admin";
-		$model->passwordOff = '1';
+		$model->passwordOff = '0';
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
 			Yii::$app->session->setFlash('success', "Update completed");
@@ -89,12 +95,27 @@ Class AdminController extends Controller
 		$model->status = 0;
 		if($model->update(false) !== false)
 		{
-			Yii::$app->session->setFlash('success', "Delete completed");
+			Yii::$app->session->setFlash('warning', "Delete completed");
 		}
 		else{
-			Yii::$app->session->setFlash('success', "Fail to delete");
+			Yii::$app->session->setFlash('danger', "Fail to delete");
 		}
         return $this->redirect(['index']);
+	}
+
+	public function actionActive($id)
+	{
+		$model = $this->findModel($id);
+		$model->status = 10;
+		if($model->update(false) !== false)
+		{
+			Yii::$app->session->setFlash('success', "Active completed");
+		}
+		else{
+			Yii::$app->session->setFlash('danger', "Fail to Active");
+		}
+        return $this->redirect(['index']);
+
 	}
 
 	public function actionChangepass($id)
@@ -119,7 +140,7 @@ Class AdminController extends Controller
 	}
 
   	/**
-     * Finds the Country model based on its primary key value.
+     * Finds the Admin model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
      * @return Admin the loaded model

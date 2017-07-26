@@ -14,13 +14,13 @@ use yii\bootstrap\ActiveForm;
 
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
+
 	<?php $form = ActiveForm::begin();?>
     	<?= $form->field($model, 'adminname')->textInput() ?>
     	<?= $form->field($model, 'email')->textInput() ?>
-    	<?php if(is_null($model->passwordOff)):?>
+    	<?php if($model->passwordOff == 1):?>
     		<?= $form->field($model, 'password')->passwordInput() ?>
-    	<?php else :?>
-    		<?= $form->field($model , 'status')->dropDownList(['10' => 'Active' , '0' => 'Inactive']) ?>
+    		<?= $form->field($model ,'role')->dropDownList($list)?>
     	<?php endif ;?>
     	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

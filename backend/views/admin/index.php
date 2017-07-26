@@ -2,8 +2,10 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use iutbay\yii2fontawesome\FontAwesome as FA;
 
 	$this->title = 'Admin List';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -27,7 +29,24 @@ use yii\grid\ActionColumn;
 
                 ],
                 'authAssignment.item_name',
-            ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{update} {active} ',
+             'buttons' => [
+                'active' => function($url , $model)
+                {
+                    if($model->status == 0)
+                    {
+                         $url = Url::to(['admin/active' ,'id'=>$model->id]);
+                    }
+                    else
+                    {
+                        $url = Url::to(['admin/delete' ,'id'=>$model->id]) ;
+                    }
+                   
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Active']);
+                },
+              ]
+            ],
         ],
     ]); ?>
 </div>

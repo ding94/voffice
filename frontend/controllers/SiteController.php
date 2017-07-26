@@ -216,4 +216,19 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionSendTicket()
+    {
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],//html file, word file in email
+                ['user' => $user]//pass value
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])//from user
+            ->setTo($this->email)//to alipshop
+            ->setSubject('Password reset for ' . Yii::$app->name)//subject
+            ->send();
+    }
+    
 }

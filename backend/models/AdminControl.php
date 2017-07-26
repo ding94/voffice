@@ -14,6 +14,7 @@ class AdminControl extends Admin
 	public $email;
 	public $status;
 	public $adminTittle;
+    public $role;
 
     public function attributes()
     {
@@ -36,6 +37,8 @@ class AdminControl extends Admin
 
             ['password', 'required', 'on' => ['addAdmin']],
             ['password', 'string', 'min' => 6 , 'on' => ['addAdmin']],
+
+            ['role' , 'required' , 'on' =>['addAdmin']],
 
             ['email'  , 'unique' ,'on' => ['searchAdmin']],
             [['adminname','authAssignment.item_name']  ,'safe' ,'on' => ['searchAdmin']],
@@ -79,6 +82,7 @@ class AdminControl extends Admin
     	if (!$this->validate()) {
             return null;
         }
+       
     	$model = new Admin;
     	$model->adminname = $this->adminname;
     	$model->email = $this->email;
@@ -86,9 +90,9 @@ class AdminControl extends Admin
     	$model->setPassword($this->password);
     	$model->generateAuthKey();
         $model->save();
-        
+       
         $auth = \Yii::$app->authManager;
-        $authorRole = $auth->getRole('user');
+        $authorRole = $auth->getRole($this->role);
         $auth->assign($authorRole, $model->getId());
         return $model;
     }
