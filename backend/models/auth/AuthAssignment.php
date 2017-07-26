@@ -4,6 +4,7 @@ namespace backend\models\auth;
 
 use Yii;
 use backend\models\Admin;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_assignment".
@@ -61,4 +62,10 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Admin::className() ,['id' => 'user_id']);
     }
+
+    public function getAdminRole($id)
+    {
+        return ArrayHelper::map(self::find()->where(['user_id' => $id])->select('item_name')->all(),'item_name','item_name');
+    }
+
 }

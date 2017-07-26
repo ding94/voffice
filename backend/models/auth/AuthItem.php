@@ -3,6 +3,8 @@
 namespace backend\models\auth;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use backend\models\auth\AuthAssignment;
 
 /**
  * This is the model class for table "auth_item".
@@ -108,5 +110,11 @@ class AuthItem extends \yii\db\ActiveRecord
     public function getParents()
     {
         return $this->hasMany(AuthItem::className(), ['name' => 'parent'])->viaTable('auth_item_child', ['child' => 'name']);
+    }
+
+    public function roleList()
+    {
+        $data = ArrayHelper::map(self::find()->where(['type' => 1])->all() ,'name' ,'name');
+        return $data;
     }
 }

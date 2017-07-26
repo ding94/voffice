@@ -28,6 +28,7 @@ class Admin extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
     public $adminTittle;
     public $passwordOff;
+    public $role;
 
     /**
      * @inheritdoc

@@ -7,9 +7,9 @@ use backend\models\Admin;
 use backend\models\AdminControl;
 use backend\models\AdminResetPasswordForm;
 use backend\models\auth\AuthItem;
+use backend\models\auth\AuthAssignment;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use Yii;
 
 Class AdminController extends Controller
@@ -64,8 +64,9 @@ Class AdminController extends Controller
 		$model->adminTittle = "Add Admin";
 		$model->passwordOff = '1';
 
-		$list = ArrayHelper::map(AuthItem::find()->where(['type' => 1])->all() ,'name' ,'name');
-		//var_dump(Yii::$app->request->post());exit;
+		$listData = new AuthItem();
+		$list = $listData->roleLi();
+		
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
 
@@ -81,12 +82,18 @@ Class AdminController extends Controller
 		$model->scenario = 'changeAdmin';
 		$model->adminTittle = "Update Admin";
 		$model->passwordOff = '0';
+
+		$listData = new AuthItem();
+		$role = New AuthAssignment();
+
+		$list = array_merge($role->getAdminRole($id),$listData->roleList());
+
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
 			Yii::$app->session->setFlash('success', "Update completed");
     		return $this->redirect(['index']);
 		}
-		return $this->render('addEdit', ['model' => $model]);
+		return $this->render('addEdit', ['model' => $model ,'list' => $list]);
 	}
 
 	public function actionDelete($id)
