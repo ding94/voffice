@@ -43,7 +43,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         $url = Url::to(['admin/delete' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'active']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Deactive']);
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Active']);
                 },
               ]
             ],
