@@ -204,12 +204,12 @@ $this->title = 'Virtual Office';
     	<?= $form->field($model, 'username') ?>
     	<?= $form->field($model, 'email') ?>
     	<?= $form->field($model, 'phone')  ?>
-    	<?= $form->field($model, 'message')->textarea(['rows' => 1]) ?>
+    	<?= $form->field($model, 'message')->textarea(['rows' => 1])?>
     	
     	
 		 <div class="text-center">
     	<div class="form-group">
-	        <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
+	        <?= Html::submitButton('Send', ['class' => 'btn btn-primary'])?>
 	   </div>
 	   	</div>
 		</div>
