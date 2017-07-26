@@ -30,12 +30,20 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 ],
                 'authAssignment.item_name',
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{update} {active} {delete}',
+             'template'=>'{update} {active} ',
              'buttons' => [
                 'active' => function($url , $model)
                 {
-                    $url = Url::to(['admin/active' ,'id'=>$model->id]);
-                    return Html::a(FA::icon('toggle-on') , $url , ['title' => 'active']);
+                    if($model->status == 0)
+                    {
+                         $url = Url::to(['admin/active' ,'id'=>$model->id]);
+                    }
+                    else
+                    {
+                        $url = Url::to(['admin/delete' ,'id'=>$model->id]) ;
+                    }
+                   
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'active']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Deactive']);
                 },
               ]
             ],

@@ -25,7 +25,7 @@ Class AdminController extends Controller
 			    'class' => AccessControl::className(),
 			        'rules' => [
 			            [
-			            	'actions' => ['delete'],
+			            	'actions' => ['delete' ,'active'],
 			                'allow' => true,
 			                'roles' =>['super admin'],
 			        	],
@@ -95,6 +95,21 @@ Class AdminController extends Controller
 			Yii::$app->session->setFlash('success', "Fail to delete");
 		}
         return $this->redirect(['index']);
+	}
+
+	public function actionActive($id)
+	{
+		$model = $this->findModel($id);
+		$model->status = 10;
+		if($model->update(false) !== false)
+		{
+			Yii::$app->session->setFlash('success', "Active completed");
+		}
+		else{
+			Yii::$app->session->setFlash('success', "Fail to Active");
+		}
+        return $this->redirect(['index']);
+
 	}
 
 	public function actionChangepass($id)
