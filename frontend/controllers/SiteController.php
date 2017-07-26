@@ -80,6 +80,7 @@ class SiteController extends Controller
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
             if ($model->add($post)) {
+                self::actionSendTicket($model->username, $model->email);
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
@@ -217,17 +218,18 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionSendTicket()
+    public function actionSendTicket($username,$email)
     {
+
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],//html file, word file in email
-                ['user' => $user]//pass value
+                ['html' => 'guestSubmitTicket-html', 'text' => 'guestSubmitTicket-text'],//html file, word file in email
+                ['username' => $username]//pass value
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])//from user
-            ->setTo($this->email)//to alipshop
-            ->setSubject('Password reset for ' . Yii::$app->name)//subject
+            ->setFrom([Yii::$app->params['supportEmail']])//from who
+            ->setTo($email)//to who
+            ->setSubject('Ticket Submitted to Virtual Office!')//subject
             ->send();
     }
     
