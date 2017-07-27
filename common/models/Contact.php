@@ -34,7 +34,7 @@ class Contact extends \yii\db\ActiveRecord
             ['email', 'trim'],
 
             [['phone'], 'integer'],
-            ['phone' ,'match' ,'pattern' => '/^[0-9]{3}[0-9]{7,8}$/i' , 'message' => 'Phone Format is Wrong'],
+            ['phone' ,'match' ,'pattern' => '/^[0-9]{3}[0-9]{7,8}$/i' , 'message' => 'Phone Format is Wrong 0123456789'],
             [['message'], 'string'],
             [['username', 'email'], 'string', 'max' => 100],
         ];
