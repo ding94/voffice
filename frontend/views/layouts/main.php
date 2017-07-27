@@ -97,6 +97,9 @@ BowerAsset::register($this);
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/login'])?>">Login</a>
                     </li>
+                    <li>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/signup'])?>">Sign Up</a>
+                    </li>
                     <?php else : ?>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>"><?php echo Yii::$app->user->identity->username; ?></a>

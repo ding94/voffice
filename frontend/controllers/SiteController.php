@@ -14,6 +14,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Contact;
 use common\models\User;
+use common\models\Package;
 
 /**
  * Site controller
@@ -76,6 +77,9 @@ class SiteController extends Controller
     {
 		
         $model = new Contact();
+        $packageplatinum = Package::find()->where('type = :type' ,[':type' => 'Platinum'])->one();
+        $packagesilver = Package::find()->where('type = :type' ,[':type' => 'Silver'])->one();
+        $packagegold = Package::find()->where('type = :type' ,[':type' => 'Gold'])->one();
 	
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
@@ -90,6 +94,9 @@ class SiteController extends Controller
         } 
             return $this->render('index', [
                 'model' => $model,
+                'packageplatinum' => $packageplatinum,
+                'packagesilver' => $packagesilver,
+                'packagegold' => $packagegold,
             ]);
 		
 		

@@ -271,21 +271,34 @@ $this->title = 'Virtual Office';
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-8 col-lg-offset-2">
-                            <div class="modal-body">
-                                <!-- Project Details Go Here -->
-                                <h2>Virtual Office</h2>
-                                <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/roundicons-free.png" alt="">
-                                <p> ---</p>
-                                <p>
-                                    <strong>Interested with Virtual Office?</strong>You can subscribe <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase  <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
-                                <ul class="list-inline">
-                                    <li>Date: </li>
-                                    <li>Client: </li>
-                                    <li>Category: </li>
-                                </ul>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        <div class="col-md-4 col-sm-6 portfolio-item">
+                            <a href="#portfolioModal1" class="portfolio-link">
+                                <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4><?php echo $packageplatinum['type']; ?></h4>
+                                <p class="text-muted"><?php echo $packageplatinum['price(RM)']; ?></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 portfolio-item">
+                            <a href="#portfolioModal2" class="portfolio-link">
+                                <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4><?php echo $packagesilver['type']; ?></h4>
+                                <p class="text-muted"><?php echo $packagesilver['price(RM)']; ?></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 portfolio-item">
+                            <a href="#portfolioModal3" class="portfolio-link">
+                                <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4><?php echo $packagegold['type']; ?></h4>
+                                <p class="text-muted"><?php echo $packagegold['price(RM)']; ?></p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                             </div>
                         </div>
                     </div>
