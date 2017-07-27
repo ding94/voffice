@@ -5,6 +5,7 @@ namespace backend\models\auth;
 use Yii;
 use backend\models\Admin;
 use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "auth_assignment".
@@ -66,6 +67,19 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getAdminRole($id)
     {
         return ArrayHelper::map(self::find()->where(['user_id' => $id])->select('item_name')->all(),'item_name','item_name');
+    }
+
+    public function search($params)
+    {
+        $query = self::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
     }
 
 }
