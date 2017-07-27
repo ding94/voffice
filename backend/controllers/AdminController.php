@@ -65,7 +65,7 @@ Class AdminController extends Controller
 		$model->passwordOff = '1';
 
 		$listData = new AuthItem();
-		$list = $listData->roleLi();
+		$list = $listData->roleList();
 		
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{

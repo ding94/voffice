@@ -29,8 +29,12 @@ class Contact extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'email','phone', 'message'], 'required'],
-			 ['email', 'email'],
+
+			['email', 'email'],
+            ['email', 'trim'],
+
             [['phone'], 'integer'],
+            ['phone' ,'match' ,'pattern' => '/^[0-9]{3}[0-9]{7,8}$/i' , 'message' => 'Phone Format is Wrong'],
             [['message'], 'string'],
             [['username', 'email'], 'string', 'max' => 100],
         ];
