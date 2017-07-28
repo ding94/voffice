@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 
-    $this->title =  'User List';
+    $this->title =  'Auth Role';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
@@ -15,9 +15,9 @@ use yii\grid\ActionColumn;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'item_name',
-            'user_id',
-            'created_at:datetime',
+            'name',
+            'description',
+            'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

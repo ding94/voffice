@@ -68,18 +68,4 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return ArrayHelper::map(self::find()->where(['user_id' => $id])->select('item_name')->all(),'item_name','item_name');
     }
-
-    public function search($params)
-    {
-        $query = self::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        return $dataProvider;
-    }
-
 }
