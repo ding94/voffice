@@ -17,7 +17,7 @@ class AuthControl extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['name','description'] ,'safe'],
+			[['name'] ,'safe'],
 		];
 	}
 
@@ -30,6 +30,8 @@ class AuthControl extends \yii\db\ActiveRecord
         ]);
 
         $this->load($params);
+
+        $query->andFilterWhere(['like','name' , $this->name]);
 
         return $dataProvider;
 	}
