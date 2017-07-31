@@ -43,6 +43,10 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => 'Admin List' , 'url' => ['/admin/index']];
+        $menuItems[] = ['label' => 'Auth List' , 'url' => ['/auth/index']];
+        $menuItems[] = ['label' => 'User' , 'url' => ['/user/index']];
+        $menuItems[] = ['label' => 'User Parcel' , 'url' => ['/user/user-parcel']];
         $menuItems[] = ['label' => 'Setting' ,
                         'items' => [
                             ['label' => 'change password' , 'url' => ['/admin/changepass' ,'id' => Yii::$app->user->identity->id]],

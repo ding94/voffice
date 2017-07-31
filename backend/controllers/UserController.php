@@ -13,8 +13,10 @@ Class UserController extends Controller
 {
 	public function actionIndex()
 	{
-		
-		return $this->render('index');
+		$searchModel = new User();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
 	public function actionView($id)
