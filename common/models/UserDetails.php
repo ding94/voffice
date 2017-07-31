@@ -53,6 +53,9 @@ class UserDetails extends \yii\db\ActiveRecord
             [['IC_passport'], 'string', 'max' => 30],
             [['fullname'] , 'safe'], // 设置 fullname的 searchbox
             [['postcode'],'string', 'max' => 5,'min' => 5],
+            [['Fname','Lname','gender','cmpyname','cmpycategory','IC_passport','address1','address2','address3','city','state','country'],'default','value' => ''],
+            [['phonenumber','postcode'],'default','value' => '0'],
+            [['DOB'],'default','value' => '2000-01-01'],
         ];
     }
 
