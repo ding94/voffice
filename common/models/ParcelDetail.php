@@ -1,7 +1,8 @@
 <?php
 
 namespace common\models;
-
+use yii\data\ActiveDataProvider;
+use common\models\UserParcel;
 use Yii;
 
 /**
@@ -37,10 +38,11 @@ class ParcelDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parid', 'sender', 'signer', 'signer_ic', 'weight', 'size'], 'required'],
+            
             [['parid', 'postcode'], 'integer'],
-            [['sender', 'signer', 'signer_ic', 'address1', 'address2', 'address3', 'city', 'state', 'country', 'size'], 'string'],
+            [['sender', 'signer', 'address1', 'address2', 'address3', 'city', 'state', 'country'], 'string'],
             [['weight'], 'number'],
+          
         ];
     }
 
@@ -50,10 +52,8 @@ class ParcelDetail extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'parid' => 'Parid',
             'sender' => 'Sender',
             'signer' => 'Signer',
-            'signer_ic' => 'Signer Ic',
             'address1' => 'Address1',
             'address2' => 'Address2',
             'address3' => 'Address3',
@@ -62,7 +62,11 @@ class ParcelDetail extends \yii\db\ActiveRecord
             'state' => 'State',
             'country' => 'Country',
             'weight' => 'Weight',
-            'size' => 'Size',
         ];
+    }
+
+    public function getUserparcel()
+    {
+         return $this->hasOne(UserParcel::className(),['id' => 'parid']);
     }
 }
