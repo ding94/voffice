@@ -5,15 +5,16 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User;
+use common\models\UserDetails;
 use common\models\UserParcel;
+use common\models\Parcel;
+use backend\models\Admin;
 Class UserController extends Controller
 {
 	public function actionIndex()
 	{
-		$searchModel = new User();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+		
+		return $this->render('index');
 	}
 
 	public function actionView($id)
@@ -31,6 +32,16 @@ Class UserController extends Controller
         }
 		
 	}
+    
+    public function actionUserParcel()
+    {
+        $searchModel = new UserDetails();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       
+        return $this->render('userparcel',['model' => $dataProvider , 'searchModel' => $searchModel]);
+
+    }
 
 	/**
      * Finds the User model based on its primary key value.
@@ -47,4 +58,29 @@ Class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionAdd($id,$admin)
+    {
+        // action to add parcel， 加包裹
+
+        $model = new UserParcel;
+        $parcel = new Parcel;
+        $user = UserDetails::findOne($id);
+        $model->uid = $user->uid;
+        $model->arrived_time = date('Y-m-d');
+
+        if($model->load(Yii::$app->request->post()))
+        {
+            //$model->save();
+            $parcel->parid = $model->id;
+            $parcel->signer = Admin::findOne($admin)->adminname;
+            var_dump($parcel);exit;
+            $parcel->save();
+            Yii::$app->session->setFlash('success', "Update completed");
+            return $this->redirect(['user/user-parcel']);
+        }
+        return $this->render('addparcel', ['model' => $model , 'parcel' => $parcel, 'user' => $user]);
+    }
+
+
 }

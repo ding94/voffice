@@ -23,6 +23,8 @@ use common\widgets\Alert;
 		<?= $form->field($model, 'DOB')->widget(DatePicker::classname(), [
 		    'options' => ['placeholder' => 'Enter birth date ...'],
 		    'pluginOptions' => [
+		    	'todayHighlight' => true,
+        		'todayBtn' => true,
 		    	'format' => 'yyyy-mm-dd',
 		        'autoclose'=>true
 		    ]
