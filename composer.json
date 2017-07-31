@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-widgets": "*",
-        "iutbay/yii2-fontawesome": "*"
+        "iutbay/yii2-fontawesome": "*",
+		"kartik-v/yii2-grid": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
