@@ -35,8 +35,6 @@ use kartik\widgets\DatePicker;
     	<?= $form->field($parcel, 'state')->textInput() ?>
     	<?= $form->field($parcel, 'country')->textInput() ?>
     	<?= $form->field($parcel, 'weight')->textInput() ?>
-    	<?= $form->field($parcel, 'size')->textInput() ?>
-    	
     	
     	<div class="form-group">
 	        <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>

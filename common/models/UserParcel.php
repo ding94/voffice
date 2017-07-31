@@ -2,6 +2,7 @@
 
 namespace common\models;
 use yii\data\ActiveDataProvider;
+use common\models\ParcelDetail;
 use Yii;
 
 /**
@@ -51,6 +52,11 @@ class UserParcel extends \yii\db\ActiveRecord
             'sent_time' => 'Sent Time',
             'received_time' => 'Received Time',
         ];
+    }
+
+    public function getParceldetail()
+    {
+        return $this->hasOne(ParcelDetail::className(),['parid' => 'id']);
     }
 
     

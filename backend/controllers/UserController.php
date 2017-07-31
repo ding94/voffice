@@ -64,21 +64,43 @@ Class UserController extends Controller
         // action to add parcel， 加包裹
 
         $model = new UserParcel;
-        $parcel = new Parcel;
+        $parcel = new ParcelDetail;
         $user = UserDetails::findOne($id);
         $model->uid = $user->uid;
         $model->arrived_time = date('Y-m-d');
-
-        if($model->load(Yii::$app->request->post()) )
+        $parcel->signer = Yii::$app->user->identity->adminname;
+        if( $model->load(Yii::$app->request->post()) &&  $parcel->load(Yii::$app->request->post()))
         {
-            //$model->save();
-            $parcel->parid = $model->id;
-            $parcel->signer = Admin::findOne($admin)->adminname;
-            var_dump($parcel);exit;
-            $parcel->save();
-            Yii::$app->session->setFlash('success', "Update completed");
-            return $this->redirect(['user/user-parcel']);
+            $isValid = $model->validate();
+            //var_dump($parcel->validate());exit;
+            $isValid = $parcel->validate() && $isValid;
+           /* var_dump($isValid);exit;*/
+            if($isValid)
+            {
+                $model->save();
+                $parcel->parid = $model->id;
+                $parcel->save();
+                Yii::$app->session->setFlash('success', "Update completed");
+            }
+            else
+            {
+                Yii::$app->session->setFlash('Warning', " completed");
+            }
         }
+               
+           
+
+           /* if($model->load(Yii::$app->request->post())  )
+            }
+            }
+            {
+                $parcel->parid = $model->id;
+                $parcel->signer = Admin::findOne($admin)->adminname;
+                $parcel->save();
+                Yii::$app->session->setFlash('success', "Update completed");
+                return $this->redirect(['user/user-parcel']);
+            }*/
+        
         return $this->render('addparcel', ['model' => $model , 'parcel' => $parcel, 'user' => $user]);
     }
 
