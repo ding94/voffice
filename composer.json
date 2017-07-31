@@ -21,7 +21,8 @@
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-widgets": "*",
         "iutbay/yii2-fontawesome": "*",
-		"kartik-v/yii2-grid": "@dev"
+		"kartik-v/yii2-grid": "@dev",
+        "dmstr/yii2-adminlte-asset": "2.*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
