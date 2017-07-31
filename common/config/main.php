@@ -8,6 +8,14 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        /* 'i18n' => [
+            'translations' => [
+                'kvgrid' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@vendor/kartik-v/yii2-grid/messages',
+                ],
+          ],
+        ],*/
          'formatter' => [
             'dateFormat' => 'php:d-M-Y',
             'datetimeFormat' => 'php:Y-m-d H:i:s',
@@ -15,4 +23,14 @@ return [
             'timeZone' => 'Asia/Kuala_Lumpur',
         ],
     ],
+   /* 'modules' => [
+       'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+            // enter optional module parameters below - only if you need to  
+            // use your own export download action or custom translation 
+            // message source
+            // 'downloadAction' => 'gridview/export/download',
+            // 'i18n' => []
+        ]
+    ],*/
 ];

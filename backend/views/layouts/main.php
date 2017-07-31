@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
+use kartik\alert\AlertBlock;
 
 AppAsset::register($this);
 ?>
@@ -61,19 +62,14 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-    <div id="sidebar-nav">
-       <ul>
-           <li>AA</li>
-           <li>AA</li>
-           <li>AA</li>
-           <li>AA</li>
-       </ul>
-    </div>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
+        <?php echo AlertBlock::widget([
+            'type' => AlertBlock::TYPE_ALERT,
+            'useSessionFlash' => true
+        ]);?>
         <?= $content ?>
     </div>
 
