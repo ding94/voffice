@@ -16,11 +16,6 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        'formatter' => [
-            'dateFormat' => 'd-M-Y',
-            'datetimeFormat' => "Y-m-d H:i:s",
-            'timeFormat' => 'H:i:s',
-        ],
         'user' => [
             'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,

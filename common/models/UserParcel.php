@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use yii\data\ActiveDataProvider;
 use Yii;
 
 /**
@@ -9,6 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property integer $uid
+ * @property string $arrived_time
+ * @property integer $user_notice
+ * @property integer $parcel_sent
+ * @property string $sent_time
  * @property string $received_time
  */
 class UserParcel extends \yii\db\ActiveRecord
@@ -28,8 +32,8 @@ class UserParcel extends \yii\db\ActiveRecord
     {
         return [
             [['uid'], 'required'],
-            [['uid'], 'integer'],
-            [['received_time'], 'safe'],
+            [['uid', 'user_notice', 'parcel_sent'], 'integer'],
+            [['arrived_time', 'sent_time', 'received_time'], 'safe'],
         ];
     }
 
@@ -41,7 +45,13 @@ class UserParcel extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
+            'arrived_time' => 'Arrived Time',
+            'user_notice' => 'User Notice',
+            'parcel_sent' => 'Parcel Sent',
+            'sent_time' => 'Sent Time',
             'received_time' => 'Received Time',
         ];
     }
+
+    
 }

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 	$this->title = 'Admin List';
@@ -29,6 +30,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
                 ],
                 'authAssignment.item_name',
+                 'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{update} {active} ',
              'buttons' => [

@@ -63,7 +63,6 @@ class AdminControl extends Admin
         $dataProvider->sort->attributes['authAssignment.item_name'] = [
               'asc' => ['item_name' => SORT_ASC],
               'desc' => ['item_name' => SORT_DESC],
-              'label' => 'Role',
         ];
 
         $query->joinWith(['authAssignment']);

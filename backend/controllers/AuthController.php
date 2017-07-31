@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use yii\web\Controller;
 use yii\filters\AccessControl;
-use backend\models\auth\AuthAssignment;
+use backend\models\auth\AuthControl;
 use Yii;
 
 Class AuthController extends Controller
@@ -26,7 +26,7 @@ Class AuthController extends Controller
 
 	public function actionIndex()
 	{
-		$searchModel = new AuthAssignment();
+		$searchModel = new AuthControl();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
