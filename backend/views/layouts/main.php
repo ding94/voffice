@@ -10,6 +10,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use kartik\alert\AlertBlock;
+use kartik\widgets\SideNav;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -66,15 +68,53 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+    
+    
     <div class="container">
-        <?= Breadcrumbs::widget([
+    <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?php echo AlertBlock::widget([
             'type' => AlertBlock::TYPE_ALERT,
             'useSessionFlash' => true
         ]);?>
-        <?= $content ?>
+    <div class="row">
+        <div class="col-xs-5 col-sm-4 col-lg-3">
+            <?php
+            if (Yii::$app->user->isGuest) {
+                 echo SideNav::widget([
+                    'items' => [
+                    ['label' => 'Login', 'url' => Url::to(['/site/login'])]
+                    ]
+
+                    ]);
+             } 
+            else {
+                echo SideNav::widget([
+        'encodeLabels' => false,
+        'items' => [
+            ['label' => 'Admin List', 'url' => Url::to(['/admin/index'])],
+            ['label' => 'Auth List', 'url' => Url::to(['/auth/index'])],
+            ['label' => 'User', 'url' => Url::to(['/user/index'])],
+            ['label' => 'User Parcel', 'url' => Url::to(['/user/user-parcel'])],
+            ['label' => 'Auth List', 'url' => Url::to(['/auth/index'])],
+            ['label' => 'Setting', 'items' => [
+                ['label' => 'change password', 'url' => Url::to(['/admin/changepass'])
+                ]]
+            
+        ],
+    ]]);
+            }
+    
+    ?>
+        </div>
+        <div class="col-xs-7 col-sm-8 col-lg-9">
+            <?= $content ?>
+        </div>
+    </div>
+        
+        
+        
     </div>
 
 </div>
