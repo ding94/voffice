@@ -7,7 +7,7 @@ use yii\web\Controller;
 use common\models\User;
 use common\models\UserDetails;
 use common\models\UserParcel;
-use common\models\Parcel;
+use common\models\ParcelDetail;
 use backend\models\Admin;
 Class UserController extends Controller
 {
@@ -69,7 +69,7 @@ Class UserController extends Controller
         $model->uid = $user->uid;
         $model->arrived_time = date('Y-m-d');
 
-        if($model->load(Yii::$app->request->post()))
+        if($model->load(Yii::$app->request->post()) )
         {
             //$model->save();
             $parcel->parid = $model->id;
