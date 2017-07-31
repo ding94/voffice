@@ -32,13 +32,15 @@ Class UserController extends Controller
         }
 		
 	}
+
+    
     
     public function actionUserParcel()
     {
         $searchModel = new UserDetails();
-
+        
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-       
+        //var_dump($searchModel);exit;
         return $this->render('userparcel',['model' => $dataProvider , 'searchModel' => $searchModel]);
 
     }
