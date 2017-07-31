@@ -26,7 +26,7 @@ use Yii;
  */
 class UserDetails extends \yii\db\ActiveRecord
 {
-    public $fullname;
+   
     /**
      * @inheritdoc
      */
@@ -62,8 +62,9 @@ class UserDetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            // 这里改label的名字
             'uid' => 'Uid',
-            'Fname' => 'First Name',
+            'Fname' => 'Full Name',
             'Lname' => 'Last Name',
             'gender' => 'Gender',
             'DOB' => 'Date of Birth',
@@ -78,7 +79,7 @@ class UserDetails extends \yii\db\ActiveRecord
             'city' => 'City',
             'state' => 'State',
             'country' => 'Country',
-            'fullname' => 'Full Name', // 这里改label的名字
+            //'fullname' => '', 
         ];
     }
 
@@ -90,29 +91,20 @@ class UserDetails extends \yii\db\ActiveRecord
             'query' => $query,
         ]);
 
-        $dataProvider->setSort([
-            'attributes' => [
-            'fullname' => [
-                'asc' => ['Fname' => SORT_ASC, 'Lname' => SORT_ASC],
-                'desc' => ['Fname' => SORT_DESC, 'Lname' => SORT_DESC],
-                
-                'default' => SORT_ASC,
-            ],
-        ]
-        ]);
+        
         $this->load($params);
 
         //$name = UserDetails::find()->one();
         //$FullName = $name->Fname.' '.$name->Lname; 
         //var_dump($fullName);exit;
         $query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
-        $query->andWhere('Fname LIKE "%' . $this->fullname . '%" ' . //This will filter when only first name is searched.
-        'OR Lname LIKE "%' . $this->fullname . '%" '. //This will filter when only last name is searched.
-        'OR CONCAT(Fname, " ", Lname) LIKE "%' . $this->fullname . '%"'); //This will filter when full name is searched.
-  
-        //$query->andFilterWhere(['like','Lname' , $this->Lname]);
-        
-        
+
+        //使用'or'寻找两边column资料
+        $query->andFilterWhere(['or',
+                                ['like','Fname' , $this->Fname],
+                                ['like','Lname' , $this->Fname],
+                            ]);
+ 
         return $dataProvider;
     }
 
