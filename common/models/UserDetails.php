@@ -46,6 +46,7 @@ class UserDetails extends \yii\db\ActiveRecord
             [['DOB'], 'date', 'format' => 'yyyy-mm-dd' ,'message' => 'Format as YYYY-MM-DD'],
             [['Fname', 'Lname'], 'string', 'max' => 50],
             [['IC_passport'], 'string', 'max' => 30],
+            [['postcode'],'string', 'max' => 5,'min' => 5],
         ];
     }
 
