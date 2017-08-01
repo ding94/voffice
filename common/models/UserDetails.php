@@ -110,8 +110,7 @@ class UserDetails extends \yii\db\ActiveRecord
  
         return $dataProvider;
     }
-
-
+    
     public function add($data)
     {
         $this->uid = Yii::$app->user->identity->id;

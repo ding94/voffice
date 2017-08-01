@@ -10,11 +10,18 @@ use yii\grid\ActionColumn;
 ?>
 
     <?= GridView::widget([
+
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
             'username',
+             'fullname.Fname',
+
+             [  'label' => 'Full Name',
+             
+                'value' => 'fullname.Lname',
+            ],
             'email',
             'status',
             ['class' => 'yii\grid\ActionColumn'],
