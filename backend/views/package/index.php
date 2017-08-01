@@ -8,8 +8,7 @@ use yii\grid\ActionColumn;
 	$this->title = 'Package List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container">
-	<h1><?= Html::encode($this->title)?></h1>
+
 	<?= Html::a('Add New Package', ['/package/add'], ['class'=>'btn btn-success']) ?>
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -21,4 +20,4 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
         ],
     ]); ?>
-</div>
+

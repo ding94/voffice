@@ -44,7 +44,7 @@ Class PackageController extends Controller
     public function actionAdd()
     {
     	$model = new Package;
-    	$models->packageTittle = "Add Package";
+    	$model->packageTitle = "Add Package";
     	if($model->load(Yii::$app->request->post()) && $model->save()){
     		return $this->redirect(['index']);
     	}

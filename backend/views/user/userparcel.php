@@ -13,8 +13,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     //$url = Url::to(['user/add','id'=>8]);
 
 ?>
-<div class="container">
-	<h1><?= Html::encode($this->title)?></h1>
+
 	
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -38,5 +37,5 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
              ],
         ]
     ])?>
-</div>
+
  

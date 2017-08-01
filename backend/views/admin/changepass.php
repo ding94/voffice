@@ -12,8 +12,7 @@ use yii\bootstrap\ActiveForm;
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="container">
-	<h1><?= Html::encode($this->title) ?></h1>
+
 	<?php $form = ActiveForm::begin();?>
     	<?= $form->field($model, 'password')->passwordInput() ?>
     	<?= $form->field($model, 'repass')->passwordInput() ?>
@@ -21,4 +20,3 @@ use yii\bootstrap\ActiveForm;
 	      	<?= Html::submitButton('Change Password', ['class' => 'btn btn-warning']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
-</div>

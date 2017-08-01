@@ -8,7 +8,7 @@ use yii\grid\ActionColumn;
     $this->title =  'Auth Role';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container">
+
     <h1><?= Html::encode($this->title)?></h1>
     <?= GridView::widget([
         'dataProvider' => $model,
@@ -21,4 +21,3 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-</div>

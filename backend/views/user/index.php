@@ -8,8 +8,7 @@ use yii\grid\ActionColumn;
     $this->title =  'User List';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container">
-    <h1><?= Html::encode($this->title)?></h1>
+
     <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
@@ -21,4 +20,4 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-</div>
+

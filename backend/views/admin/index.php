@@ -11,8 +11,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	$this->title = 'Admin List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container">
-	<h1><?= Html::encode($this->title)?></h1>
+
 	<?= Html::a('Add New Admin', ['/admin/add'], ['class'=>'btn btn-success']) ?>
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -51,4 +50,4 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
         ],
     ]); ?>
-</div>
+

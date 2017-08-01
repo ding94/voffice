@@ -14,8 +14,6 @@ use kartik\widgets\DatePicker;
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="container">
-	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php $form = ActiveForm::begin();?>
     	<?= $form->field($model, 'arrived_time')->widget(DatePicker::classname(), [
@@ -40,4 +38,3 @@ use kartik\widgets\DatePicker;
 	        <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
-</div>

@@ -15,10 +15,12 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'datatables/dataTables.bootstrap.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'iutbay\yii2fontawesome\FontAwesomeAsset',
+        'dmstr\web\AdminLteAsset',
     ];
 }
