@@ -4,7 +4,10 @@ namespace backend\models\auth;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 use backend\models\auth\AuthAssignment;
+use backend\models\auth\AuthItemChild;
 
 /**
  * This is the model class for table "auth_item".
@@ -44,6 +47,7 @@ class AuthItem extends \yii\db\ActiveRecord
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description', 'data'], 'string'],
             [['name', 'rule_name'], 'string', 'max' => 64],
+            ['name' ,'unique' , 'targetClass' => '\backend\models\auth\AuthItem'],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
         ];
     }
@@ -63,6 +67,22 @@ class AuthItem extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function search($params,$type)
+    {
+       $query = self::find()->where(['type' => $type]);
+       
+       $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        $query->andFilterWhere(['like','name' , $this->name]);
+
+        return $dataProvider;
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
