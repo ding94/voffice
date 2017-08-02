@@ -46,7 +46,7 @@ class UserDetails extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'phonenumber', 'postcode'], 'integer'],
-            [['gender', 'address1', 'address2', 'address3', 'city', 'state', 'country'], 'string'],
+            [['gender', 'address1', 'address2', 'address3', 'city', 'state', 'country','picture'], 'string'],
             [['DOB'], 'safe'],
             [['DOB'], 'date', 'format' => 'yyyy-mm-dd' ,'message' => 'Format as YYYY-MM-DD'],
             [['Fname', 'Lname'], 'string', 'max' => 50],
@@ -98,7 +98,7 @@ class UserDetails extends \yii\db\ActiveRecord
         //$name = UserDetails::find()->one();
         //$FullName = $name->Fname.' '.$name->Lname; 
         //var_dump($fullName);exit;
-        $query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
+        //$query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
 
         //使用'or'寻找两边column资料
         $query->andFilterWhere(['or',
