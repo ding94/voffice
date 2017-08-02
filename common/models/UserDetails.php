@@ -46,14 +46,14 @@ class UserDetails extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'phonenumber', 'postcode'], 'integer'],
-            [['gender', 'cmpyname', 'cmpycategory', 'address1', 'address2', 'address3', 'city', 'state', 'country'], 'string'],
+            [['gender', 'address1', 'address2', 'address3', 'city', 'state', 'country','picture'], 'string'],
             [['DOB'], 'safe'],
             [['DOB'], 'date', 'format' => 'yyyy-mm-dd' ,'message' => 'Format as YYYY-MM-DD'],
             [['Fname', 'Lname'], 'string', 'max' => 50],
             [['IC_passport'], 'string', 'max' => 30],
             [['fullname'] , 'safe'], // 设置 fullname的 searchbox
             [['postcode'],'string', 'max' => 5,'min' => 5],
-            [['Fname','Lname','gender','cmpyname','cmpycategory','IC_passport','address1','address2','address3','city','state','country'],'default','value' => ''],
+            [['Fname','Lname','gender','IC_passport','address1','address2','address3','city','state','country'],'default','value' => ''],
             [['phonenumber','postcode'],'default','value' => '0'],
             [['DOB'],'default','value' => '2000-01-01'],
         ];
@@ -71,8 +71,6 @@ class UserDetails extends \yii\db\ActiveRecord
             'Lname' => 'Last Name',
             'gender' => 'Gender',
             'DOB' => 'Date of Birth',
-            'cmpyname' => 'Company Name',
-            'cmpycategory' => 'Company Category',
             'IC_passport' => 'IC or Passport',
             'phonenumber' => 'Phone Number',
             'address1' => 'Address 1',
@@ -100,7 +98,7 @@ class UserDetails extends \yii\db\ActiveRecord
         //$name = UserDetails::find()->one();
         //$FullName = $name->Fname.' '.$name->Lname; 
         //var_dump($fullName);exit;
-        $query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
+        //$query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
 
         //使用'or'寻找两边column资料
         $query->andFilterWhere(['or',
