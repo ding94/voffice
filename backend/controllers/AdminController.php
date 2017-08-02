@@ -12,40 +12,13 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
 
-Class AdminController extends Controller
+Class AdminController extends CommonController
 {
 	/**
      * Displays admin homepage.
      *
      * @return string
      */
-
-	public function behaviors()
-    {
-        return [
-			'access' => [
-			    'class' => AccessControl::className(),
-			        'rules' => [
-			            [
-			            	'actions' => ['delete' ,'active'],
-			                'allow' => true,
-			                'roles' =>['super admin'],
-			        	],
-			        	[
-			        		'actions' => ['index' , 'add' , 'update'],
- 							'allow' => true,
-			                'roles' =>['admin'],
-			        	],
-			        	[
-			        	 	'actions' => ['changepass'],
-			        		'allow' =>  true,
-			        		'roles' => ['@'],
-			        	]
-			                   
-			    ],
-			]          
-        ];
-    }
 
 	public function actionIndex()
 	{

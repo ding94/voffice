@@ -9,7 +9,7 @@ use common\models\UserDetails;
 use common\models\UserParcel;
 use common\models\ParcelDetail;
 use backend\models\Admin;
-Class UserController extends Controller
+Class UserController extends CommonController
 {
 	public function actionIndex()
 	{

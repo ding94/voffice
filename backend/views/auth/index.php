@@ -9,7 +9,7 @@ use yii\grid\ActionColumn;
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-    <h1><?= Html::encode($this->title)?></h1>
+    <?= Html::a('Add Role', ['/auth/add'], ['class'=>'btn btn-success']) ?>
     <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,

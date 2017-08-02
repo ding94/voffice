@@ -9,7 +9,7 @@ use common\models\Package;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
-Class PackageController extends Controller
+Class PackageController extends CommonController
 {
 
 	public function behaviors()
