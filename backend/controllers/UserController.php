@@ -4,9 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\User;
-use common\models\UserDetails;
-use common\models\UserParcel;
+use common\models\User\User;
+use common\models\User\UserDetails;
+use common\models\User\UserParcel;
 use common\models\ParcelDetail;
 use backend\models\Admin;
 Class UserController extends CommonController
