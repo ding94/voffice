@@ -18,13 +18,18 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
-        'columns' => [  
-                'cmpyname',//你选择的table的column
-    	            [
+        'columns' => [
+
+    	            [  
+                        'attribute' => 'cmpyName',
+                        'value' => 'company.cmpyName',//你选择的table的column
+                    ],
+                    
+                    [   
                         'attribute' => 'Fname',
-                        
                         'value' => function($model) { return $model->Fname  . " " . $model->Lname ;}, //function($model) <- pass model进去
                     ],
+
                ['class' => 'yii\grid\ActionColumn',  
                 'template'=>'{add}', //送去actionAdd
                 'buttons' => [

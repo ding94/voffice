@@ -3,7 +3,8 @@
 namespace common\models;
 use yii\data\ActiveDataProvider;
 use Yii;
-
+use common\models\UserCompany;
+use common\models\UserDetails;
 /**
  * This is the model class for table "user_details".
  *
@@ -51,11 +52,11 @@ class UserDetails extends \yii\db\ActiveRecord
             [['DOB'], 'date', 'format' => 'yyyy-mm-dd' ,'message' => 'Format as YYYY-MM-DD'],
             [['Fname', 'Lname'], 'string', 'max' => 50],
             [['IC_passport'], 'string', 'max' => 30],
-            [['fullname'] , 'safe'], // 设置 fullname的 searchbox
             [['postcode'],'string', 'max' => 5,'min' => 5],
             [['Fname','Lname','gender','IC_passport','address1','address2','address3','city','state','country'],'default','value' => ''],
             [['phonenumber','postcode'],'default','value' => '0'],
             [['DOB'],'default','value' => '2000-01-01'],
+            [['company.cmpyName'], 'safe'],// 设置searchbox
         ];
     }
 
@@ -80,14 +81,21 @@ class UserDetails extends \yii\db\ActiveRecord
             'city' => 'City',
             'state' => 'State',
             'country' => 'Country',
-            //'fullname' => '', 
+            'cmpyName' => 'Company Name',
         ];
+    }
+
+    public function getCompany()
+    {
+        return $this->hasOne(UserCompany::classname(), ['uid' => 'uid']);
     }
 
     public function search($params)
     {
         $query = self::find(); //自己就是table,找一找资料
         
+        $query->joinWith(['company']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -95,10 +103,8 @@ class UserDetails extends \yii\db\ActiveRecord
         
         $this->load($params);
 
-        //$name = UserDetails::find()->one();
-        //$FullName = $name->Fname.' '.$name->Lname; 
-        //var_dump($fullName);exit;
-        //$query->andFilterWhere(['like','cmpyname' , $this->cmpyname]);// 用来查找资料
+        //var_dump($query);
+        $query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 
         //使用'or'寻找两边column资料
         $query->andFilterWhere(['or',

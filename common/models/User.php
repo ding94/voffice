@@ -228,6 +228,7 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => $this->username,
             'email' => $this->email,
             'status' => $this->status,
+
         ]);
 
          $query->andFilterWhere(['like','username' , $this->username]);
