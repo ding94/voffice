@@ -16,12 +16,8 @@ use yii\grid\ActionColumn;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             'username',
-             'fullname.Fname',
-
-             [  'label' => 'Full Name',
-             
-                'value' => 'fullname.Lname',
-            ],
+            'name',
+            
             'email',
             'status',
             ['class' => 'yii\grid\ActionColumn'],

@@ -10,6 +10,7 @@ $this->title = 'Virtual Office';
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<?= Alert::widget() ?>
  <div class="alert alert-success">
             Thank you for contacting us. We will respond to you as soon as possible.
         </div>

@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\assets\BowerAsset;
 use common\widgets\Alert;
+use kartik\widgets\SideNav;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 BowerAsset::register($this);
@@ -94,14 +96,27 @@ BowerAsset::register($this);
     <!-- Side Nav -->
 
 <div class="row">
-    <div class="col-md-2">
-        <nav id="sideNav" class="nav-sidebar">
-        <ul class="nav tabs">
-          <li class="active"><a href="<?php echo yii\helpers\Url::to(['user/index'])?>" data-toggle="tab">User Profile</a></li>
-          <li class=""><a href="#tab2" data-toggle="tab">Parcel<span class="badge pull-right">22</span></a></li>
-          <li class=""><a href="#tab3" data-toggle="tab">Loren Ipsum</a></li>                               
-        </ul>
-    </nav>
+    <div class="col-md-2" style="padding-top: 100px; padding-left: 50px">
+        
+    <?php echo SideNav::widget([
+    //'type' => $type,
+    'encodeLabels' => false,
+    //'heading' => $heading,
+    'items' => [
+        ['label' => 'User',  'items' => [
+            ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
+            ['label' => 'Change Password', 'url' => Url::to(['user/changepassword'])],
+        ]],
+        ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
+        ['label' => 'Parcel', 'items' => [
+            ['label' => 'All Parcel<span class="badge pull-right">22</span>', 'url' => Url::to(['parcel/index'])],
+            ['label' => 'New Parcel', 'url' => Url::to(['parcel/new-parcel'])],
+            ['label' => 'Sending Parcel', 'url' => Url::to(['parcel/sent-parcel'])],
+            ['label' => 'Received Parcel', 'url' => Url::to(['parcel/received-parcel'])],
+        ]],
+]]);     
+
+?>
     </div>
     <div class="container-fluid">
         <?= Breadcrumbs::widget([

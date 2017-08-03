@@ -66,6 +66,13 @@
                                     [ 'label' => 'Add User Parcel', 'icon' => 'circle-o', 'url' => ['/user/user-parcel']],
                                 ],
                             ],
+                            [
+                                'label' => 'Auth Controller' , 'icon' => 'gamepad' ,'url' => '#',
+                                'items' => [
+                                    ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['auth/index'],
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
                 ],

@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-	$this->title = $model->adminTittle;;
+	$this->title = $model->adminTittle;
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Admin'), 'url' => ['index']];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,9 +17,12 @@ use yii\bootstrap\ActiveForm;
     	<?= $form->field($model, 'email')->textInput() ?>
     	<?php if($model->passwordOff == 1):?>
     		<?= $form->field($model, 'password')->passwordInput() ?>
+    		<?= $form->field($model ,'role')->dropDownList($list,['prompt' => ' -- Select Role --'])?>
+    	<?php else :?>
+    		<?= $form->field($model ,'role')->dropDownList($list)?>
     	<?php endif ;?>
 
-    	<?= $form->field($model ,'role')->dropDownList($list)?>
+    	
     	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	   </div>
