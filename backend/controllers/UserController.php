@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User\User;
+use common\models\User\UserSearch;
 use common\models\User\UserDetails;
 use common\models\User\UserParcel;
 use common\models\ParcelDetail;
@@ -13,7 +14,7 @@ Class UserController extends CommonController
 {
 	public function actionIndex()
 	{
-		$searchModel = new User();
+		$searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
  
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);

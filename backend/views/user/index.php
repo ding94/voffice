@@ -16,10 +16,16 @@ use yii\grid\ActionColumn;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             'username',
-            'name',
-            
+            'userdetails.fullname',
             'email',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function($model)
+                {
+                    return $model->status ==10 ? 'Active' : 'Inactive';
+                }
+
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
