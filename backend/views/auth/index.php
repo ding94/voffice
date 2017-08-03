@@ -21,3 +21,4 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
