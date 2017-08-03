@@ -1,10 +1,10 @@
 <?php
 
-namespace common\models;
+namespace common\models\user;
 use yii\data\ActiveDataProvider;
 use Yii;
-use common\models\UserCompany;
-use common\models\UserDetails;
+use common\models\User\UserCompany;
+use common\models\User\UserDetails;
 /**
  * This is the model class for table "user_details".
  *

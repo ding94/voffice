@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace common\models\user;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -7,7 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\data\ActiveDataProvider;
-use common\models\UserDetails;
+use common\models\User\UserDetails;
 /**
  * User model
  *
@@ -226,8 +226,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $query = self::find();
 
-        $query->joinWith(['fullname']);// 把 getFullname 的资料合在一起
-
+        $query->joinWith(['fullname'])->all();// 把 getFullname 的资料合在一起
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
