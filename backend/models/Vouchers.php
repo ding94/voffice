@@ -31,9 +31,9 @@ class Vouchers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'discount', 'status', 'usedTimes', 'inCharge','startDate','endDate'], 'required'],
-            [['code', 'inCharge'], 'string'],
-            [['discount', 'status', 'usedTimes'], 'integer'],
+            [['code', 'discount', 'inCharge','startDate','endDate'], 'required'],
+            [['code', 'inCharge', 'status'], 'string'],
+            [['discount', 'usedTimes'], 'integer'],
         ];
     }
 

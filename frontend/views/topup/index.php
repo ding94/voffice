@@ -12,13 +12,13 @@
 <br><br>	
 			<h1>Offline Topup</h1>
 			
-            <?php $form = ActiveForm::begin(['action' =>['topup/upload'], 'method' => 'post',]); ?>
+            <?php $form = ActiveForm::begin(); ?>
 
 				 <?= $form->field($model, 'amount') ?>
 
                 <?= $form->field($model, 'description') ?>
 								
-                <?= $form->field($model, 'picture')->fileInput() ?>
+                <?= $form->field($upload, 'imageFile')->fileInput() ?>
                        <div class="form-group">
                     <?= Html::submitButton('Upload', ['class' => 'btn btn-primary']) ?>
                 </div>
