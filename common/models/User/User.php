@@ -29,7 +29,6 @@ class User extends ActiveRecord implements IdentityInterface
     public $old_password;
     public $new_password;
     public $repeat_password;
-    public $name;
     public $loginname;
 
 
@@ -60,7 +59,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             ['email' , 'unique'],
-            [['username' ,'name'] ,'safe'],
+            [['username' ,'userdetails.fullname'] ,'safe'],
             [['old_password', 'new_password', 'repeat_password'], 'required', 'on' => 'changePwd'],
             [['old_password'], 'findPasswords', 'on' => 'changePwd'],
             [['repeat_password'], 'compare', 'compareAttribute'=>'new_password', 'on'=>'changePwd'],
@@ -216,38 +215,10 @@ class User extends ActiveRecord implements IdentityInterface
         return '';
     }
 
-    public function getUserDetails()
+    public function getUserdetails()
     {
         //用来获得 UserDetails 的 uid 用 user id
          return $this->hasOne(UserDetails::className(), ['uid' => 'id']); // hasone 获得object, hasmany 获得 array
-    }
-
-
-    public function search($params)
-    {
-        $query = self::find()->joinWith(['userDetails'])->all();
-        var_dump($query);exit;
-
-        // 把 getFullname 的资料合在一起
-        
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-       
-        $query;
-        $this->load($params);
-
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-
-        ]);
-
-        $query->andFilterWhere(['like','username' , $this->username]);
-        $query->andFilterWhere(['like','email' , $this->email]);
-
-        return $dataProvider;
     }
 
     public function findPasswords($attribute, $params)
