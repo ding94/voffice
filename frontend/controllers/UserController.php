@@ -4,11 +4,11 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\User;
-use common\models\UserContact;
+use common\models\User\User;
+use common\models\User\UserContact;
 use yii\filters\AccessControl;
-use common\models\UserDetails;
-use common\models\UserCompany;
+use common\models\User\UserDetails;
+use common\models\User\UserCompany;
 
 class UserController extends \yii\web\Controller
 {
@@ -75,6 +75,7 @@ class UserController extends \yii\web\Controller
 				}
 			}
 			}
+		$this->view->title = 'Update Profile';
 		$this->layout = 'user';
 		return $this->render("useredit",['model' => $model]);
 
@@ -106,6 +107,7 @@ class UserController extends \yii\web\Controller
 	          }
 	            }
 	        }
+	    $this->view->title = 'Change Password';
 	 	$this->layout = 'user';
 	    return $this->render('changepassword',['model'=>$model]); 
  	}
@@ -153,7 +155,7 @@ class UserController extends \yii\web\Controller
 				}
 			}
 		}
-
+		$this->view->title = 'Update Company Info';
 		$this->layout = 'user';
 		return $this->render('usercompanyedit', ['model' => $model]);
  	}

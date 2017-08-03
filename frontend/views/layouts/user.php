@@ -107,7 +107,7 @@ BowerAsset::register($this);
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
             ['label' => 'Change Password', 'url' => Url::to(['user/changepassword'])],
         ]],
-        ['label' => 'User Company Info', 'url' => Url::to(['user/usercompany'])],
+        ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ['label' => 'Parcel', 'items' => [
             ['label' => 'All Parcel<span class="badge pull-right">22</span>', 'url' => Url::to(['parcel/index'])],
             ['label' => 'New Parcel', 'url' => Url::to(['parcel/new-parcel'])],

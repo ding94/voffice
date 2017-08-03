@@ -13,7 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Contact;
-use common\models\User;
+use common\models\User\User;
 use common\models\Package;
 
 /**
