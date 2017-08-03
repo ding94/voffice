@@ -135,17 +135,7 @@ Class AuthController extends Controller
 	{
 		$auth = \Yii::$app->authManager;
 		$data = $auth->getPermissions();
-		//$data =  AuthItem::find()->where(['type' => 2])->all();
 		
-		/*foreach ($available as $k => $value) 
-		{
-			foreach ($data as $i => $not) {
-				if($not['name'] == $value['name'])
-				{
-					 unset($data[$i]);
-				}
-			}
-		}*/
 		$data = array_diff_key($data,$available);
 		
 		return $data;
