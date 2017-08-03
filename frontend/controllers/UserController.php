@@ -8,6 +8,7 @@ use common\models\User;
 use common\models\UserContact;
 use yii\filters\AccessControl;
 use common\models\UserDetails;
+use common\models\UserCompany;
 
 class UserController extends \yii\web\Controller
 {
@@ -107,6 +108,54 @@ class UserController extends \yii\web\Controller
 	        }
 	 	$this->layout = 'user';
 	    return $this->render('changepassword',['model'=>$model]); 
+ 	}
+
+ 	public function actionUsercompany()
+ 	{
+ 		$model = UserCompany::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+
+ 		if (empty($model))
+ 		{
+ 			$model = new UserCompany();
+ 		}
+
+ 		$this->layout = 'user';
+        return $this->render('usercompany', ['model' => $model]);
+ 	}
+
+ 	public function actionUsercompanyedit()
+ 	{
+ 		$model = UserCompany::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+
+ 		if (empty($model))
+ 		{
+ 			$model = new UserCompany();
+			if(Yii::$app->request->isPost)
+			{
+				$post = Yii::$app->request->post();
+				if($model->add($post))
+				{
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['usercompany']);
+				}
+			}
+		}
+		else
+		{
+			$model = UserCompany::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+			if(Yii::$app->request->isPost)
+			{
+				$post = Yii::$app->request->post();
+				if($model->add($post))
+				{
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['usercompany']);
+				}
+			}
+		}
+
+		$this->layout = 'user';
+		return $this->render('usercompanyedit', ['model' => $model]);
  	}
 
 }

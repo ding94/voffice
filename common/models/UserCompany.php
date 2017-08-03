@@ -50,4 +50,21 @@ class UserCompany extends \yii\db\ActiveRecord
             'picture' => 'Picture',
         ];
     }
+
+    public function add($data)
+    {
+        $this->uid = Yii::$app->user->identity->id;
+        if($this->load($data) && $this->save())
+        {
+
+            return true;
+        }
+        return false;
+    }
+
+    public static function primaryKey()
+    {
+        return ['uid'];
+    }
+
 }
