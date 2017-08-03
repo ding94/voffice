@@ -182,22 +182,4 @@ Class AuthController extends Controller
 		return false;
 	}
 
-	protected function findModel($id)
-    {
-        if (($model = AuthItemChild::findAll($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    protected function findAuth($id)
-    {
-    	if (($model = AuthItem::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    } 
-
 }
