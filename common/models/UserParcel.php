@@ -59,5 +59,83 @@ class UserParcel extends \yii\db\ActiveRecord
         return $this->hasOne(ParcelDetail::className(),['parid' => 'id']);
     }
 
-    
+    public function search($params)
+    {
+        $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        //$query->andFilterWhere([
+            //'weight' => $this->weight,
+            //'price' => $this->price,
+        //]);
+
+        //$query->andFilterWhere(['like','weight' , $this->weight]);
+
+        return $dataProvider;
+    }
+
+    public function searchnewparcel($params)
+    {
+        $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->andWhere(['not',['arrived_time' => null]]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        //$query->andFilterWhere([
+            //'weight' => $this->weight,
+            //'price' => $this->price,
+        //]);
+
+        //$query->andFilterWhere(['like','weight' , $this->weight]);
+
+        return $dataProvider;
+    }
+
+    public function searchsentparcel($params)
+    {
+        $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->andWhere(['not',['sent_time' => null]]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        //$query->andFilterWhere([
+            //'weight' => $this->weight,
+            //'price' => $this->price,
+        //]);
+
+        //$query->andFilterWhere(['like','weight' , $this->weight]);
+
+        return $dataProvider;
+    }
+
+    public function searchreceivedparcel($params)
+    {
+        $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->andWhere(['not',['received_time' => null]]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        //$query->andFilterWhere([
+            //'weight' => $this->weight,
+            //'price' => $this->price,
+        //]);
+
+        //$query->andFilterWhere(['like','weight' , $this->weight]);
+
+        return $dataProvider;
+    }
 }
