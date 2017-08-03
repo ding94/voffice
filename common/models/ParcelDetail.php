@@ -38,7 +38,7 @@ class ParcelDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'sender', 'signer', 'weight'], 'required'],
+            [['sender', 'signer', 'weight'], 'required'],
             [['parid', 'postcode'], 'integer'],
             [['sender', 'signer', 'address1', 'address2', 'address3', 'city', 'state', 'country'], 'string'],
             [['weight'], 'number'],
@@ -69,4 +69,5 @@ class ParcelDetail extends \yii\db\ActiveRecord
     {
          return $this->hasOne(UserParcel::className(),['id' => 'parid']);
     }
+
 }

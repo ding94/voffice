@@ -12,12 +12,14 @@ use yii\bootstrap\ActiveForm;
 	$this->params['breadcrumbs'][] = $id;
 ?>
 	<h1><?= Html::encode($id)?></h1>
+
 	<?php $form = ActiveForm::begin(['action' =>['auth/remove-role', 'id' => $id], 'method' => 'post',]);?>
     	<?= $form->field($model, 'child')->inline(true)->checkboxList($listAvailabe) ?>
     	<div class="form-group">
 	        <?= Html::submitButton(Yii::t('app', 'Remove Permission') ,['class' =>  'btn btn-danger']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
+
 	<?php $form = ActiveForm::begin(['action' =>['auth/add-role', 'id' => $id], 'method' => 'post',]);?>
     	<?= $form->field($model, 'child')->inline(true)->checkboxList($listAll) ?>
     	<div class="form-group">

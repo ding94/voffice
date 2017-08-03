@@ -23,12 +23,16 @@ Class AuthController extends Controller
 	public function actionView($id)
 	{
 		$model = new AuthItemChild();
-		$available = $this->findModel($id);
+
+		$auth = \Yii::$app->authManager;
+		
+		$available = $auth->getChildren($id);
+		
 		$notAvailable =  self::notAvailableSotring($available);
 		
-		$listAvailabe =  ArrayHelper::map($available,'child' ,'child');
+		$listAvailabe =  ArrayHelper::map($available,'name' ,'name');
 		$listAll =  ArrayHelper::map($notAvailable,'name' ,'name');
-
+		
 		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $listAll ,'id' => $id]);
 	}
 
@@ -68,16 +72,22 @@ Class AuthController extends Controller
 
 	protected function modifyRole($id,$childData,$type)
 	{
-		$parent = $this->findAuth($id);
 		$auth = \Yii::$app->authManager;
+		$parent = $auth->getRole($id);
+		
 		$data ="";
 		foreach ($childData as $key => $value) 
 		{
-			$child = $this->findAuth($value);
+			$child = $auth->getPermission($value);
+
 			switch ($type) {
 				case 1:
-					$auth->addChild($parent,$child);
-					$data = true;
+					if($auth->canAddChild($parent,$child))
+					{
+						$auth->addChild($parent,$child);
+						$data = true;
+					}
+					$data = false;
 					break;
 				case 2:
 					$auth->removeChild($parent,$child);
@@ -123,16 +133,21 @@ Class AuthController extends Controller
 	 */
 	public static function notAvailableSotring($available)
 	{
-		$data =  AuthItem::find()->where(['type' => 2])->all();
-		foreach ($available as $k => $value) 
+		$auth = \Yii::$app->authManager;
+		$data = $auth->getPermissions();
+		//$data =  AuthItem::find()->where(['type' => 2])->all();
+		
+		/*foreach ($available as $k => $value) 
 		{
 			foreach ($data as $i => $not) {
-				if($not['name'] == $value['child'])
+				if($not['name'] == $value['name'])
 				{
 					 unset($data[$i]);
 				}
 			}
-		}
+		}*/
+		$data = array_diff_key($data,$available);
+		
 		return $data;
 	}
 
@@ -166,23 +181,5 @@ Class AuthController extends Controller
 		
 		return false;
 	}
-
-	protected function findModel($id)
-    {
-        if (($model = AuthItemChild::findAll($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    protected function findAuth($id)
-    {
-    	if (($model = AuthItem::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    } 
 
 }

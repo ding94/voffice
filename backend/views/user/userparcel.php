@@ -26,6 +26,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     ],
                     
                     [   
+
                         'attribute' => 'Fname',
                         'value' => function($model) { return $model->Fname  . " " . $model->Lname ;}, //function($model) <- pass model进去
                     ],

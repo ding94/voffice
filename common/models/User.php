@@ -26,6 +26,9 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    public $old_password;
+    public $new_password;
+    public $repeat_password;
 
     public $loginname;
 
@@ -58,6 +61,9 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             ['email' , 'unique'],
             ['username'  ,'safe'],
+            [['old_password', 'new_password', 'repeat_password'], 'required', 'on' => 'changePwd'],
+            [['old_password'], 'findPasswords', 'on' => 'changePwd'],
+            [['repeat_password'], 'compare', 'compareAttribute'=>'new_password', 'on'=>'changePwd'],
         ];
     }
 
@@ -205,6 +211,11 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    public function getPassword()
+    {
+        return '';
+    }
+
     public function getFullname()
     {
         //用来获得 UserDetails 的 uid 用 user id
@@ -235,5 +246,13 @@ class User extends ActiveRecord implements IdentityInterface
 
 
         return $dataProvider;
+    }
+
+    public function findPasswords($attribute, $params)
+    {
+        $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
+        if ($this->validatePassword($this->old_password)){
+            $this->addError($attribute, 'Old password is incorrect.');
+        }
     }
 }
