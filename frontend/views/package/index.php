@@ -9,7 +9,7 @@
                             </a>
                             <div class="portfolio-caption">
                                 <h4><?php echo $package[0]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[0]['price(RM)']; ?></p>
+                                <p class="text-muted"><?php echo $package[0]['price']; ?></p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 portfolio-item">
@@ -18,7 +18,7 @@
                             </a>
                             <div class="portfolio-caption">
                                 <h4><?php echo $package[1]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[1]['price(RM)']; ?></p>
+                                <p class="text-muted"><?php echo $package[1]['price']; ?></p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 portfolio-item">
@@ -27,7 +27,7 @@
                             </a>
                             <div class="portfolio-caption">
                                 <h4><?php echo $package[2]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[2]['price(RM)']; ?></p>
+                                <p class="text-muted"><?php echo $package[2]['price']; ?></p>
                             </div>
                         </div>
                             </div>

@@ -140,7 +140,12 @@ class SiteController extends Controller
     {
         
     }
-
+ public function actionTopup()
+    {
+           
+       
+        return $this->render("topup",['model' => $model]);
+    }
     /**
      * Displays about page.
      *
