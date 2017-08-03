@@ -79,4 +79,34 @@ class UserController extends \yii\web\Controller
 
 	}
 
+	public function actionChangepassword()
+ 	{      
+	    $model = new User;
+	 
+	    $model = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
+	    $model->setScenario('changePwd');
+	 
+	 
+	     if(isset($_POST['User'])){
+	 
+	        $model->attributes = $_POST['User'];
+	        $valid = $model->validate();
+	 
+	        if($valid){
+	 
+	          $model->password = md5($model->new_password);
+	 
+	          if($model->save()){
+	          	 Yii::$app->session->setFlash('success', "successfully changed password");
+	             return $this->redirect('index');
+	         }
+	          else {
+	             return $this->redirect('index');
+	          }
+	            }
+	        }
+	 	$this->layout = 'user';
+	    return $this->render('changepassword',['model'=>$model]); 
+ 	}
+
 }
