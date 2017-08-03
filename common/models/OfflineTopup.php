@@ -34,10 +34,11 @@ class OfflineTopup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'username','amount'], 'required'],
-           [['username','description', 'action', 'inCharge', 'rejectReason', 'picture'], 'string'],
+            [[ 'username','amount'], 'safe'],
+           [['username','description', 'action', 'inCharge', 'rejectReason'], 'string'],
            [['amount'], 'number'],
-			 [['picture'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+		  
+			
         ];
 		    }
 
@@ -59,10 +60,11 @@ class OfflineTopup extends \yii\db\ActiveRecord
     }
 	public function add($data)
     {
-       
+       //$this->createtime = time();
+	  
         if($this->load($data) && $this->save())
         {
-		
+			
             return true;
         }
         return false;
