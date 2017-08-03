@@ -19,7 +19,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [  
-                'cmpyname',//你选择的table的column
+                //'cmpyname',//你选择的table的column
     	            [
                         'attribute' => 'Fname',
                         

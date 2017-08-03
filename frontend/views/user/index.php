@@ -34,14 +34,6 @@ use yii\grid\ActionColumn;
                     <td><?php echo $userdetails['DOB']; ?></td>
                   </tr>
                   <tr>
-                    <td>Company Name</td>
-                    <td><?php echo $userdetails['cmpyname']; ?></td>
-                  </tr>
-                  <tr>
-                    <td>Company Category</td>
-                    <td><?php echo $userdetails['cmpycategory']; ?></td>
-                  </tr>
-                  <tr>
                     <td>IC/Passport</td>
                     <td><?php echo $userdetails['IC_passport']; ?></td>
                   </tr>
