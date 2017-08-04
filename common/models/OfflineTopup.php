@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
- use yii\db\ActiveRecord;
+
 use Yii;
 
 /**
@@ -18,8 +18,6 @@ use Yii;
  */
 class OfflineTopup extends \yii\db\ActiveRecord
 {
-	public $picture;
-
     /**
      * @inheritdoc
      */
@@ -34,13 +32,12 @@ class OfflineTopup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'username','amount'], 'safe'],
-           [['username','description', 'action', 'inCharge', 'rejectReason'], 'string'],
-           [['amount'], 'number'],
-		  
-			
+            [['username', 'amount', 'picture'], 'required'],
+            [['username', 'description', 'action', 'inCharge', 'rejectReason'], 'string'],
+            [['amount'], 'number'],
+            [['picture'], 'string', 'max' => 100],
         ];
-		    }
+    }
 
     /**
      * @inheritdoc
@@ -58,27 +55,4 @@ class OfflineTopup extends \yii\db\ActiveRecord
             'picture' => 'Picture',
         ];
     }
-	public function add($data)
-    {
-       //$this->createtime = time();
-	  
-        if($this->load($data) && $this->save())
-        {
-			
-            return true;
-        }
-        return false;
-    }
-	
-	public function upload()
-    {
-		//var_dump ($this); exit;
-        if ($this->validate()) {
-            $this->picture->saveAs('img/topup/' . $this->picture->baseName . '.' . $this->picture->extension);
-		//var_dump ($this); exit;
-            return true;
-        } else {
-            return false;
-        }
-}
 }

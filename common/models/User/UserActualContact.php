@@ -5,7 +5,7 @@ namespace common\models\user;
 use Yii;
 
 /**
- * This is the model class for table "user_contact".
+ * This is the model class for table "user_actual_contact".
  *
  * @property integer $uid
  * @property string $address1
@@ -17,14 +17,14 @@ use Yii;
  * @property string $country
  * @property integer $phonenumber
  */
-class UserContact extends \yii\db\ActiveRecord
+class UserActualContact extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_contact';
+        return 'user_actual_contact';
     }
 
     /**
@@ -35,6 +35,8 @@ class UserContact extends \yii\db\ActiveRecord
         return [
             [['uid', 'postcode', 'phonenumber'], 'integer'],
             [['address1', 'address2', 'address3', 'state', 'city', 'country'], 'string'],
+            [['address1','address2','address3','postcode','state','city','country','phonenumber'],'required','on' => 'mailingAddress'],
+            [['phonenumber', 'postcode'], 'integer','on' => 'mailingAddress'],
         ];
     }
 
@@ -68,7 +70,7 @@ class UserContact extends \yii\db\ActiveRecord
     }
 
     public static function primaryKey()
-{
-    return ['uid'];
-}
+    {
+        return ['uid'];
+    }
 }

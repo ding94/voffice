@@ -5,10 +5,10 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User\User;
-use common\models\User\UserContact;
 use yii\filters\AccessControl;
 use common\models\User\UserDetails;
 use common\models\User\UserCompany;
+use common\models\User\UserActualContact;
 
 class UserController extends \yii\web\Controller
 {
@@ -51,16 +51,16 @@ class UserController extends \yii\web\Controller
 		$model = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 		if(empty($model))
 			{
-			$model = new UserDetails;
-			if(Yii::$app->request->isPost)
-			{
-				$post = Yii::$app->request->post();
-				if($model->add($post))
+				$model = new UserDetails;
+				if(Yii::$app->request->isPost)
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
-				   return $this->redirect(['index']);
+					$post = Yii::$app->request->post();
+					if($model->add($post))
+					{
+					   Yii::$app->session->setFlash('success', "Update Successful");
+					   return $this->redirect(['index']);
+					}
 				}
-			}
 			}
 		else
 		{
@@ -74,7 +74,7 @@ class UserController extends \yii\web\Controller
 				   return $this->redirect(['index']);
 				}
 			}
-			}
+		}
 		$this->view->title = 'Update Profile';
 		$this->layout = 'user';
 		return $this->render("useredit",['model' => $model]);
@@ -96,7 +96,7 @@ class UserController extends \yii\web\Controller
 	 
 	        if($valid){
 	 
-	          $model->password = md5($model->new_password);
+	          $model->password = setPassword($model->new_password);
 	 
 	          if($model->save()){
 	          	 Yii::$app->session->setFlash('success', "successfully changed password");
@@ -158,6 +158,55 @@ class UserController extends \yii\web\Controller
 		$this->view->title = 'Update Company Info';
 		$this->layout = 'user';
 		return $this->render('usercompanyedit', ['model' => $model]);
+ 	}
+
+ 	public function actionUsermailingaddress()
+ 	{
+ 		$model = UserActualContact::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		if (empty($model)) 
+ 		{
+ 			$model = new UserActualContact();
+ 		}
+
+ 		$this->layout = 'user';
+		return $this->render('usermailingaddress', ['model' => $model]);
+ 	}
+
+ 	public function actionUsermailingaddressedit()
+ 	{
+ 		$model = UserActualContact::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		
+ 		if (empty($model))
+ 		{
+ 			$model = new UserActualContact();
+ 			$model->setScenario('mailingAddress');
+			if(Yii::$app->request->isPost)
+			{
+				$post = Yii::$app->request->post();
+				if($model->add($post))
+				{
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['usermailingaddress']);
+				}
+			}
+		}
+		else
+		{
+			$model = UserActualContact::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+			$model->setScenario('mailingAddress');
+			if(Yii::$app->request->isPost)
+			{
+				$post = Yii::$app->request->post();
+				if($model->add($post))
+				{
+				   Yii::$app->session->setFlash('success', "Update Successful");
+				   return $this->redirect(['usermailingaddress']);
+				}
+			}
+		}
+		$this->view->title = 'Update User Mailing Address';
+		$this->layout = 'user';
+		return $this->render('usermailingaddressedit', ['model' => $model]);
  	}
 
 }

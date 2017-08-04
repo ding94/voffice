@@ -4,7 +4,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use backend\models\Vouchers;
-
+use backend\models\Admin;
 
 class VouchersController extends CommonController
 {
@@ -18,20 +18,27 @@ class VouchersController extends CommonController
 
     public function actionAdd()
     {
-      
+    	
         $model = new Vouchers;
+        $model->inCharge = Admin::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->adminname;
+        $model->status = 'Activated';
         $model->startDate = date('Y-m-d');
         $model->endDate = date('Y-m-d',strtotime('+30 day'));
-        var_dump(Yii::$app->user->identity->id);exit;
+
         if( $model->load(Yii::$app->request->post()))
         {
             $isValid = $model->validate();
-            //var_dump($parcel->validate());exit;
-           var_dump($model);exit;
-            if($isValid)
-            {
+            //var_dump($isValid);exit;
+          	$checkcode = Vouchers::find()->where('code = :c', [':c' => $model->code])->one(); //查询是否重复code
+
+          	if($isValid && (empty($checkcode)))
+          	{
                 $model->save();
                 Yii::$app->session->setFlash('success', "Update completed");
+          	}
+            elseif(!empty($checkcode))
+            {
+                Yii::$app->session->setFlash('warning', "Duplicated Voucher Code");//是重复，警告
             }
             else
             {
@@ -39,19 +46,6 @@ class VouchersController extends CommonController
             }
         }
                
-           
-
-           /* if($model->load(Yii::$app->request->post())  )
-            }
-            }
-            {
-                $parcel->parid = $model->id;
-                $parcel->signer = Admin::findOne($admin)->adminname;
-                $parcel->save();
-                Yii::$app->session->setFlash('success', "Update completed");
-                return $this->redirect(['user/user-parcel']);
-            }*/
-        
         return $this->render('addvouchers', ['model' => $model]);
     }
 

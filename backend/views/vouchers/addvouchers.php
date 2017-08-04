@@ -10,7 +10,7 @@ use kartik\widgets\DatePicker;
 
 	//var_dump($model);exit;
 	$this->title = 'New Voucher';
-	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User'), 'url' => ['user-parcel']];
+	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Voucher List'), 'url' => ['index']];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -18,24 +18,24 @@ use kartik\widgets\DatePicker;
 	<?php $form = ActiveForm::begin();?>
     <?= $form->field($model, 'code')->textInput() ?>
     <?= $form->field($model, 'discount')->textInput() ?>
-    <?= $form->field($model, 'status')->textInput() ?>
+    
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [
     		'options' => ['placeholder' => 'Date voucher active to use'],
     		'pluginOptions' => [
     			//'language' => 'ru',
-    			'format' => 'yyyy-mm-dd',
-	    		'todayHighlight' => true,
-	        	'todayBtn' => true,]]) 
+    		'format' => 'yyyy-mm-dd',
+	    	'todayHighlight' => true,
+	        'todayBtn' => true,]]) 
 	    ?>
 
         <?= $form->field($model, 'endDate' )->widget(DatePicker::classname(), [
-            'options' => ['placeholder' => 'Date voucher deactivated  (default 30 days after start date)'],
+            'options' => ['placeholder' => 'Date voucher deactivated (default 30 days after start date)'],
             'pluginOptions' => [
                 //'language' => 'ru',
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'todayBtn' => true,]]) 
+            'format' => 'yyyy-mm-dd',
+            'todayHighlight' => true,
+            'todayBtn' => true,]]) 
         ?>
 
     	
