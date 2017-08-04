@@ -99,6 +99,7 @@ Class AuthController extends Controller
 		$allchild= Yii::$app->request->post('AuthItemChild');
 
 		$data = $this->modifyRole($id,$allchild['child'],1);
+		
 		if($data == true)
 		{
 			Yii::$app->session->setFlash('success', "Add Completed");
@@ -128,7 +129,10 @@ Class AuthController extends Controller
 						$auth->addChild($parent,$child);
 						$data = true;
 					}
-					$data = false;
+					else
+					{
+						$data = false;
+					}
 					break;
 				case 2:
 					$auth->removeChild($parent,$child);
