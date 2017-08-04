@@ -25,7 +25,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     'value' => function($model)
                     {
                         return $model->status ==10 ? 'Active' : 'Inactive';
-                    }
+                    },
+                    'filter' => array( "10"=>"Active","0"=>"Inactive"),
 
                 ],
                 'authAssignment.item_name',

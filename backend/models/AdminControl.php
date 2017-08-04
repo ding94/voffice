@@ -41,7 +41,7 @@ class AdminControl extends Admin
             ['role' , 'required' , 'on' =>['addAdmin']],
 
             ['email'  , 'unique' ,'on' => ['searchAdmin']],
-            [['adminname','authAssignment.item_name']  ,'safe' ,'on' => ['searchAdmin']],
+            [['adminname','authAssignment.item_name','status']  ,'safe' ,'on' => ['searchAdmin']],
         ];
     }
 
@@ -65,13 +65,19 @@ class AdminControl extends Admin
               'desc' => ['item_name' => SORT_DESC],
         ];
 
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
         $query->joinWith(['authAssignment']);
 
         $this->load($params);
-
-        $query->andFilterWhere(['like','adminname' , $this->adminname]);
-        $query->andFilterWhere(['like','email' , $this->email]);
-        $query->andFilterWhere(['like','item_name',$this->getAttribute('authAssignment.item_name')]);
+        $query->andFilterWhere(['status' => $this->status])
+              ->andFilterWhere(['like','adminname' , $this->adminname])
+              ->andFilterWhere(['like','email' , $this->email])
+              ->andFilterWhere(['like','item_name',$this->getAttribute('authAssignment.item_name')]);
         
         return $dataProvider;
     }
