@@ -6,13 +6,15 @@ use yii\web\Controller;
 use backend\models\Vouchers;
 use backend\models\Admin;
 
+
 class VouchersController extends CommonController
 {
     public function actionIndex()
     {
         $searchModel = new Vouchers();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- 
+        
+ 		//var_dump($string);exit;
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
@@ -47,6 +49,53 @@ class VouchersController extends CommonController
         }
                
         return $this->render('addvouchers', ['model' => $model]);
+    }
+
+    public function actionDelete()
+     {
+     	$model = Vouchers::find()->all();
+     	return $this->render('deletevouchers', ['model' => $model]);
+     }
+
+    public function actionBatch(){
+
+    	if (Yii::$app->request->post('remove')) {
+    		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
+    		var_dump(Yii::$app->request->post('gen'));exit;
+    		 if (!empty($selection)) {
+    	 			foreach($selection as $id){
+       			 	$delete=Vouchers::findOne((int)$id);//make a typecasting
+      		 		$delete->delete();
+      		 		Yii::$app->session->setFlash('success', "Deleted!");
+    			}
+    	 	}
+    	 	else
+    	 	{
+    	 		Yii::$app->session->setFlash('warning', "No Voucher/Record was selected!");
+    	 	}
+    	}
+    	
+
+   		return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionGenCode()
+    {
+    	if (Yii::$app->request->post('gen')) {
+    		var_dump("hi");exit;
+    	}
+    	
+    	$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+        $string='';
+         for($i=0;$i<16; $i++){
+       		 $string .= $chars[rand(0,strlen($chars)-1)];
+ 
+    	}
+
+
+
+    	Yii::$app->session->setFlash('success', "10 Code Generated!");
+    	return $this->redirect(Yii::$app->request->referrer);
     }
 
 
