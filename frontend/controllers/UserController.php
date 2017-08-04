@@ -57,7 +57,7 @@ class UserController extends \yii\web\Controller
 					$post = Yii::$app->request->post();
 					if($model->add($post))
 					{
-					   Yii::$app->session->setFlash('success', "Update Successful");
+					   Yii::$app->session->setFlash('success', 'Update Successful');
 					   return $this->redirect(['index']);
 					}
 				}
@@ -70,7 +70,7 @@ class UserController extends \yii\web\Controller
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
+				   Yii::$app->session->setFlash('success', 'Update Successful');
 				   return $this->redirect(['index']);
 				}
 			}
@@ -99,7 +99,7 @@ class UserController extends \yii\web\Controller
 	          $model->password = setPassword($model->new_password);
 	 
 	          if($model->save()){
-	          	 Yii::$app->session->setFlash('success', "successfully changed password");
+	          	 Yii::$app->session->setFlash('success', 'successfully changed password');
 	             return $this->redirect('index');
 	         }
 	          else {
@@ -137,7 +137,7 @@ class UserController extends \yii\web\Controller
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
+				   Yii::$app->session->setFlash('success', 'Update Successful');
 				   return $this->redirect(['usercompany']);
 				}
 			}
@@ -150,7 +150,7 @@ class UserController extends \yii\web\Controller
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
+				   Yii::$app->session->setFlash('success', 'Update Successful');
 				   return $this->redirect(['usercompany']);
 				}
 			}
@@ -185,7 +185,7 @@ class UserController extends \yii\web\Controller
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
+				   Yii::$app->session->setFlash('success', 'Update Successful');
 				   return $this->redirect(['usermailingaddress']);
 				}
 			}
@@ -199,7 +199,7 @@ class UserController extends \yii\web\Controller
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
-				   Yii::$app->session->setFlash('success', "Update Successful");
+				   Yii::$app->session->setFlash('success', 'Update Successful');
 				   return $this->redirect(['usermailingaddress']);
 				}
 			}
