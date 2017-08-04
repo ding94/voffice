@@ -69,8 +69,8 @@
                             [
                                 'label' => 'Auth Controller' , 'icon' => 'gamepad' ,'url' => '#',
                                 'items' => [
-                                    ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['auth/index'],
-                                    ],
+                                    ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],
+                                    ['label' => 'Permission List' ,'icon' => 'circle-o' , 'url' => ['/auth/permission']],
                                 ],
                             ],
                         ],

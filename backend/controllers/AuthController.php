@@ -15,7 +15,6 @@ Class AuthController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new AuthItem();
-		$searchModel->titleName = "Auth Role";
 
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams , 1);
 		
@@ -25,11 +24,10 @@ Class AuthController extends Controller
 	public function actionPermission()
 	{
 		$searchModel = new AuthItem();
-		$searchModel->titleName = "Auth Permission";
-		
+	
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams ,2);
 		
-		return $this->render('index' , ['model' => $dataProvider , 'searchModel' => $searchModel]);
+		return $this->render('permission' , ['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
 	public function actionView($id)
@@ -37,7 +35,15 @@ Class AuthController extends Controller
 		$model = new AuthItemChild();
 
 		$auth = \Yii::$app->authManager;
-		
+
+		$verify = $auth->getPermission($id);
+
+		if($verify)
+		{
+			Yii::$app->session->setFlash('warning', 'Not In Role List');
+			return $this->redirect(Yii::$app->request->referrer);
+		}
+
 		$available = $auth->getChildren($id);
 		
 		$notAvailable =  self::notAvailableSotring($available);
@@ -48,6 +54,29 @@ Class AuthController extends Controller
 		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $listAll ,'id' => $id]);
 	}
 
+	public function actionDelete($id)
+	{
+		$auth = \Yii::$app->authManager;
+
+		$data = $auth->getPermission($id);
+
+		if(empty($data))
+		{
+			$data = $auth->getRole($id);
+		}
+
+		if($auth->remove($data))
+		{
+			Yii::$app->session->setFlash('success', "Delete Completed");
+		}
+		else
+		{
+			Yii::$app->session->setFlash('warning', "Fail Delete");
+		}
+		
+		return $this->redirect(['index']);
+	}
+
 	public function actionRemoveRole($id)
 	{
 		$allchild= Yii::$app->request->post('AuthItemChild');
@@ -55,11 +84,11 @@ Class AuthController extends Controller
 		$data = $this->modifyRole($id,$allchild['child'],2);
 		if($data == true)
 		{
-			Yii::$app->session->setFlash('warning', "Delete Completed");
+			Yii::$app->session->setFlash('success', "Delete Completed");
 		}
 		else
 		{
-			Yii::$app->session->setFlash('Danger', "Fail Delete");
+			Yii::$app->session->setFlash('warning', "Fail Delete");
 		}
 		
 	    return $this->redirect(['view' ,'id' => $id]);
@@ -76,7 +105,7 @@ Class AuthController extends Controller
 		}
 		else
 		{
-			Yii::$app->session->setFlash('Danger', "Fail Added");
+			Yii::$app->session->setFlash('warning', "Fail Added");
 		}
 		
 	    return $this->redirect(['view' ,'id' => $id]);
@@ -183,5 +212,4 @@ Class AuthController extends Controller
 		
 		return false;
 	}
-
 }
