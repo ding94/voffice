@@ -58,10 +58,25 @@ class VouchersController extends CommonController
      }
 
     public function actionBatch(){
-
+    	
     	if (Yii::$app->request->post('remove')) {
     		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
-    		var_dump(Yii::$app->request->post('gen'));exit;
+    		$del = self::actionBatchDelete($selection);
+    	}
+    	
+
+    	if (Yii::$app->request->post('gen')) {
+    		$model = Yii::$app->request->post('Vouchers');
+    		$code = self::actionGenCode($model);
+    	}
+
+   		return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
+    public function actionBatchDelete($selection)
+    {
+    	
     		 if (!empty($selection)) {
     	 			foreach($selection as $id){
        			 	$delete=Vouchers::findOne((int)$id);//make a typecasting
@@ -73,30 +88,33 @@ class VouchersController extends CommonController
     	 	{
     	 		Yii::$app->session->setFlash('warning', "No Voucher/Record was selected!");
     	 	}
-    	}
-    	
-
-   		return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionGenCode()
+
+    public function actionGenCode($model)
     {
-    	if (Yii::$app->request->post('gen')) {
-    		var_dump("hi");exit;
-    	}
-    	
     	$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
-        $string='';
-         for($i=0;$i<16; $i++){
-       		 $string .= $chars[rand(0,strlen($chars)-1)];
- 
-    	}
+        $admin = Admin::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->adminname;
+        $date = date('Y-m-d');
+        $month = date('Y-m-d',strtotime('+30 day'));
+        for ($j=0; $j <= 10 ; $j++) { 
 
+        	$model = new Vouchers;
+        	$model->discount =10;
+        	$model->inCharge = $admin;
+        	$model->startDate = $date;
+      		$model->endDate = $month;
+      		$model->status = 0;
 
+           	for($i=0;$i<16; $i++){
+       			$model->code .= $chars[rand(0,strlen($chars)-1)];
+    		}
+    		//var_dump($model->save());exit;
+    		$model->save(false);
+        }
 
     	Yii::$app->session->setFlash('success', "10 Code Generated!");
-    	return $this->redirect(Yii::$app->request->referrer);
+    	
     }
-
 
 }
