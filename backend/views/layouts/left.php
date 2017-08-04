@@ -67,12 +67,20 @@
                                 ],
                             ],
                             [
+                                'label' => 'Voucher Controller' , 'icon' => 'dashboard' ,'url' => '#',
+                                'items' => [
+                                    ['label' => 'Vouchers List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index'],
+                                    ],
+                                ],
+                            ],
+                            [
                                 'label' => 'Auth Controller' , 'icon' => 'gamepad' ,'url' => '#',
                                 'items' => [
                                     ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['auth/index'],
                                     ],
                                 ],
                             ],
+                            
                         ],
                     ],
                 ],

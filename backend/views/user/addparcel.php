@@ -36,5 +36,6 @@ use kartik\widgets\DatePicker;
     	
     	<div class="form-group">
 	        <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>
+            
 	   </div>
 	<?php ActiveForm::end();?>
