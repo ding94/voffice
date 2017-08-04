@@ -32,6 +32,8 @@ class AuthItem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $titleName ="";
     public static function tableName()
     {
         return 'auth_item';

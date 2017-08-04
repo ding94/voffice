@@ -15,9 +15,21 @@ Class AuthController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new AuthItem();
-		$dataProvider = $searchModel-> search(Yii::$app->request->queryParams , 1);
+		$searchModel->titleName = "Auth Role";
 
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams , 1);
+		
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+	}
+
+	public function actionPermission()
+	{
+		$searchModel = new AuthItem();
+		$searchModel->titleName = "Auth Permission";
+		
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams ,2);
+		
+		return $this->render('index' , ['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
 	public function actionView($id)
