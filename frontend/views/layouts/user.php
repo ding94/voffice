@@ -103,11 +103,16 @@ BowerAsset::register($this);
     'encodeLabels' => false,
     //'heading' => $heading,
     'items' => [
-        ['label' => 'User',  'items' => [
+        ['label' => 'My Account',  'items' => [
+            ['label' => 'Xcoin', 'url' => '#'],
+            ['label' => 'eVoucher', 'url' => '#'],
+        ]],
+        ['label' => 'Member Settings',  'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
             ['label' => 'Change Password', 'url' => Url::to(['user/changepassword'])],
+            ['label' => 'Mailing Address', 'url' => Url::to(['user/usermailingaddress'])],
+            ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ]],
-        ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ['label' => 'Parcel', 'items' => [
             ['label' => 'All Parcel<span class="badge pull-right">22</span>', 'url' => Url::to(['parcel/index'])],
             ['label' => 'New Parcel', 'url' => Url::to(['parcel/new-parcel'])],
@@ -122,8 +127,16 @@ BowerAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
-        <div class="content"><?= $content ?></div>
+        <?= Alert::widget([ 'options' => [
+            'class' => 'alert-info',
+            'style' => 'position: absolute;
+                        top: 20px;
+                        right: 20px;
+                        z-index: 5000;'
+            ],]); ?>
+        <div class="content">
+            <?= $content ?>
+        </div>
     </div>
 </div>
 </div>

@@ -5,11 +5,10 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 
-    $this->title =  'Auth Role';
+    $this->title =  'Auth Permission';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-    <?= Html::a('Add Role', ['/auth/add'], ['class'=>'btn btn-success']) ?>
     <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
@@ -20,7 +19,7 @@ use yii\grid\ActionColumn;
             'updated_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {delete}',
+                'template' => '{delete}',
             ],
         ],
     ]); ?>

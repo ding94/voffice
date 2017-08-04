@@ -41,7 +41,6 @@ Class AdminController extends CommonController
 		
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
-
 			Yii::$app->session->setFlash('success', "Add completed");
     		return $this->redirect(['index']);
 		}
@@ -62,10 +61,38 @@ Class AdminController extends CommonController
 
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
-			Yii::$app->session->setFlash('success', "Update completed");
+			$post = Yii::$app->request->post('Admin');
+			
+	        $validate = self::permission($post['role'],$id);
+
+	        if($validate == true)
+	        {
+	        	Yii::$app->session->setFlash('success', "Update completed");
+	        }
+	        else
+	        {
+	        	Yii::$app->session->setFlash('warning', "Fail Update");
+	        }
+		
     		return $this->redirect(['index']);
 		}
 		return $this->render('addEdit', ['model' => $model ,'list' => $list]);
+	}
+
+	public static function permission($role,$id)
+	{
+		$auth = \Yii::$app->authManager;
+		$item = $auth->getRole($role);
+		$item = $item ? : $auth->getPermission($role);
+		$auth->revoke($item,$id);
+
+		$authorRole = $auth->getRole($role);
+        if($auth->assign($authorRole, $id))
+        {
+        	return true;
+        }
+        return false;
+
 	}
 
 	public function actionDelete($id)
@@ -77,9 +104,9 @@ Class AdminController extends CommonController
 			Yii::$app->session->setFlash('warning', "Delete completed");
 		}
 		else{
-			Yii::$app->session->setFlash('danger', "Fail to delete");
+			Yii::$app->session->setFlash('warning', "Fail to delete");
 		}
-        return $this->redirect(['index']);
+       return $this->redirect(Yii::$app->request->referrer);
 	}
 
 	public function actionActive($id)
@@ -91,7 +118,7 @@ Class AdminController extends CommonController
 			Yii::$app->session->setFlash('success', "Active completed");
 		}
 		else{
-			Yii::$app->session->setFlash('danger', "Fail to Active");
+			Yii::$app->session->setFlash('warning', "Fail to Active");
 		}
         return $this->redirect(['index']);
 
@@ -104,7 +131,7 @@ Class AdminController extends CommonController
 		//detect whether current user id is current user session id
 		if((int)$id !==  Yii::$app->user->identity->id)
 		{
-			Yii::$app->session->setFlash('danger', "Wrong access format");
+			Yii::$app->session->setFlash('warning', "Wrong access format");
 			return $this->goBack();
 		}
 		if(Yii::$app->request->isPost)
