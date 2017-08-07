@@ -20,7 +20,7 @@ class TopupController extends \yii\web\Controller
     	
         //$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one();
 		//var_dump($model);exit;
-	   		//return $this->render('update', ['model' => $model]);
+	    //return $this->render('update', ['model' => $model]);
 		$model = $this->findModel($id);
 		$model->action = 3;
 	
@@ -34,7 +34,29 @@ class TopupController extends \yii\web\Controller
 		}
         return $this->redirect(['index']);
 	}
+	
 	public function actionCancel($id)
+	{
+		
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one();
+		
+		if($model->load(Yii::$app->request->post()) && $model->update())
+		{
+			$model->action =4;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->save(false);
+			Yii::$app->session->setFlash('success', "Update completed");
+    		return $this->redirect(['index']);
+		}
+    		
+		return $this->render('update', ['model' => $model]);
+
+		
+		
+	}
+	
+	
+	/*public function actionCancel($id)
 	{
 		$model = $this->findModel($id);
 		$model->action = 4;
@@ -48,7 +70,7 @@ class TopupController extends \yii\web\Controller
         return $this->redirect(['index']);
 
 	}
-	
+	*/
 	  protected function findModel($id)
     {
         if (($model = OfflineTopup::findOne($id)) !== null) {
