@@ -18,6 +18,7 @@ class TopupController extends \yii\web\Controller
     	{
     		$post = Yii::$app->request->post();
     		$model->username = User::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->username;
+			$model->action = 1;
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 
@@ -25,8 +26,13 @@ class TopupController extends \yii\web\Controller
     		$upload->upload();
     		$model->load($post);
     		$model->save(false);
+			Yii::$app->session->setFlash('success', 'Upload Successful');
     	}
+		$model->amount ="";
+		$model->description ="";
+		$this->layout = 'user';
     	return $this->render('index' ,['model' => $model , 'upload' => $upload]);
+		//Yii::app()->end();
     }
 	
 }

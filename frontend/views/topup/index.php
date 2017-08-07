@@ -3,14 +3,14 @@
     use yii\bootstrap\ActiveForm;
     use yii\helpers\Html;
 	
+	
 ?>
-<html>
 
+<div class="container">
  <div class="row">
-         <div class="col-lg-6 col-lg-offset-3 text-center" id="topup">
+         <div class="col-lg-6 col-lg-offset-1 text-center" id="topup">
 		
-      
-<br><br>	
+     
 			<h1>Offline Topup</h1>
 			
             <?php $form = ActiveForm::begin(); ?>
@@ -28,5 +28,4 @@
         </div>
    
 			</div>					
-
-</html>
+</div>
