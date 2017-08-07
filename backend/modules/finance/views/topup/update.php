@@ -22,12 +22,11 @@ use kartik\widgets\DatePicker;
     <?= $form->field($model, 'username')->textInput(['readonly' => true]) ?>
 	<?= $form->field($model, 'amount')->textInput(['readonly' => true]) ?>
 	<?= $form->field($model, 'description')->textInput(['readonly' => true]) ?>
-	<?= $form->field($model, 'action')->textInput() ?>
-	<?= $form->field($model, 'inCharge')->textInput() ?>
 	<?= $form->field($model, 'rejectReason')->textInput() ?>
 	
 	    	
     	<div class="form-group">
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+			 <?= Html::a('Back', ['/finance/topup/index'], ['class'=>'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>

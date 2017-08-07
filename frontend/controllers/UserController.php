@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use common\models\User\UserDetails;
 use common\models\User\UserCompany;
 use common\models\User\UserActualContact;
+use common\models\User\UserBalance;
 
 class UserController extends \yii\web\Controller
 {
@@ -207,6 +208,18 @@ class UserController extends \yii\web\Controller
 		$this->view->title = 'Update User Mailing Address';
 		$this->layout = 'user';
 		return $this->render('usermailingaddressedit', ['model' => $model]);
+ 	}
+
+ 	public function actionUserbalance()
+ 	{
+ 		$model = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		if (empty($model)) 
+ 		{
+ 			$model = new UserBalance();
+ 		}
+
+ 		$this->layout = 'user';
+		return $this->render('userbalance', ['model' => $model]);
  	}
 
 }

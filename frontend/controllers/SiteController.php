@@ -15,6 +15,7 @@ use frontend\models\ContactForm;
 use common\models\Contact;
 use common\models\User\User;
 use common\models\Package;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -166,15 +167,51 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                $email = \Yii::$app->mailer->compose()
+                ->setTo($user->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->setTextBody("
+                Click this link".\yii\helpers\Html::a('confirm',
+                Url::to(
+                ['site/confirm','id'=>$user->id,'auth_key'=>$user->auth_key],true
+                ))
+                )
+                ->send();
+                if($email){
+                Yii::$app->getSession()->setFlash('success','Check Your email!');
                 }
+                else{
+                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->goHome();
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    public function actionConfirm()
+    {   
+        $id = Yii::$app->request->get('amp;id');
+        $key = Yii::$app->request->get('amp;auth_key');
+        $user = User::find()->where([
+        'id'=>$id,
+        'auth_key'=>$key,
+        'status'=>0,
+        ])->one();
+
+        if(!empty($user)){
+            $user->status=10;
+            $user->save();
+            Yii::$app->getSession()->setFlash('success','Success!');
+        }
+        else{
+            Yii::$app->getSession()->setFlash('warning','Failed!');
+        }
+        return $this->goHome();
     }
 
     /**
