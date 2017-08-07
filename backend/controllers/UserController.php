@@ -36,18 +36,6 @@ Class UserController extends CommonController
 		
 	}
 
-    
-    
-    public function actionUserParcel()
-    {
-        $searchModel = new UserDetails();
-        
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //var_dump($searchModel);exit;
-        return $this->render('userparcel',['model' => $dataProvider , 'searchModel' => $searchModel]);
-
-    }
-
 	/**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

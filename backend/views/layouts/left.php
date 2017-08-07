@@ -60,13 +60,6 @@
                                 ],
                             ],
                             [
-                                'label' => 'User Controller', 'icon' => 'dashboard', 'url' => '#',
-                                'items' => [
-                                    ['label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],
-                                    [ 'label' => 'Add User Parcel', 'icon' => 'circle-o', 'url' => ['/user/user-parcel']],
-                                ],
-                            ],
-                            [
                                 'label' => 'Voucher Controller' , 'icon' => 'dashboard' ,'url' => '#',
                                 'items' => [
                                     ['label' => 'Vouchers List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index'],

@@ -42,6 +42,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        //view frontend ur link
+        'urlManagerFrontEnd' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/voffice/frontend/web',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
