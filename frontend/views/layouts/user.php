@@ -104,7 +104,7 @@ BowerAsset::register($this);
     //'heading' => $heading,
     'items' => [
         ['label' => 'My Account',  'items' => [
-            ['label' => 'Xcoin', 'url' => '#'],
+            ['label' => 'Xcoin', 'url' => Url::to(['user/userbalance'])],
             ['label' => 'eVoucher', 'url' => '#'],
         ]],
         ['label' => 'Member Settings',  'items' => [
