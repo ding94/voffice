@@ -32,7 +32,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'authAssignment.item_name',
                  'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{update} {active} {img}',
+             'template'=>'{update} {active} ',
              'buttons' => [
                 'active' => function($url , $model)
                 {
@@ -47,14 +47,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                    
                     return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Active']);
                 },
-                'img' => function($url,$model)
-                {
-
-                    return Html::a('AA',Yii::$app->urlManagerFrontEnd->baseUrl.'/img/topup/1501753500.jpg',['target'=>'_blank']);
-                
-                }
-                
-               
               ]
             ],
         ],

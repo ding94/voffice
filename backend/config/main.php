@@ -16,6 +16,9 @@ return [
         'finance' => [
             'class' => 'backend\modules\finance\finance',
         ],
+        'logistics' => [
+            'class' => 'backend\modules\logistics\logistics',
+        ],
     ],
     'components' => [
         'request' => [

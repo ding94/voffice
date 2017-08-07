@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\data\ActiveDataProvider;
 use common\models\User\UserDetails;
+use common\models\User\UserCompany;
 /**
  * User model
  *
@@ -219,6 +220,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         //用来获得 UserDetails 的 uid 用 user id
          return $this->hasOne(UserDetails::className(), ['uid' => 'id']); // hasone 获得object, hasmany 获得 array
+    }
+
+    public function getUsercompany()
+    {
+        return $this->hasOne(UserCompany::className(),['uid' => 'id']);
     }
 
     public function findPasswords($attribute, $params)
