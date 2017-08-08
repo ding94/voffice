@@ -66,6 +66,12 @@
                                     ],
                                 ],
                             ],
+							 [
+                                'label' => 'Finance Controller', 'icon' => 'dashboard', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
+                                    ],
+                            ],
                             [
                                 'label' => 'Auth Controller' , 'icon' => 'gamepad' ,'url' => '#',
                                 'items' => [
