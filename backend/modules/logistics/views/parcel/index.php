@@ -30,7 +30,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'username',
             [
                 'label' => 'Full Name',
-                'attribute' => 'userdetails.fullname',
+                'attribute' => 'userdetail.fullname',
             ],
             'email',
             'usercompany.cmpyName',

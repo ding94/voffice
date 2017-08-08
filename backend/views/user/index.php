@@ -18,7 +18,7 @@ use yii\grid\ActionColumn;
             'username',
             [
                 'label' => 'Full Name',
-                'attribute' => 'userdetails.fullname',
+                'attribute' => 'userdetail.fullname',
             ],
             'email',
             [

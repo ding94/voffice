@@ -8,6 +8,8 @@ use yii\db\ActiveRecord;
 use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
+use common\models\User\User;
+use common\models\User\UserDetails;
 
 /**
  * This is the model class for table "parcel".
@@ -23,6 +25,13 @@ class Parcel extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const PENDING         = 1;
+    const PENDING_PICK_UP = 2;
+    const SENDING         = 3;
+    const CONFIRM_RECEIVE = 4;
+    const EARLY_POSTAL    = 5;
+    const PENDING_EARLY   = 6;
+
     public static function tableName()
     {
         return 'parcel';
@@ -82,5 +91,15 @@ class Parcel extends \yii\db\ActiveRecord
     public function getParcelstatus()
     {
         return $this->hasMany(ParcelStatus::className(),['parid' => 'id']); 
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id'=> 'uid']);
+    }
+
+    public function getUserdetail()
+    {
+        return $this->hasOne(UserDetails::className(),['uid' => $this->user->id]);
     }
 }
