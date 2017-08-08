@@ -10,6 +10,8 @@ use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
+use common\models\Parcel\ParcelSearch;
+
 use common\models\User\User;
 
 /**
@@ -54,7 +56,7 @@ Class ParcelController extends Controller
 
 
     	$parcel->uid = $id;
-    	$parcel->status = 1;
+    	$parcel->status = $parcel::PENDING;
     	$isValid = $parcel->validate();
     	if($isValid)
     	{
@@ -63,14 +65,16 @@ Class ParcelController extends Controller
     		$parid = $parcel->id;
     		$detail->parid = $parid;
     		$operate->parid =  $parid;
+    		$status->parid = $parid;
 
     		$operate->adminname = Yii::$app->user->identity->adminname;
     		$operate->newVal = "Add ".$username." parcel";
 
-    		$status->status = 1;
-    		$staus->update_at = time();
+    		$status->status = $parcel::PENDING;
+    		$status->updated_at = time();
 
     		$isValid = $operate->validate() && $operate->validate() && $status->validate();
+    		
     		if($isValid)
     		{
     			$detail->save();
@@ -93,9 +97,9 @@ Class ParcelController extends Controller
 		return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionPendingMail($id)
+    public function actionTypeMail($id)
     {
-    	$searchModel = new Parcel;
+    	$searchModel = new ParcelSearch;
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);

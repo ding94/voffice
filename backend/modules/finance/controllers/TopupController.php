@@ -83,8 +83,6 @@ class TopupController extends \yii\web\Controller
 	  
 	   $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
-	 
-		
 	
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
