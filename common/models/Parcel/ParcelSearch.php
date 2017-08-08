@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 use common\models\Parcel\ParcelDetail;
+use common\models\Parcel\ParcelOperate;
+use common\models\Parcel\ParcelStatus;
 use common\models\Parcel\Parcel;
 use yii\data\ActiveDataProvider;
 
@@ -16,7 +18,7 @@ class ParcelSearch extends Parcel
      */
     public function attributes()
     {
-        return array_merge(parent::attributes(),['parceldetail.sender','parceldetail.signer','parceldetail.address1','parceldetail.address2','parceldetail.address3','parceldetail.postcode','parceldetail.city','parceldetail.state','parceldetail.country','parceldetail.weight']);
+        return array_merge(parent::attributes(),['parceldetail.sender','parceldetail.signer','parceldetail.address1','parceldetail.address2','parceldetail.address3','parceldetail.postcode','parceldetail.city','parceldetail.state','parceldetail.country','parceldetail.weight','user.username','user.userdetail.fullname']);
     }
 
     public function rules()
@@ -25,11 +27,62 @@ class ParcelSearch extends Parcel
             [['uid', 'status', 'updated_at','created_at' ,'type'], 'integer'],
             [['parceldetail.sender','parceldetail.signer','parceldetail.address1','parceldetail.address2','parceldetail.address3','parceldetail.postcode','parceldetail.city','parceldetail.state','parceldetail.country'],'string'],
             [['parceldetail.weight'],'number'],
-            [['id','uid','type','status','sender','signer','address1','address2','address3','postcode','city','state','country','weight'],'safe'],
+            [['user.username' ,'user.userdetail.fullname' ,'id','uid','type','status','sender','signer','address1','address2','address3','postcode','city','state','country','weight'],'safe'],
         ];
     }
 
-    public function search($params)
+	public function search($params,$type)
+	{
+		$query = Parcel::find()->where(['parcel.status' => $type]);
+
+        $query->joinWith(['parceldetail' ,'parceloperate','parcelstatus','user' ,'user.userdetail']);
+
+		$dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $dataProvider->sort->attributes['user.username'] = [
+             'asc'=>['Fname'=>SORT_ASC, 'Lname'=>SORT_ASC],
+            'desc'=>['Fname'=>SORT_DESC, 'Lname'=>SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['user.userdetail.fullname'] = [
+            'asc'=>['username'=>SORT_ASC],
+            'desc'=>['username'=>SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['parceldetail.sender'] = [
+             'asc'=>['sender'=>SORT_ASC],
+            'desc'=>['sender'=>SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['parceldetail.signer'] = [
+             'asc'=>['signer'=>SORT_ASC],
+            'desc'=>['signer'=>SORT_DESC],
+        ];
+
+        
+		if (!$this->validate()) {
+            $query->andFilterWhere([
+            'status' => $this->status,
+            'type' => $this->type,
+            ]);
+        }
+
+
+        $query->andFilterWhere(['like','username' , $this->getAttribute('user.username')]);
+        $query->andFilterWhere(['like','sender' , $this->getAttribute('parceldetail.sender')]);
+        $query->andFilterWhere(['like','signer' , $this->getAttribute('parceldetail.signer')]);
+    
+        $query->andWhere('Fname LIKE "%' . $this->getAttribute('user.userdetail.fullname') . '%" ' . 
+            'OR Lname LIKE "%' .   $this->getAttribute('user.userdetail.fullname') . '%" '.
+            'OR CONCAT(Fname, " ", Lname) LIKE "%' .  $this->getAttribute('user.userdetail.fullname') . '%"'
+        );
+
+        return $dataProvider;
+    }
+
+    public function searchparceldetail($params)
     {
         $query = Parcel::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
         $query->joinWith(['parceldetail']);
@@ -45,6 +98,7 @@ class ParcelSearch extends Parcel
         }
 
         $this->load($params);
+
         $query->andFilterWhere(['like','sender' , $this->getAttribute('parceldetail.sender')])
               ->andFilterWhere(['like','signer' , $this->getAttribute('parceldetail.signer')])
               ->andFilterWhere(['like','address1' , $this->getAttribute('parceldetail.address1')])

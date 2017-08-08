@@ -18,7 +18,7 @@ class ParcelController extends \yii\web\Controller
     public function actionIndex()
     {
         $searchModel = new ParcelSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams);
 
     	$this->layout = 'user';
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);

@@ -216,7 +216,7 @@ class User extends ActiveRecord implements IdentityInterface
         return '';
     }
 
-    public function getUserdetails()
+    public function getUserdetail()
     {
         //用来获得 UserDetails 的 uid 用 user id
          return $this->hasOne(UserDetails::className(), ['uid' => 'id']); // hasone 获得object, hasmany 获得 array

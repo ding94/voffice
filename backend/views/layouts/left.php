@@ -66,11 +66,18 @@
                                     ],
                                 ],
                             ],
-							 [
+							[
                                 'label' => 'Finance Controller', 'icon' => 'dashboard', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
                                     ],
+                            ],
+                            [
+                                'label' => 'Logisistic Controller', 'icon' => 'dashboard', 'url' => '#',
+                                'items' => [
+                                    ['label' => 'Received Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/received-mail']],
+                                    ['label' => 'Pending Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'id'=>1]],
+                                ],
                             ],
                             [
                                 'label' => 'Auth Controller' , 'icon' => 'gamepad' ,'url' => '#',

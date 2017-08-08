@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use kartik\widgets\ActiveForm;
 
 	$this->title = 'Offline Topup';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -19,6 +20,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 		  <?=Html::submitButton('Rejected', ['name'=>'action', 'value' => '4','class' => 'btn btn-danger',]);?>
 		  <?=Html::submitButton('Problematic Payment', ['name'=>'action', 'value' => '2','class' => 'btn btn-warning',]);?>
 		 
+	<?= Html::endForm();?> 
 	
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -29,7 +31,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
              'buttons' => [
                 'update' => function($url , $model)
                     {
-                       $url = Url::to(['topup/update','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);//创建链接，带着uid值
+                       $url = Url::to(['topup/update','id'=>$model->id]);//创建链接，带着uid值
                         return   Html::a(FA::icon('check fw') ,$url , ['title' ,'update']);//图案，链接，不知知道干嘛的
                     },
 					
@@ -61,4 +63,3 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 		
     ])?>
 	
-	<?= Html::endForm();?> 

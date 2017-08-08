@@ -33,10 +33,13 @@ class Vouchers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'discount', 'inCharge','startDate','endDate'], 'required'],
+            [['code', 'discount', 'inCharge','startDate','endDate','amount','digit'], 'required'],
             [['code', 'inCharge', 'status'], 'string'],
-            [['discount', 'usedTimes'], 'integer'],
-            [['amount','digit'], 'integer'],
+            ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.' , 'on' => ['changeAdmin']],
+            [ 'usedTimes', 'integer'],
+            ['digit', 'integer','min'=> 5,'max'=> 100],
+            ['amount','integer','min'=> 2,'max'=> 100],
+            ['discount','integer','min'=>5,'max'=>100],
 
         ];
     }
