@@ -10,7 +10,7 @@ class TopupController extends \yii\web\Controller
     public function actionIndex()
     {
        $searchModel = new OfflineTopup();
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
  
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
@@ -55,6 +55,18 @@ class TopupController extends \yii\web\Controller
 		
 	}
 	
+	
+    public function actionDirect()
+    {
+     // var_dump(Yii::$app->request->post('pending')); exit;
+	  
+	   $searchModel = new OfflineTopup();
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
+	 
+		
+	
+       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
 	
 	/*public function actionCancel($id)
 	{

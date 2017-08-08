@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelOperate;
+use common\models\Parcel\ParcelStatus;
 
 /**
  * This is the model class for table "parcel".
@@ -70,11 +71,16 @@ class Parcel extends \yii\db\ActiveRecord
 
     public function getParceldetail()
     {
-         return $this->hasOne(ParcelDetail::className(),['parid' => 'id']); 
+        return $this->hasOne(ParcelDetail::className(),['parid' => 'id']); 
     }
 
     public function getParceloperate()
     {
-         return $this->hasMany(ParcelOperate::className(),['parid' => 'id']); 
+        return $this->hasMany(ParcelOperate::className(),['parid' => 'id']); 
+    }
+
+    public function getParcelstatus()
+    {
+        return $this->hasMany(ParcelStatus::className(),['parid' => 'id']); 
     }
 }

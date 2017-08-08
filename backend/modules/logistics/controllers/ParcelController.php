@@ -10,6 +10,7 @@ use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
+use common\models\User\User;
 
 /**
  * Default controller for the `parcel` module
@@ -33,33 +34,71 @@ Class ParcelController extends Controller
     	return $this->render('add',['parcel'=> $parcel,'detail' => $detail ,'list' => $listOfType ,'id' => $id]);
     }
 
+    /*
+    *mutiple model save
+    *one fail all reject
+    */
+
     public function actionAddValidate($id)
     {
+    	$username = User::find()->where('id =:id',[':id'=>$id])->one()->username;
 
-    	$transaction = Yii::$app->db->beginTransaction();
-    	try {
-    		$parcel =new Parcel;
-    		$detail = new ParcelDetail;
-    		$operate = new ParcelOperate;
+    	$parcel =new Parcel;
+    	$detail = new ParcelDetail;
+    	$operate = new ParcelOperate;
+    	$status = new ParcelStatus;
 
-    		$parcel->uid = $id;
-    		$parcel->status = 1;
-			$parcel->save();
-           
-			$detail->parid = $parcel->id;
-			$detail->save();
-			
-			$operate->parid = $parcel->id;
-			$operate->adminname = Yii::$app->user->identity->adminname;
-			$operate->newVal = "Add".$id."parcel";
-			$operate->save();
+    	$parcel->load(Yii::$app->request->post());
+    	$detail->load(Yii::$app->request->post());
+    	$operate->load(Yii::$app->request->post());
 
-			$transaction->commit();
-		} catch (Exception $e) {
-			Yii::$app->session->setFlash('warning',$e);
-			$transaction->rollBack();
-		}
 
+    	$parcel->uid = $id;
+    	$parcel->status = 1;
+    	$isValid = $parcel->validate();
+    	if($isValid)
+    	{
+    		$parcel->save();
+
+    		$parid = $parcel->id;
+    		$detail->parid = $parid;
+    		$operate->parid =  $parid;
+
+    		$operate->adminname = Yii::$app->user->identity->adminname;
+    		$operate->newVal = "Add ".$username." parcel";
+
+    		$status->status = 1;
+    		$staus->update_at = time();
+
+    		$isValid = $operate->validate() && $operate->validate() && $status->validate();
+    		if($isValid)
+    		{
+    			$detail->save();
+    			$operate->save();
+    			$status->save();
+    			Yii::$app->session->setFlash('success', "Add complted");
+    		}
+    		else
+    		{
+    			Parcel::deleteAll('id = :id', [':id' => $parid]);
+    			Yii::$app->session->setFlash('warning', "Fail add");
+    		}
+    	}
+    	else
+    	{
+    		Yii::$app->session->setFlash('warning', "Fail add");
+    	}
+		
+		
 		return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionPendingMail($id)
+    {
+    	$searchModel = new Parcel;
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
+
+    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);
+
     }
 }

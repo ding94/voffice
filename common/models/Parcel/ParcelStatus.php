@@ -3,6 +3,7 @@
 namespace common\models\Parcel;
 
 use Yii;
+use common\models\Parcel\Parcel;
 
 /**
  * This is the model class for table "parcel_status".
@@ -29,8 +30,12 @@ class ParcelStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parid', 'status', 'prestatus', 'updated_at'], 'required'],
+            [['parid', 'status', 'updated_at'], 'required'],
             [['parid', 'status', 'prestatus', 'updated_at'], 'integer'],
+            [['parid'] ,'exist' ,
+              'skipOnError' => true,
+              'targetClass' => Parcel::className(),
+              'targetAttribute' => ['parid' => 'id']]
         ];
     }
 
@@ -46,5 +51,10 @@ class ParcelStatus extends \yii\db\ActiveRecord
             'prestatus' => 'Prestatus',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getParcel()
+    {
+        return $this->hasOne(Parcel::className(),['id' => 'parid']);
     }
 }

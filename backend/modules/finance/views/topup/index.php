@@ -12,7 +12,13 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	$this->params['breadcrumbs'][] = $this->title;
 	
 ?>
-
+		  <?=Html::beginForm(['/finance/topup/direct'],'post');?>
+		   <?=Html::submitButton('All', ['name'=>'action', 'value' => '0','class' => 'btn btn-info',]);?>
+		  <?=Html::submitButton('Pending', ['name'=>'action', 'value' => '1','class' => 'btn btn-primary',]);?>
+		   <?=Html::submitButton('Success', ['name'=>'action', 'value' => '3','class' => 'btn btn-success',]);?>
+		  <?=Html::submitButton('Rejected', ['name'=>'action', 'value' => '4','class' => 'btn btn-danger',]);?>
+		  <?=Html::submitButton('Problematic Payment', ['name'=>'action', 'value' => '2','class' => 'btn btn-warning',]);?>
+		 
 	
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -36,7 +42,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 				'img' => function($url,$model)
                 {
 
-                    return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->picture,['target'=>'_blank']);
+                    return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->picture,['target'=>'_blank']); //open page in new tab
                 
                 },
               ],
@@ -54,3 +60,5 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 		
 		
     ])?>
+	
+	<?= Html::endForm();?> 

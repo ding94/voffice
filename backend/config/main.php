@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
-    'name' => 'V Office',
+    'name' => 'X MailBox',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
