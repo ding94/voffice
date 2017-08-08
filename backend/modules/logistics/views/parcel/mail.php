@@ -7,7 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-    $this->title = 'Pending Mail';
+    $this->title = $searchModel->titlename;
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -37,7 +37,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'filter' => array( "1"=>"Mail","2"=>"Parcel"),
 
             ],
-             ['class' => 'yii\grid\ActionColumn' , 
+            ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{message} {operate} {next} ',
              'buttons' => [
                 'message' => function($url , $model)
@@ -54,7 +54,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'next' => function($url , $model)
                 {
-                    $url =  Url::to(['parcel/next' ,'id'=>$model->id,'status'=>$model->status]);
+                    $url =  Url::to(['parcel/next-step' ,'id'=>$model->id,'status'=>$model->status]);
                     
                     return  Html::a(FA::icon('check') , $url , ['title' => 'Next Step']) ;
                 },

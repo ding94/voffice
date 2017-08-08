@@ -12,6 +12,8 @@ use yii\data\ActiveDataProvider;
 
 class ParcelSearch extends Parcel
 {
+	public $titlename ="";
+
 	public function attributes()
     {
         return array_merge(parent::attributes(),['user.username','user.userdetail.fullname','parceldetail.sender','parceldetail.signer']);

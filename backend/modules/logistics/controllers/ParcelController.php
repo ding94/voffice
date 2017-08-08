@@ -11,7 +11,7 @@ use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
 use common\models\Parcel\ParcelSearch;
-
+use common\models\Parcel\ParcelStatusName;
 use common\models\User\User;
 
 /**
@@ -80,7 +80,7 @@ Class ParcelController extends Controller
     			$detail->save();
     			$operate->save();
     			$status->save();
-    			Yii::$app->session->setFlash('success', "Add complted");
+    			Yii::$app->session->setFlash('success', "Add completed");
     		}
     		else
     		{
@@ -100,9 +100,89 @@ Class ParcelController extends Controller
     public function actionTypeMail($id)
     {
     	$searchModel = new ParcelSearch;
+    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$id])->one()->description;
+
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);
 
+    }
+
+    public function actionNextStep($id,$status)
+    {	
+    	$data = $this->findModel($id);
+    	$validate = self::changeParcelStatus($id,$status,$data);
+    	if($validate == true)
+    	{
+    		Yii::$app->session->setFlash('success', "Update completed");
+    	}
+    	else
+    	{
+    		Yii::$app->session->setFlash('warning', "Fail Update");
+    	}
+    	return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /*
+     * Based on status and parcel id to change
+     */
+    public static function changeParcelStatus($id,$status,$data)
+    {
+
+    	$parcelStatus = ParcelStatus::find()->where('parid = :id' ,[':id' => $id])->one();
+    	$oldOperate = ParcelOperate::find()->where('parid = :id' ,[':id' => $id])->orderBy('updated_at DESC')->one();
+
+    	$parcelStatus->prestatus = $parcelStatus->status;
+    	$parcelStatus->updated_at = time();
+
+    	$operate = new ParcelOperate;
+
+    	$operate->adminname = Yii::$app->user->identity->adminname;
+    	$operate->parid = $id;
+    	
+    	switch ($status) {
+    		case 1:
+    			$data->status = Parcel::PENDING_PICK_UP;
+
+    			$parcelStatus->status = Parcel::PENDING_PICK_UP;
+
+    			$operate->oldVal = $oldOperate->newVal;
+    			$operate->newVal = "Pending Pick Up";
+
+    			break;
+    		case 2:
+    			$data->status = Parcel::SENDING;
+
+    			$parcelStatus->status = Parcel::SENDING;
+
+    			$operate->oldVal = $oldOperate->newVal;
+    			$operate->newVal = "Seding";
+    		default:
+    			
+    			break;
+    	}
+
+    	$isValid = $data->validate() && $parcelStatus->validate() && $operate->validate();
+    	if($isValid)
+    	{
+    		$data->save();
+    		$parcelStatus->save();
+    		$operate->save();
+    		return true;
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    	return false;
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Parcel::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

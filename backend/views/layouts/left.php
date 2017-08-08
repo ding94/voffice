@@ -75,8 +75,10 @@
                             [
                                 'label' => 'Logisistic Controller', 'icon' => 'dashboard', 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Received Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/received-mail']],
-                                    ['label' => 'Pending Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'id'=>1]],
+                                    ['label' => 'Add Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/received-mail']],
+                                    ['label' => 'Received Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'id'=>1]],
+                                    ['label' => 'Peding Pick Up', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'id'=>2]],
+                                    ['label' => 'Sending Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'id'=>3]],
                                 ],
                             ],
                             [
