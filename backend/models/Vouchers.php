@@ -17,6 +17,8 @@ use Yii;
  */
 class Vouchers extends \yii\db\ActiveRecord
 {
+    public $amount;
+    public $digit;
     /**
      * @inheritdoc
      */
@@ -34,6 +36,8 @@ class Vouchers extends \yii\db\ActiveRecord
             [['code', 'discount', 'inCharge','startDate','endDate'], 'required'],
             [['code', 'inCharge', 'status'], 'string'],
             [['discount', 'usedTimes'], 'integer'],
+            [['amount','digit'], 'integer'],
+
         ];
     }
 

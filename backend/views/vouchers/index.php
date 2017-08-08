@@ -14,9 +14,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
     <?=Html::beginForm(['vouchers/batch'],'post');?>
 	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
-    <?=Html::submitButton('Generate 10 new Vouchers', ['name'=>'gen', 'value' => 'gen','class' => 'btn btn-danger',]);?>
-
-    <?=Html::submitButton('Remove Vouchers', ['name'=>'remove', 'value' => 'remove','class' => 'btn btn-danger',]);?>
+    <?=Html::submitButton('Remove Vouchers', ['name'=>'remove', 'value' => 'remove','class' => 'btn btn-danger']);?>
+    <?= Html::a('Generate new Vouchers', ['/vouchers/gencodes'], ['class'=>'btn btn-warning']);?>
+    
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
@@ -36,4 +36,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         ]
     ])?>
     <?= Html::endForm();?> 
+
+
+
  
