@@ -56,9 +56,16 @@ class OfflineTopup extends \yii\db\ActiveRecord
         ];
     }
 	
-	public function search($params)
+	public function search($params,$action)
     {
-        $query = self::find(); //自己就是table,找一找资料
+		
+	if ($action == 0){
+		  $query = self::find(); //自己就是table,找一找资料
+	}
+	elseif ($action >=1){
+		$query= self::find()->where('action = :act',[':act' =>$action]);
+	}
+      
         
         //$query->joinWith(['company']);
 
