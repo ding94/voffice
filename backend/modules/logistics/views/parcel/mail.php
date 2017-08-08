@@ -17,6 +17,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn',],
+            'id',
             [
                 'attribute' => 'user.username',
                 'label' => 'User Name',
