@@ -40,7 +40,7 @@ use kartik\widgets\DatePicker;
 
     	
     	<div class="form-group">
-	        <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>
+	        <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
             <?= Html::a('Back', ['/vouchers/index'], ['class'=>'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
