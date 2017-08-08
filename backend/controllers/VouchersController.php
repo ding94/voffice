@@ -39,7 +39,7 @@ class VouchersController extends CommonController
           	}
             elseif(!empty($checkcode))
             {
-                Yii::$app->session->setFlash('warning', "Duplicated Voucher Code");//是重复，警告
+                Yii::$app->session->setFlash('error', "Duplicated Voucher Code");//是重复，警告
             }
             else
             {
