@@ -15,6 +15,7 @@ use frontend\models\ContactForm;
 use common\models\Contact;
 use common\models\User\User;
 use common\models\Package;
+use common\models\User\UserBalance;
 use yii\helpers\Url;
 
 /**
@@ -203,9 +204,17 @@ class SiteController extends Controller
         'status'=>0,
         ])->one();
 
+        $balance = new UserBalance();
+
         if(!empty($user)){
             $user->status=10;
             $user->save();
+
+            $balance->uid = $id;
+            $balance->balance = 0;
+            $balance->negative = 0;
+            $balance->positive = 0;
+            $balance->save();
             Yii::$app->getSession()->setFlash('success','Success!');
         }
         else{
