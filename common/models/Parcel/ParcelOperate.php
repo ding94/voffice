@@ -48,8 +48,8 @@ class ParcelOperate extends \yii\db\ActiveRecord
     {
         return [
             [['parid', 'adminname', 'newVal'], 'required'],
-            [['parid', 'oldVal', 'newVal','created_at', 'updated_at'], 'integer'],
-            [['adminname'], 'string', 'max' => 20],
+            [['parid','created_at', 'updated_at'], 'integer'],
+            [['adminname','oldVal', 'newVal'], 'string', 'max' => 20],
             [['parid'] ,'exist' ,
               'skipOnError' => true,
               'targetClass' => Parcel::className(),
