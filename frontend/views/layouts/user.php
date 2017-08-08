@@ -77,7 +77,7 @@ BowerAsset::register($this);
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="<?php echo yii\helpers\Url::to(['site/index'])?>">Virtual Office</a>
+                <a class="navbar-brand page-scroll" href="<?php echo yii\helpers\Url::to(['site/index'])?>">X MailBox</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -132,7 +132,7 @@ BowerAsset::register($this);
             'style' => 'position: absolute;
                         top: 20px;
                         right: 20px;
-                        z-index: 5000;'
+                        z-index: 5000;',
             ],]); ?>
         <div class="content">
             <?= $content ?>
