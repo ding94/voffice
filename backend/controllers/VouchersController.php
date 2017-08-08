@@ -83,7 +83,9 @@ class VouchersController extends CommonController
     //批量删除
     public function actionBatchDelete($selection)
     {
-    		
+    		if (!confirm("do you?")) {
+        		return false;
+        	}
     		 if (!empty($selection)) {
     	 			foreach($selection as $id){
        			 	$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个
@@ -106,6 +108,7 @@ class VouchersController extends CommonController
         $model->digit = 16;
     	 if( $model->load(Yii::$app->request->post()))
         {
+        	
         	//var_dump($model->amount);exit;
     		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
         	//找Admin 一样可以用下面的这条code
