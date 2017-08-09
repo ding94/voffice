@@ -43,7 +43,7 @@ class ParcelSearch extends Parcel
         ]);
 
         $dataProvider->sort->attributes['user.username'] = [
-             'asc'=>['Fname'=>SORT_ASC, 'Lname'=>SORT_ASC],
+            'asc'=>['Fname'=>SORT_ASC, 'Lname'=>SORT_ASC],
             'desc'=>['Fname'=>SORT_DESC, 'Lname'=>SORT_DESC],
         ];
 
@@ -69,7 +69,7 @@ class ParcelSearch extends Parcel
         }
 
         $this->load($params);
-        
+
         $query->andFilterWhere([
             'status' => $this->status,
             'type' => $this->type,

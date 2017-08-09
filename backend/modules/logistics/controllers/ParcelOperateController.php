@@ -16,12 +16,13 @@ Class ParcelOperateController extends Controller
 		$dataProvider = new ActiveDataProvider([
             'query' => $model,
             'sort' => [
-	        'defaultOrder' => [
-	            'updated_at' => SORT_DESC,
-	        ]
-	    ],
+	        'defaultOrder' => 
+		        [
+		            'updated_at' => SORT_DESC,
+		        ]
+	    	],
         ]);
 
-		return $this->render('view',['model' => $dataProvider]);
+		return $this->render('view',['model' => $dataProvider ,'parid' => $id]);
 	}
 }

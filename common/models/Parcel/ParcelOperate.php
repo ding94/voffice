@@ -65,9 +65,9 @@ class ParcelOperate extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'parid' => 'Parid',
-            'adminname' => 'Adminname',
-            'oldVal' => 'Old Val',
-            'newVal' => 'New Val',
+            'adminname' => 'Admin name',
+            'oldVal' => 'Old record',
+            'newVal' => 'New record',
             'updated_at' => 'Update At',
         ];
     }
