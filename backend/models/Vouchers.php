@@ -33,10 +33,10 @@ class Vouchers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'discount', 'inCharge','startDate','endDate','amount','digit'], 'required'],
             ['id','safe'],
+            [['code', 'discount', 'inCharge','startDate','endDate','amount','digit'], 'required'],
             [['code', 'inCharge', 'status'], 'string'],
-            ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.' , 'on' => ['changeAdmin']],
+            ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
             [ 'usedTimes', 'integer'],
             ['digit', 'integer','min'=> 5,'max'=> 100],
             ['amount','integer','min'=> 2,'max'=> 100],
@@ -74,7 +74,7 @@ class Vouchers extends \yii\db\ActiveRecord
         $this->load($params);
 
         //var_dump($query);
-         $query->andFilterWhere(['like','id' , $this->id]);
+        $query->andFilterWhere(['id' => $this->id]);
         $query->andFilterWhere(['like','code' , $this->code]);
         $query->andFilterWhere(['like','discount' , $this->discount]);
         $query->andFilterWhere(['like','status' , $this->status]);
