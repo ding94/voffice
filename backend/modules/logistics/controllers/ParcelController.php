@@ -84,7 +84,7 @@ Class ParcelController extends Controller
     	}
 		
 		
-		return $this->redirect(Yii::$app->request->referrer);
+		return $this->redirect(['new-mail']);
     }
 
     /*

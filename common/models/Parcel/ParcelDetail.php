@@ -48,6 +48,15 @@ class ParcelDetail extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getFulladdress() {
+        return $this->address1 . ',' . $this->address2 .','.$this->address3.',';
+    }
+
+    public function getFullcitycode()
+    {
+         return $this->postcode . ',' . $this->state .','.$this->country;
+    }
+
     /**
      * @inheritdoc
      */
@@ -65,6 +74,8 @@ class ParcelDetail extends \yii\db\ActiveRecord
             'state' => 'State',
             'country' => 'Country',
             'weight' => 'Weight',
+            'fulladdress' => 'Address',
+            'fullcitycode' => '',
         ];
     }
 

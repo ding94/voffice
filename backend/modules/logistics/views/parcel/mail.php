@@ -39,25 +39,38 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
             ],
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{message} {operate} {next} ',
+             'template'=>'{detail} {message} {operate} ',
+              'header' => "Message",
              'buttons' => [
+                'detail' => function($url,$model)
+                {
+                    $url = Url::to(['parcel-detail/view','parid' => $model->id ,'status' => $model->status]);
+
+                    return  Html::a(FA::icon('info-circle lg') , $url , ['title' => 'View detail']) ;
+                },
                 'message' => function($url , $model)
                 {
                     $url = "";
                     
-                    return  Html::a(FA::icon('comments') , $url , ['title' => 'View message']) ;
+                    return  Html::a(FA::icon('comments lg') , $url , ['title' => 'View message']) ;
                 },
                 'operate' => function($url , $model)
                 {
-                    $url = Url::to(['parcel-operate/view-operate' ,'parid'=>$model->id]);
+                    $url = Url::to(['parcel-operate/view-operate' ,'parid'=>$model->id,'status' => $model->status]);
                     
-                    return  Html::a(FA::icon('eye') , $url , ['title' => 'View Operate']) ;
+                    return  Html::a(FA::icon('eye lg') , $url , ['title' => 'View Operate']) ;
                 },
+              ]
+            ],
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{next} ',
+             'header' => "Action",
+             'buttons' => [
                 'next' => function($url , $model)
                 {
                     $url =  Url::to(['parcel/next-step' ,'id'=>$model->id,'status'=>$model->status]);
                     
-                    return  Html::a(FA::icon('check') , $url , ['title' => 'Next Step']) ;
+                    return  Html::a(FA::icon('check lg') , $url , ['title' => 'Next Step']) ;
                 },
               ]
             ],
