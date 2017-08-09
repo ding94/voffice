@@ -34,11 +34,12 @@ class Vouchers extends \yii\db\ActiveRecord
     {
         return [
             ['id','safe'],
-            [['code', 'discount', 'inCharge','startDate','endDate','amount','digit'], 'required'],
+            [['code', 'discount', 'inCharge','startDate','endDate'], 'required'],
+            [['amount','digit'],'required', 'on' => ['generate']], // 'on' = 判断senario, 为了给controller 知道放哪里 
             [['code', 'inCharge', 'status'], 'string'],
             ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
             [ 'usedTimes', 'integer'],
-            ['digit', 'integer','min'=> 5,'max'=> 100],
+            ['digit', 'integer','min'=> 8,'max'=> 20],
             ['amount','integer','min'=> 2,'max'=> 100],
             ['discount','integer','min'=>5,'max'=>100],
 

@@ -20,6 +20,7 @@ class VouchersController extends CommonController
 
     public function actionAdd()
     {
+
         $model = new Vouchers;
         $model->inCharge = Admin::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->adminname;
         $model->status = 'Activated';
@@ -28,12 +29,13 @@ class VouchersController extends CommonController
 
         if( $model->load(Yii::$app->request->post()))
         {
+
             $isValid = $model->validate();
             //var_dump($isValid);exit;
           	$checkcode = Vouchers::find()->where('code = :c', [':c' => $model->code])->one(); //查询是否重复code
-
           	if($isValid && (empty($checkcode)))
           	{
+
                 $model->save();
                 Yii::$app->session->setFlash('success', "Update completed");
           	}
@@ -84,6 +86,7 @@ class VouchersController extends CommonController
     public function actionGencodes()
     {
 		$model = new Vouchers;
+        $model->scenario = 'generate'; // set senario, 为了model 的 rule 来判断
 		$model->startDate = date('Y-m-d');
         $model->endDate = date('Y-m-d',strtotime('+30 day'));
         $model->digit = 16;
@@ -99,6 +102,7 @@ class VouchersController extends CommonController
     		$dis = $model->discount;
     		$startDate = $model->startDate;
     		$endDate = $model->endDate;
+    		$count = 0;
         	//第一个for 制造code 的数量，第二个for制造code包含16个字母
         	for ($j=1; $j <= $amount ; $j++) { 
 
@@ -114,8 +118,12 @@ class VouchersController extends CommonController
     			}
     		
     			if (Vouchers::find()->where('code = :c', [':c' => $model->code])->one()==true) {
-    				$j=0;
-    				return false;
+    				$j=1;
+    				$count +=1;
+    				if ($count >10) {
+    					Yii::$app->session->setFlash('error','All generated code duplicated!');
+    					return $this->redirect(Yii::$app->request->referrer);
+    				}
     			}
     			else{
     				$model->save(false);
