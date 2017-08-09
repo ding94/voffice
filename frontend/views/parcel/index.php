@@ -1,9 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use common\models\Parcel\ParcelStatusName;
 
 ?>
 <div class="container">
@@ -23,7 +25,12 @@ use yii\grid\ActionColumn;
                 'parceldetail.state',
                 'parceldetail.country',
                 'parceldetail.weight',
-                'status',
+                [
+                    'attribute' => 'status',
+                    'value' => 'parcelstatusname.description',
+                    'filter'=>Html::activeDropDownList($searchModel,'status',ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),['class'=>'form-control']),
+                    //'filter'=>ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),
+                ],
         ],
     ]); ?>
 </div>
