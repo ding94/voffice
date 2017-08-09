@@ -49,7 +49,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'operate' => function($url , $model)
                 {
-                    $url = Url::to(['parcel-operate/view-operate' ,'id'=>$model->id]);
+                    $url = Url::to(['parcel-operate/view-operate' ,'parid'=>$model->id]);
                     
                     return  Html::a(FA::icon('eye') , $url , ['title' => 'View Operate']) ;
                 },
