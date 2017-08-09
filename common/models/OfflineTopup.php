@@ -34,7 +34,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
         return [
             [['username', 'amount', 'picture'], 'required'],
             [['username', 'description', 'action', 'inCharge', 'rejectReason'], 'string'],
-            [['amount'], 'number'],
+            [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
         ];
     }
