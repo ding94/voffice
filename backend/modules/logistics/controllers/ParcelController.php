@@ -97,12 +97,12 @@ Class ParcelController extends Controller
 		return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionTypeMail($id)
+    public function actionTypeMail($type)
     {
     	$searchModel = new ParcelSearch;
-    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$id])->one()->description;
+    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$type])->one()->description;
 
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$type);
 
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);
 
