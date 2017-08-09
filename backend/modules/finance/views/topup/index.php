@@ -35,11 +35,24 @@ use kartik\widgets\ActiveForm;
                         return   Html::a(FA::icon('check fw') ,$url , ['title' ,'update']);//图案，链接，不知知道干嘛的
                     },
 					
-				'cancel' => function($url , $model)
+				'cancel' => function($url , $model){
+					if($model->action == 4)
                     {
+                         $url = Url::to(['topup/undo','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
+                    }
+                    else
+                    {
+                        $url = Url::to(['topup/cancel' ,'id'=>$model->id]) ;
+                    }
+                   
+                    return  $model->action !=4  ? Html::a(FA::icon('ban fw') , $url , ['title' => 'cancel']) : Html::a(FA::icon('undo fw') , $url , ['title' => 'Reverse Cancel']);
+
+					},
+
+				   /*{
                        $url = Url::to(['topup/cancel','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);//创建链接，带着uid值
                         return   Html::a(FA::icon('ban fw') ,$url , ['title' ,'cancel']);//图案，链接，不知知道干嘛的
-                    },
+                    },*/
 					
 				'img' => function($url,$model)
                 {

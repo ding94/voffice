@@ -35,7 +35,7 @@ Class AdminController extends CommonController
 		$model->scenario = 'addAdmin';
 		$model->adminTittle = "Add Admin";
 		$model->passwordOff = '1';
-
+		//var_dump($model);exit;
 		$listData = new AuthItem();
 		$list = $listData->roleList();
 		
@@ -53,7 +53,7 @@ Class AdminController extends CommonController
 		$model->scenario = 'changeAdmin';
 		$model->adminTittle = "Update Admin";
 		$model->passwordOff = '0';
-
+		//var_dump($model);exit;
 		$listData = new AuthItem();
 		$role = New AuthAssignment();
 
