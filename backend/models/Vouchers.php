@@ -34,6 +34,7 @@ class Vouchers extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'discount', 'inCharge','startDate','endDate','amount','digit'], 'required'],
+            ['id','safe'],
             [['code', 'inCharge', 'status'], 'string'],
             ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.' , 'on' => ['changeAdmin']],
             [ 'usedTimes', 'integer'],
@@ -73,7 +74,14 @@ class Vouchers extends \yii\db\ActiveRecord
         $this->load($params);
 
         //var_dump($query);
-        //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
+         $query->andFilterWhere(['like','id' , $this->id]);
+        $query->andFilterWhere(['like','code' , $this->code]);
+        $query->andFilterWhere(['like','discount' , $this->discount]);
+        $query->andFilterWhere(['like','status' , $this->status]);
+        $query->andFilterWhere(['like','usedTimes' , $this->usedTimes]);
+        $query->andFilterWhere(['like','inCharge' , $this->inCharge]);
+        $query->andFilterWhere(['like','startDate' , $this->startDate]);
+        $query->andFilterWhere(['like','endDate' , $this->endDate]);
 
         //使用'or'寻找两边column资料
         //$query->andFilterWhere(['or',['like','Fname' , $this->Fname], ['like','Lname' , $this->Fname],]);
