@@ -119,8 +119,7 @@ class ParcelSearch extends Parcel
               ->andFilterWhere(['like','city' , $this->getAttribute('parceldetail.city')])
               ->andFilterWhere(['like','state' , $this->getAttribute('parceldetail.state')])
               ->andFilterWhere(['like','country' , $this->getAttribute('parceldetail.country')])
-              ->andFilterWhere(['like','weight' , $this->getAttribute('parceldetail.weight')])
-              ->andFilterWhere(['like','status' , $this->getAttribute('parcelstatusname.id')]);
+              ->andFilterWhere(['like','weight' , $this->getAttribute('parceldetail.weight')]);
 
         
         return $dataProvider;
