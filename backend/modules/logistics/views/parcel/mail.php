@@ -33,7 +33,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'attribute' => 'type',
                 'value' => function($model)
                 {
-                    return $model->type ==1 ? 'Mail' : 'Parcel';
+                    return $model->type == 1 ? 'Mail' : 'Parcel';
                 },
                 'filter' => array( "1"=>"Mail","2"=>"Parcel"),
 
@@ -49,7 +49,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'operate' => function($url , $model)
                 {
-                    $url = Url::to(['parcel/view-operate' ,'id'=>$model->id]);
+                    $url = Url::to(['parcel-operate/view-operate' ,'id'=>$model->id]);
                     
                     return  Html::a(FA::icon('eye') , $url , ['title' => 'View Operate']) ;
                 },

@@ -36,7 +36,7 @@ class ParcelSearch extends Parcel
 	{
 		$query = Parcel::find()->where(['parcel.status' => $type]);
 
-        $query->joinWith(['parceldetail' ,'parceloperate','parcelstatus','user' ,'user.userdetail']);
+        $query->joinWith(['parceldetail' ,'parcelstatus','user' ,'user.userdetail']);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -62,13 +62,18 @@ class ParcelSearch extends Parcel
             'desc'=>['signer'=>SORT_DESC],
         ];
 
-        
 		if (!$this->validate()) {
-            $query->andFilterWhere([
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $this->load($params);
+        
+        $query->andFilterWhere([
             'status' => $this->status,
             'type' => $this->type,
-            ]);
-        }
+        ]);
 
 
         $query->andFilterWhere(['like','username' , $this->getAttribute('user.username')]);
