@@ -8,15 +8,14 @@ use yii\helpers\ArrayHelper;
 use common\models\User\UserSearch;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelDetail;
-use common\models\Parcel\ParcelOperate;
-use common\models\Parcel\ParcelStatus;
 use common\models\Parcel\ParcelSearch;
 use common\models\Parcel\ParcelStatusName;
 use common\models\User\User;
+use backend\modules\logistics\controllers\ParcelOperateController;
+use backend\modules\logistics\controllers\ParcelStatusController;
+use backend\modules\logistics\controllers\ParcelDetailController;
 
-/**
- * Default controller for the `parcel` module
- */
+
 Class ParcelController extends Controller
 {
     public function actionReceivedMail()
@@ -26,7 +25,11 @@ Class ParcelController extends Controller
     	return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
-    public function actionAddMail($id)
+    /*
+    * show all that new mail require
+    */
+
+    public function actionNewMail($id)
     {
     	$list = [[ 'type' => 1 , 'name' => 'Mail' ],[ 'type' => 2 , 'name' => 'Parcel']];
     	$listOfType = ArrayHelper::map($list, 'type', 'name');
@@ -41,39 +44,26 @@ Class ParcelController extends Controller
     *one fail all reject
     */
 
-    public function actionAddValidate($id)
+    public function actionAddNewMail($id)
     {
+    	$post = Yii::$app->request->post();
+
     	$username = User::find()->where('id =:id',[':id'=>$id])->one()->username;
+    
+    	$parcel = self::newParcel($id,$post);
 
-    	$parcel =new Parcel;
-    	$detail = new ParcelDetail;
-    	$operate = new ParcelOperate;
-    	$status = new ParcelStatus;
-
-    	$parcel->load(Yii::$app->request->post());
-    	$detail->load(Yii::$app->request->post());
-    	$operate->load(Yii::$app->request->post());
-
-
-    	$parcel->uid = $id;
-    	$parcel->status = $parcel::PENDING;
     	$isValid = $parcel->validate();
     	if($isValid)
     	{
     		$parcel->save();
 
     		$parid = $parcel->id;
-    		$detail->parid = $parid;
-    		$operate->parid =  $parid;
-    		$status->parid = $parid;
-
-    		$operate->adminname = Yii::$app->user->identity->adminname;
-    		$operate->newVal = "Add ".$username." parcel";
-
-    		$status->status = $parcel::PENDING;
-    		$status->updated_at = time();
-
-    		$isValid = $operate->validate() && $operate->validate() && $status->validate();
+    		
+    		$detail = ParcelDetailController::createDetail($parid,$post);
+    		$operate = ParcelOperateController::createOperate($parid,0);
+    		$status = ParcelStatusController::newStatus($parid);
+    		
+    		$isValid = $detail->validate() && $operate->validate() && $status->validate();
     		
     		if($isValid)
     		{
@@ -97,6 +87,10 @@ Class ParcelController extends Controller
 		return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /*
+     * based on mail status give the result to user
+     */
+
     public function actionTypeMail($type)
     {
     	$searchModel = new ParcelSearch;
@@ -108,10 +102,14 @@ Class ParcelController extends Controller
 
     }
 
+    /*
+     * change mail status to another status
+     */
+
     public function actionNextStep($id,$status)
     {	
-    	$data = $this->findModel($id);
-    	$validate = self::changeParcelStatus($id,$status,$data);
+    	$validate = self::updateAllParcel($id,$status);
+
     	if($validate == true)
     	{
     		Yii::$app->session->setFlash('success', "Update completed");
@@ -124,45 +122,23 @@ Class ParcelController extends Controller
     }
 
     /*
-     * Based on status and parcel id to change
+     * get all modidy data or new data
      */
-    public static function changeParcelStatus($id,$status,$data)
+    protected static function updateAllParcel($id,$status)
     {
+    	$data = self::updParcelStatus($id,$status);
 
-    	$parcelStatus = ParcelStatus::find()->where('parid = :id' ,[':id' => $id])->one();
-    	$oldOperate = ParcelOperate::find()->where('parid = :id' ,[':id' => $id])->orderBy('updated_at DESC')->one();
+    	$parcelStatus = ParcelStatusController::updateStatus($id,$status);
 
-    	$parcelStatus->prestatus = $parcelStatus->status;
-    	$parcelStatus->updated_at = time();
+    	$operate = ParcelOperateController::createOperate($id,$status);
 
-    	$operate = new ParcelOperate;
-
-    	$operate->adminname = Yii::$app->user->identity->adminname;
-    	$operate->parid = $id;
-    	
-    	switch ($status) {
-    		case 1:
-    			$data->status = Parcel::PENDING_PICK_UP;
-
-    			$parcelStatus->status = Parcel::PENDING_PICK_UP;
-
-    			$operate->oldVal = $oldOperate->newVal;
-    			$operate->newVal = "Pending Pick Up";
-
-    			break;
-    		case 2:
-    			$data->status = Parcel::SENDING;
-
-    			$parcelStatus->status = Parcel::SENDING;
-
-    			$operate->oldVal = $oldOperate->newVal;
-    			$operate->newVal = "Seding";
-    		default:
-    			
-    			break;
+    	if(is_null($data) || is_null($parcelStatus) || is_null($operate))
+    	{
+    		return false;
     	}
 
     	$isValid = $data->validate() && $parcelStatus->validate() && $operate->validate();
+
     	if($isValid)
     	{
     		$data->save();
@@ -177,12 +153,41 @@ Class ParcelController extends Controller
     	return false;
     }
 
-    protected function findModel($id)
+    protected static function newParcel($id,$post)
     {
-        if (($model = Parcel::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+    	$parcel =new Parcel;
+    	$parcel->load($post);
+    	$parcel->uid = $id;
+    	$parcel->status = $parcel::PENDING;
+    	return $parcel;
+    }	
+
+    /*
+     * update parcel status
+     */
+
+    protected static function updParcelStatus($id,$status)
+    {
+    	$data = Parcel::findOne($id);
+
+    	if(is_null($data))
+    	{
+    		return $data;
+    	}
+
+    	switch ($status) {
+    		case 1:
+    			$data->status = Parcel::PENDING_PICK_UP;
+
+    			break;
+    		case 2:
+    			$data->status = Parcel::SENDING;
+
+    			break;
+    		default:
+    			
+    			break;
+    	}
+    	return $data;
     }
 }

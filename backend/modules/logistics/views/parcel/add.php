@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Received Mail'), 'url' => ['received-mail']];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
-	<?php $form = ActiveForm::begin(['action' =>['parcel/add-validate', 'id' => $id], 'method' => 'post',]);?>
+	<?php $form = ActiveForm::begin(['action' =>['parcel/add-new-mail', 'id' => $id], 'method' => 'post',]);?>
 		<?= $form->field($parcel, 'type')->dropDownList($list,['prompt' => ' -- Detail --']) ?>
 		<?= $form->field($detail, 'sender')->textInput() ?>
 		<?= $form->field($detail, 'signer')->textInput() ?>

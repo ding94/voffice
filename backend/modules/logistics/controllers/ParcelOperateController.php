@@ -9,9 +9,12 @@ use yii\data\ActiveDataProvider;
 
 Class ParcelOperateController extends Controller
 {
-	public function actionViewOperate($id)
+	/*
+	 * list all operate that parcel done without search
+	 */
+	public function actionViewOperate($parid)
 	{
-		$model =  ParcelOperate::find()->where(['parid' => $id]);
+		$model =  ParcelOperate::find()->where(['parid' => $parid]);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $model,
@@ -23,6 +26,40 @@ Class ParcelOperateController extends Controller
 	    	],
         ]);
 
-		return $this->render('view',['model' => $dataProvider ,'parid' => $id]);
+		return $this->render('view',['model' => $dataProvider ,'parid' => $parid]);
+	}
+
+	/*
+	 * create new operate
+	 */
+
+	public static function createOperate($parid,$status)
+	{
+		$oldOperate = ParcelOperate::find()->where('parid = :id' ,[':id' => $parid])->orderBy('updated_at DESC')->one();
+
+		$operate = new ParcelOperate;
+
+		$operate->adminname = Yii::$app->user->identity->adminname;
+    	$operate->parid = $parid;
+    	
+    	switch ($status) {
+    		case 0:
+    			$operate->newVal = "Add new parcel";
+    			break;
+    		case 1:
+    			$operate->oldVal = $oldOperate->newVal;
+    			$operate->newVal = "Pending Pick Up";
+    			break;
+
+    		case 2:
+    			$operate->oldVal = $oldOperate->newVal;
+    			$operate->newVal = "Seding";
+    			break;
+
+    		default:
+    			
+    			break;
+    	}
+    	return $operate;
 	}
 }

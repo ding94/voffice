@@ -21,7 +21,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'buttons' => [
                     'add' => function($url , $model)
                     {
-                        $url = Url::to(['parcel/add-mail' ,'id'=>$model->id]);
+                        $url = Url::to(['parcel/new-mail' ,'id'=>$model->id]);
                     
                         return  Html::a(FA::icon('plus') , $url , ['title' => 'add user mail or parcel']) ;
                     },
