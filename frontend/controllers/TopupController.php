@@ -19,6 +19,7 @@ class TopupController extends \yii\web\Controller
     		$post = Yii::$app->request->post();
     		$model->username = User::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->username;
 			$model->action = 1;
+			$model->action_before=1;
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 

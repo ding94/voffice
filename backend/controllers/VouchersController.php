@@ -59,23 +59,6 @@ class VouchersController extends CommonController
     		$del = self::actionBatchDelete($selection); //传走去 actionBatchDelete
     	}
     	
-    	/*if (Yii::$app->request->post('gen')) {
-    		$number = str_replace(' ', '', Yii::$app->request->post('numvoucher')); //获取voucher数量和discount
-    		$dis = str_replace(' ', '', Yii::$app->request->post('voucherdis'));
-    		
-    		if (is_null($number) ||$dis == '') {
-    			//top both same detection 上面验证一样用法
-    			Yii::$app->session->setFlash('warning', "Please enter number of vouchers for generate, or how many discount.");
-    			
-    		}else{
-    			
-    			$code = self::actionGenCode($model,$number,$dis);
-    			
-    		}
-    		$model = new Vouchers; //预备储存数据传送
-    		 return $this->render('addmulti', ['model' => $model]);
-    	}*/
-
    		return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -83,9 +66,7 @@ class VouchersController extends CommonController
     //批量删除
     public function actionBatchDelete($selection)
     {
-    		if (!confirm("do you?")) {
-        		return false;
-        	}
+    		
     		 if (!empty($selection)) {
     	 			foreach($selection as $id){
        			 	$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个

@@ -54,17 +54,18 @@ class TopupController extends \yii\web\Controller
 		//var_dump($model->load(Yii::$app->request->post())); exit;
 		if ($model->action == 1 || $model->action == 2){
 			
-			
-			//var_dump($model->update()); exit;
+			if($model->load(Yii::$app->request->post()))
+			{
+				//var_dump($model->update()); exit;
 			$model->action =4;
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->save(false);
 			
 			Yii::$app->session->setFlash('success', "Cancel success");
-    		return $this->redirect(['index']);
-		
-    		
-		//return $this->render('update', ['model' => $model]);
+    		 return $this->redirect(['index']);
+			}
+			    		
+		return $this->render('update', ['model' => $model]);
 
 		}
 		elseif ($model->action ==3 || $model->action ==4){
@@ -76,6 +77,29 @@ class TopupController extends \yii\web\Controller
 		return $this->redirect(['direct']);
 	}
 	
+	public function actionUndo($id)
+	{
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
+		$model->rejectReason= "";
+		//var_dump($model->load(Yii::$app->request->post())); exit;
+		if ($model->action == 4)
+		{
+			
+			if($model->update(false) !== false)
+		{
+			//var_dump($model);exit;
+			$model->action =$model->action_before;
+			$model->save(false);
+			Yii::$app->session->setFlash('success', "Undo success");
+    		 return $this->redirect(['index']);
+		}
+		else{
+			Yii::$app->session->setFlash('warning', "Fail to undo");
+		}
+			
+		return $this->redirect(['direct']);
+	}
+	}
 	
     public function actionDirect()
     {

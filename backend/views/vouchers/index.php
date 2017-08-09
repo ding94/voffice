@@ -8,6 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
+
 	$this->title = 'Voucher List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +17,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
     <?=Html::submitButton('Remove Vouchers', ['name'=>'remove', 'value' => 'remove','class' => 'btn btn-danger', 
         ]);?>
+        
     <?= Html::a('Generate new Vouchers', ['/vouchers/gencodes'], ['class'=>'btn btn-warning']);?>
     
 	<?= GridView::widget([
