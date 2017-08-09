@@ -102,4 +102,9 @@ class Parcel extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UserDetails::className(),['uid' => $this->user->id]);
     }
+
+    public function getParcelstatusname()
+    {
+        return $this->hasOne(ParcelStatusName::className(),['id' => 'status']);
+    }
 }
