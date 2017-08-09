@@ -127,6 +127,9 @@ class VouchersController extends CommonController
     			}
     			else{
     				$model->save(false);
+    				$model->discount='';
+    				$model->code =16;
+    				
     			}
     		
         	}
