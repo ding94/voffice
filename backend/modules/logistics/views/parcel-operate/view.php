@@ -7,16 +7,17 @@ use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
     $this->title = 'View Operate';
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mail Index'), 'url' => Yii::$app->request->referrer];
     $this->params['breadcrumbs'][] = $this->title;
 ?>
-   
+    <h1>Parcel ID <?= Html::encode($parid) ?></h1>
     <?= GridView::widget([
 
         'dataProvider' => $model,
         'columns' => [
-           'adminname',
-           'oldVal',
-           'newVal',
+            'newVal',
+            'oldVal',
+            'adminname',
            'updated_at:datetime',
         ],
     ]); ?>

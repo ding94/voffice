@@ -17,8 +17,7 @@ use kartik\widgets\DatePicker;
 
 	<?php $form = ActiveForm::begin();?>
 	
-	
-	
+		
     <?= $form->field($model, 'username')->textInput(['readonly' => true]) ?>
 	<?= $form->field($model, 'amount')->textInput(['readonly' => true]) ?>
 	<?= $form->field($model, 'description')->textInput(['readonly' => true]) ?>
