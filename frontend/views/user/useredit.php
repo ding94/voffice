@@ -29,8 +29,6 @@ use common\widgets\Alert;
 		        'autoclose'=>true
 		    ]
 		]) ?>
-		<?= $form->field($model, 'cmpyname')->textInput() ?>
-		<?= $form->field($model, 'cmpycategory')->textInput() ?>
 		<?= $form->field($model, 'IC_passport')->textInput() ?>
     	<?= $form->field($model, 'address1')->textInput() ?>
     	<?= $form->field($model, 'address2')->textInput() ?>
