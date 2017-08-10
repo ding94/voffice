@@ -10,6 +10,7 @@ use common\models\User\UserDetails;
 use common\models\User\UserCompany;
 use common\models\User\UserActualContact;
 use common\models\User\UserBalance;
+use common\models\OfflineTopup;
 use kartik\mpdf\Pdf;
 
 class UserController extends \yii\web\Controller
@@ -214,13 +215,26 @@ class UserController extends \yii\web\Controller
  	public function actionUserbalance()
  	{
  		$model = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
  		if (empty($model)) 
  		{
  			$model = new UserBalance();
  		}
 
  		$this->layout = 'user';
-		return $this->render('userbalance', ['model' => $model]);
+		return $this->render('userbalance', ['model' => $model,'offlinetopup' => $offlinetopup]);
+ 	}
+
+ 	public function actionRejectreason()
+ 	{
+ 		$model = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
+ 		if (empty($model)) 
+ 		{
+ 			$model = new OfflineTopup();
+ 		}
+
+ 		$this->layout = 'user';
+ 		return $this->renderPartial('rejectreason',['model' => $model]);
  	}
 
  	/*

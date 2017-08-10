@@ -47,6 +47,36 @@ class TopupController extends \yii\web\Controller
         return $this->redirect(['index']);
 	}
 	
+		public function actionUndos($id)
+	{
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
+		
+		//var_dump($model->load(Yii::$app->request->post())); exit;
+		if ($model->action == 3)
+		{
+		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
+		$balance ->balance -= $model->amount;
+		$balance ->positive -= $model->amount;
+		$balance->save(false);
+		//var_dump($balance->validate(); exit;
+			if($model->update(false) !== false)
+		{
+			//var_dump($model);exit;
+			
+			$model->action =$model->action_before;
+			$model->save(false);
+			Yii::$app->session->setFlash('success', "Undo success");
+    		 return $this->redirect(['index']);
+		}
+		else{
+			Yii::$app->session->setFlash('warning', "Fail to undo");
+		}
+			
+		return $this->redirect(['direct']);
+	}
+	}
+	
 	public function actionCancel($id)
 	{
 		// Cancel function incomplete
@@ -100,7 +130,36 @@ class TopupController extends \yii\web\Controller
 		return $this->redirect(['direct']);
 	}
 	}
-	
+
+	public function actionEdit($id)
+	{
+		// Cancel function incomplete
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
+		//var_dump($model->load(Yii::$app->request->post())); exit;
+		if ($model->action == 1 ){
+			
+			if($model->load(Yii::$app->request->post()))
+			{
+				//var_dump($model->update()); exit;
+			//$model->action =4;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->save(false);
+			
+			Yii::$app->session->setFlash('success', "Update success");
+    		 return $this->redirect(['index']);
+			}
+			    		
+		return $this->render('update', ['model' => $model]);
+
+		}
+		elseif ($model->action !=1){
+		
+		Yii::$app->session->setFlash('error', "Action failed!");
+		}
+		
+		
+		return $this->redirect(['direct']);
+	}
     public function actionDirect()
     {
      // var_dump(Yii::$app->request->post('pending')); exit;
