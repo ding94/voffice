@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\web\View;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -15,6 +16,7 @@ use yii\helpers\Url;
 
 AppAsset::register($this);
 BowerAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,7 +38,7 @@ BowerAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
+    <?php 
     /*NavBar::begin([
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
@@ -77,7 +79,7 @@ BowerAsset::register($this);
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="<?php echo yii\helpers\Url::to(['site/index'])?>">X MailBox</a>
+                <a class="navbar-brand page-scroll" href="<?php echo yii\helpers\Url::to(['site/index'])?>">X MailBox<span><?php //echo $this->params['parcel']; ?></span></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -114,10 +116,7 @@ BowerAsset::register($this);
             ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ]],
         ['label' => 'Parcel', 'items' => [
-            ['label' => 'All Parcel<span class="badge pull-right">22</span>', 'url' => Url::to(['parcel/index'])],
-            ['label' => 'New Parcel', 'url' => Url::to(['parcel/new-parcel'])],
-            ['label' => 'Sending Parcel', 'url' => Url::to(['parcel/sent-parcel'])],
-            ['label' => 'Received Parcel', 'url' => Url::to(['parcel/received-parcel'])],
+            ['label' => 'All Parcel<span class="badge pull-right"><?php echo $this->params["parcel"]; ?></span>', 'url' => Url::to(['parcel/index'])],
         ]],
 ]]);     
 
