@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Country */
 
 $this->title = "Parcel ID ".$model->parid. " detail";
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mail Index'), 'url' => Yii::$app->request->referrer];
+$this->params['breadcrumbs'][] = ['label' => 'Mail Index', 'url' => ['parcel/type-mail','status'=>$status]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="parcel-detail-view">
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
      <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->parid], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->parid ,'status' => $status], ['class' => 'btn btn-primary']) ?>
     </p>
 
 </div>

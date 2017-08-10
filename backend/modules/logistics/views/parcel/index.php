@@ -7,7 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-    $this->title = 'Received Mail';
+    $this->title = 'Add Mail';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 

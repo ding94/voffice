@@ -91,12 +91,12 @@ Class ParcelController extends Controller
      * based on mail status give the result to user
      */
 
-    public function actionTypeMail($type)
+    public function actionTypeMail($status)
     {
     	$searchModel = new ParcelSearch;
-    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$type])->one()->description;
+    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$status])->one()->description;
 
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$type);
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$status);
 
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);
 

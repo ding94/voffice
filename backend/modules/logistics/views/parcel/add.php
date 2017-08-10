@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 	$this->title = "Add Mail or Parcel";
-	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Received Mail'), 'url' => ['received-mail']];
+	$this->params['breadcrumbs'][] = ['label' => 'Add Mail Index', 'url' => ['received-mail']];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 	<?php $form = ActiveForm::begin(['action' =>['parcel/add-new-mail', 'id' => $id], 'method' => 'post',]);?>

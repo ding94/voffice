@@ -7,7 +7,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 	$this->title = "Parcel ID ".$model->parid. " update";
-	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parcel Index'), 'url' => ['parcel-detail/view' ,'parid' => $model->parid]];
+    $this->params['breadcrumbs'][] = ['label' => 'Mail Index', 'url' => ['parcel/type-mail','status'=>$status]];
+	$this->params['breadcrumbs'][] = ['label' => 'Parcel ID '.$model->parid.' detail', 'url' => ['parcel-detail/view' ,'parid' => $model->parid, 'status' => $status]];
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 

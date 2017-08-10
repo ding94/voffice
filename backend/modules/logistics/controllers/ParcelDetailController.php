@@ -14,7 +14,7 @@ Class ParcelDetailController extends Controller
 		return $this->render('view',['model' => $model,'status' => $status]);
 	}
 
-	public function actionUpdate($id)
+	public function actionUpdate($id,$status)
 	{
 		$model = $this->findModel($id);
 		if($model->load(Yii::$app->request->post()) && $model->save())
@@ -22,7 +22,7 @@ Class ParcelDetailController extends Controller
 			Yii::$app->session->setFlash('success', "Update completed");
 			return $this->redirect(['view','parid' => $id]);
 		}
-		return $this->render('update',['model'=> $model]);
+		return $this->render('update',['model'=> $model,'status' => $status]);
 	}
 
 	public static function createDetail($parid,$post)
