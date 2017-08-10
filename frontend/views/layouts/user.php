@@ -15,7 +15,6 @@ use kartik\widgets\SideNav;
 use yii\helpers\Url;
 
 AppAsset::register($this);
-BowerAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>

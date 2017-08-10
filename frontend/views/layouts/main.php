@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\assets\BowerAsset;
 use common\widgets\Alert;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
 BowerAsset::register($this);

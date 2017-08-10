@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\widgets\Alert;
+use yii\bootstrap\Modal;
 
 
 $this->title = 'Virtual Office';
