@@ -11,12 +11,13 @@ use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\ParcelSearch;
 use common\models\Parcel\ParcelStatusName;
 use common\models\User\User;
+use backend\controllers\CommonController;
 use backend\modules\logistics\controllers\ParcelOperateController;
 use backend\modules\logistics\controllers\ParcelStatusController;
 use backend\modules\logistics\controllers\ParcelDetailController;
 
 
-Class ParcelController extends Controller
+Class ParcelController  extends CommonController
 {
     public function actionReceivedMail()
     {
@@ -84,7 +85,7 @@ Class ParcelController extends Controller
     	}
 		
 		
-		return $this->redirect(['new-mail']);
+		return $this->redirect(Yii::$app->request->referrer);
     }
 
     /*

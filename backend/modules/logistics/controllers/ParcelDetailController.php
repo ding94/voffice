@@ -5,8 +5,9 @@ namespace backend\modules\logistics\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\Parcel\ParcelDetail;
+use backend\controllers\CommonController;
 
-Class ParcelDetailController extends Controller
+Class ParcelDetailController extends CommonController
 {
 	public function actionView($parid,$status)
 	{
@@ -20,7 +21,7 @@ Class ParcelDetailController extends Controller
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
 			Yii::$app->session->setFlash('success', "Update completed");
-			return $this->redirect(['view','parid' => $id]);
+			return $this->redirect(['view','parid' => $id,'status' => $status]);
 		}
 		return $this->render('update',['model'=> $model,'status' => $status]);
 	}

@@ -6,8 +6,9 @@ use Yii;
 use yii\web\Controller;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelStatus;
+use backend\controllers\CommonController;
 
-Class ParcelStatusController extends Controller
+Class ParcelStatusController extends CommonController
 {
 	/*
 	 * update parcel status

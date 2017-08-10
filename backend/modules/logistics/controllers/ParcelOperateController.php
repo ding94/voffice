@@ -4,10 +4,11 @@ namespace backend\modules\logistics\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\Parcel\ParcelOperate;
 use yii\data\ActiveDataProvider;
+use backend\controllers\CommonController;
+use common\models\Parcel\ParcelOperate;
 
-Class ParcelOperateController extends Controller
+Class ParcelOperateController extends CommonController
 {
 	/*
 	 * list all operate that parcel done without search
