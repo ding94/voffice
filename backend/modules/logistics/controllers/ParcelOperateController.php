@@ -57,16 +57,13 @@ Class ParcelOperateController extends CommonController
 
     	switch ($statusName->id) {
     		case 1:
-    			
     			$operate->newVal = "Add new parcel";
     			break;
     		case 2:
-    			$operate->oldVal = $old;
     			$operate->newVal = "Pending Pick Up";
     			break;
 
     		case 3:
-    			$operate->oldVal = $old;
     			$operate->newVal = "Seding";
     			break;
 
