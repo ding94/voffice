@@ -27,7 +27,7 @@ use kartik\widgets\ActiveForm;
         'filterModel' => $searchModel,
         'columns' => [
 			 ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{update} {cancel} {img}',
+             'template'=>'{update} {cancel} {img}{edit}',
              'buttons' => [
                 'update' => function($url , $model){
 				if($model->action == 3)
@@ -73,16 +73,30 @@ use kartik\widgets\ActiveForm;
                     return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->picture,['target'=>'_blank']); //open page in new tab
                 
                 },
+				
               ],
 			 ],
-        
+			         
     	            'username',
     	            'amount',
     	            'description',
     	            'action',
     	            'inCharge',
     	            'rejectReason',
-    	            //'picture',
+					 //'picture',
+					 
+				['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{next} ',
+             'header' => "Edit",
+             'buttons' => [
+                'next' => function($url , $model)
+                {
+                   $url = Url::to(['topup/edit','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
+                    
+                   return $model->action ==1  ? Html::a(FA::icon('pencil fw') , $url , ['title' => 'Edit']) : "";
+                },
+              ]
+            ],
 					
         ],
 		

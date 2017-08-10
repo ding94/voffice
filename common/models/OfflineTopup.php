@@ -51,7 +51,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
             'description' => 'Description',
             'action' => 'Action',
             'inCharge' => 'In Charge',
-            'rejectReason' => 'Reject Reason',
+            'rejectReason' => 'Reason',
             'picture' => 'Picture',
         ];
     }

@@ -131,7 +131,35 @@ class TopupController extends \yii\web\Controller
 	}
 	}
 
-	
+	public function actionEdit($id)
+	{
+		// Cancel function incomplete
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
+		//var_dump($model->load(Yii::$app->request->post())); exit;
+		if ($model->action == 1 ){
+			
+			if($model->load(Yii::$app->request->post()))
+			{
+				//var_dump($model->update()); exit;
+			//$model->action =4;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->save(false);
+			
+			Yii::$app->session->setFlash('success', "Update success");
+    		 return $this->redirect(['index']);
+			}
+			    		
+		return $this->render('update', ['model' => $model]);
+
+		}
+		elseif ($model->action !=1){
+		
+		Yii::$app->session->setFlash('error', "Action failed!");
+		}
+		
+		
+		return $this->redirect(['direct']);
+	}
     public function actionDirect()
     {
      // var_dump(Yii::$app->request->post('pending')); exit;
