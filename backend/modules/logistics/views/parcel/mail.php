@@ -10,13 +10,18 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     $this->title = $searchModel->titlename;
     $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+    <?=Html::beginForm(['parcel/batch'],'post');?>
+    <?=Html::submitButton('Change Status', ['id'=>'chgStatus','class' => 'btn btn-info']);?>
+    <?= Html::dropDownList('StatusChoice','aa',$list ,['prompt' => ' -- Select Status --']) ?>
     <?= GridView::widget([
 
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\CheckboxColumn',],
+              [
+                'class' => 'yii\grid\CheckboxColumn',
+                // you may configure additional properties here
+            ],
             'id',
             [
                 'attribute' => 'user.username',
@@ -39,7 +44,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
             ],
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{detail} {message} {operate} ',
+             'template'=>'{detail} {operate} ',
               'header' => "Message",
              'buttons' => [
                 'detail' => function($url,$model)
@@ -47,12 +52,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     $url = Url::to(['parcel-detail/view','parid' => $model->id ,'status' => $model->status]);
 
                     return  Html::a(FA::icon('info-circle lg') , $url , ['title' => 'View detail']) ;
-                },
-                'message' => function($url , $model)
-                {
-                    $url = "";
-                    
-                    return  Html::a(FA::icon('comments lg') , $url , ['title' => 'View message']) ;
                 },
                 'operate' => function($url , $model)
                 {
@@ -76,3 +75,5 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
         ],
     ]); ?>
+    <?= Html::endForm();?> 
+

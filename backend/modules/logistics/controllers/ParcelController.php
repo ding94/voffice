@@ -97,9 +97,11 @@ Class ParcelController  extends CommonController
     	$searchModel = new ParcelSearch;
     	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$status])->one()->description;
 
+        $list = ArrayHelper::map(ParcelStatusName::find()->all(),'id','description');
+
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$status);
 
-    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list]);
 
     }
 
@@ -109,8 +111,7 @@ Class ParcelController  extends CommonController
 
     public function actionNextStep($id,$status)
     {	
-    	$validate = self::updateAllParcel($id,$status);
-
+    	$validate = self::updateAllParcel($id,$status+1);
     	if($validate == true)
     	{
     		Yii::$app->session->setFlash('success', "Update completed");
@@ -122,7 +123,27 @@ Class ParcelController  extends CommonController
     	return $this->redirect(Yii::$app->request->referrer);
     }
 
-    /*
+    public function actionBatch()
+    {
+        $data = Yii::$app->request->post();
+        if(empty($data['StatusChoice']) || empty($data['selection']))
+        {
+            Yii::$app->session->setFlash('warning', "Plese select one status or tick one");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $status = $data['StatusChoice'];
+      
+        foreach($data['selection'] as $id)
+        {
+            self:: updateAllParcel($id,$status);
+        }
+
+        Yii::$app->session->setFlash('success', "Update completed");
+        return $this->redirect(Yii::$app->request->referrer);
+       
+    }
+
+     /*
      * get all modidy data or new data
      */
     protected static function updateAllParcel($id,$status)
@@ -139,7 +160,7 @@ Class ParcelController  extends CommonController
     	}
 
     	$isValid = $data->validate() && $parcelStatus->validate() && $operate->validate();
-
+      
     	if($isValid)
     	{
     		$data->save();
@@ -175,20 +196,8 @@ Class ParcelController  extends CommonController
     	{
     		return $data;
     	}
-
-    	switch ($status) {
-    		case 1:
-    			$data->status = Parcel::PENDING_PICK_UP;
-
-    			break;
-    		case 2:
-    			$data->status = Parcel::SENDING;
-
-    			break;
-    		default:
-    			
-    			break;
-    	}
+        $statusName = ParcelStatusName::findOne($status);
+        $data->status =  $statusName->id;
     	return $data;
     }
 }

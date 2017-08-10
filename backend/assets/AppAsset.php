@@ -15,6 +15,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/index.js',
         'datatables/dataTables.bootstrap.min.js',
     ];
     public $depends = [
