@@ -29,11 +29,24 @@ use kartik\widgets\ActiveForm;
 			 ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{update} {cancel} {img}',
              'buttons' => [
-                'update' => function($url , $model)
+                'update' => function($url , $model){
+				if($model->action == 3)
                     {
+                         $url = Url::to(['topup/undos','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
+                    }
+                    else
+                    {
+                        $url = Url::to(['topup/update' ,'id'=>$model->id]) ;
+                    }
+                   
+                    return  $model->action !=3  ? Html::a(FA::icon('check fw') , $url , ['title' => 'update']) : Html::a(FA::icon('undo fw') , $url , ['title' => 'Reverse Success']);
+
+					},
+
+                   /* {
                        $url = Url::to(['topup/update','id'=>$model->id]);//创建链接，带着uid值
                         return   Html::a(FA::icon('check fw') ,$url , ['title' ,'update']);//图案，链接，不知知道干嘛的
-                    },
+                    },*/
 					
 				'cancel' => function($url , $model){
 					if($model->action == 4)

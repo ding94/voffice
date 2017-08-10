@@ -47,6 +47,36 @@ class TopupController extends \yii\web\Controller
         return $this->redirect(['index']);
 	}
 	
+		public function actionUndos($id)
+	{
+		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
+		
+		//var_dump($model->load(Yii::$app->request->post())); exit;
+		if ($model->action == 3)
+		{
+		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
+		$balance ->balance -= $model->amount;
+		$balance ->positive -= $model->amount;
+		$balance->save(false);
+		//var_dump($balance->validate(); exit;
+			if($model->update(false) !== false)
+		{
+			//var_dump($model);exit;
+			
+			$model->action =$model->action_before;
+			$model->save(false);
+			Yii::$app->session->setFlash('success', "Undo success");
+    		 return $this->redirect(['index']);
+		}
+		else{
+			Yii::$app->session->setFlash('warning', "Fail to undo");
+		}
+			
+		return $this->redirect(['direct']);
+	}
+	}
+	
 	public function actionCancel($id)
 	{
 		// Cancel function incomplete
@@ -100,6 +130,7 @@ class TopupController extends \yii\web\Controller
 		return $this->redirect(['direct']);
 	}
 	}
+
 	
     public function actionDirect()
     {
