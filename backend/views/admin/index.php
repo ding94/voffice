@@ -51,4 +51,3 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
         ],
     ]); ?>
-
