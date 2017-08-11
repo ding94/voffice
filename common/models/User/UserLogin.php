@@ -31,11 +31,11 @@ class UserLogin extends Model
      * @return ActiveDataProvider
      */
 	public function findPasswords($attribute, $params)
-    {
-        if (!$this->validatePassword($this->old_password)){
-            $this->addError($attribute, 'Old password is incorrect.');
-        }
-    }
+  {
+      if (!$this->validatePassword($this->old_password)){
+        $this->addError($attribute, 'Old password is incorrect.');
+      }
+  }
 
     public function validatePasswords($attribute, $params)
      {

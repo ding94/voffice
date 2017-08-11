@@ -129,7 +129,8 @@ AppAsset::register($this);
             'class' => 'alert-info',
             'style' => 'position: absolute;
                         top: 20px;
-                        right: 20px;
+                        right: 400px;
+                        width: 1000px;
                         z-index: 5000;',
             ],]); ?>
         <div class="content">
