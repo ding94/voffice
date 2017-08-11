@@ -10,6 +10,7 @@ use common\models\User\UserDetails;
 use common\models\User\UserCompany;
 use common\models\User\UserActualContact;
 use common\models\User\UserBalance;
+use common\models\User\UserLogin;
 use common\models\OfflineTopup;
 use kartik\mpdf\Pdf;
 
@@ -86,30 +87,21 @@ class UserController extends \yii\web\Controller
 
 	public function actionChangepassword()
  	{      
-	    $model = new User;
+	    $model = new UserLogin;
 	 
-	    $model = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
-	    $model->setScenario('changePwd');
-	 
-	 
-	     if(isset($_POST['User'])){
-	 
-	        $model->attributes = $_POST['User'];
-	        $valid = $model->validate();
-	 
-	        if($valid){
-	 
-	          $model->password = setPassword($model->new_password);
-	 
-	          if($model->save()){
-	          	 Yii::$app->session->setFlash('success', 'successfully changed password');
-	             return $this->redirect('index');
+	     if($model->load(Yii::$app->request->post()) ){
+	 		if ($model->check()) {
+	 			 Yii::$app->session->setFlash('success', 'successfully changed password');
+	 			    return $this->redirect('index');
+	 		}
+	     
+	         
+	         else {
+	         	Yii::$app->session->setFlash('warning', 'changed password failed');
+	            
 	         }
-	          else {
-	             return $this->redirect('index');
-	          }
-	            }
-	        }
+	      
+	     }
 	    $this->view->title = 'Change Password';
 	 	$this->layout = 'user';
 	    return $this->render('changepassword',['model'=>$model]); 

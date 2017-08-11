@@ -18,12 +18,7 @@ use kartik\widgets\Select2;
 	<?php $form = ActiveForm::begin();?>
 		<?= $form->field($model, 'Fname')->textInput() ?>
 		<?= $form->field($model, 'Lname')->textInput() ?>
-		<?= $form->field($model, 'gender')->dropdownList([
-		        'Male' => 'Male', 
-		        'Female' => 'Female'
-		    ],
-		    ['prompt'=>'Select Gender']
-		)?>
+		<?= $form->field($model, 'gender')->radioList(array('Male'=>'Male','Female'=>'Female')); ?>
 		<?= $form->field($model, 'DOB')->widget(DatePicker::classname(), [
 		    'options' => ['placeholder' => 'Enter birth date ...'],
 		    'pluginOptions' => [
@@ -41,13 +36,6 @@ use kartik\widgets\Select2;
     	<?= $form->field($model, 'state')->textInput() ?>
     	<?= $form->field($model, 'city')->textInput() ?>
     	<?= $form->field($model, 'country')->textInput() ?>
-	  	<?= //$form->field($model, 'country')->widget(Select2::classname(), [
-		//     'data' => $data,
-		//     'options' => ['placeholder' => 'Select a Country ...'],
-		//     'pluginOptions' => [
-		//         'allowClear' => true
-		//     ],
-		// ]); ?>
     	<?= $form->field($model, 'phonenumber')->textInput() ?>
     	<div class="form-group">
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
