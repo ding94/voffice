@@ -175,7 +175,7 @@ class SiteController extends Controller
                 ->setSubject('Signup Confirmation')
                 ->send();
                 if($email){
-                Yii::$app->getSession()->setFlash('success','Check Your email!');
+                Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
                 }
                 else{
                 Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
