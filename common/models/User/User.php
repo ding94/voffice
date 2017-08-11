@@ -227,10 +227,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UserCompany::className(),['uid' => 'id']);
     }
 
-    public function findPasswords($attribute, $params)
+    public function findPasswords($attribute)
     {
         $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
-        if ($this->validatePassword($this->old_password)){
+    
+        if (!$this->validatePassword($this->old_password)){
             $this->addError($attribute, 'Old password is incorrect.');
         }
     }

@@ -16,6 +16,7 @@ $this->title = 'Virtual Office';
             'style' => 'position: absolute;
                         top: 20px;
                         right: 20px;
+                        width : 40px;
                         z-index: 5000;',
             ],]); ?>
  <!-- <div class="alert alert-success">
