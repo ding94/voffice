@@ -6,8 +6,8 @@ use Yii;
 use yii\web\Controller;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelStatus;
-use common\models\Parcel\ParcelStatusName;
 use backend\controllers\CommonController;
+use backend\modules\logistics\controllers\ParcelStatusNameController;
 
 Class ParcelStatusController extends CommonController
 {
@@ -26,8 +26,8 @@ Class ParcelStatusController extends CommonController
 		$parcelStatus->prestatus = $parcelStatus->status;
     	$parcelStatus->updated_at = time();
 
-    	 $statusName = ParcelStatusName::findOne($status);
-        $parcelStatus->status =  $statusName->id;
+    	$statusID = ParcelStatusNameController::getStatusType($status,1);
+        $parcelStatus->status =  $statusID;
 
     	return $parcelStatus;
 	}

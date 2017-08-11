@@ -3,12 +3,17 @@
 namespace common\models\Parcel;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "parcel_status_name".
  *
  * @property integer $id
  * @property string $description
+ * @property string $showName
+ * @property integer $created_at
+ * @property integer $updated_at
  */
 class ParcelStatusName extends \yii\db\ActiveRecord
 {
@@ -20,6 +25,20 @@ class ParcelStatusName extends \yii\db\ActiveRecord
         return 'parcel_status_name';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,7 +46,7 @@ class ParcelStatusName extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'description'], 'required'],
-            [['id'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string'],
         ];
     }
@@ -40,6 +59,8 @@ class ParcelStatusName extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'description' => 'Description',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 }

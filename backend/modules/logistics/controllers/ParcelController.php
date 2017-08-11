@@ -15,6 +15,7 @@ use backend\controllers\CommonController;
 use backend\modules\logistics\controllers\ParcelOperateController;
 use backend\modules\logistics\controllers\ParcelStatusController;
 use backend\modules\logistics\controllers\ParcelDetailController;
+use backend\modules\logistics\controllers\ParcelStatusNameController;
 
 
 Class ParcelController  extends CommonController
@@ -54,6 +55,7 @@ Class ParcelController  extends CommonController
     	$parcel = self::newParcel($id,$post);
 
     	$isValid = $parcel->validate();
+        
     	if($isValid)
     	{
     		$parcel->save();
@@ -61,7 +63,7 @@ Class ParcelController  extends CommonController
     		$parid = $parcel->id;
     		
     		$detail = ParcelDetailController::createDetail($parid,$post);
-    		$operate = ParcelOperateController::createOperate($parid,0);
+    		$operate = ParcelOperateController::createOperate($parid,1);
     		$status = ParcelStatusController::newStatus($parid);
     		
     		$isValid = $detail->validate() && $operate->validate() && $status->validate();
@@ -95,13 +97,13 @@ Class ParcelController  extends CommonController
     public function actionTypeMail($status)
     {
     	$searchModel = new ParcelSearch;
-    	$searchModel->titlename = ParcelStatusName::find()->where('id = :id',[':id'=>$status])->one()->description;
+    	$searchModel->titlename = ParcelStatusNameController::getStatusType($status,2);
 
-        $list = ArrayHelper::map(ParcelStatusName::find()->all(),'id','description');
+        $list = ParcelStatusNameController::listStatus();
 
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$status);
 
-    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list]);
+    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list , 'status' => $status]);
 
     }
 
@@ -111,6 +113,11 @@ Class ParcelController  extends CommonController
 
     public function actionNextStep($id,$status)
     {	
+        if($status == 3 || $status == 4 )
+        {
+            Yii::$app->session->setFlash('warning', "Cannot process to next step");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     	$validate = self::updateAllParcel($id,$status+1);
     	if($validate == true)
     	{
@@ -158,7 +165,7 @@ Class ParcelController  extends CommonController
     	{
     		return false;
     	}
-
+       
     	$isValid = $data->validate() && $parcelStatus->validate() && $operate->validate();
       
     	if($isValid)
@@ -196,8 +203,8 @@ Class ParcelController  extends CommonController
     	{
     		return $data;
     	}
-        $statusName = ParcelStatusName::findOne($status);
-        $data->status =  $statusName->id;
+        $statusDesription = ParcelStatusNameController::getStatusType($status,1);
+        $data->status =  $statusDesription;
     	return $data;
     }
 }

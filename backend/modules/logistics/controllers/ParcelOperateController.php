@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use backend\controllers\CommonController;
-use common\models\Parcel\ParcelStatusName;
+use backend\modules\logistics\controllers\ParcelStatusNameController;
 use common\models\Parcel\ParcelOperate;
 
 Class ParcelOperateController extends CommonController
@@ -47,30 +47,14 @@ Class ParcelOperateController extends CommonController
 		{
 			$old = $oldOperate->newVal;
 		}
-		$statusName = ParcelStatusName::findOne($status);
+
+		$statusName = ParcelStatusNameController::getStatusType($status,2);
 		$operate = new ParcelOperate;
 
-	
 		$operate->adminname = Yii::$app->user->identity->adminname;
     	$operate->parid = $parid;
     	$operate->oldVal = $old;
-
-    	switch ($statusName->id) {
-    		case 1:
-    			$operate->newVal = "Add new parcel";
-    			break;
-    		case 2:
-    			$operate->newVal = "Pending Pick Up";
-    			break;
-
-    		case 3:
-    			$operate->newVal = "Seding";
-    			break;
-
-    		default:
-    			
-    			break;
-    	}
+		$operate->newVal = $statusName;
     	
     	return $operate;
 	}

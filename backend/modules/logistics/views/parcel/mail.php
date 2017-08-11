@@ -12,7 +12,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 ?>
     <?=Html::beginForm(['parcel/batch'],'post');?>
     <?=Html::submitButton('Change Status', ['id'=>'chgStatus','class' => 'btn btn-info']);?>
-    <?= Html::dropDownList('StatusChoice','aa',$list ,['prompt' => ' -- Select Status --']) ?>
+    <?= Html::dropDownList('StatusChoice','',$list ,['prompt' => ' -- Select Status --']) ?>
     <?= GridView::widget([
 
         'dataProvider' => $model,
@@ -64,11 +64,12 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{next} ',
              'header' => "Action",
+             'visible' => ($status != 3 && $status != 4),
              'buttons' => [
                 'next' => function($url , $model)
                 {
                     $url =  Url::to(['parcel/next-step' ,'id'=>$model->id,'status'=>$model->status]);
-                    
+
                     return  Html::a(FA::icon('check lg') , $url , ['title' => 'Next Step']) ;
                 },
               ]
