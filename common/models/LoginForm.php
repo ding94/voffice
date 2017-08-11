@@ -31,6 +31,15 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+    public function attributeLabels()
+    {
+        return [
+            // 这里改label的名字
+            'username' => "",
+            'password' =>"",
+        ];
+    }
+
 
     /**
      * Validates the password.
@@ -82,7 +91,7 @@ class LoginForm extends Model
             }
             
         }
-     
+
         return $this->_user;
     }
 }
