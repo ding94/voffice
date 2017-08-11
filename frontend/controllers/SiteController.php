@@ -168,16 +168,11 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                $email = \Yii::$app->mailer->compose()
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')
-                ->setTextBody("
-                Click this link".\yii\helpers\Html::a('confirm',
-                Url::to(
-                ['site/confirm','id'=>$user->id,'auth_key'=>$user->auth_key],true
-                ))
-                )
                 ->send();
                 if($email){
                 Yii::$app->getSession()->setFlash('success','Check Your email!');
@@ -196,8 +191,8 @@ class SiteController extends Controller
 
     public function actionConfirm()
     {   
-        $id = Yii::$app->request->get('amp;id');
-        $key = Yii::$app->request->get('amp;auth_key');
+        $id = Yii::$app->request->get('id');
+        $key = Yii::$app->request->get('auth_key');
         $user = User::find()->where([
         'id'=>$id,
         'auth_key'=>$key,
