@@ -91,9 +91,12 @@ class UserController extends \yii\web\Controller
 	 
 	     if($model->load(Yii::$app->request->post()) ){
 	 		if ($model->check()) {
-	 			Yii::$app->session->setFlash('success', 'successfully changed password');
-	 			return $this->redirect('index');
-	 		} else {
+	 			 Yii::$app->session->setFlash('success', 'successfully changed password');
+	 			    return $this->redirect(['index']);
+	 		}
+	     
+	         
+	         else {
 	         	Yii::$app->session->setFlash('warning', 'changed password failed');
 	        }
 	      
