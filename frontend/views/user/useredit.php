@@ -25,7 +25,8 @@ use kartik\widgets\Select2;
 		    	'todayHighlight' => true,
         		'todayBtn' => true,
 		    	'format' => 'yyyy-mm-dd',
-		        'autoclose'=>true
+		        'autoclose'=>true,
+		        'endDate'=>date('Y/m/d',strtotime('-1 day'))
 		    ]
 		]) ?>
 		<?= $form->field($model, 'IC_passport')->textInput() ?>
