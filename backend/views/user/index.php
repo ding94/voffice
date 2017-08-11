@@ -33,7 +33,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
           
 			['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{active}',
+             'template'=>'{active} {view}',
              'buttons' => [
                 'active' => function($url , $model)
                 {
@@ -50,8 +50,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
               ]
             ],
-			['class' => 'yii\grid\ActionColumn', 
-             'template'=>'{view}{delete} ',],
         ],
     ]); ?>
 

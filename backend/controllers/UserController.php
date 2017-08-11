@@ -22,17 +22,8 @@ Class UserController extends CommonController
 
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
-        
-        $parcel = UserParcel::find()->where('uid = :id' ,[':id' => $id])->all();
-        if(!empty($parcel)) {
-
-             return $this->render('view',['model' => $model, 'pid'=>$parcel]);
-             
-        }
-        else{
-            return $this->render('view',['model' => $model]);
-        }
+		$model = User::find()->where('user.id = :id',[':id' => $id])->joinWith(['parcel'])->one();
+        return $this->render('view',['model' => $model]);
 		
 	}
 	public function actionDelete($id)

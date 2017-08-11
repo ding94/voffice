@@ -9,6 +9,7 @@ use yii\web\IdentityInterface;
 use yii\data\ActiveDataProvider;
 use common\models\User\UserDetails;
 use common\models\User\UserCompany;
+use common\models\Parcel\Parcel;
 /**
  * User model
  *
@@ -230,5 +231,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUsercompany()
     {
         return $this->hasOne(UserCompany::className(),['uid' => 'id']);
+    }
+
+     public function getParcel()
+    {
+        return $this->hasOne(Parcel::className(),['uid' => 'id']);
     }
 }
