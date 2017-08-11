@@ -7,7 +7,8 @@ use yii\grid\ActionColumn;
 
 <div class="container">
   <p>
-    <?php echo $model['rejectReason']; ?>
+    <?php echo $model['rejectReason']; ?><br>
+    Please resubmit your offline topup.
   </p>
 </div>
           

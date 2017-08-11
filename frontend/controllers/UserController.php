@@ -227,7 +227,7 @@ class UserController extends \yii\web\Controller
 
  	public function actionRejectreason()
  	{
- 		$model = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
+ 		$model = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->orderBy(['id' => SORT_DESC])->one();
  		if (empty($model)) 
  		{
  			$model = new OfflineTopup();
