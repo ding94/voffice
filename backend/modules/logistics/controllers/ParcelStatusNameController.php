@@ -44,7 +44,7 @@ Class ParcelStatusNameController extends Controller
 		if (($data = ParcelStatusName::findOne($id)) !== null) {
             return $data;
         } else {
-           return false;
+            throw new NotFoundHttpException('The requested id does not exist.');
         }
 	}
 }
