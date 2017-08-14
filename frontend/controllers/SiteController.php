@@ -168,7 +168,7 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
