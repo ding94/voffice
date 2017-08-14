@@ -49,7 +49,7 @@ class ParcelDetail extends \yii\db\ActiveRecord
     }
 
     public function getFulladdress() {
-        return $this->address1 . ',' . $this->address2 .','.$this->address3.',';
+        return $this->address1 . ',' . $this->address2 .','.$this->address3;
     }
 
     public function getFullcitycode()
