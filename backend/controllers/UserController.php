@@ -6,10 +6,10 @@ use Yii;
 use yii\web\Controller;
 use common\models\User\User;
 use common\models\User\UserSearch;
-use common\models\User\UserDetails;
-use common\models\User\UserParcel;
-use common\models\ParcelDetail;
+use common\models\Parcel\Parcel;
+use common\models\Parcel\ParcelSearch;
 use backend\models\Admin;
+use backend\modules\logistics\controllers\ParcelStatusNameController;
 Class UserController extends CommonController
 {
 	public function actionIndex()
@@ -22,8 +22,14 @@ Class UserController extends CommonController
 
 	public function actionView($id)
 	{
-		$model = User::find()->where('user.id = :id',[':id' => $id])->joinWith(['parcel'])->one();
-        return $this->render('view',['model' => $model]);
+		$user = User::find()->where('id = :id',[':id' => $id])->joinwith('userdetail')->one();
+		
+		$searchModel = new ParcelSearch;
+		$dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams,$id);
+
+		$list = ParcelStatusNameController::listStatus();
+		
+        return $this->render('view',['user' => $user ,'dataProvider' => $dataProvider , 'searchModel'=> $searchModel ,'list' => $list]);
 		
 	}
 	public function actionDelete($id)

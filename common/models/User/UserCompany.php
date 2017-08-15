@@ -42,7 +42,7 @@ class UserCompany extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'cmpyName' => 'Cmpy Name',
+            'cmpyName' => 'Company Name',
             'cmpyRegisNo' => 'Cmpy Regis No',
             'uid' => 'Uid',
             'cmpyType' => 'Cmpy Type',

@@ -89,14 +89,19 @@ class ParcelSearch extends Parcel
         return $dataProvider;
     }
 
-    public function searchparceldetail($params)
+    public function searchparceldetail($params,$uid)
     {
-        $query = Parcel::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
+        $query = Parcel::find()->where('uid = :uid' ,[':uid' =>$uid ]);
         $query->joinWith(['parceldetail','parcelstatusname']);
        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['parcelstatusname.description'] = [
+            'asc'=>['description'=>SORT_ASC],
+            'desc'=>['description'=>SORT_DESC],
+        ];
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -107,7 +112,9 @@ class ParcelSearch extends Parcel
         $this->load($params);
 
         $query->andFilterWhere([
+            'type' => $this->type,
             'status' => $this->status,
+            'description' => $this->getAttribute('parcelstatusname.description'),
             ]);
 
         $query->andFilterWhere(['like','sender' , $this->getAttribute('parceldetail.sender')])
@@ -120,8 +127,6 @@ class ParcelSearch extends Parcel
               ->andFilterWhere(['like','state' , $this->getAttribute('parceldetail.state')])
               ->andFilterWhere(['like','country' , $this->getAttribute('parceldetail.country')])
               ->andFilterWhere(['like','weight' , $this->getAttribute('parceldetail.weight')]);
-
-        
         return $dataProvider;
     }
 }
