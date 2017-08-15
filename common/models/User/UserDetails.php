@@ -81,7 +81,7 @@ class UserDetails extends \yii\db\ActiveRecord
             'city' => 'City',
             'state' => 'State',
             'country' => 'Country',
-            'cmpyName' => 'Company Name',
+            'fullname' => 'Full Name',
         ];
     }
 

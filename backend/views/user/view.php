@@ -1,18 +1,19 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Country */
 
-$this->title = $model->username;
+$this->title = $user->username;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
     <p>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $user->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this User?'),
@@ -21,15 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <div class="user-detail-view">
+<div class="user-detail-view">
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model' => $user,
         'attributes' => [
-           'id',
            'username',
            'email',
-           [
+            [
                 'attribute' => 'status',
                 'value' => function($model)
                 {
@@ -37,13 +37,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             ],
-           'created_at:datetime',
-           'updated_at:datetime',
-           
+            'userdetail.fullname',
+            'userdetail.company.cmpyName',
+            'created_at:datetime',
+            'updated_at:datetime', 
         ],
     ]) ?>
-
    
+   <?= GridView::widget([
+
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            'id',
+            [
+                'attribute' => 'type',
+                'value' => function($model)
+                {
+                    return $model->type ==1 ? 'Mail' : 'Parcel';
+                },
+                'filter' => array( "1"=>"Mail","2"=>"Parcel"),
+            ],
+            [
+                 'attribute' => 'Status',
+                'value' => 'parcelstatusname.description',
+                'filter' => $list,
+            ]
+            
+        ],
+
+    ]); ?>
 
 </div>
 

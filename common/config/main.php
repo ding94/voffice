@@ -22,6 +22,7 @@ return [
             'timeFormat' => 'php:H:i:s',
             'timeZone' => 'Asia/Kuala_Lumpur',
         ],
+        
     ],
     'modules' => [
        // 'gridview' =>  [
