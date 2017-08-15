@@ -6,6 +6,7 @@ use yii\web\Controller;
 use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelSearch;
+use common\models\Parcel\ParcelOperate;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -25,6 +26,13 @@ class ParcelController extends \yii\web\Controller
     	$this->layout = 'user';
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);
     }
+	public function actionView($parid)
+	{
+		$model =  ParcelDetail::find()->where(['parid' => $parid])->one();
+		
+
+		return $this->render('view',['model' => $model]);
+	}
 
     public function actionNewParcel()
     {

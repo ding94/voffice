@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use common\models\Parcel\ParcelStatusName;
-
+use iutbay\yii2fontawesome\FontAwesome as FA;
 ?>
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
@@ -14,23 +14,40 @@ use common\models\Parcel\ParcelStatusName;
         'dataProvider' => $dataProvider,
         'filterModel'=>$searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           
                 'parceldetail.sender',
-                'parceldetail.signer',
-                'parceldetail.address1',
-                'parceldetail.address2',
-                'parceldetail.address3',
-                'parceldetail.postcode',
+                //'parceldetail.signer',
+               // 'parceldetail.address1',
+               // 'parceldetail.address2',
+               // 'parceldetail.address3',
+               // 'parceldetail.postcode',
                 'parceldetail.city',
                 'parceldetail.state',
                 'parceldetail.country',
-                'parceldetail.weight',
+               // 'parceldetail.weight',
                 [
                     'attribute' => 'status',
                     'value' => 'parcelstatusname.description',
                     'filter'=>Html::activeDropDownList($searchModel,'status',ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),['class'=>'form-control','prompt' => '--Select Status--']),
                     //'filter'=>ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),
                 ],
+				['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{detail} ',
+              'header' => "Message",
+             'buttons' => [
+                'detail' => function($url,$model)
+                {
+                    $url = Url::to(['parcel/view' ,'parid'=>$model->id]);
+
+                    return  Html::a("glyphicon glyphicon-eye-open" , $url , ['title' => 'View detail']) ;
+					
+                },
+                
+              ]
+            ],
+				 
         ],
+		
+		
     ]); ?>
 </div>

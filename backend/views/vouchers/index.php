@@ -13,10 +13,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-    <?=Html::beginForm(['vouchers/batch'],'post');?>
+    <?= Html::beginForm(['vouchers/batch'],'post');?>
 	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
-    <?=Html::submitButton('Remove Vouchers', ['name'=>'remove', 'value' => 'remove','class' => 'btn btn-danger', 
-        ]);?>
+    <?= Html::submitButton('Remove Vouchers',  [
+        'class' => 'btn btn-danger', 
+        'data' => [
+                'confirm' => 'Are you sure want to delete these vouchers?',
+                'method' => 'post',
+            ]]);?>
         
     <?= Html::a('Generate new Vouchers', ['/vouchers/gencodes'], ['class'=>'btn btn-warning']);?>
     
