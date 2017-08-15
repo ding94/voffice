@@ -216,7 +216,7 @@ class SiteController extends Controller
         $user = User::find()->where([
         'id'=>$id,
         'auth_key'=>$key,
-        'status'=>0,
+        'status'=>1,
         ])->one();
 
         $balance = new UserBalance();
@@ -231,11 +231,11 @@ class SiteController extends Controller
             $balance->positive = 0;
             $balance->save();
             Yii::$app->getSession()->setFlash('success','Success!');
-        }
-        else{
+            if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+            }
+        } else{
             Yii::$app->getSession()->setFlash('warning','Failed!');
-        }
-        if (Yii::$app->user->login($user)) {
             return $this->goHome();
         }
 
