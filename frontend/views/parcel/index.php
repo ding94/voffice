@@ -16,7 +16,6 @@ Modal::begin(['id' => 'modal',
 'header' => '<h4 class="modal-title">More Details</h4>',
 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
-$requestUrl = Url::toRoute('parcel/view');
 Modal::end();
 
 $this->registerJs("$(function() {
