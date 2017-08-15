@@ -56,7 +56,9 @@ class VouchersController extends CommonController
     //批量做法
     public function actionBatch(){
     	//var_dump(Yii::$app->request->post());exit;
-    	if (Yii::$app->request->post('remove')) {
+        
+    	if (Yii::$app->request->post('selection')) {
+            //var_dump(Yii::$app->request->post());exit;
     		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
     		$del = self::actionBatchDelete($selection); //传走去 actionBatchDelete
     	}

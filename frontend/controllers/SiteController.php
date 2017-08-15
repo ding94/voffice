@@ -80,7 +80,7 @@ class SiteController extends Controller
 		
         $model = new Contact();
         $package = Package::find()->all();
-	
+
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
             if ($model->add($post)) {
@@ -168,14 +168,17 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')
                 ->send();
                 if($email){
-                Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                    if (Yii::$app->getUser()->login($user)) {
+                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                        return $this->render('validation');
+                    }
                 }
                 else{
                 Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
@@ -189,6 +192,23 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionResendconfirmlink()
+    {
+        $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key])//pass value)
+                ->setTo(Yii::$app->user->identity->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+                if($email){
+                    Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                    return $this->render('validation');
+                } else{
+                    Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->render('validation');
+    }
+
     public function actionConfirm()
     {   
         $id = Yii::$app->request->get('id');
@@ -196,7 +216,7 @@ class SiteController extends Controller
         $user = User::find()->where([
         'id'=>$id,
         'auth_key'=>$key,
-        'status'=>0,
+        'status'=>1,
         ])->one();
 
         $balance = new UserBalance();
@@ -211,11 +231,11 @@ class SiteController extends Controller
             $balance->positive = 0;
             $balance->save();
             Yii::$app->getSession()->setFlash('success','Success!');
-        }
-        else{
+            if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+            }
+        } else{
             Yii::$app->getSession()->setFlash('warning','Failed!');
-        }
-        if (Yii::$app->user->login($user)) {
             return $this->goHome();
         }
 
@@ -283,6 +303,11 @@ class SiteController extends Controller
             ->setTo($email)//to who
             ->setSubject('Ticket Submitted to Virtual Office!')//subject
             ->send();
+    }
+
+    public function actionValidation()
+    {
+        return $this->render('validation');
     }
     
 }

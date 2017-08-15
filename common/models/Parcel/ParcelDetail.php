@@ -5,7 +5,6 @@ namespace common\models\Parcel;
 use Yii;
 use common\models\Parcel\Parcel;
 use yii\data\ActiveDataProvider;
-
 /**
  * This is the model class for table "parcel_detail".
  *
@@ -49,7 +48,7 @@ class ParcelDetail extends \yii\db\ActiveRecord
     }
 
     public function getFulladdress() {
-        return $this->address1 . ',' . $this->address2 .','.$this->address3.',';
+        return $this->address1 . ',' . $this->address2 .','.$this->address3;
     }
 
     public function getFullcitycode()

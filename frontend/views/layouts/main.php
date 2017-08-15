@@ -101,6 +101,13 @@ BowerAsset::register($this);
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/signup'])?>">Sign Up</a>
                     </li>
+                    <?php elseif(Yii::$app->user->identity->status == 1) : ?>
+                    <li>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/validation'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/logout'])?>" data-method="post">Logout</a>
+                    </li>
                     <?php else : ?>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
@@ -120,7 +127,14 @@ BowerAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
+        <?= Alert::widget([ 'options' => [
+            'class' => 'alert-info',
+            'style' => 'position: absolute;
+                        top: 20px;
+                        right: 400px;
+                        width: 1000px;
+                        z-index: 5000;',
+            ],]) ?>
         <?= $content ?>
     </div>
 </div>

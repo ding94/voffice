@@ -13,6 +13,8 @@ class SignupForm extends Model
     public $email;
     public $password;
 
+    private $_user;
+
 
     /**
      * @inheritdoc
@@ -52,11 +54,29 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        $user->status = 0;
+        $user->status = 1;
         if($user->save()){
             return $user;
         } else {
             return null;
         }
+    }
+
+    protected function getUser()
+    {
+
+        if ($this->_user === null) {
+            if(preg_match('/@/',$this->username)){
+                 
+               $this->_user = User::findByEmail($this->username);
+            }
+            else
+            {
+                $this->_user = User::findByUsername($this->username);
+            }
+            
+        }
+
+        return $this->_user;
     }
 }
