@@ -21,17 +21,14 @@ class ParcelController extends \yii\web\Controller
         $searchModel = new ParcelSearch();
         $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams);
 
-        //Yii::$app->view->params['parcel'] = 22;
-
     	$this->layout = 'user';
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);
     }
 	public function actionView($parid)
 	{
 		$model =  ParcelDetail::find()->where(['parid' => $parid])->one();
-		
 
-		return $this->render('view',['model' => $model]);
+		return $this->renderPartial('view',['model' => $model]);
 	}
 
     public function actionNewParcel()
