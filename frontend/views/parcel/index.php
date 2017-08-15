@@ -54,7 +54,7 @@ $this->registerJs("$(function() {
 					'header' => 'View More',
 					//'size' => 'modal-lg',
 					'value' => function($model)
-					{
+          {
 						return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success','id' => 'popupModal']);
 					},
 					'format' => 'raw'
