@@ -12,7 +12,7 @@ use common\models\Parcel\ParcelStatusName;
 
 ?>
 <div class="container">
-	<div class="row">
+	<div class="row" style="width: 560px; ">
 	<?= DetailView::widget([
         'model' => $model,
 		'attributes' => [

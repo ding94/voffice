@@ -13,16 +13,16 @@ use yii\bootstrap\Modal;
 ?>
 <?php
 Modal::begin(['id' => 'modal',
-'header' => '<h4 class="modal-title">What</h4>',
+'header' => '<h4 class="modal-title">More Details</h4>',
 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
-
+$requestUrl = Url::toRoute('parcel/view');
 Modal::end();
 
 $this->registerJs("$(function() {
    $('#popupModal').click(function(e) {
      e.preventDefault();
-     $('#modal').modal('show').find('.modal-content')
+     $('#modal').modal('show').find('.modal-body')
      .load($(this).attr('href'));
    });
 });");
