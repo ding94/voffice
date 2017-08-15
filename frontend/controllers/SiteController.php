@@ -80,7 +80,7 @@ class SiteController extends Controller
 		
         $model = new Contact();
         $package = Package::find()->all();
-	
+
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
             if ($model->add($post)) {
@@ -175,7 +175,10 @@ class SiteController extends Controller
                 ->setSubject('Signup Confirmation')
                 ->send();
                 if($email){
-                Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                    if (Yii::$app->getUser()->login($user)) {
+                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                        return $this->render('validation');
+                    }
                 }
                 else{
                 Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
@@ -187,6 +190,23 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    public function actionResendconfirmlink()
+    {
+        $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key])//pass value)
+                ->setTo(Yii::$app->user->identity->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+                if($email){
+                    Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                    return $this->render('validation');
+                } else{
+                    Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->render('validation');
     }
 
     public function actionConfirm()
@@ -283,6 +303,11 @@ class SiteController extends Controller
             ->setTo($email)//to who
             ->setSubject('Ticket Submitted to Virtual Office!')//subject
             ->send();
+    }
+
+    public function actionValidation()
+    {
+        return $this->render('validation');
     }
     
 }
