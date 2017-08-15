@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use common\models\Parcel\ParcelStatusName;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+
 ?>
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
@@ -39,7 +40,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 {
                     $url = Url::to(['parcel/view' ,'parid'=>$model->id]);
 
-                    return  Html::a("glyphicon glyphicon-eye-open" , $url , ['title' => 'View detail']) ;
+                    return  Html::a(FA::icon('eye fw'), $url , ['title' => 'View detail']) ;
 					
                 },
                 
