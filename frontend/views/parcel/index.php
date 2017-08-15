@@ -8,6 +8,7 @@ use yii\grid\ActionColumn;
 use common\models\Parcel\ParcelStatusName;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
+
 ?>
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
@@ -17,11 +18,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'columns' => [
            
                 'parceldetail.sender',
-                //'parceldetail.signer',
-               // 'parceldetail.address1',
-               // 'parceldetail.address2',
-               // 'parceldetail.address3',
-               // 'parceldetail.postcode',
                 'parceldetail.city',
                 'parceldetail.state',
                 'parceldetail.country',
@@ -33,8 +29,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     //'filter'=>ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),
                 ],
 				['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{detail} ',
-              'header' => "Message",
+             'template'=>'{view}',
+              'header' => 'Message',
              'buttons' => [
                 'detail' => function($url,$model)
                 {
