@@ -14,5 +14,6 @@ class BowerAsset extends AssetBundle
     ];
     public $depends = [
     'frontend\assets\AppAsset',
+	
     ];
 }

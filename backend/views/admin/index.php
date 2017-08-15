@@ -7,12 +7,37 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use yii\bootstrap\Modal;
 
 	$this->title = 'Admin List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-	<?= Html::a('Add New Admin', ['/admin/add'], ['class'=>'btn btn-success']) ?>
+  <?=Html::a('Add New Admin','#',[
+        'id' => 'add',
+        'data-toggle' => 'modal',
+        'data-target' => '#aaa',
+        'class' => 'btn btn-success',
+    ]);
+    ?>
+    
+<?php
+Modal::begin([
+    'id' => 'aaa',
+    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]); 
+$requestUrl = Url::toRoute(['admin/add']);
+$js = <<<JS
+$.get('{$requestUrl}',{},
+function(data){
+    $('.modal-body').html(data);
+}
+)
+JS;
+$this->registerJs($js);
+Modal::end();
+?>
+
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,

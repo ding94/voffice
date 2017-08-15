@@ -19,9 +19,7 @@ class ParcelController extends \yii\web\Controller
     public function actionIndex()
     {
         $searchModel = new ParcelSearch();
-        $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams);
-
-        //Yii::$app->view->params['parcel'] = 22;
+        $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams,Yii::$app->user->identity->id);
 
     	$this->layout = 'user';
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);
@@ -29,36 +27,7 @@ class ParcelController extends \yii\web\Controller
 	public function actionView($parid)
 	{
 		$model =  ParcelDetail::find()->where(['parid' => $parid])->one();
-		
 
-		return $this->render('view',['model' => $model]);
+		return $this->renderPartial('view',['model' => $model]);
 	}
-
-    public function actionNewParcel()
-    {
-        $searchModel = new UserParcel();
-        $dataProvider = $searchModel->searchnewparcel(Yii::$app->request->queryParams);
-
-        $this->layout = 'user';
-        return $this->render('newparcel', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
-    }
-
-    public function actionSentParcel()
-    {
-        $searchModel = new UserParcel();
-        $dataProvider = $searchModel->searchsentparcel(Yii::$app->request->queryParams);
-
-        $this->layout = 'user';
-        return $this->render('sentparcel', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
-    }
-
-    public function actionReceivedParcel()
-    {
-        $searchModel = new UserParcel();
-        $dataProvider = $searchModel->searchreceivedparcel(Yii::$app->request->queryParams);
-
-        $this->layout = 'user';
-        return $this->render('receivedparcel', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
-    }
-
 }

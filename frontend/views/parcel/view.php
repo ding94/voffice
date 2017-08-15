@@ -12,8 +12,8 @@ use common\models\Parcel\ParcelStatusName;
 
 ?>
 <div class="container">
-	<h1><?= Html::encode($this->title) ?></h1>
-		<?= DetailView::widget([
+	<div class="row" style="width: 560px; ">
+	<?= DetailView::widget([
         'model' => $model,
 		'attributes' => [
             
@@ -26,4 +26,6 @@ use common\models\Parcel\ParcelStatusName;
         ],
        
     ]) ?>
+	</div>
+		
 </div>
