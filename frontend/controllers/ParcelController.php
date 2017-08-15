@@ -20,6 +20,8 @@ class ParcelController extends \yii\web\Controller
         $searchModel = new ParcelSearch();
         $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams);
 
+        //Yii::$app->view->params['parcel'] = 22;
+
     	$this->layout = 'user';
         return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);
     }

@@ -5,7 +5,6 @@ namespace common\models\Parcel;
 use Yii;
 use common\models\Parcel\Parcel;
 use yii\data\ActiveDataProvider;
-
 /**
  * This is the model class for table "parcel_detail".
  *
