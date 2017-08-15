@@ -58,7 +58,7 @@ class ParcelStatusName extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'description' => 'Description',
+            'description' => 'Status Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
