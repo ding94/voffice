@@ -106,7 +106,25 @@ Class ParcelController  extends CommonController
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list , 'status' => $status]);
 
     }
-
+		public static function getStatus($status){
+			$value ="";
+			switch ($status){
+				case '1':
+					$value = Parcel::PENDING_PICK_UP;
+					break;
+				case '2':
+					$value = Parcel::SENDING;
+					break;
+				case '5':
+					$value = Parcel::PENDING_EARLY;
+					break;
+				case '6':
+					$value = Parcel::SENDING;
+					break;
+								
+			}
+		return $value;	
+		}
     /*
      * change mail status to another status
      */
@@ -118,7 +136,9 @@ Class ParcelController  extends CommonController
             Yii::$app->session->setFlash('warning', "Cannot process to next step");
             return $this->redirect(Yii::$app->request->referrer);
         }
-    	$validate = self::updateAllParcel($id,$status+1);
+		$aa = self::getStatus($status);
+		//var_dump($aa); exit;
+    	$validate = self::updateAllParcel($id,$aa);
     	if($validate == true)
     	{
     		Yii::$app->session->setFlash('success', "Update completed");
@@ -128,7 +148,9 @@ Class ParcelController  extends CommonController
     		Yii::$app->session->setFlash('warning', "Fail Update");
     	}
     	return $this->redirect(Yii::$app->request->referrer);
-    }
+    } 
+	
+	
 
     public function actionBatch()
     {
