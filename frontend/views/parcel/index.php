@@ -57,22 +57,14 @@ $this->registerJs("
                     'filter'=>Html::activeDropDownList($searchModel,'status',ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),['class'=>'form-control','prompt' => '--Select Status--']),
                     //'filter'=>ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),
                 ],
-<<<<<<< HEAD
-				['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{view}',
-              'header' => 'Message',
-             'buttons' => [
-                'detail' => function($url,$model)
-                {
-                    $url = Url::to(['parcel/view' ,'parid'=>$model->id]);
-=======
+
 				[
 					'header' => 'View More',
 					//'size' => 'modal-lg',
 					'value' => function($model)
 					{
 						return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success','data-toggle'=>"modal",'data-target'=>"#myModal",'data-title'=>"Detail Data",]);
->>>>>>> e664447476c0f852c03f8db48c43082a07022a9d
+
 
 					},
 					'format' => 'raw'
