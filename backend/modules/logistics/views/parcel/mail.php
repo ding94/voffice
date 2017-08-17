@@ -11,8 +11,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     $this->params['breadcrumbs'][] = $this->title;
 ?>
     <?=Html::beginForm(['parcel/batch'],'post');?>
+	 <?= Html::dropDownList('StatusChoice','',$list ,['prompt' => ' -- Select Status --']) ?>
     <?=Html::submitButton('Change Status', ['id'=>'chgStatus','class' => 'btn btn-info']);?>
-    <?= Html::dropDownList('StatusChoice','',$list ,['prompt' => ' -- Select Status --']) ?>
+   
     <?= GridView::widget([
 
         'dataProvider' => $model,

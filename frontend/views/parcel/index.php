@@ -10,21 +10,33 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\bootstrap\Modal;
 
 
+
 ?>
 <?php
-Modal::begin(['id' => 'modal',
-'header' => '<h4 class="modal-title">More Details</h4>',
-'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+Modal::begin([
+    'id' => 'myModal',
+    'header' => '<h4 class="modal-title">...</h4>',
+	'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
+$requestUrl = Url::toRoute('parcel/view');
 Modal::end();
+$this->registerJs("
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var modal = $(this)
+        var title = button.data('title') 
+        var href = button.attr('href') 
+        modal.find('.modal-title').html(title)
+        modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+        $.post(href)
+            .done(function( data ) {
+                modal.find('.modal-body').html(data)
+            });
+        })
+");
 
-$this->registerJs("$(function() {
-   $('#popupModal').click(function(e) {
-     e.preventDefault();
-     $('#modal').modal('show').find('.modal-body')
-     .load($(this).attr('href'));
-   });
-});");
+
+
 ?>
 	<div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
@@ -35,11 +47,6 @@ $this->registerJs("$(function() {
         'columns' => [
            
                 'parceldetail.sender',
-                //'parceldetail.signer',
-               // 'parceldetail.address1',
-               // 'parceldetail.address2',
-               // 'parceldetail.address3',
-               // 'parceldetail.postcode',
                 'parceldetail.city',
                 'parceldetail.state',
                 'parceldetail.country',
@@ -50,12 +57,15 @@ $this->registerJs("$(function() {
                     'filter'=>Html::activeDropDownList($searchModel,'status',ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),['class'=>'form-control','prompt' => '--Select Status--']),
                     //'filter'=>ArrayHelper::map(ParcelStatusName::find()->asArray()->all(), 'id', 'description'),
                 ],
+
 				[
 					'header' => 'View More',
 					//'size' => 'modal-lg',
 					'value' => function($model)
 					{
-						return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success','id' => 'popupModal']);
+						return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success','data-toggle'=>"modal",'data-target'=>"#myModal",'data-title'=>"Detail Data",]);
+
+
 					},
 					'format' => 'raw'
 				],

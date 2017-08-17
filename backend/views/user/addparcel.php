@@ -28,7 +28,16 @@ use kartik\widgets\DatePicker;
     	<?= $form->field($parcel, 'address1')->textInput() ?>
     	<?= $form->field($parcel, 'address2')->textInput() ?>
     	<?= $form->field($parcel, 'address3')->textInput() ?>
-    	<?= $form->field($parcel, 'postcode')->textInput() ?>
+        <?= $form->field($parcel, 'postcode', array(
+                    'ajax'=> array(
+                    'type'=>'GET', 
+                    'data'=>'js:{postcode:$(this).val()}',
+                    'url'=>CController::createUrl('customer/xgetName),
+                    'success'=>'js:function(data) {
+                       $("#'.CHtml::activeId($model,'name').'").val(data);
+                    }'
+                  )
+          ))->textInput() ?>
     	<?= $form->field($parcel, 'city')->textInput() ?>
     	<?= $form->field($parcel, 'state')->textInput() ?>
     	<?= $form->field($parcel, 'country')->textInput() ?>
