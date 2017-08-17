@@ -46,15 +46,19 @@ return [
             'errorAction' => 'site/error',
         ],
 
+        'urlManagerFrontEnd'=>[
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/voffice/frontend/web',
+        ]
        
-         'urlManager' => [
+        /* 'urlManager' => [
               'enablePrettyUrl' => false,
               'showScriptName' => false,
               'rules'=>[
                 "/admin" => 'admin/index',
                 "<controller:\w+>/<action:\w+>"=>"<controller>/<action>",
               ],
-        ],
+        ],*/
         
     ],
 

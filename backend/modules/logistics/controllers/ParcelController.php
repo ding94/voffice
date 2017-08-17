@@ -118,7 +118,9 @@ Class ParcelController  extends CommonController
             Yii::$app->session->setFlash('warning', "Cannot process to next step");
             return $this->redirect(Yii::$app->request->referrer);
         }
+
     	$validate = self::updateAllParcel($id,$status+1);
+        
     	if($validate == true)
     	{
     		Yii::$app->session->setFlash('success', "Update completed");
