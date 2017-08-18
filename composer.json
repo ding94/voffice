@@ -25,7 +25,8 @@
         "dmstr/yii2-adminlte-asset": "2.*",
 		"mdmsoft/yii2-admin": "~2.0",
         "kartik-v/yii2-mpdf": "*",
-        "machour/yii2-notifications": "@dev"
+        "machour/yii2-notifications": "@dev",
+        "kartik-v/yii2-money": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
