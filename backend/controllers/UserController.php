@@ -8,6 +8,8 @@ use common\models\User\User;
 use common\models\User\UserSearch;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelSearch;
+use common\models\User\UserVoucher;
+use backend\models\Vouchers;
 use backend\models\Admin;
 use backend\modules\logistics\controllers\ParcelStatusNameController;
 Class UserController extends CommonController
@@ -59,6 +61,23 @@ Class UserController extends CommonController
 		}
         return $this->redirect(['index']);
 
+	}
+
+	public function actionUservoucherlist()
+	{
+		$searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		return $this->render('uservoucherlist',['model' => $dataProvider , 'searchModel'=> $searchModel ]);
+
+	}
+
+	public function actionAddvoucher($id)
+	{
+		$searchModel = new Vouchers();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$user = User::find()->where('id = :id', [':id' => $id])->one()->username;
+		$uservoucher = new UserVoucher;
+		return $this->render('addvoucher',['user' => $user, 'uservoucher' => $uservoucher, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
 	}
 
 	/**

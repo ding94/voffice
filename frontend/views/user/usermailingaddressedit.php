@@ -10,7 +10,6 @@ use kartik\widgets\Select2;
 /* @var $this yii\web\View */
 ?>
 
-<?= Alert::widget() ?>
 <div class="container">
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php $form = ActiveForm::begin();?>
