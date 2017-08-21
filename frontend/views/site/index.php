@@ -14,9 +14,9 @@ $this->title = 'Virtual Office';
 <?= Alert::widget([ 'options' => [
             'class' => 'alert-info',
             'style' => 'position: absolute;
-                        top: 20px;
-                        right: 400px;
-                        width : 1000px;
+                         top: 30px;
+                        right: 25%;
+                        width: 50%;
                         z-index: 5000;',
             ],]); ?>
  <!-- <div class="alert alert-success">

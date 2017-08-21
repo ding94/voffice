@@ -6,6 +6,8 @@ use yii\grid\ActionColumn;
 ?>
 
 <div class="container">
+<div class="row">
+<div class="col-lg-7 col-lg-offset-1 " >
 	<div class="tab-content" id="usermailingaddress">
 		<table class="table table-user-information"><h1>User Mailing Address</h1>
                 <tbody>
@@ -40,4 +42,6 @@ use yii\grid\ActionColumn;
             </table>
             <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['user/usermailingaddressedit'])?>">Update</a>  
 	</div>
+</div>
+</div>
 </div>

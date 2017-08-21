@@ -10,7 +10,9 @@ use kartik\widgets\Select2;
 /* @var $this yii\web\View */
 ?>
 
-<div class="container">
+<?= Alert::widget() ?>
+<div class="row">
+<div class="col-lg-7 col-lg-offset-1 " >
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php $form = ActiveForm::begin();?>
 		<?= $form->field($model, 'address1')->textInput() ?>
@@ -25,4 +27,5 @@ use kartik\widgets\Select2;
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
+</div>
 </div>
