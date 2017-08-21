@@ -7,9 +7,10 @@ use common\widgets\Alert;
 use yii\bootstrap\Modal;
 
 
+
 $this->title = 'Virtual Office';
 ?>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <?= Alert::widget([ 'options' => [
             'class' => 'alert-info',
@@ -26,14 +27,39 @@ $this->title = 'Virtual Office';
     <!-- Header -->
     <header>
 	
-        <div class="container">
+        
 
-            <div class="intro-text">
+          <!-- <div class="intro-text">
                 <div class="intro-lead-in">Welcome To Virtual Office!</div>
                 <div class="intro-heading">Your Journey Begins Here</div>
                 <a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
-            </div>
-        </div>
+            </div>-->
+					
+			<h2 class="w3-center">Manual Slideshow</h2>
+
+<div class="w3-content w3-display-container">
+  <img class="mySlides" src="../web/img/header-bg.jpg" style="width:100%">
+   <img class="mySlides" src="../web/img/map-image.jpg" style="width:100%">
+  <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
+  <img class="mySlides" src="../web/img/2.jpg" style="width:100%">
+ <a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+	<br>
+	<div style="text-align:center">
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+</div>
+			
+        <!-- container -->
+		
+		
+
+
+
     </header>
 <!-- About Section -->
     <section id="about">
@@ -461,3 +487,9 @@ $this->title = 'Virtual Office';
             </div>
         </div>
     </div>
+	
+	
+
+	
+
+	
