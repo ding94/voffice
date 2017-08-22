@@ -6,8 +6,13 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 use common\widgets\Alert;
 use kartik\widgets\Select2;
+use common\models\Country;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
+$country = Country::find()->all();
+$data = ArrayHelper::map($country,'name_en','name_en');
+
 ?>
 
 <?= Alert::widget() ?>
@@ -21,7 +26,7 @@ use kartik\widgets\Select2;
     	<?= $form->field($model, 'postcode')->textInput() ?>
     	<?= $form->field($model, 'state')->textInput() ?>
     	<?= $form->field($model, 'city')->textInput() ?>
-    	<?= $form->field($model, 'country')->textInput() ?>
+    	<?= $form->field($model, 'country')->dropDownList($data) ?>
     	<?= $form->field($model, 'phonenumber')->textInput() ?>
     	<div class="form-group">
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
