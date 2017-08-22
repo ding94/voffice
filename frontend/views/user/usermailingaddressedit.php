@@ -17,7 +17,7 @@ $data = ArrayHelper::map($country,'name_en','name_en');
 
 <?= Alert::widget() ?>
 <div class="row">
-<div class="col-lg-7 col-lg-offset-1 " >
+<div class="col-md-7 col-md-offset-1 " >
 	<h1><?= Html::encode($this->title) ?></h1>
 	<?php $form = ActiveForm::begin();?>
 		<?= $form->field($model, 'address1')->textInput() ?>

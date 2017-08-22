@@ -97,7 +97,7 @@ AppAsset::register($this);
     <!-- Side Nav -->
 
 <div class="row">
-    <div class="col-md-2" style="padding-top: 100px; padding-left: 50px">
+    <div class="sidenav col-md-3" style="padding-top: 100px; padding-left: 50px">
         
     <?php echo SideNav::widget([
     //'type' => $type,

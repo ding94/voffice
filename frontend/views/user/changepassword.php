@@ -13,7 +13,7 @@ use bootstrap\widgets\CActiveForm;
 <?= Alert::widget() ?>
 <div class="container">
 <div class="row">
-<div class="col-lg-7 col-lg-offset-1 " >
+<div class="col-md-7 col-md-offset-1 " >
 <h1><?= Html::encode($this->title) ?></h1>
 <?php $form = ActiveForm::begin();?>
 		<?= $form->field($model, 'old_password')->passwordInput() ?>

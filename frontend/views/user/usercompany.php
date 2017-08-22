@@ -6,7 +6,7 @@ use yii\grid\ActionColumn;
 
 <div class="container">
 <div class="row">
-<div class="col-lg-7 col-lg-offset-1 " >
+<div class="col-md-7 col-md-offset-1 " >
 	<div class="tab-content" id="usercompany">
 		<table class="table table-user-information"><h1>User Company</h1>
                 <tbody>
