@@ -11,12 +11,15 @@ $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
+ <div class="row">
+ <div class="col-lg-4 col-lg-offset-4 ">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
-
+    <p><br>Please fill out the following fields to signup:<br></p>
+</div>
+</div>
     <div class="row">
-        <div class="col-lg-5">
+       <div class="col-lg-4 col-lg-offset-4 " >
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
@@ -32,4 +35,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+
 </div>

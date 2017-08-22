@@ -82,18 +82,7 @@ BowerAsset::register($this);
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Package</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
+             
                     <?php if (Yii::$app->user->isGuest): ?>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/login'])?>">Login</a>
