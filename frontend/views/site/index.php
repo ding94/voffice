@@ -7,16 +7,17 @@ use common\widgets\Alert;
 use yii\bootstrap\Modal;
 
 
+
 $this->title = 'Virtual Office';
 ?>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <?= Alert::widget([ 'options' => [
             'class' => 'alert-info',
             'style' => 'position: absolute;
-                        top: 20px;
-                        right: 400px;
-                        width : 1000px;
+                         top: 30px;
+                        right: 25%;
+                        width: 50%;
                         z-index: 5000;',
             ],]); ?>
  <!-- <div class="alert alert-success">
@@ -26,14 +27,43 @@ $this->title = 'Virtual Office';
     <!-- Header -->
     <header>
 	
-        <div class="container">
+        
 
-            <div class="intro-text">
+          <!-- <div class="intro-text">
                 <div class="intro-lead-in">Welcome To Virtual Office!</div>
                 <div class="intro-heading">Your Journey Begins Here</div>
                 <a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
-            </div>
-        </div>
+            </div>-->
+					
+			<h2 class="w3-center">Manual Slideshow</h2>
+
+<div class="w3-content w3-display-container">
+<a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
+  <img class="mySlides" src="../web/img/rheader-bg.jpg" style="width:100%">
+   <img class="mySlides" src="../web/img/rmap-image.jpg" style="width:100%">
+  <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
+  <img class="mySlides" src="../web/img/r2.jpg" style="width:100%">
+  
+      
+    
+  
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+	<br>
+	<div style="text-align:center">
+  <span class="dot" onclick="currentDivs(1)"></span> 
+  <span class="dot" onclick="currentDivs(2)"></span> 
+  <span class="dot" onclick="currentDivs(3)"></span> 
+<span class="dot" onclick="currentDivs(4)"></span>    
+</div>
+			
+        <!-- container -->
+		
+		
+
+
+
     </header>
 <!-- About Section -->
     <section id="about">
@@ -41,8 +71,8 @@ $this->title = 'Virtual Office';
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">About</h2> 
-
-                    <h3 class="section-subheading text-muted">---</h3>
+                    <h3 class="section-subheading text-muted"><br><br>---<br><br><br><br>---<br><br><br><br>---<br><br>---</h3>
+					
                 </div>
             </div>
              <div class="row">
@@ -461,3 +491,9 @@ $this->title = 'Virtual Office';
             </div>
         </div>
     </div>
+	
+	
+
+	
+
+	

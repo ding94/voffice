@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models\user;
-
+use yii\data\ActiveDataProvider;
 use Yii;
 
 /**
@@ -45,5 +45,19 @@ class UserVoucher extends \yii\db\ActiveRecord
             'code' => 'Code',
             'limitedTime' => 'Limited Time',
         ];
+    }
+
+    public function search($params)
+    {
+        $query = self::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+     
+        return $dataProvider;
     }
 }

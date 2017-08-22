@@ -23,7 +23,7 @@ class Upload extends Model
      public function upload()
     {
         if ($this->validate()) {
-            $this->imageFile->saveAs('img/topup/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->imageFile->saveAs('img/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
 		
             return true;
         } else {

@@ -105,7 +105,13 @@ fieldset[disabled] .btn-primary.active {
   border-radius: 3px;
   font-size: 18px;
   padding: 20px 40px;
+   position: relative;
+    top: 600px;
+    bottom: 3px;
+    left: 3px;
+    right: 3px;
 }
+
 .btn-xl:hover,
 .btn-xl:focus,
 .btn-xl:active,
@@ -222,7 +228,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  background-image: url('../img/header-bg.jpg');
+  
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;

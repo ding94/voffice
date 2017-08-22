@@ -106,7 +106,7 @@ AppAsset::register($this);
     'items' => [
         ['label' => 'My Account',  'items' => [
             ['label' => 'Xcoin', 'url' => Url::to(['user/userbalance'])],
-            ['label' => 'eVoucher', 'url' => '#'],
+            ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
         ]],
         ['label' => 'Member Settings',  'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
@@ -128,9 +128,9 @@ AppAsset::register($this);
         <?= Alert::widget([ 'options' => [
             'class' => 'alert-info',
             'style' => 'position: absolute;
-                        top: 20px;
-                        right: 400px;
-                        width: 1000px;
+                        top: 30px;
+                        right: 25%;
+                        width: 50%;
                         z-index: 5000;',
             ],]); ?>
         <div class="content">
@@ -142,7 +142,7 @@ AppAsset::register($this);
 
 
 
-    
+		
 
 <footer class="footer">
     <div class="container">
