@@ -8,7 +8,7 @@ class BowerAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/bower';
     public $js = [
-        'bootstrap/js/modal.js',
+        //'bootstrap/js/modal.js',
         'bootstrap/js/scrollspy.js',
         // 'bootstrap/js/affix.js',
     ];
