@@ -38,20 +38,24 @@ $this->title = 'Virtual Office';
 			<h2 class="w3-center">Manual Slideshow</h2>
 
 <div class="w3-content w3-display-container">
-  <img class="mySlides" src="../web/img/header-bg.jpg" style="width:100%">
-   <img class="mySlides" src="../web/img/map-image.jpg" style="width:100%">
+<a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
+  <img class="mySlides" src="../web/img/rheader-bg.jpg" style="width:100%">
+   <img class="mySlides" src="../web/img/rmap-image.jpg" style="width:100%">
   <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
-  <img class="mySlides" src="../web/img/2.jpg" style="width:100%">
- <a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
+  <img class="mySlides" src="../web/img/r2.jpg" style="width:100%">
+  
+      
+    
+  
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
 	<br>
 	<div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
+  <span class="dot" onclick="currentDivs(1)"></span> 
+  <span class="dot" onclick="currentDivs(2)"></span> 
+  <span class="dot" onclick="currentDivs(3)"></span> 
+<span class="dot" onclick="currentDivs(4)"></span>    
 </div>
 			
         <!-- container -->
@@ -67,8 +71,8 @@ $this->title = 'Virtual Office';
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">About</h2> 
-
-                    <h3 class="section-subheading text-muted">---</h3>
+                    <h3 class="section-subheading text-muted"><br><br>---<br><br><br><br>---<br><br><br><br>---<br><br>---</h3>
+					
                 </div>
             </div>
              <div class="row">
