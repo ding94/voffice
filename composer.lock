@@ -1145,7 +1145,9 @@
                 "widget",
                 "yii2"
             ],
+
             "time": "2017-08-07T16:20:15+00:00"
+
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -2329,7 +2331,7 @@
                 "noty",
                 "yii"
             ],
-            "time": "2017-07-18T14:30:27+00:00"
+            "time": "2017-07-18 14:30:27"
         },
         {
             "name": "mdmsoft/yii2-admin",
