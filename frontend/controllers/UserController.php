@@ -10,6 +10,7 @@ use common\models\User\UserDetails;
 use common\models\User\UserCompany;
 use common\models\User\UserActualContact;
 use common\models\User\UserBalance;
+use common\models\User\UserVoucher;
 use common\models\User\UserLogin;
 use common\models\OfflineTopup;
 use kartik\mpdf\Pdf;
@@ -226,6 +227,15 @@ class UserController extends \yii\web\Controller
 
  		$this->layout = 'user';
  		return $this->renderPartial('rejectreason',['model' => $model]);
+ 	}
+
+ 	public function actionUservouchers()
+ 	{
+ 		$searchModel = new UserVoucher();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 		$model = UserVoucher::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		$this->layout = 'user';
+ 		return $this->render('uservouchers',['model' => $model, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
  	}
 
  	/*

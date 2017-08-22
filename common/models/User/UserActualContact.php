@@ -35,7 +35,7 @@ class UserActualContact extends \yii\db\ActiveRecord
         return [
             [['uid', 'postcode', 'phonenumber'], 'integer'],
             [['address1', 'address2', 'address3', 'state', 'city', 'country'], 'string'],
-            [['address1','address2','address3','postcode','state','city','country','phonenumber'],'required','on' => 'mailingAddress'],
+            [['address1','postcode','state','city','country','phonenumber'],'required','on' => 'mailingAddress'],
             [['phonenumber', 'postcode'], 'integer','on' => 'mailingAddress'],
         ];
     }

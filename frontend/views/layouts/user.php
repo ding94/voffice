@@ -106,7 +106,7 @@ AppAsset::register($this);
     'items' => [
         ['label' => 'My Account',  'items' => [
             ['label' => 'Xcoin', 'url' => Url::to(['user/userbalance'])],
-            ['label' => 'eVoucher', 'url' => '#'],
+            ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
         ]],
         ['label' => 'Member Settings',  'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],

@@ -50,6 +50,7 @@
                                 'label' => 'User Controller', 'icon' => 'dashboard', 'url' => "#",
                                 'items' => [
                                    [ 'label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],
+                                   [ 'label' => 'User Voucher', 'icon' => 'circle-o', 'url' => ['/user/uservoucherlist']],
                                 ]
                             ],
                             [
