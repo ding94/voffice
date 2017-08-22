@@ -4,8 +4,8 @@ showDivs(slideIndex);
 function plusDivs(n) {
   showDivs(slideIndex += n);
 }
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function currentDivs(n) {
+  showDivs(slideIndex = n);
 }
 function showDivs(n) {
   var i;
