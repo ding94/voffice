@@ -4,6 +4,10 @@ namespace backend\modules\finance\controllers;
 use common\models\OfflineTopup\OfflineTopup;
 use common\models\User\UserBalance;
 use common\models\User\User;
+use common\models\OfflineTopup\OfflineTopupOperate;
+use common\models\OfflineTopup\OfflineTopupStatus;
+use backend\modules\finance\controllers\OfflineTopupOperateController;
+use backend\modules\finance\controllers\OfflineTopupStatusController;
 
 use Yii;
 
@@ -19,46 +23,54 @@ class TopupController extends \yii\web\Controller
 	
 	 public function actionUpdate($id)
     {
-    	
+		//var_dump($id);exit;
 		$model = $this->findModel($id);
-		
 		if ($model->action == 1)
 		{
-		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
-		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
-		$balance ->balance += $model->amount;
-		$balance ->positive += $model->amount;
-		$model->action = 3;
-		$model->inCharge = Yii::$app->user->identity->adminname;
-		
-		if($model->update(false) !== false)
-		{
-			$balance->save(false);
-			Yii::$app->session->setFlash('success', "Update success");
+			$balance = self::saveBalance($model);
+			//$validate = 
+			self::updateAllTopup($id,3);
+			$model->action = 3;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			//var_dump($balance); exit; 
+			if($model->update(false) !== false)
+			{
+				$balance->save(false);
+				Yii::$app->session->setFlash('success', "Update success");
+			}
+			else{
+				Yii::$app->session->setFlash('error', "Fail to Update");
+			}
 		}
-		else{
-			Yii::$app->session->setFlash('error', "Fail to Update");
+		elseif ($model->action !=1){
+			Yii::$app->session->setFlash('error', "Top up already confirmed!");
 		}
-	}
-	elseif ($model->action !=1){
-		
-		Yii::$app->session->setFlash('error', "Top up already confirmed!");
-	}
         return $this->redirect(['index']);
 	}
 	
-		public function actionUndos($id)
+	protected static function saveBalance($model)
+	{
+		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
+		
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
+		//var_dump($uid);exit;
+		$balance ->balance += $model->amount;
+		$balance ->positive += $model->amount;
+		
+		return $balance;
+	}
+	
+	public function actionUndos($id)
 	{
 		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
 		
 		//var_dump($model->load(Yii::$app->request->post())); exit;
 		if ($model->action == 3)
 		{
-		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
-		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
-		$balance ->balance -= $model->amount;
-		$balance ->positive -= $model->amount;
+			self::updateAllTopup($id,1);
+		$balance = self::deductBalance($model);
 		$balance->save(false);
+		
 		//var_dump($balance->validate(); exit;
 			if($model->update(false) !== false)
 		{
@@ -77,6 +89,16 @@ class TopupController extends \yii\web\Controller
 	}
 	}
 	
+	protected static function deductBalance($model)
+	{
+		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
+		$balance ->balance -= $model->amount;
+		$balance ->positive -= $model->amount;
+		
+		return $balance;
+	}
+	
 	public function actionCancel($id)
 	{
 		// Cancel function incomplete
@@ -87,6 +109,7 @@ class TopupController extends \yii\web\Controller
 			if($model->load(Yii::$app->request->post()))
 			{
 				//var_dump($model->update()); exit;
+			self::updateAllTopup($id,4);
 			$model->action =4;
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->save(false);
@@ -107,6 +130,7 @@ class TopupController extends \yii\web\Controller
 		return $this->redirect(['direct']);
 	}
 	
+	
 	public function actionUndo($id)
 	{
 		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
@@ -117,6 +141,7 @@ class TopupController extends \yii\web\Controller
 			
 			if($model->update(false) !== false)
 		{
+			self::updateAllTopup($id,1);
 			//var_dump($model);exit;
 			$model->action =$model->action_before;
 			$model->save(false);
@@ -140,7 +165,8 @@ class TopupController extends \yii\web\Controller
 			
 			if($model->load(Yii::$app->request->post()))
 			{
-				//var_dump($model->update()); exit;
+			
+			//var_dump($model->update()); exit;
 			//$model->action =4;
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->save(false);
@@ -185,6 +211,14 @@ class TopupController extends \yii\web\Controller
 
 	}
 	*/
+	protected static function updateAllTopup($id,$status)
+	{
+		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
+		//var_dump($operate);exit;
+		$operate->save();;
+			
+	}
+	  
 	  protected function findModel($id)
     {
         if (($model = OfflineTopup::findOne($id)) !== null) {

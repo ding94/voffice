@@ -12,7 +12,7 @@ use common\models\User\UserActualContact;
 use common\models\User\UserBalance;
 use common\models\User\UserVoucher;
 use common\models\User\UserLogin;
-use common\models\OfflineTopup;
+use common\models\OfflineTopup\OfflineTopup;
 use kartik\mpdf\Pdf;
 
 class UserController extends \yii\web\Controller

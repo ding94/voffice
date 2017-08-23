@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\controllers;
-use common\models\OfflineTopup;
+use common\models\OfflineTopup\OfflineTopup;
 use common\models\User\User;
 use common\models\Upload;
 use Yii;
