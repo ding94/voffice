@@ -102,7 +102,6 @@ AppAsset::register($this);
     <?php echo SideNav::widget([
     //'type' => $type,
     'encodeLabels' => false,
-    //'heading' => $heading,
     'items' => [
         ['label' => 'My Account',  'items' => [
             ['label' => 'Xcoin', 'url' => Url::to(['user/userbalance'])],
