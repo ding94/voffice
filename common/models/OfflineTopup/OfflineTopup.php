@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\models\OfflineTopup;
 use yii\data\ActiveDataProvider;
 use Yii;
 

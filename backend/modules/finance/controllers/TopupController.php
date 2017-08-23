@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\modules\finance\controllers;
-use common\models\OfflineTopup;
+use common\models\OfflineTopup\OfflineTopup;
 use common\models\User\UserBalance;
 use common\models\User\User;
 
