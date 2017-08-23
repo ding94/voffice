@@ -47,9 +47,9 @@ class ParcelOperate extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parid', 'adminname', 'newVal'], 'required'],
+            [['parid', 'adminname', 'newVal','type'], 'required'],
             [['parid','created_at', 'updated_at'], 'integer'],
-            [['adminname','oldVal', 'newVal'], 'string', 'max' => 20],
+            [['adminname','oldVal', 'newVal','type'], 'string', 'max' => 20],
             [['parid'] ,'exist' ,
               'skipOnError' => true,
               'targetClass' => Parcel::className(),
@@ -66,6 +66,7 @@ class ParcelOperate extends \yii\db\ActiveRecord
             'id' => 'ID',
             'parid' => 'Parid',
             'adminname' => 'Admin name',
+            'type' => 'type',
             'oldVal' => 'Old record',
             'newVal' => 'New record',
             'updated_at' => 'Update At',

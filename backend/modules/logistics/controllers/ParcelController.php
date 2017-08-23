@@ -63,7 +63,7 @@ Class ParcelController  extends CommonController
     		$parid = $parcel->id;
     		
     		$detail = ParcelDetailController::createDetail($parid,$post);
-    		$operate = ParcelOperateController::createOperate($parid,1);
+    		$operate = ParcelOperateController::createOperate($parid,1,1);
     		$status = ParcelStatusController::newStatus($parid);
     		
     		$isValid = $detail->validate() && $operate->validate() && $status->validate();
@@ -106,8 +106,8 @@ Class ParcelController  extends CommonController
     	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list , 'status' => $status]);
 
     }
-		public static function getStatus($status){
-			$value ="";
+	public static function getStatus($status){
+		$value ="";
 			switch ($status){
 				case '1':
 					$value = Parcel::PENDING_PICK_UP;
@@ -182,9 +182,9 @@ Class ParcelController  extends CommonController
     {
     	$data = self::updParcelStatus($id,$status);
 
-    	$parcelStatus = ParcelStatusController::updateStatus($id,$status);
+    	$parcelStatus = ParcelStatusController::updateStatus($id,$status,1);
 
-    	$operate = ParcelOperateController::createOperate($id,$status);
+    	$operate = ParcelOperateController::createOperate($id,$status,1);
 
     	if(is_null($data) || is_null($parcelStatus) || is_null($operate))
     	{

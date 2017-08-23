@@ -17,6 +17,7 @@ use yii\data\ActiveDataProvider;
         'columns' => [
             'newVal',
             'oldVal',
+            'type',
             'adminname',
            'updated_at:datetime',
         ],

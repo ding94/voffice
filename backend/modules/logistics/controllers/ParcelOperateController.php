@@ -35,7 +35,7 @@ Class ParcelOperateController extends CommonController
 	 * create new operate
 	 */
 
-	public static function createOperate($parid,$status)
+	public static function createOperate($parid,$status,$type)
 	{
 		$oldOperate = ParcelOperate::find()->where('parid = :id' ,[':id' => $parid])->orderBy('updated_at DESC')->one();
 
@@ -48,13 +48,22 @@ Class ParcelOperateController extends CommonController
 			$old = $oldOperate->newVal;
 		}
 
-		$statusName = ParcelStatusNameController::getStatusType($status,2);
 		$operate = new ParcelOperate;
-
 		$operate->adminname = Yii::$app->user->identity->adminname;
     	$operate->parid = $parid;
     	$operate->oldVal = $old;
-		$operate->newVal = $statusName;
+
+		if($type == 1)
+		{
+			$statusName = ParcelStatusNameController::getStatusType($status,2);
+			$operate->newVal = $statusName;
+			$operate->type = "Status";
+		}
+		elseif($type == 2)
+		{
+			$operate->newVal = "Update sender delivery address";
+			$operate->type = "Data";
+		}
     	
     	return $operate;
 	}
