@@ -42,11 +42,12 @@ use kartik\widgets\ActiveForm;
                         $url = Url::to(['topup/update' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=3  ? Html::a(FA::icon('check lg') , $url , ['title' => 'update']) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Success']);
+                    return  $model->action !=3  ? Html::a(FA::icon('check lg') , $url , ['title' => 'update','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Success','data-confirm'=>"Confirm action?"]);
 
 					},
             ]
 			],
+			
 			 ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{cancel} ',
              'header' => "Reject",
@@ -61,11 +62,14 @@ use kartik\widgets\ActiveForm;
                         $url = Url::to(['topup/cancel' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=4  ? Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel']) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Cancel']);
-
+                    return  $model->action !=4  ? Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Cancel','data-confirm'=>"Confirm action?"]);
+					
 					},
             ]
 			],
+		
+	
+	
 			['class' => 'yii\grid\ActionColumn' , 
              'template'=>' {img}',
              'buttons' => [

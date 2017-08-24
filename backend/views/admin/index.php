@@ -56,8 +56,24 @@ Modal::end();
                 ],
                 'authAssignment.item_name',
                  'updated_at:datetime',
+				 
+			['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{update} ',
+             'header' => "Update",
+			 'buttons' => [
+				   'update' => function ($url, $model) {     
+                                return Html::a(FA::icon('pencil lg'), $url, [
+                                        'title' => Yii::t('yii', 'Update'),
+                                ]);                                
+            
+                              }
+			 ],
+           
+            ],
+				 
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{update} {active} ',
+             'template'=>' {active} ',
+			  'header' => "Action",
              'buttons' => [
                 'active' => function($url , $model)
                 {
@@ -70,7 +86,7 @@ Modal::end();
                         $url = Url::to(['admin/delete' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Active']);
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Active']);
                 },
               ]
             ],

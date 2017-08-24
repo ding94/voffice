@@ -31,9 +31,25 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 }
 
             ],
-          
+         
+			 ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{view} ',
+             'header' => "View",
+			  'buttons' => [
+				   'view' => function ($url, $model) {     
+                                return Html::a(FA::icon('eye lg'), $url, [
+                                        'title' => Yii::t('yii', 'View'),
+                                ]);                                
+            
+                              }
+			 ],
+             
+            ],
+			 
+			 
 			['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{active} {view}',
+             'template'=>'{active} ',
+			 'header' => "Action",
              'buttons' => [
                 'active' => function($url , $model)
                 {
@@ -46,7 +62,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         $url = Url::to(['user/delete' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off') , $url , ['title' => 'Active']);
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactive']) : Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Active']);
                 },
               ]
             ],

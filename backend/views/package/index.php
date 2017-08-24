@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
-
+use iutbay\yii2fontawesome\FontAwesome as FA;
 	$this->title = 'Package List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,7 +17,34 @@ use yii\grid\ActionColumn;
             ['class' => 'yii\grid\SerialColumn'],
             'type',
 	        'price',
-            ['class' => 'yii\grid\ActionColumn' , 'template'=>'{update} {delete}' ],
+            ['class' => 'yii\grid\ActionColumn' ,
+			'template'=>'{update} ' ,
+			 'header' => "Update",
+			 'buttons' => [
+				   'update' => function ($url, $model) {     
+                                return Html::a(FA::icon('pencil lg'), $url, [
+                                        'title' => Yii::t('yii', 'Update'),
+                                ]);                                
+            
+                              },
+					
+			 ],
+			],
+			
+			['class' => 'yii\grid\ActionColumn' ,
+			'template'=>'{delete}' ,
+			 'header' => "Delete",
+			 'buttons' => [
+				   
+					'delete' => function ($url, $model) {     
+                                return Html::a(FA::icon('trash lg'), $url, [
+                                        'title' => Yii::t('yii', 'Delete'),
+                                ]);                                
+            
+                              },
+			 ],
+			],
         ],
     ]); ?>
 
+	
