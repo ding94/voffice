@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 
+
 	$this->title = 'Offline Topup';
 	$this->params['breadcrumbs'][] = $this->title;
 	
@@ -26,10 +27,12 @@ use kartik\widgets\ActiveForm;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-			 ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{update} {cancel} {img}{edit}',
-             'buttons' => [
-                'update' => function($url , $model){
+			 
+			  ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{update} ',
+             'header' => "Approve",
+			 'buttons' => [
+             'update' => function($url , $model){
 				if($model->action == 3)
                     {
                          $url = Url::to(['topup/undos','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
@@ -39,16 +42,16 @@ use kartik\widgets\ActiveForm;
                         $url = Url::to(['topup/update' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=3  ? Html::a(FA::icon('check fw') , $url , ['title' => 'update']) : Html::a(FA::icon('undo fw') , $url , ['title' => 'Reverse Success']);
+                    return  $model->action !=3  ? Html::a(FA::icon('check lg') , $url , ['title' => 'update']) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Success']);
 
 					},
-
-                   /* {
-                       $url = Url::to(['topup/update','id'=>$model->id]);//创建链接，带着uid值
-                        return   Html::a(FA::icon('check fw') ,$url , ['title' ,'update']);//图案，链接，不知知道干嘛的
-                    },*/
-					
-				'cancel' => function($url , $model){
+            ]
+			],
+			 ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{cancel} ',
+             'header' => "Reject",
+			 'buttons' => [
+             'cancel' => function($url , $model){
 					if($model->action == 4)
                     {
                          $url = Url::to(['topup/undo','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
@@ -58,9 +61,22 @@ use kartik\widgets\ActiveForm;
                         $url = Url::to(['topup/cancel' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=4  ? Html::a(FA::icon('ban fw') , $url , ['title' => 'cancel']) : Html::a(FA::icon('undo fw') , $url , ['title' => 'Reverse Cancel']);
+                    return  $model->action !=4  ? Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel']) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Cancel']);
 
 					},
+            ]
+			],
+			['class' => 'yii\grid\ActionColumn' , 
+             'template'=>' {img}',
+             'buttons' => [
+                
+
+                   /* {
+                       $url = Url::to(['topup/update','id'=>$model->id]);//创建链接，带着uid值
+                        return   Html::a(FA::icon('check fw') ,$url , ['title' ,'update']);//图案，链接，不知知道干嘛的
+                    },*/
+					
+				
 
 				   /*{
                        $url = Url::to(['topup/cancel','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);//创建链接，带着uid值
@@ -76,6 +92,7 @@ use kartik\widgets\ActiveForm;
 				
               ],
 			 ],
+			 
 			         
     	            'username',
     	            'amount',
@@ -86,17 +103,31 @@ use kartik\widgets\ActiveForm;
 					 //'picture',
 					 
 				['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{next} ',
+             'template'=>'{edit} ',
              'header' => "Edit",
              'buttons' => [
-                'next' => function($url , $model)
+                'edit' => function($url , $model)
                 {
                    $url = Url::to(['topup/edit','id'=>$model->id,'admin'=>Yii::$app->user->identity->id]);
                     
-                   return $model->action ==1  ? Html::a(FA::icon('pencil fw') , $url , ['title' => 'Edit']) : "";
+                   return $model->action ==1  ? Html::a(FA::icon('pencil lg') , $url , ['title' => 'Edit']) : "";
                 },
               ]
             ],
+			
+			['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{operate} ',
+             'header' => "View",
+             'buttons' => [
+                'operate' => function($url , $model)
+                {
+                   
+					$url =  Url::to(['topup/view-operate' ,'tid'=>$model->id,'status'=>$model->action]);
+                   return Html::a(FA::icon('eye lg') , $url , ['title' => 'View Operate']);
+                },
+              ]
+            ],
+			
 					
         ],
 		

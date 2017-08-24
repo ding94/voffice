@@ -64,7 +64,7 @@ class OfflineTopupOperate extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'tid' => 'Topup id',
+            'tid' => 'OfflineTopup id',
             'adminname' => 'Admin name',
             'type' => 'type',
             'oldVal' => 'Old record',

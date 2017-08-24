@@ -8,7 +8,7 @@ use common\models\OfflineTopup\OfflineTopupOperate;
 use common\models\OfflineTopup\OfflineTopupStatus;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
-
+use yii\data\ActiveDataProvider;
 use Yii;
 
 class TopupController extends \yii\web\Controller
@@ -43,7 +43,7 @@ class TopupController extends \yii\web\Controller
 			}
 		}
 		elseif ($model->action !=1){
-			Yii::$app->session->setFlash('error', "Top up already confirmed!");
+			Yii::$app->session->setFlash('error', "Action Cancelled!");
 		}
         return $this->redirect(['index']);
 	}
@@ -196,6 +196,8 @@ class TopupController extends \yii\web\Controller
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 	
+	
+	
 	/*public function actionCancel($id)
 	{
 		$model = $this->findModel($id);
@@ -213,11 +215,45 @@ class TopupController extends \yii\web\Controller
 	*/
 	protected static function updateAllTopup($id,$status)
 	{
+		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
 		//var_dump($operate);exit;
-		$operate->save();;
+		//$operate->save();;
+		//var_dump($data); exit;
+		if(is_null($data) || is_null($operate))
+    	{
+    		return false;
+    	}
+       
+    	$isValid = $data->validate() && $operate->validate();
+     // var_dump($data); exit;
+    	if($isValid)
+    	{
+    		$data->save();
+    		$operate->save();
+			return true;
+			
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    	return false;
 			
 	}
+		
+		 protected static function updOfflineTopupStatus($id,$status)
+    {
+    	$data = OfflineTopup::findOne($id);
+
+    	if(is_null($data))
+    	{
+    		return $data;
+    	}
+        $statusDesription = OfflineTopupStatusController::getStatusType($status,2);
+        $data->action =  $statusDesription;
+    	return $data;
+    }
 	  
 	  protected function findModel($id)
     {
@@ -227,5 +263,22 @@ class TopupController extends \yii\web\Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function actionViewOperate($tid)
+	{
+		$model =  OfflineTopupOperate::find()->where(['tid' => $tid]);
+
+		$dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            'sort' => [
+	        'defaultOrder' => 
+		        [
+		            'updated_at' => SORT_DESC,
+		        ]
+	    	],
+        ]);
+
+		return $this->render('view',['model' => $dataProvider ,'tid' => $tid]);
+	}
 	
 }

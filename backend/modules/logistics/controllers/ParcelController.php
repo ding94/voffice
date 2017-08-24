@@ -176,7 +176,7 @@ Class ParcelController  extends CommonController
     }
 
      /*
-     * get all modidy data or new data
+     * get all modify data or new data
      */
     protected static function updateAllParcel($id,$status)
     {

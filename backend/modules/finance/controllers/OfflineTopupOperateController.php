@@ -14,22 +14,7 @@ Class OfflineTopupOperateController extends CommonController
 	/*
 	 * list all operate that parcel done without search
 	 */
-	public function actionViewOperate($tid)
-	{
-		$model =  OfflineTopupOperate::find()->where(['tid' => $tid]);
-
-		$dataProvider = new ActiveDataProvider([
-            'query' => $model,
-            'sort' => [
-	        'defaultOrder' => 
-		        [
-		            'updated_at' => SORT_DESC,
-		        ]
-	    	],
-        ]);
-
-		return $this->render('view',['model' => $dataProvider ,'tid' => $tid]);
-	}
+	
 
 	/*
 	 * create new operate
