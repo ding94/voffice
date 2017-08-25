@@ -14,10 +14,12 @@ class TopupController extends \yii\web\Controller
     	$model = new OfflineTopup;
     	$upload = new Upload;
     	$path = Yii::$app->params['imageLocation'];
+		
     	if(Yii::$app->request->post())
     	{
     		$post = Yii::$app->request->post();
     		$model->username = User::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->username;
+			
 			$model->action = 1;
 			$model->action_before=1;
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');

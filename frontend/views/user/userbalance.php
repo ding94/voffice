@@ -19,7 +19,7 @@ use yii\helpers\Url;
                </tbody>
             </table>
             <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['topup/index'])?>">Top Up</a>
-            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['user/useredit'])?>">Withdraw</a>
+            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['withdraw/index'])?>">Withdraw</a>
             <?php 
               if ($offlinetopup['rejectReason']!= null) { 
                echo Html::a('Reject Reason', '#', ['id' => 'rejectreason','data-toggle' => 'modal','data-target' => '#reason-modal','class' => 'btn btn-success',]);
