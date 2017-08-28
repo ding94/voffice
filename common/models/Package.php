@@ -29,7 +29,6 @@ class Package extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['price', 'type'], 'required'],
             [['price'], 'number'],
             [['type'], 'string'],
         ];
@@ -65,5 +64,18 @@ class Package extends \yii\db\ActiveRecord
         $query->andFilterWhere(['like','type' , $this->type]);
 
         return $dataProvider;
+    }
+
+    public static function getAmountList($package_type)
+    {
+        $amount = self::find()
+            ->select(['id','price'])
+            ->where(['id' => $package_type])
+            ->asArray()
+            ->all();
+
+        //$testamount = ArrayHelper::map(self::find()->where(['id' => $package_type])->all(),'price','id');
+
+        return $amount;
     }
 }
