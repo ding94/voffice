@@ -114,7 +114,7 @@ AppAsset::register($this);
             ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ]],
         ['label' => 'Parcel', 'items' => [
-            ['label' => 'All Parcel<span class="badge pull-right"><?php echo $this->params["parcel"]; ?></span>', 'url' => Url::to(['parcel/index'])],
+            ['label' => 'All Parcel', 'url' => Url::to(['parcel/index'])],
         ]],
 ]]);     
 
