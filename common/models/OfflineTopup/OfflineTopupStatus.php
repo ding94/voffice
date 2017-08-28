@@ -45,10 +45,15 @@ class OfflineTopupStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'description'], 'required'],
+            [['id', 'title'], 'required'],
             [['id', 'created_at', 'updated_at'], 'integer'],
-            [['description'], 'string'],
+            [['title'], 'string'],
         ];
+    }
+	
+	public function getOfflinetopupstatus()
+    {
+        return $this->hasOne(OfflineTopup::className(),['action' => 'id']); 
     }
 
     /**
@@ -58,7 +63,7 @@ class OfflineTopupStatus extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'description' => 'Status Description',
+            'title' => 'Status Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

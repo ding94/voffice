@@ -7,8 +7,10 @@ use yii\helpers\Html;
 ?>
 
 <div class="container">
-	<div class="tab-content col-md-7 col-md-offset-1" id="withdraw">
+	<div class="tab-content col-md-6 col-md-offset-1" id="withdraw">
 	<h1>User Withdraw</h1>
+	<br><i><p>My Balance: <?php echo $balance['balance']; ?></i></p><br>
+    
               <?php $form = ActiveForm::begin(); ?>
 
                 <?= $form->field($model, 'acc_name')->textInput() ?>

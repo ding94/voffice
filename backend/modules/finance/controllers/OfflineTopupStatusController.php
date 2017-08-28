@@ -24,7 +24,7 @@ Class OfflineTopupStatusController extends Controller
 				$value = $data->id;
 				break;
 			case 2:
-				$value = $data->description;
+				$value = $data->title;
 				break;
 			default:
 				$value="";
@@ -35,7 +35,7 @@ Class OfflineTopupStatusController extends Controller
 
 	public static function listStatus()
 	{
-		$data = ArrayHelper::map(OfflineTopupStatus::find()->all(),'id','description');
+		$data = ArrayHelper::map(OfflineTopupStatus::find()->all(),'id','title');
 		return $data;
 	}
 
