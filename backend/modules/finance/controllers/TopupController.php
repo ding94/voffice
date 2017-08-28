@@ -9,6 +9,7 @@ use common\models\OfflineTopup\OfflineTopupStatus;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
+
 use Yii;
 
 class TopupController extends \yii\web\Controller
@@ -17,7 +18,7 @@ class TopupController extends \yii\web\Controller
     {
        $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
- 
+		
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 	
@@ -35,7 +36,8 @@ class TopupController extends \yii\web\Controller
 			//var_dump($balance); exit; 
 			if($model->update(false) !== false)
 			{
-				$balance->save(false);
+				$balance->save();
+			//	self::updateAllTopup();
 				Yii::$app->session->setFlash('success', "Update success");
 			}
 			else{
@@ -69,15 +71,15 @@ class TopupController extends \yii\web\Controller
 		{
 			self::updateAllTopup($id,1);
 		$balance = self::deductBalance($model);
-		$balance->save(false);
+		$balance->save();
 		
 		//var_dump($balance->validate(); exit;
-			if($model->update(false) !== false)
+			if($model->update() !== false)
 		{
 			//var_dump($model);exit;
 			
 			$model->action =$model->action_before;
-			$model->save(false);
+			$model->save();
 			Yii::$app->session->setFlash('success', "Undo success");
     		 return $this->redirect(['index']);
 		}
@@ -112,7 +114,7 @@ class TopupController extends \yii\web\Controller
 			self::updateAllTopup($id,4);
 			$model->action =4;
 			$model->inCharge = Yii::$app->user->identity->adminname;
-			$model->save(false);
+			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Cancel success");
     		 return $this->redirect(['index']);
@@ -144,7 +146,7 @@ class TopupController extends \yii\web\Controller
 			self::updateAllTopup($id,1);
 			//var_dump($model);exit;
 			$model->action =$model->action_before;
-			$model->save(false);
+			$model->save();
 			Yii::$app->session->setFlash('success', "Undo success");
     		 return $this->redirect(['index']);
 		}
@@ -169,7 +171,7 @@ class TopupController extends \yii\web\Controller
 			//var_dump($model->update()); exit;
 			//$model->action =4;
 			$model->inCharge = Yii::$app->user->identity->adminname;
-			$model->save(false);
+			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Update success");
     		 return $this->redirect(['index']);
@@ -217,15 +219,17 @@ class TopupController extends \yii\web\Controller
 	{
 		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
+		
 		//var_dump($operate);exit;
 		//$operate->save();;
-		//var_dump($data); exit;
+	//	var_dump($data->validate()); exit;
 		if(is_null($data) || is_null($operate))
     	{
     		return false;
     	}
        
     	$isValid = $data->validate() && $operate->validate();
+		//var_dump($data->validate()); exit;
      // var_dump($data); exit;
     	if($isValid)
     	{
@@ -250,7 +254,7 @@ class TopupController extends \yii\web\Controller
     	{
     		return $data;
     	}
-        $statusDesription = OfflineTopupStatusController::getStatusType($status,2);
+        $statusDesription = OfflineTopupStatusController::getStatusType($status,1);
         $data->action =  $statusDesription;
     	return $data;
     }

@@ -2,7 +2,8 @@
 <?php
     use yii\bootstrap\ActiveForm;
     use yii\helpers\Html;
-	
+	use yii\grid\GridView;
+use yii\grid\ActionColumn;
 	
 ?>
 
@@ -18,6 +19,8 @@
 				 <?= $form->field($model, 'amount') ?>
 
                 <?= $form->field($model, 'description') ?>
+				
+				<?= $form->field($model, 'bank_name')->dropDownList($items)?>
 								
                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
                        <div class="form-group">

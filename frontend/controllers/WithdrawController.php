@@ -5,8 +5,8 @@ use common\models\User\User;
 use common\models\UserWithdraw;
 use common\models\BankDetails;
 use Yii;
-
 use yii\helpers\ArrayHelper;
+
 class WithdrawController extends \yii\web\Controller
 {
     public function actionIndex()

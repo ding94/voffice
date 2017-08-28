@@ -3,6 +3,9 @@
 namespace common\models\OfflineTopup;
 use yii\data\ActiveDataProvider;
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+
 
 /**
  * This is the model class for table "offline_topup".
@@ -25,7 +28,12 @@ class OfflineTopup extends \yii\db\ActiveRecord
     {
         return 'offline_topup';
     }
+	
+	public function attributes()
 
+    {
+		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.description']);
+	}
     /**
      * @inheritdoc
      */
@@ -33,9 +41,12 @@ class OfflineTopup extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'amount', 'picture'], 'required'],
-            [['username', 'description', 'action', 'inCharge', 'rejectReason'], 'string'],
+            [['username', 'description', 'inCharge', 'rejectReason','offlinetopupstatus.description'], 'string'],
+			[['action','action_before','offlinetopupstatus.id'],'integer'],
             [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
+			 [[ 'bank_name'], 'string', 'max' => 255],
+			
         ];
     }
 
@@ -49,6 +60,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
             'username' => 'Username',
             'amount' => 'Amount',
             'description' => 'Description',
+			'bank_name' => 'Bank Name',
             'action' => 'Action',
             'inCharge' => 'In Charge',
             'rejectReason' => 'Reason',
@@ -63,7 +75,10 @@ class OfflineTopup extends \yii\db\ActiveRecord
 		  $query = self::find(); //自己就是table,找一找资料
 	}
 	elseif ($action >=1){
-		$query= self::find()->where('action = :act',[':act' =>$action]);
+		//$query= self::find()->where('action = :act',[':act' =>$action]);
+		$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
+
+        $query->joinWith(['offlinetopupstatus' ]);
 	}
       
         
@@ -83,5 +98,10 @@ class OfflineTopup extends \yii\db\ActiveRecord
         //$query->andFilterWhere(['or',['like','Fname' , $this->Fname], ['like','Lname' , $this->Fname],]);
  
         return $dataProvider;
+    }
+	
+	 public function getOfflinetopupstatus()
+    {
+        return $this->hasOne(OfflineTopupStatus::className(),['id' => 'action']); 
     }
 }

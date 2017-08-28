@@ -4,8 +4,11 @@ namespace frontend\controllers;
 use common\models\OfflineTopup\OfflineTopup;
 use common\models\User\User;
 use common\models\Upload;
+use common\models\BankDetails;
+use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\UploadedFile;
+
 
 class TopupController extends \yii\web\Controller
 {
@@ -14,7 +17,7 @@ class TopupController extends \yii\web\Controller
     	$model = new OfflineTopup;
     	$upload = new Upload;
     	$path = Yii::$app->params['imageLocation'];
-		
+		$items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
     	if(Yii::$app->request->post())
     	{
     		$post = Yii::$app->request->post();
@@ -35,7 +38,7 @@ class TopupController extends \yii\web\Controller
 		$model->amount ="";
 		$model->description ="";
 		$this->layout = 'user';
-    	return $this->render('index' ,['model' => $model , 'upload' => $upload]);
+		    	return $this->render('index' ,['model' => $model ,'items'=>$items, 'upload' => $upload]);
 		//Yii::app()->end();
     }
 	

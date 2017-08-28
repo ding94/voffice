@@ -71,6 +71,7 @@
                                 'label' => 'Finance Controller', 'icon' => 'dashboard', 'url' => '#',
                                 'items' => [
                                     ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
+									['label' => 'User Withdraw', 'icon' => 'circle-o', 'url' => ['/finance/withdraw/index']],
                                     ],
                             ],
                             [
