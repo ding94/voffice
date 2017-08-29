@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
+use common\models\OfflineTopup\OfflineTopupStatus;
 /**
  * This is the model class for table "user_withdraw".
  *
@@ -25,6 +26,16 @@ class UserWithdraw extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'user_withdraw';
+    }
+	
+	public function attributes()
+    {
+		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title']);
+	}
+	
+	public function getOfflinetopupstatus()
+    {
+        return $this->hasOne(OfflineTopupStatus::className(),['id' => 'action']); 
     }
 	
 	public function behaviors()
@@ -48,8 +59,8 @@ class UserWithdraw extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'withdraw_amount', 'to_bank', 'acc_name'], 'required'],
-		  [['acc_name'], 'string'],
-            [['uid', 'to_bank','created_at', 'updated_at'], 'integer'],
+		  [['acc_name','inCharge', 'reason','offlinetopupstatus.title'], 'string'],
+            [['uid', 'action','to_bank','created_at', 'updated_at','offlinetopupstatus.id'], 'integer'],
             [['withdraw_amount'], 'number'],
             [[ 'bank_name','from_bank'], 'string', 'max' => 255],
         ];
@@ -64,6 +75,9 @@ class UserWithdraw extends \yii\db\ActiveRecord
             'id' => 'ID',
             'uid' => 'Uid',
             'withdraw_amount' => 'Withdraw Amount (RM)',
+			'action' => 'Status',
+			'inCharge' => 'In Charge',
+            'reason' => 'Reason',
 			'acc_name' => 'Account Name',
             'to_bank' => 'Bank Account',
 			'bank_name' => 'Bank Name',
@@ -73,20 +87,32 @@ class UserWithdraw extends \yii\db\ActiveRecord
         ];
     }
 	
-	public function search($params)
+	public function search($params,$action)
     {
 		
-		 $query = UserWithdraw::find();
+		// $query = UserWithdraw::find();
+		 if ($action == 0){
+			  $query = self::find(); //自己就是table,找一找资料
+		}
+		elseif ($action >=1){
+			$query= self::find()->where('action = :act',[':act' =>$action]);
+		}
+		 $query->joinWith(['offlinetopupstatus' ]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+		 $this->load($params);
+		$query->andFilterWhere([
+				'title' => $this->getAttribute('offlinetopupstatus.title'),
+            ]);
         
-        $this->load($params);
+       
 		  $query->andFilterWhere(['like','acc_name' ,  $this->acc_name])
 				->andFilterWhere(['like','withdraw_amount' ,  $this->withdraw_amount])
 				->andFilterWhere(['like','to_bank' ,  $this->to_bank])
-				->andFilterWhere(['like','bank_name' ,  $this->bank_name]);
+				->andFilterWhere(['like','bank_name' ,  $this->bank_name])
+				->andFilterWhere(['like','inCharge' ,  $this->inCharge])
+				->andFilterWhere(['like','reason' ,  $this->reason]);
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 

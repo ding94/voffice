@@ -23,10 +23,10 @@ use kartik\widgets\ActiveForm;
              'header' => "Approve",
 			 'buttons' => [
              'approve' => function($url , $model){
-				
-                   
+					
+                    $url = Url::to(['withdraw/approve' ,'id'=>$model->id,'admin'=>Yii::$app->user->identity->id]) ;
                     return Html::a(FA::icon('check lg') , $url , ['title' => 'approve','data-confirm'=>"Confirm action?"]);
-
+					
 					},
             ]
 			],
@@ -37,7 +37,7 @@ use kartik\widgets\ActiveForm;
 			 'buttons' => [
              'cancel' => function($url , $model){
 					
-                   
+                    $url = Url::to(['withdraw/cancel' ,'id'=>$model->id]) ;
                     return Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]);
 					
 					},
@@ -48,6 +48,17 @@ use kartik\widgets\ActiveForm;
                 'withdraw_amount',
 				'to_bank',
 				'bank_name',
+				[
+						'label' => 'Status',
+						'attribute' => 'offlinetopupstatus.title',
+						'value' => 'offlinetopupstatus.title',
+						
+						'filter' => $list,
+					],
+				//'offlinetopupstatus.title',
+				//'action',
+				'inCharge',
+				'reason',
 			],
                
     	         

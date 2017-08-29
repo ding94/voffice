@@ -28,7 +28,9 @@ class UserBalance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'balance', 'positive', 'negative'], 'required'],
+            [['uid', 'balance' ], 'required'],
+			 [['positive'],'required', 'on' => ['positive']],
+			  [['negative'],'required', 'on' => ['negative']],
             [['uid', 'balance', 'positive', 'negative'], 'integer'],
             [['balance'],'default','value' => '0']
         ];
