@@ -16,7 +16,7 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'type')->dropDownList($listOfType,['prompt'=>'-- Select Type --']) ?>
         <?= $form->field($model, 'description')->textInput() ?>
         <?= $form->field($model, 'rule_name')->textInput() ?>
-    	<?= $form->field($model, 'data')->textInput() ?>
+    	<?= $form->field($model, 'data')->dropDownList($listOfControl) ?>
     	<div class="form-group">
 	        <?= Html::submitButton(Yii::t('app', 'Add') ,['class' =>  'btn btn-success']) ?>
 	   </div>
