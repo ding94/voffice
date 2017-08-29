@@ -13,6 +13,16 @@ $("#mainNav a,.intro-text a").on('click',function(event){
 	}
 });
 
+$('select#package').on('change', function() {
+  if ( this.value == 1 ){
+  	$("input:text").val(100);
+  } else if ( this.value == 2 ){
+  	$("input:text").val(200);
+  } else if( this.value == 3 ){
+  	$("input:text").val(300);
+  }
+});
+
 // (function($) {
 //     "use strict"; // Start of use strict
 

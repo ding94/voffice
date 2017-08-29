@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 use common\models\Package;
-use common\models\Payment;
+use common\models\SubscribePackage;
 use common\models\User\User;
 use common\models\User\UserBalance;
 use Yii;
@@ -12,7 +12,7 @@ class PaymentController extends \yii\web\Controller
     public function actionIndex()
     {
         $package = Package::find()->all();
-        $payment = new Payment();
+        $payment = new SubscribePackage();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         if (Yii::$app->request->post())
         {  
@@ -30,6 +30,28 @@ class PaymentController extends \yii\web\Controller
             }
         }
         return $this->render('index',['package' => $package,'payment'=>$payment]);
+    }
+
+    public function actionConfirmpayment()
+    {
+      $package = Package::find()->all();
+      $payment = new SubscribePackage();
+      $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
+      if (Yii::$app->request->post())
+        {  
+            $post = Yii::$app->request->post();
+            $payment->load($post);
+            $payment->uid = Yii::$app->user->identity->id;
+            $payment->type =  1;
+            if ($userbalance->balance >= $payment->amount ) {
+                $payment->save();
+                $userbalance->balance -= $payment->amount;
+                $userbalance->save();
+                Yii::$app->session->setFlash('success', 'Payment Successful');
+            } else {
+                Yii::$app->session->setFlash('warning', 'Payment failed');
+            }
+        }
     }
 
     // public function actionAmount() {
