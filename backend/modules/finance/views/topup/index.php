@@ -101,13 +101,13 @@ use kartik\widgets\ActiveForm;
     	            'username',
     	            'amount',
     	            'description',
-    	            //'action',
 					'bank_name',
 					 [
+						'label' => 'Status',
 						'attribute' => 'offlinetopupstatus.title',
 						'value' => 'offlinetopupstatus.title',
 						
-
+						'filter' => $list,
 					],
     	            'inCharge',
     	            'rejectReason',

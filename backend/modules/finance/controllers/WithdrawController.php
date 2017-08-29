@@ -16,5 +16,20 @@ class WithdrawController extends \yii\web\Controller
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 		//return $this->render('index');
     }
+	
+	public function actionApprove($id)
+	{
+			$model = $this->findModel($id);
+			if($model->update(false) !== false)
+			{
+				$balance->save();
+			//	self::updateAllTopup();
+				Yii::$app->session->setFlash('success', "Update success");
+			}
+			else{
+				Yii::$app->session->setFlash('error', "Fail to Update");
+			}
+		
+	}
 
 }
