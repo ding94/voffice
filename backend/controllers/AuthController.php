@@ -5,8 +5,10 @@ namespace backend\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\base\Model;
 use backend\models\auth\AuthItem;
 use backend\models\auth\AuthItemChild;
+use backend\models\ControllerList;
 use Yii;
 
 Class AuthController extends Controller
@@ -48,10 +50,11 @@ Class AuthController extends Controller
 		
 		$notAvailable =  self::notAvailableSotring($available);
 		
-		$listAvailabe =  ArrayHelper::map($available,'name' ,'name');
-		$listAll =  ArrayHelper::map($notAvailable,'name' ,'name');
+		$listAvailabe =  self::groupBycontrol($available);
+
+		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','name');
 		
-		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $listAll ,'id' => $id]);
+		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $notAvailable , 'controlList'=>$listOfControl,'id' => $id]);
 	}
 
 	public function actionDelete($id)
@@ -79,10 +82,19 @@ Class AuthController extends Controller
 
 	public function actionRemoveRole($id)
 	{
-		$allchild= Yii::$app->request->post('AuthItemChild');
+		$data= Yii::$app->request->post('AuthItemChild');
+		$allchild ="";
+		$data = array_filter($data['child']);
 
-		$data = $this->modifyRole($id,$allchild['child'],2);
-		if($data == true)
+		foreach($data as $k=>$row)
+		{
+			foreach($row as $value)
+			{
+				$allchild[] = $value;
+			}
+		}
+		$result = $this->modifyRole($id,$allchild,2);
+		if($result == true)
 		{
 			Yii::$app->session->setFlash('success', "Delete Completed");
 		}
@@ -96,11 +108,23 @@ Class AuthController extends Controller
 
 	public function actionAddRole($id)
 	{
-		$allchild= Yii::$app->request->post('AuthItemChild');
+		$data= Yii::$app->request->post('AuthItemChild');
 
-		$data = $this->modifyRole($id,$allchild['child'],1);
+		$allchild ="";
+		$data = array_filter($data['child']);
 		
-		if($data == true)
+		foreach($data as $k=>$row)
+		{
+			foreach($row as $value)
+			{
+				$allchild[] = $value;
+			}
+		}
+		
+	
+		$result = $this->modifyRole($id,$allchild,1);
+		
+		if($result == true)
 		{
 			Yii::$app->session->setFlash('success', "Add Completed");
 		}
@@ -150,6 +174,9 @@ Class AuthController extends Controller
 	{
 		$list = [[ 'type' => 1 , 'name' => 'Role Name' ],[ 'type' => 2 , 'name' => 'Permission link']];
 		$listOfType = ArrayHelper::map($list, 'type', 'name');
+
+		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','name');
+
 		$model = new AuthItem();
 		if($model->load(Yii::$app->request->post()))
 		{
@@ -170,7 +197,7 @@ Class AuthController extends Controller
 				}
 			}
 		}
-		return $this->render('add' ,['model' => $model ,'listOfType' => $listOfType]);
+		return $this->render('add' ,['model' => $model ,'listOfType' => $listOfType ,'listOfControl' => $listOfControl]);
 	}
 
 	/*
@@ -179,11 +206,31 @@ Class AuthController extends Controller
 	public static function notAvailableSotring($available)
 	{
 		$auth = \Yii::$app->authManager;
-		$data = $auth->getPermissions();
+		$notAvailable = $auth->getPermissions();
 		
-		$data = array_diff_key($data,$available);
+		$notAvailable = array_diff_key($notAvailable,$available);
+		
+		$data = self::groupBycontrol($notAvailable);
 		
 		return $data;
+	}
+
+	/*
+	 * sort by controlList id
+	*/
+	public static function groupBycontrol($sorting)
+	{
+		$afterSort = array();
+		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','id');
+		foreach($sorting as $k=>$data)
+		{
+			if($data->data == $listOfControl[$data->data])
+			{
+				$afterSort[$data->data][$data->name] = $data->name;
+			}
+		}
+
+		return $afterSort;
 	}
 
 	/*
@@ -197,7 +244,7 @@ Class AuthController extends Controller
 		{
 			$create = $auth->createPermission($data['name']);
 			$create->description   = $data['description'];
-		
+			$create->data = $data['data'];
 		}
 		elseif((int)$data['type'] === 1)
 		{
