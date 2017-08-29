@@ -39,6 +39,8 @@ $this->registerJs("
 
 ?>
 	<div class="container">
+    <div class="row">
+    <div class="col-md-9">
 	<h1><?= Html::encode($this->title) ?></h1>
 	
 		<?= GridView::widget([
@@ -78,5 +80,7 @@ $this->registerJs("
     ]); 
 		
 	?>
+    </div>
+    </div>
 	
 </div>

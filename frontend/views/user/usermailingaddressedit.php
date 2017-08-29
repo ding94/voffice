@@ -16,6 +16,7 @@ $data = ArrayHelper::map($country,'name_en','name_en');
 ?>
 
 <?= Alert::widget() ?>
+<div class="container">
 <div class="row">
 <div class="col-md-7 col-md-offset-1 " >
 	<h1><?= Html::encode($this->title) ?></h1>
@@ -32,5 +33,6 @@ $data = ArrayHelper::map($country,'name_en','name_en');
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
+</div>
 </div>
 </div>

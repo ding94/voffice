@@ -9,6 +9,7 @@ use common\models\OfflineTopup\OfflineTopupStatus;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 use Yii;
 
@@ -194,8 +195,9 @@ class TopupController extends \yii\web\Controller
 	  
 	   $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
-	
-       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+		$list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
+		
+       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list]);
     }
 	
 	protected static function updateAllTopup($id,$status)
@@ -233,7 +235,7 @@ class TopupController extends \yii\web\Controller
     	{
     		return $data;
     	}
-        $statusDesription = OfflineTopupStatusController::getStatusType($status,1);
+        $statusDesription = OfflineTopupStatusController::getStatusType($status,2);
         $data->action =  $statusDesription;
     	return $data;
     }

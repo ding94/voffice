@@ -18,10 +18,37 @@ use kartik\widgets\ActiveForm;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn' ],
-                'acc_name',
+            ['class' => 'yii\grid\ActionColumn',
+			'template'=>'{approve} ',
+             'header' => "Approve",
+			 'buttons' => [
+             'approve' => function($url , $model){
+				
+                   
+                    return Html::a(FA::icon('check lg') , $url , ['title' => 'approve','data-confirm'=>"Confirm action?"]);
+
+					},
+            ]
+			],
+			
+			['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{cancel} ',
+             'header' => "Reject",
+			 'buttons' => [
+             'cancel' => function($url , $model){
+					
+                   
+                    return Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]);
+					
+					},
+            ]
+			],
+			
+			    'acc_name',
                 'withdraw_amount',
 				'to_bank',
 				'bank_name',
-    	         ],
+			],
+               
+    	         
     ]); ?>

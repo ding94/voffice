@@ -30,10 +30,14 @@ class OfflineTopup extends \yii\db\ActiveRecord
     }
 	
 	public function attributes()
-
     {
-		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.description']);
+		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title']);
 	}
+	
+	public function getOfflinetopupstatus()
+    {
+        return $this->hasOne(OfflineTopupStatus::className(),['id' => 'action']); 
+    }
     /**
      * @inheritdoc
      */
@@ -41,7 +45,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'amount', 'picture'], 'required'],
-            [['username', 'description', 'inCharge', 'rejectReason','offlinetopupstatus.description'], 'string'],
+            [['username', 'description', 'inCharge', 'rejectReason','offlinetopupstatus.title'], 'string'],
 			[['action','action_before','offlinetopupstatus.id'],'integer'],
             [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
@@ -71,26 +75,34 @@ class OfflineTopup extends \yii\db\ActiveRecord
 	public function search($params,$action)
     {
 		
-	if ($action == 0){
-		  $query = self::find(); //自己就是table,找一找资料
-	}
-	elseif ($action >=1){
-		//$query= self::find()->where('action = :act',[':act' =>$action]);
-		$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
+		if ($action == 0){
+			  $query = self::find(); //自己就是table,找一找资料
+		}
+		elseif ($action >=1){
+			$query= self::find()->where('action = :act',[':act' =>$action]);
+			
+			//$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
 
-        $query->joinWith(['offlinetopupstatus' ]);
-	}
-      
-        
+		}
+		$query->joinWith(['offlinetopupstatus' ]);
         //$query->joinWith(['company']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        
         $this->load($params);
-
+		
+		   $query->andFilterWhere([
+				'title' => $this->getAttribute('offlinetopupstatus.title'),
+            ]);
+			
+		  $query->andFilterWhere(['like','username' ,  $this->username])
+				->andFilterWhere(['like','amount' ,  $this->amount])
+				->andFilterWhere(['like','description' ,  $this->description])
+				->andFilterWhere(['like','bank_name' ,  $this->bank_name])
+				->andFilterWhere(['like','inCharge' ,  $this->inCharge])
+				->andFilterWhere(['like','rejectReason' ,  $this->rejectReason]);
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 
@@ -100,8 +112,5 @@ class OfflineTopup extends \yii\db\ActiveRecord
         return $dataProvider;
     }
 	
-	 public function getOfflinetopupstatus()
-    {
-        return $this->hasOne(OfflineTopupStatus::className(),['id' => 'action']); 
-    }
+	 
 }
