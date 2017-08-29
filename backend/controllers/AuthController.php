@@ -197,7 +197,7 @@ Class AuthController extends Controller
 		{
 			$create = $auth->createPermission($data['name']);
 			$create->description   = $data['description'];
-		
+			$create->data = $data['data'];
 		}
 		elseif((int)$data['type'] === 1)
 		{

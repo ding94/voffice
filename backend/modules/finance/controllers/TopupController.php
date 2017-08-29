@@ -22,14 +22,14 @@ class TopupController extends \yii\web\Controller
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 	
-	 public function actionUpdate($id)
+	public function actionUpdate($id)
     {
 		//var_dump($id);exit;
 		$model = $this->findModel($id);
 		if ($model->action == 1)
 		{
 			$balance = self::saveBalance($model);
-			//$validate = 
+			 
 			self::updateAllTopup($id,3);
 			$model->action = 3;
 			$model->inCharge = Yii::$app->user->identity->adminname;
@@ -70,25 +70,25 @@ class TopupController extends \yii\web\Controller
 		if ($model->action == 3)
 		{
 			self::updateAllTopup($id,1);
-		$balance = self::deductBalance($model);
-		$balance->save();
-		
-		//var_dump($balance->validate(); exit;
-			if($model->update() !== false)
-		{
-			//var_dump($model);exit;
+			$balance = self::deductBalance($model);
+			$balance->save();
 			
-			$model->action =$model->action_before;
-			$model->save();
-			Yii::$app->session->setFlash('success', "Undo success");
-    		 return $this->redirect(['index']);
+			//var_dump($balance->validate(); exit;
+				if($model->update() !== false)
+			{
+				//var_dump($model);exit;
+				
+				$model->action =$model->action_before;
+				$model->save();
+				Yii::$app->session->setFlash('success', "Undo success");
+	    		 return $this->redirect(['index']);
+			}
+			else{
+				Yii::$app->session->setFlash('warning', "Fail to undo");
+			}
+				
+			return $this->redirect(['direct']);
 		}
-		else{
-			Yii::$app->session->setFlash('warning', "Fail to undo");
-		}
-			
-		return $this->redirect(['direct']);
-	}
 	}
 	
 	protected static function deductBalance($model)
@@ -142,20 +142,20 @@ class TopupController extends \yii\web\Controller
 		{
 			
 			if($model->update(false) !== false)
-		{
-			self::updateAllTopup($id,1);
-			//var_dump($model);exit;
-			$model->action =$model->action_before;
-			$model->save();
-			Yii::$app->session->setFlash('success', "Undo success");
-    		 return $this->redirect(['index']);
+			{
+				self::updateAllTopup($id,1);
+				//var_dump($model);exit;
+				$model->action =$model->action_before;
+				$model->save();
+				Yii::$app->session->setFlash('success', "Undo success");
+	    		 return $this->redirect(['index']);
+			}
+			else{
+				Yii::$app->session->setFlash('warning', "Fail to undo");
+			}
+				
+			return $this->redirect(['direct']);
 		}
-		else{
-			Yii::$app->session->setFlash('warning', "Fail to undo");
-		}
-			
-		return $this->redirect(['direct']);
-	}
 	}
 
 	public function actionEdit($id)
@@ -188,9 +188,9 @@ class TopupController extends \yii\web\Controller
 		
 		return $this->redirect(['direct']);
 	}
+
     public function actionDirect()
     {
-     // var_dump(Yii::$app->request->post('pending')); exit;
 	  
 	   $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
@@ -198,39 +198,18 @@ class TopupController extends \yii\web\Controller
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 	
-	
-	
-	/*public function actionCancel($id)
-	{
-		$model = $this->findModel($id);
-		$model->action = 4;
-		if($model->save(false) !== false)
-		{
-			Yii::$app->session->setFlash('success', "Cancel success");
-		}
-		else{
-			Yii::$app->session->setFlash('danger', "Fail to Cancel");
-		}
-        return $this->redirect(['index']);
-
-	}
-	*/
 	protected static function updateAllTopup($id,$status)
 	{
 		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
-		
-		//var_dump($operate);exit;
-		//$operate->save();;
-	//	var_dump($data->validate()); exit;
+
 		if(is_null($data) || is_null($operate))
     	{
     		return false;
     	}
        
     	$isValid = $data->validate() && $operate->validate();
-		//var_dump($data->validate()); exit;
-     // var_dump($data); exit;
+	
     	if($isValid)
     	{
     		$data->save();
@@ -246,7 +225,7 @@ class TopupController extends \yii\web\Controller
 			
 	}
 		
-		 protected static function updOfflineTopupStatus($id,$status)
+	protected static function updOfflineTopupStatus($id,$status)
     {
     	$data = OfflineTopup::findOne($id);
 
@@ -259,7 +238,7 @@ class TopupController extends \yii\web\Controller
     	return $data;
     }
 	  
-	  protected function findModel($id)
+	protected function findModel($id)
     {
         if (($model = OfflineTopup::findOne($id)) !== null) {
             return $model;

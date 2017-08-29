@@ -42,8 +42,7 @@
                                 'label' => 'Admin Controller' , 'url' => '#', 'icon' => 'dashboard',
                                 'items' => [
                                         [ 'label' => 'Admin List', 'icon' => 'circle-o', 'url' => ['/admin/index']],
-                                        [ 'label' => 'Add Admin', 'icon' => 'circle-o', 'url' => ['/admin/add']],
-                                    ],
+                                     ],
                                 ],
   
                             [
