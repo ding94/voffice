@@ -83,7 +83,10 @@ class UserWithdraw extends \yii\db\ActiveRecord
 
         
         $this->load($params);
-
+		  $query->andFilterWhere(['like','acc_name' ,  $this->acc_name])
+				->andFilterWhere(['like','withdraw_amount' ,  $this->withdraw_amount])
+				->andFilterWhere(['like','to_bank' ,  $this->to_bank])
+				->andFilterWhere(['like','bank_name' ,  $this->bank_name]);
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 
