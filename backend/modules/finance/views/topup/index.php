@@ -103,6 +103,7 @@ use kartik\widgets\ActiveForm;
     	            'description',
 					'bank_name',
 					 [
+						'label' => 'Status',
 						'attribute' => 'offlinetopupstatus.title',
 						'value' => 'offlinetopupstatus.title',
 						
