@@ -10,6 +10,7 @@ use kartik\widgets\DatePicker;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
     $this->title =  'Add Voucher';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Voucher'), 'url' => ['/user/uservoucherlist']];
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -17,21 +18,31 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     <?= $form->field($uservoucher, 'code')->textInput() ?>
   
     	<?= $form->field($uservoucher, 'limitedTime')->widget(DatePicker::classname(), [
-    		'options' => ['placeholder' => 'Date voucher active to use'],
+    		'options' => ['placeholder' => 'Date voucher deactived'],
     		'pluginOptions' => [
-    			//'language' => 'ru',
     		'format' => 'yyyy-mm-dd',
 	    	'todayHighlight' => true,
 	        'todayBtn' => true,]]) 
 	    ?>
 
+        <?= $form->field($voucher, 'discount')->textInput()->input('',['placeholder' => 'Not required when existing code used']) ?>
+
     	<div class="form-group">
-	        <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Back', ['/vouchers/index'], ['class'=>'btn btn-primary']) ?>
+	        <?= Html::submitButton('Add', [
+                'class' => 'btn btn-danger', 
+                'data' => [
+                    'confirm' => 'If code alr exist, it will replace by its discount, continue?',
+                    'method' => 'post',
+            ]]);?>
+            
+            <?= Html::a('Back', ['/user/uservoucherlist'], ['class'=>'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>
+
 	</br>
+
 	<H3>Usable Vouchers </H3>
+
 	 <?= GridView::widget([
 
         'dataProvider' => $dataProvider,
@@ -39,6 +50,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'columns' => [
 
             'code',
+            'discount',
             
         ],
     ]); ?>
