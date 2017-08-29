@@ -74,10 +74,65 @@ Class UserController extends CommonController
 	public function actionAddvoucher($id)
 	{
 		$searchModel = new Vouchers();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$user = User::find()->where('id = :id', [':id' => $id])->one()->username;
+        $dataProvider = $searchModel->searchvalid(Yii::$app->request->queryParams);
+
+        $voucher = new Vouchers();
 		$uservoucher = new UserVoucher;
-		return $this->render('addvoucher',['user' => $user, 'uservoucher' => $uservoucher, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
+		$uservoucher->limitedTime = date('Y-m-d',strtotime('+30 day'));
+		if ( $uservoucher->load(Yii::$app->request->post())) {
+			
+			$uservoucher->uid =  $id;
+			$uservoucher->vid = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
+			$voucher->discount = Yii::$app->request->post('Vouchers')['discount'];
+			
+			if (empty($uservoucher->vid) && empty($voucher->discount)) {
+					Yii::$app->session->setFlash('error', "Failed! Voucher not found or discount no given!");
+			}
+
+			elseif (empty($uservoucher->vid) && !empty($voucher->discount)) {
+				
+				$voucher->code = Yii::$app->request->post('UserVoucher')['code'];
+				$voucher->discount = $voucher->discount;
+				$voucher->inCharge = Yii::$app->user->identity->adminname;
+				$voucher->startDate = date('Y-m-d');
+				$voucher->endDate = Yii::$app->request->post('UserVoucher')['limitedTime'];
+				$voucher->status = 1;
+				$voucher->save();
+				
+				$uservoucher->code = Yii::$app->request->post('UserVoucher')['code'];
+				$uservoucher->vid = Vouchers::find()->where('code = :c', [':c'=>$uservoucher->code])->one()->id;
+				$uservoucher->save();
+				Yii::$app->session->setFlash('success', "Success! Voucher created to User: ".User::find()->where('id = :id', [':id'=>$id])->one()->username);
+				return $this->redirect(['uservoucherlist']);
+			}
+
+			elseif (!empty($uservoucher->vid)) {
+
+				if ($uservoucher->vid['status'] == 0) {
+					$uservoucher->code = Yii::$app->request->post('UserVoucher')['code'];
+					$uservoucher->vid = Vouchers::find()->where('code = :c', [':c'=>$uservoucher->code])->one()->id;
+					$voucher = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
+					$voucher->status = 1;
+
+					if ($uservoucher->validate() && $voucher->validate()) {
+						$voucher->save();
+						$uservoucher->save();
+					}
+					
+					Yii::$app->session->setFlash('success', "Success gave code to User: ".User::find()->where('id = :id', [':id'=>$id])->one()->username);
+					return $this->redirect(['uservoucherlist']);
+				}
+				elseif ($uservoucher->vid['status'] != 0) {
+					Yii::$app->session->setFlash('error', "Used Voucher!");
+				}
+				elseif($uservoucher->validate() == false )
+				{
+					Yii::$app->session->setFlash('error', "Somthing went wrong! Contact IT department!");
+				}
+				
+			}
+		}
+		return $this->render('addvoucher',['uservoucher' => $uservoucher, 'dataProvider' => $dataProvider, 'voucher' => $voucher , 'searchModel'=> $searchModel]);
 	}
 
 	/**

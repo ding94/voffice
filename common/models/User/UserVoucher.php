@@ -29,7 +29,7 @@ class UserVoucher extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'vid', 'code', 'limitedTime'], 'required'],
-            [['uid', 'vid', 'limitedTime'], 'integer'],
+            [['uid', 'vid'], 'integer'],
             [['code'], 'string'],
         ];
     }
@@ -43,7 +43,7 @@ class UserVoucher extends \yii\db\ActiveRecord
             'uid' => 'Uid',
             'vid' => 'Vid',
             'code' => 'Code',
-            'limitedTime' => 'Limited Time',
+            'limitedTime' => 'Date Expired',
         ];
     }
 

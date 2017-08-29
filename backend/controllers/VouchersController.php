@@ -22,6 +22,7 @@ class VouchersController extends CommonController
     {
 
         $model = new Vouchers;
+        $model->scenario = 'add';
         $model->inCharge = Admin::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->adminname;
         $model->status = 'Activated';
         $model->startDate = date('Y-m-d');
@@ -90,7 +91,7 @@ class VouchersController extends CommonController
 		$model = new Vouchers;
         $model->scenario = 'generate'; // set senario, 为了model 的 rule 来判断
 		$model->startDate = date('Y-m-d');
-        $model->endDate = date('Y-m-d',strtotime('+30 day'));
+        //$model->endDate = date('Y-m-d',strtotime('+30 day'));
         $model->digit = 16;
     	 if( $model->load(Yii::$app->request->post()))
         {
@@ -118,7 +119,7 @@ class VouchersController extends CommonController
            		for($i=0;$i<$digit; $i++){
        				$model->code .= $chars[rand(0,strlen($chars)-1)];
     			}
-    		
+    		      //var_dump($model->endDate);exit;
     			if (Vouchers::find()->where('code = :c', [':c' => $model->code])->one()==true) {
     				$j=1;
     				$count +=1;

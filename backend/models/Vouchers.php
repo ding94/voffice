@@ -34,11 +34,12 @@ class Vouchers extends \yii\db\ActiveRecord
     {
         return [
             ['id','safe'],
-            [['code', 'discount', 'inCharge','startDate','endDate'], 'required'],
+            [['code','inCharge','startDate'], 'required'],
             [['amount','digit'],'required', 'on' => ['generate']], // 'on' = 判断senario, 为了给controller 知道放哪里 
-            [['code', 'inCharge', 'status'], 'string'],
+            [['discount'],'required', 'on' => ['generate','add']],
+            [['code', 'inCharge'], 'string'],
             ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
-            [ 'usedTimes', 'integer'],
+            [ ['usedTimes','status'], 'integer'],
             ['digit', 'integer','min'=> 8,'max'=> 20],
             ['amount','integer','min'=> 2,'max'=> 100],
             ['discount','integer','min'=>5,'max'=>100],
@@ -54,7 +55,7 @@ class Vouchers extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'code' => 'Code',
-            'discount' => 'Discount',
+            'discount' => 'Discount %',
             'status' => 'Status', 
             'usedTimes' => 'Used Times',
             'inCharge' => 'In Charge',
@@ -87,6 +88,35 @@ class Vouchers extends \yii\db\ActiveRecord
         //使用'or'寻找两边column资料
         //$query->andFilterWhere(['or',['like','Fname' , $this->Fname], ['like','Lname' , $this->Fname],]);
  
+        return $dataProvider;
+    }
+
+    public function searchvalid($params)
+    {
+        $query = self::find()->where('status = :s', [':s' => 0]); //自己就是table,找一找资料
+        
+        //$query->joinWith(['company']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        
+        $this->load($params);
+
+        //var_dump($query);
+        $query->andFilterWhere(['id' => $this->id]);
+        $query->andFilterWhere(['like','code' , $this->code]);
+        $query->andFilterWhere(['like','discount' , $this->discount]);
+        $query->andFilterWhere(['like','status' , $this->status]);
+        $query->andFilterWhere(['like','usedTimes' , $this->usedTimes]);
+        $query->andFilterWhere(['like','inCharge' , $this->inCharge]);
+        $query->andFilterWhere(['like','startDate' , $this->startDate]);
+        $query->andFilterWhere(['like','endDate' , $this->endDate]);
+
+        //使用'or'寻找两边column资料
+        //$query->andFilterWhere(['or',['like','Fname' , $this->Fname], ['like','Lname' , $this->Fname],]);
+        
         return $dataProvider;
     }
 }
