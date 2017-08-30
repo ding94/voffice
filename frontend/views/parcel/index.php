@@ -54,7 +54,7 @@ $this->registerJs("
                             'placeholder' => 'Search Sender',
                          ],
                 ],
-                [
+             /*   [
                     'attribute' => 'parceldetail.city',
                     'filterInputOptions' => [
                             'class'       => 'form-control',
@@ -74,7 +74,7 @@ $this->registerJs("
                             'class'       => 'form-control',
                             'placeholder' => 'Search Country',
                          ],
-                ],
+                ],*/
                // 'parceldetail.weight',
                 [
                     'attribute' => 'status',
