@@ -767,3 +767,7 @@ body {
 .content{
   margin-top: 100px; 
 }
+
+.package-name{
+  color: black;
+}
