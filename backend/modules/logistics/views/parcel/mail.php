@@ -23,18 +23,43 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'class' => 'yii\grid\CheckboxColumn',
                 // you may configure additional properties here
             ],
-            'id',
+            [
+                'attribute' => 'id',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search ID',
+                ],
+            ],
             [
                 'attribute' => 'user.username',
                 'label' => 'User Name',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Username',
+                ],
             ],
             [
                 'attribute' => 'user.userdetail.fullname',
                 'label' => 'Full Name',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Full Name',
+                ],
             ],
-
-            'parceldetail.sender',
-            'parceldetail.signer',
+            [
+                'attribute' => 'parceldetail.sender',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Sender',
+                ],
+            ],
+            [
+                'attribute' => 'parceldetail.signer',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Signer',
+                ],
+            ],
             [
                 'attribute' => 'type',
                 'value' => function($model)

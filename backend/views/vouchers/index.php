@@ -32,12 +32,48 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         'class' => 'yii\grid\CheckboxColumn',
                        
                     ],
-    	            'id',
-    	            'code',
-    	            'discount',
-    	            'status',
-    	            'usedTimes',
-    	            'inCharge',
+                    [
+                        'attribute' => 'id',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search ID',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'code',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Code',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'discount',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Discount',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'status',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Status',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'usedTimes',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Used Times',
+                        ],
+                    ],
+                    [
+                        'attribute' => 'inCharge',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Person In Charge',
+                        ],
+                    ],
     	            'startDate:date',
     	            'endDate:date',
         ]

@@ -15,8 +15,20 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'type',
-	        'price',
+            [
+                'attribute' => 'type',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Type',
+                ],
+            ],
+            [
+                'attribute' => 'price',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Price',
+                ],
+            ],
             ['class' => 'yii\grid\ActionColumn' ,
 			'template'=>'{update} ' ,
 			 'header' => "Update",

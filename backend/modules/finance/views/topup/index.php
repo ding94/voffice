@@ -96,12 +96,34 @@ use kartik\widgets\ActiveForm;
 				
               ],
 			 ],
-			 
-			         
-    	            'username',
-    	            'amount',
-    	            'description',
-					'bank_name',
+                    [
+                    'attribute' => 'username',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Username',
+                         ],
+                    ],
+                    [
+                    'attribute' => 'amount',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Amount',
+                         ],
+                    ],
+                    [
+                    'attribute' => 'description',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Description',
+                         ],
+                    ],
+                    [
+                    'attribute' => 'bank_name',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Bank Name',
+                         ],
+                    ],
 					 [
 						'label' => 'Status',
 						'attribute' => 'offlinetopupstatus.title',
@@ -109,8 +131,20 @@ use kartik\widgets\ActiveForm;
 						
 						'filter' => $list,
 					],
-    	            'inCharge',
-    	            'rejectReason',
+                    [
+                    'attribute' => 'inCharge',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Person in Charge',
+                         ],
+                    ],
+                    [
+                    'attribute' => 'rejectReason',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Reason',
+                         ],
+                    ],
 					 //'picture',
 					 
 				['class' => 'yii\grid\ActionColumn' , 

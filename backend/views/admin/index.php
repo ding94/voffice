@@ -43,8 +43,20 @@ Modal::end();
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-                'adminname',
-                'email',
+                [
+                    'attribute' => 'adminname',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Search Admin',
+                    ],
+                ],
+                [
+                    'attribute' => 'email',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Search Email',
+                    ],
+                ],
     	        [
                     'attribute' => 'status',
                     'value' => function($model)
@@ -54,7 +66,13 @@ Modal::end();
                     'filter' => array( "10"=>"Active","0"=>"Inactive"),
 
                 ],
-                'authAssignment.item_name',
+                [
+                    'attribute' => 'authAssignment.item_name',
+                    'filterInputOptions' => [
+                        'class'       => 'form-control',
+                        'placeholder' => 'Search Role',
+                    ],
+                ],
                  'updated_at:datetime',
 				 
 			['class' => 'yii\grid\ActionColumn' , 

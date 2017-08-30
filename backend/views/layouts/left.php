@@ -78,7 +78,7 @@
                                 'items' => [
                                     ['label' => 'Add Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/received-mail']],
                                     ['label' => 'Received Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>1]],
-                                    ['label' => 'Peding Pick Up', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>2]],
+                                    ['label' => 'Pending Pick Up', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>2]],
                                     ['label' => 'Sending Mail', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>3]],
                                     ['label' => 'Confirm received', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>4]],
                                     ['label' => 'Early postal', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>5]],

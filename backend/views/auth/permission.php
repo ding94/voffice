@@ -14,8 +14,20 @@ use yii\grid\ActionColumn;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'name',
-            'description',
+            [
+                'attribute' => 'name',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Name',
+                ],
+            ],
+            [
+                'attribute' => 'description',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Description',
+                ],
+            ],
             'updated_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',

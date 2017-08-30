@@ -27,12 +27,34 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     },
                 ]
             ],
-            'username',
+            [
+                'attribute' => 'username',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Username',
+                ],
+            ],
             [
                 'label' => 'Full Name',
                 'attribute' => 'userdetail.fullname',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Full Name',
+                ],
             ],
-            'email',
-            'usercompany.cmpyName',
+            [
+                'attribute' => 'email',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Email',
+                ],
+            ],
+            [
+                'attribute' => 'usercompany.cmpyName',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Company Name',
+                ],
+            ],
         ],
     ]); ?>

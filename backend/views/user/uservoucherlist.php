@@ -16,9 +16,20 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-
-            'username',
-            'email',
+            [
+                'attribute' => 'username',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Username',
+                ],
+            ],
+            [
+                'attribute' => 'email',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Email',
+                ],
+            ],
 			['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{addvoucher}',
              'buttons' => [

@@ -104,7 +104,7 @@ AppAsset::register($this);
     'encodeLabels' => false,
     'items' => [
         ['label' => 'My Account',  'items' => [
-            ['label' => 'Xcoin', 'url' => Url::to(['user/userbalance'])],
+            ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
             ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
         ]],
         ['label' => 'Member Settings',  'items' => [
@@ -114,7 +114,7 @@ AppAsset::register($this);
             ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ]],
         ['label' => 'Parcel', 'items' => [
-            ['label' => 'All Parcel', 'url' => Url::to(['parcel/index'])],
+            ['label' => 'My Mail', 'url' => Url::to(['parcel/index'])],
         ]],
 ]]);     
 

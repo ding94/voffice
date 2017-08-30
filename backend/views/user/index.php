@@ -16,13 +16,29 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-            'username',
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'username',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Username',
+                ],
+            ],
             [
                 'label' => 'Full Name',
                 'attribute' => 'userdetail.fullname',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Full Name',
+                ],
             ],
-            'email',
+            [
+                'attribute' => 'email',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Email',
+                ],
+            ],
             [
                 'attribute' => 'status',
                 'value' => function($model)

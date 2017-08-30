@@ -47,11 +47,34 @@ $this->registerJs("
         'dataProvider' => $dataProvider,
         'filterModel'=>$searchModel,
         'columns' => [
-           
-                'parceldetail.sender',
-                'parceldetail.city',
-                'parceldetail.state',
-                'parceldetail.country',
+                [
+                    'attribute' => 'parceldetail.sender',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Sender',
+                         ],
+                ],
+                [
+                    'attribute' => 'parceldetail.city',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search City',
+                         ],
+                ],
+                [
+                    'attribute' => 'parceldetail.state',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search State',
+                         ],
+                ],
+                [
+                    'attribute' => 'parceldetail.country',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Country',
+                         ],
+                ],
                // 'parceldetail.weight',
                 [
                     'attribute' => 'status',

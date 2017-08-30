@@ -15,10 +15,34 @@ use yii\data\ActiveDataProvider;
 
         'dataProvider' => $model,
         'columns' => [
-            'newVal',
-            'oldVal',
-            'type',
-            'adminname',
+            [
+                'attribute' => 'newVal',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search New Operation',
+                ],
+            ],
+            [
+                'attribute' => 'oldVal',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Previous Operation',
+                ],
+            ],
+            [
+                'attribute' => 'type',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Type',
+                ],
+            ],
+            [
+                'attribute' => 'adminname',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Admin',
+                ],
+            ],
            'updated_at:datetime',
         ],
     ]); ?>
