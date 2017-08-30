@@ -37,7 +37,7 @@ class WithdrawController extends \yii\web\Controller
 			}
 			elseif($model->withdraw_amount > $balance->balance)
 			{
-				Yii::$app->session->setFlash('error', 'Upload Fail');
+				Yii::$app->session->setFlash('error', 'Withdraw amount exceed balance!');
 			}
     	}
 		$model->acc_name ="";
