@@ -22,7 +22,6 @@ a:focus,
 a:active,
 a.active {
   outline: none;
-  text-decoration: underline;
 }
 a {
   color: #fed136;
@@ -771,4 +770,8 @@ body {
 
 .package-name{
   color: black;
+}
+
+.text-underline{
+    text-decoration: underline;
 }

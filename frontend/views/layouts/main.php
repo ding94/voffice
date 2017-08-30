@@ -103,14 +103,14 @@ BowerAsset::register($this);
                     </li>
                     <?php elseif(Yii::$app->user->identity->status == 1) : ?>
                     <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/validation'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
+                        <a class="page-scroll text-underline" href="<?php echo yii\helpers\Url::to(['/site/validation'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
                     </li>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/logout'])?>" data-method="post">Logout</a>
                     </li>
                     <?php else : ?>
                     <li>
-                        <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/user/index'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
+                        <a class="page-scroll text-underline" href="<?php echo yii\helpers\Url::to(['/user/index'])?>"><?php echo Yii::$app->user->identity->username; ?></a>
                     </li>
                     <li>
                         <a class="page-scroll" href="<?php echo yii\helpers\Url::to(['/site/logout'])?>" data-method="post">Logout</a>
