@@ -83,6 +83,11 @@ Class AuthController extends Controller
 	public function actionRemoveRole($id)
 	{
 		$data= Yii::$app->request->post('AuthItemChild');
+		if(is_null($data))
+		{
+			Yii::$app->session->setFlash('warning', "Please Select One");
+			return $this->redirect(['view' ,'id' => $id]);
+		}
 		$allchild ="";
 		$data = array_filter($data['child']);
 
@@ -109,7 +114,11 @@ Class AuthController extends Controller
 	public function actionAddRole($id)
 	{
 		$data= Yii::$app->request->post('AuthItemChild');
-
+		if(is_null($data))
+		{
+			Yii::$app->session->setFlash('warning', "Please Select One");
+			return $this->redirect(['view' ,'id' => $id]);
+		}
 		$allchild ="";
 		$data = array_filter($data['child']);
 		
