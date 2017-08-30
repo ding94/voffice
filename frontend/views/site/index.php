@@ -38,15 +38,11 @@ $this->title = 'Virtual Office';
 			<h2 class="w3-center">Manual Slideshow</h2>
 
 <div class="w3-content w3-display-container">
-<a href="#about" class="page-scroll btn btn-xl">Tell Me More</a>
+<div class="tellmemore"><a href="#about" class="page-scroll btn btn-xl">Tell Me More</a></div>
   <img class="mySlides" src="../web/img/rheader-bg.jpg" style="width:100%">
    <img class="mySlides" src="../web/img/rmap-image.jpg" style="width:100%">
   <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
   <img class="mySlides" src="../web/img/r2.jpg" style="width:100%">
-  
-      
-    
-  
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
@@ -317,7 +313,7 @@ $this->title = 'Virtual Office';
                                 <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
                             </a>
                             <div class="portfolio-caption">
-                                <h4><?php echo $package[0]['type']; ?></h4>
+                                <h4 class="package-name"><?php echo $package[0]['type']; ?></h4>
                                 <p class="text-muted"><?php echo $package[0]['price']; ?></p>
                             </div>
                         </div>
@@ -326,7 +322,7 @@ $this->title = 'Virtual Office';
                                 <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
                             </a>
                             <div class="portfolio-caption">
-                                <h4><?php echo $package[1]['type']; ?></h4>
+                                <h4 class="package-name"><?php echo $package[1]['type']; ?></h4>
                                 <p class="text-muted"><?php echo $package[1]['price']; ?></p>
                             </div>
                         </div>
@@ -335,11 +331,12 @@ $this->title = 'Virtual Office';
                                 <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
                             </a>
                             <div class="portfolio-caption">
-                                <h4><?php echo $package[2]['type']; ?></h4>
+                                <h4 class="package-name"><?php echo $package[2]['type']; ?></h4>
                                 <p class="text-muted"><?php echo $package[2]['price']; ?></p>
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <a href="<?php echo yii\helpers\Url::to(['/payment/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
                             </div>
                         </div>
                     </div>

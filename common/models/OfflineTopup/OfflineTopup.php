@@ -49,8 +49,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 			[['action','action_before','offlinetopupstatus.id'],'integer'],
             [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
-			 [[ 'bank_name'], 'string', 'max' => 255],
-			
+			[['bank_name'], 'string', 'max' => 255],
         ];
     }
 
