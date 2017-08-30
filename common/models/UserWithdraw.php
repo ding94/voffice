@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use common\models\OfflineTopup\OfflineTopupStatus;
+
 /**
  * This is the model class for table "user_withdraw".
  *
@@ -61,7 +62,7 @@ class UserWithdraw extends \yii\db\ActiveRecord
             [['uid', 'withdraw_amount', 'to_bank', 'acc_name'], 'required'],
 		  [['acc_name','inCharge', 'reason','offlinetopupstatus.title'], 'string'],
             [['uid', 'action','to_bank','created_at', 'updated_at','offlinetopupstatus.id'], 'integer'],
-            [['withdraw_amount'], 'number'],
+            [['withdraw_amount'], 'number','min'=>1],
             [[ 'bank_name','from_bank'], 'string', 'max' => 255],
         ];
     }

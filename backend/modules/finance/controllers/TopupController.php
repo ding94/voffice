@@ -67,11 +67,15 @@ class TopupController extends \yii\web\Controller
 	{
 		$model = OfflineTopup::find()->where('id = :id',[':id' => $id])->one(); 
 		
-		//var_dump($model->load(Yii::$app->request->post())); exit;
+		
 		if ($model->action == 3)
 		{
 			self::updateAllTopup($id,1);
 			$balance = self::deductBalance($model);
+			if($model->amount > $balance->balance){
+			Yii::$app->session->setFlash('warning', "Fail to undo");
+			return $this->redirect(['direct']);
+		}
 			$balance->save();
 			
 			//var_dump($balance->validate(); exit;
@@ -84,12 +88,15 @@ class TopupController extends \yii\web\Controller
 				Yii::$app->session->setFlash('success', "Undo success");
 	    		 return $this->redirect(['index']);
 			}
-			else{
+			else
+			{
+				
 				Yii::$app->session->setFlash('warning', "Fail to undo");
 			}
 				
 			return $this->redirect(['direct']);
 		}
+		
 	}
 	
 	protected static function deductBalance($model)

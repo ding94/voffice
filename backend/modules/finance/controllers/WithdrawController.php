@@ -54,7 +54,7 @@ class WithdrawController extends \yii\web\Controller
 		$uid = UserWithdraw::find()->where('uid = :name',[':name'=>$model->uid])->one()->uid;
 		
 		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
-		$balance ->negative += $model->withdraw_amount;
+		$balance ->negative += $model->withdraw_amount+2;
 		//$balance ->balance -= $model->withdraw_amount;
 		
 		return $balance;

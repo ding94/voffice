@@ -9,7 +9,8 @@ use yii\helpers\Html;
 <div class="container">
 	<div class="tab-content col-md-6 col-md-offset-1" id="withdraw">
 	<h1>User Withdraw</h1>
-	<br><i><p>My Balance: <?php echo $balance['balance']; ?></i></p><br>
+	<br><i><p>My Balance: <?php echo $balance['balance']; ?></i></p>
+	<br><i><p>You can withdraw below RM<?php echo $balance['balance']-2; ?>. Transfer fee RM2.</i></p><br>
     
               <?php $form = ActiveForm::begin(); ?>
 
