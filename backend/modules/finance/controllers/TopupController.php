@@ -19,8 +19,9 @@ class TopupController extends \yii\web\Controller
     {
        $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
-		$list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
+	   $list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
+	   
+       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
     }
 	
 	public function actionUpdate($id)

@@ -8,6 +8,8 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\OfflineTopup\OfflineTopupStatus;
 
 
 	$this->title = 'User Withdraw';
@@ -17,49 +19,97 @@ use kartik\widgets\ActiveForm;
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
+        'showFooter'=>true,
+
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn',
-			'template'=>'{approve} ',
-             'header' => "Approve",
-			 'buttons' => [
-             'approve' => function($url , $model){
-					
-                    $url = Url::to(['withdraw/approve' ,'id'=>$model->id,'admin'=>Yii::$app->user->identity->id]) ;
-                    return Html::a(FA::icon('check lg') , $url , ['title' => 'approve','data-confirm'=>"Confirm action?"]);
-					
+	        ['class' => 'yii\grid\ActionColumn',
+				'template'=>'{approve} ',
+	            'header' => "Approve",
+				'buttons' => [
+	            'approve' => function($url , $model){
+						
+	                    $url = Url::to(['withdraw/approve' ,'id'=>$model->id,'admin'=>Yii::$app->user->identity->id]) ;
+	                    return Html::a(FA::icon('check lg') , $url , ['title' => 'approve','data-confirm'=>"Confirm action?"]);
+						
 					},
-            ]
+	            ]
 			],
 			
 			['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{cancel} ',
-             'header' => "Reject",
-			 'buttons' => [
-             'cancel' => function($url , $model){
-					
-                    $url = Url::to(['withdraw/cancel' ,'id'=>$model->id]) ;
-                    return Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]);
-					
+	            'template'=>'{cancel} ',
+	            'header' => "Reject",
+				'buttons' => [
+	            'cancel' => function($url , $model){
+						
+	                	$url = Url::to(['withdraw/cancel' ,'id'=>$model->id]) ;
+	                    return Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]);
+						
 					},
-            ]
+	            ]
+			],
+
+			[
+                'attribute' => 'acc_name',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Account Name',
+                ],
+            ],
+
+            [
+                'attribute' => 'withdraw_amount',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Amount',
+                ],
+            ],
+
+            [
+                'attribute' => 'to_bank',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Bank Acount',
+                ],
+            ],
+
+            [
+                'attribute' => 'bank_name',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Bank Name',
+                ],
+            ],
+
+			[
+				'label' => 'Status',
+				'format' => 'raw',
+				'headerOptions' => ['width' => "15px"],
+				'contentOptions' => ['style' => 'font-size:20px;'],
+				'attribute' => 'offlinetopupstatus.title',
+				'value' => function($model){
+					$label = ArrayHelper::map(OfflineTopupStatus::find()->all(),'title','labelName');
+					return Html::tag('span' , $model->offlinetopupstatus->title ,['class' => $label[$model->offlinetopupstatus->title] ]);
+				},
+
+				'filter' => $list,
 			],
 			
-			    'acc_name',
-                'withdraw_amount',
-				'to_bank',
-				'bank_name',
-				[
-						'label' => 'Status',
-						'attribute' => 'offlinetopupstatus.title',
-						'value' => 'offlinetopupstatus.title',
-						
-						'filter' => $list,
-					],
-				//'offlinetopupstatus.title',
-				//'action',
-				'inCharge',
-				'reason',
-			],
+			[
+                'attribute' => 'inCharge',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search In Charge Person',
+                ],
+            ],
+
+            [
+                'attribute' => 'reason',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Reason',
+                ],
+            ],
+		],
                
     	         
     ]); ?>

@@ -29,6 +29,7 @@
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
+
                 'items' => [
                     ['label' => 'Control Page', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
@@ -36,6 +37,7 @@
                     [
                         'label' => 'Function',
                         'icon' => 'dashboard',
+                        'toggleData'=>true,
                         'url' => '#',
                         'items' => [
                             [

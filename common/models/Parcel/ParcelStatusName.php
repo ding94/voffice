@@ -45,9 +45,9 @@ class ParcelStatusName extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'description'], 'required'],
+            [['id', 'description' ,'labelName'], 'required'],
             [['id', 'created_at', 'updated_at'], 'integer'],
-            [['description'], 'string'],
+            [['description' ,'labelName'], 'string'],
         ];
     }
 
@@ -59,6 +59,7 @@ class ParcelStatusName extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'description' => 'Status Description',
+            'labelName' => 'Label Name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

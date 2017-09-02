@@ -17,9 +17,10 @@ class WithdrawController extends \yii\web\Controller
     {
         $searchModel = new UserWithdraw();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
+
 		$list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list]);
-		//return $this->render('index');
+
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ]);
     }
 
 	public function actionApprove($id)
