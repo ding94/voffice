@@ -6,12 +6,13 @@ use common\models\User\UserBalance;
 use common\models\BankDetails;
 use common\models\User\User;
 use yii\data\ActiveDataProvider;
+use backend\controllers\CommonController;
 use common\models\OfflineTopup\OfflineTopupStatus;
 use yii\helpers\ArrayHelper;
 use Yii;
 
 
-class WithdrawController extends \yii\web\Controller
+class WithdrawController extends CommonController
 {
     public function actionIndex()
     {

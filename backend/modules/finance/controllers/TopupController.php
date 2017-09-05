@@ -6,16 +6,15 @@ use common\models\User\UserBalance;
 use common\models\User\User;
 use common\models\OfflineTopup\OfflineTopupOperate;
 use common\models\OfflineTopup\OfflineTopupStatus;
+use backend\controllers\CommonController;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
-
-
 use Yii;
 
-class TopupController extends \yii\web\Controller
+class TopupController extends CommonController
 {
     public function actionIndex()
     {
