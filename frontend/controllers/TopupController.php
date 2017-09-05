@@ -29,11 +29,15 @@ class TopupController extends \yii\web\Controller
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 			
     		$post['OfflineTopup']['picture'] = $path.'/'.$upload->imageFile->name;
-    		$upload->upload();
-			//var_dump($upload->imageFile);exit;
-    		$model->load($post);
-    		$model->save(false);
-			Yii::$app->session->setFlash('success', 'Upload Successful');
+			if($upload->validate()) //validation
+			{
+				$upload->upload();
+				//var_dump($upload->imageFile);exit;
+				$model->load($post);
+				$model->save(false);
+				Yii::$app->session->setFlash('success', 'Upload Successful');
+			}
+    	
     	}
 		$model->amount ="";
 		$model->description ="";

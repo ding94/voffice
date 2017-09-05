@@ -6,15 +6,16 @@ use common\models\User\UserBalance;
 use common\models\User\User;
 use common\models\OfflineTopup\OfflineTopupOperate;
 use common\models\OfflineTopup\OfflineTopupStatus;
-use backend\controllers\CommonController;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
+
+
 use Yii;
 
-class TopupController extends CommonController
+class TopupController extends \yii\web\Controller
 {
     public function actionIndex()
     {
@@ -41,14 +42,14 @@ class TopupController extends CommonController
 			{
 				$balance->save();
 			//	self::updateAllTopup();
-				Yii::$app->session->setFlash('success', "Update success");
+				Yii::$app->session->setFlash('success', "Topup Success!");
 			}
 			else{
-				Yii::$app->session->setFlash('error', "Fail to Update");
+				Yii::$app->session->setFlash('error', "Fail to Topup");
 			}
 		}
 		elseif ($model->action !=1){
-			Yii::$app->session->setFlash('error', "Action Cancelled!");
+			Yii::$app->session->setFlash('error', "Topup has been opreated! Action Denied!");
 		}
         return $this->redirect(['index']);
 	}
@@ -126,7 +127,7 @@ class TopupController extends CommonController
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->save();
 			
-			Yii::$app->session->setFlash('success', "Cancel success");
+			Yii::$app->session->setFlash('success', "Topup rejected!");
     		 return $this->redirect(['index']);
 			}
 			    		
@@ -135,7 +136,7 @@ class TopupController extends CommonController
 		}
 		elseif ($model->action ==3 || $model->action ==4){
 		
-		Yii::$app->session->setFlash('error', "Action cancelled!");
+		Yii::$app->session->setFlash('error', "Topup has been Confirmed! Action denied!");
 		}
 		
 		
