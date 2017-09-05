@@ -98,12 +98,12 @@ Class ParcelController  extends CommonController
     {
     	$searchModel = new ParcelSearch;
     	$searchModel->titlename = ParcelStatusNameController::getStatusType($status,2);
-
+     
         $list = ParcelStatusNameController::listStatus();
 
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$status);
 
-    	return $this->render('mail',['model' => $dataProvider , 'searchModel' => $searchModel ,'list'=>$list , 'status' => $status]);
+    	return $this->render('mail',['model' => $dataProvider ,'searchModel' => $searchModel ,'list'=>$list , 'status' => $status ]);
 
     }
 	public static function getStatus($status){

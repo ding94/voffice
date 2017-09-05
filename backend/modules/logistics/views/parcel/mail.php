@@ -77,13 +77,13 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 {
                     $url = Url::to(['parcel-detail/view','parid' => $model->id ,'status' => $model->status]);
 
-                    return  Html::a(FA::icon('info-circle lg') , $url , ['title' => 'View detail']) ;
+                    return  Html::a('View' , $url , ['title' => 'View detail']) ;
                 },
                 'operate' => function($url , $model)
                 {
                     $url = Url::to(['parcel-operate/view-operate' ,'parid'=>$model->id,'status' => $model->status]);
                     
-                    return  Html::a(FA::icon('eye lg') , $url , ['title' => 'View Operate']) ;
+                    return  Html::a('View Operate' , $url , ['title' => 'View Operate']) ;
                 },
               ]
             ],
@@ -96,7 +96,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 {
                     $url =  Url::to(['parcel/next-step' ,'id'=>$model->id,'status'=>$model->status]);
 
-                    return  Html::a(FA::icon('check lg') , $url , ['title' => 'Next Step']) ;
+                    return  Html::a('Next Step' , $url , ['title' => 'Next Step']) ;
                 },
               ]
             ],

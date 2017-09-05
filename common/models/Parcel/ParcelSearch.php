@@ -37,7 +37,7 @@ class ParcelSearch extends Parcel
 	{
 		$query = Parcel::find()->where(['parcel.status' => $type]);
 
-        $query->joinWith(['parceldetail' ,'parcelstatus','user' ,'user.userdetail']);
+        $query->joinWith(['user' ,'user.userdetail']);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -74,6 +74,7 @@ class ParcelSearch extends Parcel
         $query->andFilterWhere([
             'status' => $this->status,
             'type' => $this->type,
+            Parcel::tableName().'.id' => $this->id,
         ]);
 
 
