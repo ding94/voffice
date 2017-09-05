@@ -22,6 +22,7 @@ class TopupController extends \yii\web\Controller
        $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
 	   $list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
+	  
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
     }
 	
@@ -157,6 +158,7 @@ class TopupController extends \yii\web\Controller
 				//var_dump($model);exit;
 				$model->action =$model->action_before;
 				$model->save();
+				
 				Yii::$app->session->setFlash('success', "Undo success");
 	    		 return $this->redirect(['index']);
 			}
@@ -213,14 +215,14 @@ class TopupController extends \yii\web\Controller
 	{
 		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
-
+		//var_dump($data);exit;
 		if(is_null($data) || is_null($operate))
     	{
     		return false;
     	}
        
     	$isValid = $data->validate() && $operate->validate();
-	
+	 //var_dump($data->validate());exit;
     	if($isValid)
     	{
     		$data->save();
@@ -244,7 +246,7 @@ class TopupController extends \yii\web\Controller
     	{
     		return $data;
     	}
-        $statusDesription = OfflineTopupStatusController::getStatusType($status,2);
+        $statusDesription = OfflineTopupStatusController::getStatusType($status,1);
         $data->action =  $statusDesription;
     	return $data;
     }
@@ -271,7 +273,7 @@ class TopupController extends \yii\web\Controller
 		        ]
 	    	],
         ]);
-
+		     
 		return $this->render('view',['model' => $dataProvider ,'tid' => $tid]);
 	}
 	
