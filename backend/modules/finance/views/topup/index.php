@@ -8,6 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 
 	$this->title = 'Offline Topup';
@@ -97,8 +98,13 @@ use kartik\widgets\ActiveForm;
               ],
 			 ],
 			
-					
-			 'id',
+			[
+                    'attribute' => 'id',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search ID',
+                         ],
+                    ],
                                 
 				   [
                     'attribute' => 'username',

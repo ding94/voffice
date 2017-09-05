@@ -50,6 +50,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
             [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
 			[['bank_name'], 'string', 'max' => 255],
+			[['id'],'number'],
 		
         ];
     }
@@ -97,6 +98,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 		
 		   $query->andFilterWhere([
 				'title' => $this->getAttribute('offlinetopupstatus.title'),
+				 OfflineTopup::tableName().'.id' => $this->id,
 				//'id' =>   $this->id,
             ]);
 			

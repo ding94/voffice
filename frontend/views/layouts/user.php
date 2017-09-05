@@ -102,18 +102,19 @@ AppAsset::register($this);
     <?php echo SideNav::widget([
     //'type' => $type,
     'encodeLabels' => false,
+    'options' => ['class' => 'in'],
     'items' => [
-        ['label' => 'My Account',  'items' => [
+        ['label' => 'My Account', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
             ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
         ]],
-        ['label' => 'Member Settings',  'items' => [
+        ['label' => 'Member Settings','options' => ['class' => 'active'], 'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
             ['label' => 'Change Password', 'url' => Url::to(['user/changepassword'])],
             ['label' => 'Mailing Address', 'url' => Url::to(['user/usermailingaddress'])],
             ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
         ]],
-        ['label' => 'Parcel', 'items' => [
+        ['label' => 'Parcel', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'My Mail', 'url' => Url::to(['parcel/index'])],
         ]],
 ]]);     
