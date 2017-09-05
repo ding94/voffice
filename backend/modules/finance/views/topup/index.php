@@ -8,7 +8,6 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 
 
 	$this->title = 'Offline Topup';
