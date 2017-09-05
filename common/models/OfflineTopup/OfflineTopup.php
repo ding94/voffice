@@ -31,7 +31,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 	
 	public function attributes()
     {
-		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title']);
+		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title','offlinetopupstatus.labelName']);
 	}
 	
 	public function getOfflinetopupstatus()

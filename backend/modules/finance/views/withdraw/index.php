@@ -8,9 +8,6 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use common\models\OfflineTopup\OfflineTopupStatus;
-
 
 	$this->title = 'User Withdraw';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -87,8 +84,7 @@ use common\models\OfflineTopup\OfflineTopupStatus;
 				'contentOptions' => ['style' => 'font-size:20px;'],
 				'attribute' => 'offlinetopupstatus.title',
 				'value' => function($model){
-					$label = ArrayHelper::map(OfflineTopupStatus::find()->all(),'title','labelName');
-					return Html::tag('span' , $model->offlinetopupstatus->title ,['class' => $label[$model->offlinetopupstatus->title] ]);
+					return Html::tag('span' , $model->offlinetopupstatus->title ,['class' => $model->offlinetopupstatus->labelName ]);
 				},
 
 				'filter' => $list,
