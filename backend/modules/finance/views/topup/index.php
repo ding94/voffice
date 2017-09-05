@@ -16,12 +16,12 @@ use yii\helpers\ArrayHelper;
 	
 ?>
 		  <?=Html::beginForm(['/finance/topup/direct'],'post');?>
-		   <?=Html::submitButton('All', ['name'=>'action', 'value' => '0','class' => 'btn btn-info',]);?>
-		  <?=Html::submitButton('Pending', ['name'=>'action', 'value' => '1','class' => 'btn btn-primary',]);?>
+		 
+		  <?=Html::submitButton('Pending', ['name'=>'action', 'value' => '1','class' => 'btn btn-info',]);?>
 		   <?=Html::submitButton('Success', ['name'=>'action', 'value' => '3','class' => 'btn btn-success',]);?>
 		  <?=Html::submitButton('Rejected', ['name'=>'action', 'value' => '4','class' => 'btn btn-danger',]);?>
 		  <?=Html::submitButton('Problematic Payment', ['name'=>'action', 'value' => '2','class' => 'btn btn-warning',]);?>
-		 
+		   <?=Html::submitButton('All', ['name'=>'action', 'value' => '0','class' => 'btn btn-primary',]);?>
 	<?= Html::endForm();?> 
 	
 	<?= GridView::widget([
@@ -97,7 +97,11 @@ use yii\helpers\ArrayHelper;
 				
               ],
 			 ],
-                    [
+			
+					
+			 'id',
+                                
+				   [
                     'attribute' => 'username',
                     'filterInputOptions' => [
                             'class'       => 'form-control',

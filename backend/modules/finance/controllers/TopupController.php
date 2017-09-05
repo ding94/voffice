@@ -11,6 +11,8 @@ use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
+
+
 use Yii;
 
 class TopupController extends \yii\web\Controller
@@ -18,9 +20,9 @@ class TopupController extends \yii\web\Controller
     public function actionIndex()
     {
        $searchModel = new OfflineTopup();
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
 	   $list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-	   
+	  
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
     }
 	
