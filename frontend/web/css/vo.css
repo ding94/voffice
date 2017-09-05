@@ -775,3 +775,11 @@ body {
 .text-underline{
     text-decoration: underline;
 }
+
+.alert-style{
+  position: absolute;
+  top: 30px;
+  right: 35%;
+  width: 30%;
+  z-index: 5000;
+}

@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
 		  <?=Html::submitButton('Pending', ['name'=>'action', 'value' => '1','class' => 'btn btn-info',]);?>
 		   <?=Html::submitButton('Success', ['name'=>'action', 'value' => '3','class' => 'btn btn-success',]);?>
 		  <?=Html::submitButton('Rejected', ['name'=>'action', 'value' => '4','class' => 'btn btn-danger',]);?>
-		  <?=Html::submitButton('Problematic Payment', ['name'=>'action', 'value' => '2','class' => 'btn btn-warning',]);?>
+		 
 		   <?=Html::submitButton('All', ['name'=>'action', 'value' => '0','class' => 'btn btn-primary',]);?>
 	<?= Html::endForm();?> 
 	
@@ -63,7 +63,7 @@ use yii\helpers\ArrayHelper;
                         $url = Url::to(['topup/cancel' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=4  ? Html::a(FA::icon('ban lg') , $url , ['title' => 'cancel','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Cancel','data-confirm'=>"Confirm action?"]);
+                    return  $model->action !=4  ? Html::a(FA::icon('ban lg') , $url , ['title' => 'Reject','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Reject','data-confirm'=>"Confirm action?"]);
 					
 					},
             ]

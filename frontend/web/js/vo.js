@@ -23,6 +23,12 @@ $('select#package').on('change', function() {
   }
 });
 
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 4000);
+
 // (function($) {
 //     "use strict"; // Start of use strict
 
