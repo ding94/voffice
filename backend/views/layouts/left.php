@@ -29,7 +29,6 @@
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
-              
                 'items' => [
                     ['label' => 'Control Page', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
@@ -38,6 +37,7 @@
                         'items' =>  [
                                         [ 'label' => 'Admin List', 'icon' => 'circle-o', 'url' => ['/admin/index']],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('admin/index'), 
                     ],
                     [   'label' => 'User Controller', 'icon' => 'user', 'url' => "#",
@@ -45,6 +45,7 @@
                                         [ 'label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],
                                         [ 'label' => 'User Voucher', 'icon' => 'circle-o', 'url' => ['/user/uservoucherlist']],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('user/index'), 
                     ],
                     [   'label' => 'Package Controller', 'icon' => 'dashboard', 'url' => '#',
@@ -52,12 +53,14 @@
                                         ['label' => 'Package List', 'icon' => 'circle-o', 'url' => ['/package/index']],
                                         [ 'label' => 'Add Package', 'icon' => 'circle-o', 'url' => ['/package/add']],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('package/index'), 
                     ],
                     [   'label' => 'Voucher Controller' , 'icon' => 'dashboard' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Vouchers List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('vouchers/index'), 
                     
                     ],
@@ -66,6 +69,7 @@
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
 									    ['label' => 'User Withdraw', 'icon' => 'circle-o', 'url' => ['/finance/withdraw/index']],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('topup/index'), 
                     ],
                     [   'label' => 'Logistic Controller', 'icon' => 'dashboard', 'url' => '#',
@@ -78,6 +82,7 @@
                                         ['label' => 'Early postal', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>5]],
                                         ['label' => 'Pending early pickup', 'icon' => 'circle-o', 'url' => ['/logistics/parcel/type-mail' ,'status'=>6]],
                                     ],
+                        'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('parcel/type-mail'), 
                     ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
@@ -85,6 +90,7 @@
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],
                                         ['label' => 'Permission List' ,'icon' => 'circle-o' , 'url' => ['/auth/permission']],
                                     ],
+                        'options' => ['class' => 'active'],
                     ],
                             
                         
