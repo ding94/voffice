@@ -117,12 +117,7 @@ BowerAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info',
-            'style' => 'position: absolute;
-                        top: 30px;
-                        right: 25%;
-                        width: 50%;
-                        z-index: 5000;',
+            'class' => 'alert-info text-center alert-style',
             ],]) ?>
         <?= $content ?>
     </div>
