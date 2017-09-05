@@ -50,6 +50,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
             [['amount'], 'number','min'=>10],
             [['picture'], 'string', 'max' => 100],
 			[['bank_name'], 'string', 'max' => 255],
+		
         ];
     }
 
@@ -59,8 +60,10 @@ class OfflineTopup extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
+           
+		    
+		    'id'=> 'ID',
+		    'username' => 'Username',
             'amount' => 'Amount',
             'description' => 'Description',
 			'bank_name' => 'Bank Name',
@@ -94,14 +97,18 @@ class OfflineTopup extends \yii\db\ActiveRecord
 		
 		   $query->andFilterWhere([
 				'title' => $this->getAttribute('offlinetopupstatus.title'),
+				//'id' =>   $this->id,
             ]);
 			
-		  $query->andFilterWhere(['like','username' ,  $this->username])
+		  $query 
+				->andFilterWhere(['like','username' ,  $this->username])
 				->andFilterWhere(['like','amount' ,  $this->amount])
 				->andFilterWhere(['like','description' ,  $this->description])
 				->andFilterWhere(['like','bank_name' ,  $this->bank_name])
 				->andFilterWhere(['like','inCharge' ,  $this->inCharge])
 				->andFilterWhere(['like','rejectReason' ,  $this->rejectReason]);
+				
+			
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 
