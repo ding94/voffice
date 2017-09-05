@@ -41,8 +41,7 @@ class UserSearch extends User
             'desc'=>['cmpyName'=>SORT_DESC],
         ];
 
-        $query->joinWith(['userdetail']);
-        $query->joinWith(['usercompany']);
+        $query->joinWith(['userdetail','usercompany']);
 
         $this->load($params);
 
@@ -55,12 +54,18 @@ class UserSearch extends User
         $query->andFilterWhere(['like','username' , $this->username]);
         $query->andFilterWhere(['like','cmpyName' , $this->getAttribute('usercompany.cmpyName')]);
         $query->andFilterWhere(['like','email' , $this->email]);
+       $query->andFilterWhere(['or',
+                                    ['like','Fname',$this->getAttribute('userdetail.fullname')],
+                                    ['like','Lname',$this->getAttribute('userdetail.fullname')],
+                                    ['like', 'concat(Fname, " " , Lname) ', $this->getAttribute('userdetail.fullname')]
+                               ]);
+        
 
-        $query->andWhere('Fname LIKE "%' . $this->getAttribute('userdetail.fullname') . '%" ' . //This will filter when only first name is searched.
+        /*$query->andWhere('Fname LIKE "%' . $this->getAttribute('userdetail.fullname') . '%" ' . //This will filter when only first name is searched.
             'OR Lname LIKE "%' .  $this->getAttribute('userdetail.fullname') . '%" '. //This will filter when only last name is searched.
             'OR CONCAT(Fname, " ", Lname) LIKE "%' . $this->getAttribute('userdetail.fullname') . '%"' //This will filter when full name is searched.
         );
-       
+       */
         return $dataProvider;
     }
 }

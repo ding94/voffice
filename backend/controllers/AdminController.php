@@ -44,7 +44,8 @@ Class AdminController extends CommonController
 			Yii::$app->session->setFlash('success', "Add completed");
     		return $this->redirect(['index']);
 		}
-		return $this->renderPartial('addEdit' ,array('model' => $model ,'list' => $list);
+
+		return $this->render('addEdit' ,['model' => $model ,'list' => $list]);
 	}
 
 	public function actionUpdate($id)

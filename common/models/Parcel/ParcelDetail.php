@@ -72,7 +72,7 @@ class ParcelDetail extends \yii\db\ActiveRecord
             'city' => 'City',
             'state' => 'State',
             'country' => 'Country',
-            'weight' => 'Weight',
+            'weight' => 'Weight (g)',
             'fulladdress' => 'Address',
             'fullcitycode' => '',
         ];

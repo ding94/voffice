@@ -37,7 +37,7 @@ class ParcelSearch extends Parcel
 	{
 		$query = Parcel::find()->where(['parcel.status' => $type]);
 
-        $query->joinWith(['user' ,'user.userdetail']);
+        $query->joinWith(['parceldetail','user' ,'user.userdetail']);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -81,12 +81,11 @@ class ParcelSearch extends Parcel
         $query->andFilterWhere(['like','username' , $this->getAttribute('user.username')]);
         $query->andFilterWhere(['like','sender' , $this->getAttribute('parceldetail.sender')]);
         $query->andFilterWhere(['like','signer' , $this->getAttribute('parceldetail.signer')]);
-    
-        $query->andWhere('Fname LIKE "%' . $this->getAttribute('user.userdetail.fullname') . '%" ' . 
-            'OR Lname LIKE "%' .   $this->getAttribute('user.userdetail.fullname') . '%" '.
-            'OR CONCAT(Fname, " ", Lname) LIKE "%' .  $this->getAttribute('user.userdetail.fullname') . '%"'
-        );
-
+        $query->andFilterWhere(['or',
+                                    ['like','Fname',$this->getAttribute('user.userdetail.fullname')],
+                                    ['like','Lname',$this->getAttribute('user.userdetail.fullname')],
+                                    ['like', 'concat(Fname, " " , Lname) ', $this->getAttribute('user.userdetail.fullname')]
+                               ]);
         return $dataProvider;
     }
 

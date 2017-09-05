@@ -13,30 +13,7 @@ use yii\bootstrap\Modal;
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-  <?=Html::a('Add New Admin','#',[
-        'id' => 'add',
-        'data-toggle' => 'modal',
-        'data-target' => '#aaa',
-        'class' => 'btn btn-success',
-    ]);
-    ?>
-    
-<?php
-Modal::begin([
-    'id' => 'aaa',
-    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-]); 
-$requestUrl = Url::toRoute(['admin/add']);
-$js = <<<JS
-$.get('{$requestUrl}',{},
-function(data){
-    $('.modal-body').html(data);
-}
-)
-JS;
-$this->registerJs($js);
-Modal::end();
-?>
+  <?=Html::a('Add New Admin',['/admin/add'],['class' => 'btn btn-success',]);?>
 
 	<?= GridView::widget([
         'dataProvider' => $model,

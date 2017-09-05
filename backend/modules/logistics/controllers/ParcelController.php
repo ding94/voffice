@@ -24,6 +24,7 @@ Class ParcelController  extends CommonController
     {
     	$searchModel = new UserSearch;
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
     	return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
@@ -55,7 +56,7 @@ Class ParcelController  extends CommonController
     	$parcel = self::newParcel($id,$post);
 
     	$isValid = $parcel->validate();
-        
+    
     	if($isValid)
     	{
     		$parcel->save();
