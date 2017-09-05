@@ -66,7 +66,7 @@
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
 									    ['label' => 'User Withdraw', 'icon' => 'circle-o', 'url' => ['/finance/withdraw/index']],
                                     ],
-                        'visible'=> Yii::$app->user->can('topup/index'), 
+                     
                     ],
                     [   'label' => 'Logistic Controller', 'icon' => 'dashboard', 'url' => '#',
                         'items' =>  [
