@@ -62,7 +62,7 @@ Class ParcelOperateController extends CommonController
 		}
 		elseif($type == 2)
 		{
-			$operate->newVal = "Update sender delivery address";
+			$operate->newVal = "Update address";
 			$operate->type = "Data";
 		}
     	

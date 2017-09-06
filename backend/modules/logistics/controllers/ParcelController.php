@@ -20,6 +20,9 @@ use backend\modules\logistics\controllers\ParcelStatusNameController;
 
 Class ParcelController  extends CommonController
 {
+    /*
+     * View all user
+     */
     public function actionReceivedMail()
     {
     	$searchModel = new UserSearch;
@@ -107,6 +110,10 @@ Class ParcelController  extends CommonController
     	return $this->render('mail',['model' => $dataProvider ,'searchModel' => $searchModel ,'list'=>$list , 'status' => $status ]);
 
     }
+
+    /*
+     * get next step status
+    */
 	public static function getStatus($status){
 		$value ="";
 			switch ($status){
@@ -125,11 +132,11 @@ Class ParcelController  extends CommonController
 								
 			}
 		return $value;	
-		}
+	}
+
     /*
      * change mail status to another status
      */
-
     public function actionNextStep($id,$status)
     {	
         if($status == 3 || $status == 4 )
@@ -154,8 +161,9 @@ Class ParcelController  extends CommonController
     	return $this->redirect(Yii::$app->request->referrer);
     } 
 	
-	
-
+	/*
+     * Mutiple change data
+    */
     public function actionBatch()
     {
         $data = Yii::$app->request->post();
@@ -208,6 +216,9 @@ Class ParcelController  extends CommonController
     	return false;
     }
 
+    /*
+    * create new parcel
+    */
     protected static function newParcel($id,$post)
     {
     	$parcel =new Parcel;
@@ -220,7 +231,6 @@ Class ParcelController  extends CommonController
     /*
      * update parcel status
      */
-
     protected static function updParcelStatus($id,$status)
     {
     	$data = Parcel::findOne($id);

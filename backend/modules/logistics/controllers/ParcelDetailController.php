@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Parcel\ParcelDetail;
 use backend\controllers\CommonController;
+use backend\modules\logistics\controllers\ParcelOperateController;
 
 Class ParcelDetailController extends CommonController
 {
@@ -18,11 +19,27 @@ Class ParcelDetailController extends CommonController
 	public function actionUpdate($id,$status)
 	{
 		$model = $this->findModel($id);
-		if($model->load(Yii::$app->request->post()) && $model->save())
+		if(Yii::$app->request->isPost)
 		{
-			Yii::$app->session->setFlash('success', "Update completed");
+			$model->load(Yii::$app->request->post());
+    		$operate = ParcelOperateController::createOperate($id,$status,2);
+
+    		$isValid = $model->validate() && $operate->validate();
+    		
+    		if($isValid)
+    		{
+    			$model->save();
+    			$operate->save();
+    			
+    		}
+    		else
+    		{
+    			Yii::$app->session->setFlash('warning', "Update Fail");
+    		}		
+			
 			return $this->redirect(['view','parid' => $id,'status' => $status]);
 		}
+		
 		return $this->render('update',['model'=> $model,'status' => $status]);
 	}
 
