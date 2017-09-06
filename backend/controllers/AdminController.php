@@ -35,7 +35,7 @@ Class AdminController extends CommonController
 		$model->adminTittle = "Add Admin";
 		$model->passwordOff = '1';
 		//var_dump($model);exit;
-		$list = self::getAllRole();
+		$list = self::getRole(1);
 		
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
@@ -53,8 +53,8 @@ Class AdminController extends CommonController
 		$model->adminTittle = "Update Admin";
 		$model->passwordOff = '0';
 		
-		$listData = self::getAllRole();
-		$role = self::getSelfRole($id);
+		$listData = self::getRole(1);
+		$role = self::getRole(2,$id);
 		
 		$list = array_merge($role,$listData);
 
@@ -144,20 +144,28 @@ Class AdminController extends CommonController
 		return $this->render('changepass' , ['model' => $model]);
 	}
 
-	protected static function getAllRole()
+	/*
+	* get auth role
+	* 1=> get all Role
+	* 2=> get current id Role
+	*/
+	protected static function getRole($type,$id=0)
 	{
 		$auth = \Yii::$app->authManager;
-		$data = $auth->getRoles();
+		$data = "";
+		switch ($type) {
+			case 1:
+				$data = $auth->getRoles();
+				break;
+			case 2:
+				$data = $auth->getRolesByUser($id);
+				break;
+			default:
+				break;
+		}
+	
 		$list = ArrayHelper::map($data,'name','name');
         return $list;
-	}
-
-	protected static function getSelfRole($id)
-	{
-		$auth = \Yii::$app->authManager;
-		$data = $auth->getRolesByUser($id);
-		$list = ArrayHelper::map($data,'name','name');
-		return $list;
 	}
 
   	/**
