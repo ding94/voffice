@@ -63,9 +63,4 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Admin::className() ,['id' => 'user_id']);
     }
-
-    public function getAdminRole($id)
-    {
-        return ArrayHelper::map(self::find()->where(['user_id' => $id])->select('item_name')->all(),'item_name','item_name');
-    }
 }
