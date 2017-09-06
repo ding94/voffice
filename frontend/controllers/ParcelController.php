@@ -8,6 +8,7 @@ use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelSearch;
 use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
+use backend\modules\logistics\controllers\ParcelStatusNameController;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -41,8 +42,10 @@ class ParcelController extends \yii\web\Controller
         $parcelstatus->prestatus = $status;
         $parcelstatus->status = 5;
         $parcel->status = 5;
+        $parceloperate = self::createOperate($id,5);
         $parcel->save();
         $parcelstatus->save();
+        $parceloperate->save();
         if($parcel->save() == true && $parcelstatus->save() == true)
         {
             Yii::$app->session->setFlash('success', "Early Postal Confirmed");
@@ -62,8 +65,10 @@ class ParcelController extends \yii\web\Controller
         $parcelstatus->prestatus = $status;
         $parcelstatus->status = 4;
         $parcel->status = 4;
+        $parceloperate = self::createOperate($id,4);
         $parcel->save();
         $parcelstatus->save();
+        $parceloperate->save();
         if($parcel->save() == true && $parcelstatus->save() == true)
         {
             Yii::$app->session->setFlash('success', "Confirm Received");
@@ -74,5 +79,32 @@ class ParcelController extends \yii\web\Controller
         }
 
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public static function createOperate($parid,$status)
+    {
+        $oldOperate = ParcelOperate::find()->where('parid = :id' ,[':id' => $parid])->orderBy('updated_at DESC')->one();
+
+        if(empty($oldOperate))
+        {
+            $old = "";
+        }
+        else
+        {
+            $old = $oldOperate->newVal;
+        }
+
+        $operate = new ParcelOperate;
+        $operate->operatorType = 2;
+        $operate->operatorID = Yii::$app->user->identity->id;
+        $operate->parid = $parid;
+        $operate->oldVal = $old;
+
+        $statusName = ParcelStatusNameController::getStatusType($status,2);
+        $operate->newVal = $statusName;
+        $operate->type = "Status";
+
+        
+        return $operate;
     }
 }
