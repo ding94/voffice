@@ -70,23 +70,33 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
             ],
             ['class' => 'yii\grid\ActionColumn' , 
-             'template'=>'{detail} {operate} ',
-              'header' => "Message",
+             'template'=>'{detail} ',
+              'header' => "Details",
              'buttons' => [
                 'detail' => function($url,$model)
                 {
                     $url = Url::to(['parcel-detail/view','parid' => $model->id ,'status' => $model->status]);
 
-                    return  Html::a('View' , $url , ['title' => 'View detail']) ;
+                    return  Html::a('Details' , $url , ['title' => 'View details']) ;
                 },
+               
+              ]
+            ],
+			
+			['class' => 'yii\grid\ActionColumn' , 
+             'template'=>' {operate} ',
+              'header' => "Operation Record",
+             'buttons' => [
+               
                 'operate' => function($url , $model)
                 {
                     $url = Url::to(['parcel-operate/view-operate' ,'parid'=>$model->id,'status' => $model->status]);
                     
-                    return  Html::a('View Operate' , $url , ['title' => 'View Operate']) ;
+                    return  Html::a('View' , $url , ['title' => 'View Operation Record']) ;
                 },
               ]
             ],
+			
             ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{next} ',
              'header' => "Action",

@@ -37,9 +37,9 @@ class ParcelDetail extends \yii\db\ActiveRecord
     {
         return [
             [['parid', 'sender', 'signer', 'weight','address1','city','state','country', 'state', 'postcode'], 'required'],
-            [['parid', 'postcode'], 'integer'],
+            [['parid', 'postcode','weight'], 'integer'],
             [['sender', 'signer', 'address1', 'address2', 'address3', 'city', 'state', 'country'], 'string'],
-            [['weight'], 'number'],
+          //  [['weight'], 'number'],
             [['parid'] ,'exist' ,
               'skipOnError' => true,
               'targetClass' => Parcel::className(),

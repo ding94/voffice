@@ -8,7 +8,7 @@ use common\models\User\User;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
-    $this->title = 'View Operate';
+    $this->title = 'Operation Record';
     $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mail Index'), 'url' => Yii::$app->request->referrer];
     $this->params['breadcrumbs'][] = $this->title;
 ?>

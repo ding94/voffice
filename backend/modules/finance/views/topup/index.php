@@ -43,7 +43,7 @@ use yii\helpers\ArrayHelper;
                         $url = Url::to(['topup/update' ,'id'=>$model->id]) ;
                     }
                    
-                    return  $model->action !=3  ? Html::a(FA::icon('check lg') , $url , ['title' => 'update','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Success','data-confirm'=>"Confirm action?"]);
+                    return  $model->action !=3  ? Html::a(FA::icon('check lg') , $url , ['title' => 'Approve','data-confirm'=>"Confirm action?"]) : Html::a(FA::icon('undo lg') , $url , ['title' => 'Reverse Approve','data-confirm'=>"Confirm action?"]);
 
 					},
             ]
@@ -182,7 +182,7 @@ use yii\helpers\ArrayHelper;
                 {
                    
 					$url =  Url::to(['topup/view-operate' ,'tid'=>$model->id,'status'=>$model->action]);
-                   return Html::a(FA::icon('eye lg') , $url , ['title' => 'View Operate']);
+                   return Html::a(FA::icon('eye lg') , $url , ['title' => 'View Operation Record']);
                 },
               ]
             ],
