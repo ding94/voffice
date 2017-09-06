@@ -107,6 +107,7 @@ AppAsset::register($this);
         ['label' => 'My Account', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
             ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
+			['label' => 'My Package', 'url' => Url::to(['user/userpackage'])],
         ]],
         ['label' => 'Member Settings','options' => ['class' => 'active'], 'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
