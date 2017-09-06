@@ -128,8 +128,8 @@ Class UserController extends CommonController
 
 			elseif (!empty($uservoucher->vid)) 
 			{
-
-				if ($uservoucher->vid['status'] == 0) 
+				//var_dump($uservoucher->vid['status'] );exit;
+				if ($uservoucher->vid['status'] == 1 || $uservoucher->vid['status'] == 4) 
 				{
 					$uservoucher = self::actionUservoucher($uservoucher, Yii::$app->request->post('UserVoucher'));
 					$voucher = self::actionExistvoucher($voucher,$list);
@@ -144,7 +144,7 @@ Class UserController extends CommonController
 					return $this->redirect(['uservoucherlist']);
 				}
 
-				elseif ($uservoucher->vid['status'] != 0) 
+				elseif ($uservoucher->vid['status'] != 1 || $uservoucher->vid['status'] != 4) 
 				{
 					Yii::$app->session->setFlash('error', "Used Voucher!");
 				}
@@ -206,9 +206,8 @@ Class UserController extends CommonController
 	public function actionExistvoucher($voucher,$list)
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
-		$voucher->status = Yii::$app->request->post('Vouchers')['status'];
-		$voucher->status +=1;
 		$voucher->type = $list[$voucher->status];
+		$voucher->status +=1;
 		
 		return $voucher;
 	}

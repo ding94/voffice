@@ -6,10 +6,9 @@ use yii\web\Controller;
 use backend\models\Admin;
 use backend\models\AdminControl;
 use backend\models\AdminResetPasswordForm;
-use backend\models\auth\AuthItem;
-use backend\models\auth\AuthAssignment;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use Yii;
 
 Class AdminController extends CommonController
@@ -36,8 +35,7 @@ Class AdminController extends CommonController
 		$model->adminTittle = "Add Admin";
 		$model->passwordOff = '1';
 		//var_dump($model);exit;
-		$listData = new AuthItem();
-		$list = $listData->roleList();
+		$list = self::getRole(1);
 		
 		if($model->load(Yii::$app->request->post()) && $model->add())
 		{
@@ -54,11 +52,11 @@ Class AdminController extends CommonController
 		$model->scenario = 'changeAdmin';
 		$model->adminTittle = "Update Admin";
 		$model->passwordOff = '0';
-		//var_dump($model);exit;
-		$listData = new AuthItem();
-		$role = New AuthAssignment();
-
-		$list = array_merge($role->getAdminRole($id),$listData->roleList());
+		
+		$listData = self::getRole(1);
+		$role = self::getRole(2,$id);
+		
+		$list = array_merge($role,$listData);
 
 		if($model->load(Yii::$app->request->post()) && $model->save())
 		{
@@ -144,6 +142,30 @@ Class AdminController extends CommonController
 			}
 		}
 		return $this->render('changepass' , ['model' => $model]);
+	}
+
+	/*
+	* get auth role
+	* 1=> get all Role
+	* 2=> get current id Role
+	*/
+	protected static function getRole($type,$id=0)
+	{
+		$auth = \Yii::$app->authManager;
+		$data = "";
+		switch ($type) {
+			case 1:
+				$data = $auth->getRoles();
+				break;
+			case 2:
+				$data = $auth->getRolesByUser($id);
+				break;
+			default:
+				break;
+		}
+	
+		$list = ArrayHelper::map($data,'name','name');
+        return $list;
 	}
 
   	/**

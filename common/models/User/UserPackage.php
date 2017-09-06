@@ -47,7 +47,7 @@ class UserPackage extends \yii\db\ActiveRecord
         return [
             'pay_id' => 'Pay ID',
             'uid' => 'Uid',
-            'packid' => 'Packid',
+            'packid' => 'Package',
             'code' => 'Code',
             'subscribe_time' => 'Subscribe Time',
             'end_period' => 'End Period',

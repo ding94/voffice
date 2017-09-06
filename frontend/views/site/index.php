@@ -336,7 +336,7 @@ $this->title = 'Virtual Office';
                             </div>
                         </div>
                         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        <a href="<?php echo yii\helpers\Url::to(['/payment/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
+                        <a href="<?php echo yii\helpers\Url::to(['/subscribe/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
                             </div>
                         </div>
                     </div>
