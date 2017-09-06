@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Voucher'), 'url
 	    ?>
 
         <?= $form->field($voucher, 'discount')->textInput()->input('',['placeholder' => 'Not required when existing code used']) ?>
+        <?= $form->field($voucher ,'status')->dropDownList($list)?>
 
     	<div class="form-group">
 	        <?= Html::submitButton('Add', [

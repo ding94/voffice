@@ -54,6 +54,13 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         ],
                     ],
                     [
+                        'attribute' => 'type',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Discount',
+                        ],
+                    ],
+                    [
                         'attribute' => 'status',
                         'filterInputOptions' => [
                             'class'       => 'form-control',
