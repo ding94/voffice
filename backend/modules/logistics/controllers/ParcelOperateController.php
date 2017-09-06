@@ -49,7 +49,8 @@ Class ParcelOperateController extends CommonController
 		}
 
 		$operate = new ParcelOperate;
-		$operate->adminname = Yii::$app->user->identity->adminname;
+		$operate->operatorType = 1;
+		$operate->operatorID = Yii::$app->user->identity->id;
     	$operate->parid = $parid;
     	$operate->oldVal = $old;
 

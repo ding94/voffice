@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
+use backend\models\Admin;
+use common\models\User\User;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
@@ -15,33 +17,30 @@ use yii\data\ActiveDataProvider;
 
         'dataProvider' => $model,
         'columns' => [
+            'newVal',
+            'oldVal',
+            'type',
             [
-                'attribute' => 'newVal',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search New Operation',
-                ],
+                'attribute' => 'operatorType',
+                'value'=> function($model){
+                     return $model->operatorType == 1 ? 'Admin' : 'User';
+                },
             ],
             [
-                'attribute' => 'oldVal',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search Previous Operation',
-                ],
-            ],
-            [
-                'attribute' => 'type',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search Type',
-                ],
-            ],
-            [
-                'attribute' => 'adminname',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search Admin',
-                ],
+                'label' => 'Operator Name',
+                'attribute' => 'operatorID',
+                'value'=> function($model){
+                    $name = "";
+                    if($model->operatorType == 1)
+                    {
+                        $name = Admin::findOne($model->operatorID)->adminname;
+                    }
+                    else
+                    {
+                         $name = User::findOne($model->operatorID)->username;
+                    }
+                    return $name;
+                },
             ],
            'updated_at:datetime',
         ],

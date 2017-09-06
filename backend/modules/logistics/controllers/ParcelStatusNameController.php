@@ -14,7 +14,6 @@ Class ParcelStatusNameController extends Controller
 	 * get statusName by type
 	 * 1=> get id
 	 * 2=> get showName
-	 * 3=> get description name
 	 */
 	public static function getStatusType($id,$type)
 	{
