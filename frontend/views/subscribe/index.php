@@ -26,6 +26,19 @@ $type = ArrayHelper::map(Package::find()->all(),'id','type');
 		<?= $form->field($subscribe, 'packid')->dropDownList($type,[
 			'id'=>'package',
 		]); ?>
+		<?= $form->field($payment, 'paid_amount',['template' => '
+       		<div class="input-group">
+          		<span class="input-group-addon">
+             		RM
+          		</span>
+          		{input}
+       		</div>
+       {error}{hint}'])->textInput([
+       		'readonly' => true,
+			'options'=>[
+				'id'=>'paid_amount',
+			],
+		]) ?>
 
     	<div class="form-group">
 	        <?= Html::submitButton('Subscribe', [
