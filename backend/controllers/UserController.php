@@ -184,6 +184,8 @@ Class UserController extends CommonController
 	public function actionNewvoucher($voucher, $post)
 	{
 
+
+		$voucher->status +=1; 
 		$voucher->code = $post['code'];
 		$voucher->inCharge = Yii::$app->user->identity->adminname;
 		$voucher->startDate = date('Y-m-d');
@@ -205,6 +207,7 @@ Class UserController extends CommonController
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
 		$voucher->status = Yii::$app->request->post('Vouchers')['status'];
+		$voucher->status +=1;
 		$voucher->type = $list[$voucher->status];
 		
 		return $voucher;

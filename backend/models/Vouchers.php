@@ -93,8 +93,8 @@ class Vouchers extends \yii\db\ActiveRecord
 
     public function searchvalid($params)
     {
-        $query = self::find()->where('status = :s', [':s' => 0]); //自己就是table,找一找资料
-        
+        $query = self::find()->where(['or',['status'=>1],['status'=>4]]); //自己就是table,找一找资料
+        //$query = self::find()->where(['or',['status'=>1],['status'=>4]]);
         //$query->joinWith(['company']);
 
         $dataProvider = new ActiveDataProvider([
