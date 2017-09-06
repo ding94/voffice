@@ -13,8 +13,20 @@ use yii\helpers\Url;
                 <tbody>
                   <tr>
                     <td>My Package:</td>
-                    
-                  </tr>
+                    <td><?php echo $model['packid']; ?></td>
+				</tr>
+				<tr>
+                    <td>Subscribe Period (months):</td>
+				<td><?php echo $model['sub_period']; ?></td>
+					</tr>
+					<tr>
+                    <td>Subscription Starts On:</td>
+				<td><?php echo $model['subscribe_time']; ?></td>
+					</tr>
+				<tr>
+                    <td>Subscription Ends On:</td>
+					<td><?php echo $model['end_period']; ?></td>
+				</tr>
                </tbody>
             </table>
             <a class="btn btn-md btn-info" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Renew</a>

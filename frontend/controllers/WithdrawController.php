@@ -29,7 +29,7 @@ class WithdrawController extends \yii\web\Controller
 			//var_dump($model->withdraw_amount > $balance->balance);exit;
 			if($model->withdraw_amount <= $balance->balance -2)
 			{	
-				$balance ->balance -= $model->withdraw_amount + 2;
+				$balance ->balance -= ($model->withdraw_amount+2);
 				//var_dump($balance->save()); exit;
 				self::actionValidation($model,$balance);
 				Yii::$app->session->setFlash('success', 'Upload Successful');
