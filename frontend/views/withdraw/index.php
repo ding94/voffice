@@ -14,10 +14,12 @@ use yii\helpers\Html;
     
               <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'acc_name')->textInput() ?>
-				 <?= $form->field($model, 'withdraw_amount')->textInput() ?>
-				   <?= $form->field($model, 'to_bank')->textInput() ?>				
-				<?= $form->field($model, 'bank_name')->dropDownList($items)?>
+             
+					<?= $form->field($model, 'withdraw_amount')->textInput() ?>
+					<?= $form->field($model, 'bank_name')->dropDownList($items)?>
+				    <?= $form->field($model, 'to_bank')->textInput() ?>		
+					<?= $form->field($model, 'acc_name')->textInput() ?>				   
+					
                 <div class="form-group">
                     <?= Html::submitButton('Upload', ['class' => 'btn btn-primary']) ?>
                 </div>

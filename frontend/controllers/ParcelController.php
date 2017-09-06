@@ -7,6 +7,7 @@ use common\models\Parcel\ParcelDetail;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelSearch;
 use common\models\Parcel\ParcelOperate;
+use common\models\Parcel\ParcelStatus;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -20,14 +21,58 @@ class ParcelController extends \yii\web\Controller
     {
         $searchModel = new ParcelSearch();
         $dataProvider = $searchModel->searchparceldetail(Yii::$app->request->queryParams,Yii::$app->user->identity->id);
+        $status = Parcel::find()->where('uid = :uid' ,[':uid' =>Yii::$app->user->identity->id])->all();
 
     	$this->layout = 'user';
-        return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel,]);
+        return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel, 'status'=>$status]);
     }
+
 	public function actionView($parid)
 	{
 		$model =  ParcelDetail::find()->where(['parid' => $parid])->one();
 
 		return $this->renderPartial('view',['model' => $model]);
 	}
+
+    public function actionEarlypostal($id,$status)
+    {
+        $parcel = Parcel::find()->where('id = :id',[':id' => $id])->one();
+        $parcelstatus = ParcelStatus::find()->where('parid = :parid',[':parid' => $id])->one();
+        $parcelstatus->prestatus = $status;
+        $parcelstatus->status = 5;
+        $parcel->status = 5;
+        $parcel->save();
+        $parcelstatus->save();
+        if($parcel->save() == true && $parcelstatus->save() == true)
+        {
+            Yii::$app->session->setFlash('success', "Early Postal Confirmed");
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Fail Update");
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionConfirmreceived($id,$status)
+    {
+        $parcel = Parcel::find()->where('id = :id',[':id' => $id])->one();
+        $parcelstatus = ParcelStatus::find()->where('parid = :parid',[':parid' => $id])->one();
+        $parcelstatus->prestatus = $status;
+        $parcelstatus->status = 4;
+        $parcel->status = 4;
+        $parcel->save();
+        $parcelstatus->save();
+        if($parcel->save() == true && $parcelstatus->save() == true)
+        {
+            Yii::$app->session->setFlash('success', "Confirm Received");
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Fail Update");
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 }

@@ -94,11 +94,34 @@ $this->registerJs("
 					},
 					'format' => 'raw'
 				],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{earlypostal}',
+                    'header' => "Early Postal Option",
+                    'buttons' => [
+                        'earlypostal' => function($url , $model)
+                        {
+                            $url =  Url::to(['parcel/earlypostal' ,'id'=>$model->id,'status'=>$model->status]);
+
+                            return $model->status == 2 ? Html::a('Early Postal' , $url , ['class' => 'text-underline','title' => 'Early Postal','data-confirm'=>"Confirm action?"]): '' ;
+                        },
+                      ],
+                ],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{confirmreceived}',
+                    'header' => "Confirm Received",
+                    'buttons' => [
+                        'confirmreceived' => function($url , $model)
+                        {
+                            $url =  Url::to(['parcel/confirmreceived' ,'id'=>$model->id,'status'=>$model->status]);
+
+                            return $model->status == 3 ? Html::a('Confirm Received' , $url , ['class' => 'text-underline','title' => 'Confirm Received','data-confirm'=>"Confirm action?"]): '' ;
+                        },
+                      ],
+                ],
 				
             ], 
-						 
-        
-		
 		
     ]); 
 		

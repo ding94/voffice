@@ -93,6 +93,7 @@ class ParcelSearch extends Parcel
     {
         $query = Parcel::find()->where('uid = :uid' ,[':uid' =>$uid ]);
         $query->joinWith(['parceldetail','parcelstatusname']);
+        
        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
