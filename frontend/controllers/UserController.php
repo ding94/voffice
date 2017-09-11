@@ -272,7 +272,7 @@ class UserController extends \yii\web\Controller
  		}
 
  		$this->layout = 'user';
-		return $this->render('userpackage', ['model' => $model,'type'=>$type]);
+		return $this->render('userpackage', ['model' => $model]);
  	}
 
 }
