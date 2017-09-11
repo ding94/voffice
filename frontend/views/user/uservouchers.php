@@ -12,7 +12,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 	$this->title = Yii::$app->user->identity->username.'Voucher List';
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
+  
 <div class="container">
+<div class="col-md-8">
     <?= Html::beginForm(['vouchers/batch'],'post');?>
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -28,6 +30,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         ]
     ])?>
     <?= Html::endForm();?> 
+</div>
 </div>
 
 
