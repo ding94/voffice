@@ -6,6 +6,7 @@ use common\models\User\UserPackage;
 use common\models\User\User;
 use common\models\User\UserBalance;
 use common\models\Payment;
+use common\models\SubscribePackageHistory;
 use Yii;
 
 class SubscribeController extends \yii\web\Controller
@@ -14,6 +15,7 @@ class SubscribeController extends \yii\web\Controller
     {
         $package = Package::find()->all();
         $subscribe = UserPackage::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
+        $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
 
@@ -22,9 +24,6 @@ class SubscribeController extends \yii\web\Controller
         }
 
         $date = Yii::$app->formatter->asDatetime(date('Y-m-d h:i:s'));
-        
-        $end_period = strtotime('+1 year',strtotime($date));
-        $end_period = date('Y-m-d h:i:s',$end_period);
         
         if (Yii::$app->request->post())
         {  
@@ -36,15 +35,31 @@ class SubscribeController extends \yii\web\Controller
             $payment->paid_type = 1;
             $payment->item = 'Subscription';
             $payment->original_price = $payment->paid_amount;
+            if ($subscribe->sub_period == 12) {
+              $end_period = strtotime('+1 year',strtotime($date));
+              $end_period = date('Y-m-d h:i:s',$end_period);
+            } else {
+              $end_period = strtotime('+1 month',strtotime($date));
+              $end_period = date('Y-m-d h:i:s',$end_period);
+            }
             $subscribe->subscribe_time = $date;
             $subscribe->end_period = $end_period;
-            $subscribe->sub_period = 12;
 
             if ($userbalance->balance >= $payment->paid_amount) {
                 $subscribe->save();
                 $userbalance->balance -= $payment->paid_amount;
                 $userbalance->save();
                 $payment->save();
+                $subscribehistory->uid = $subscribe->uid;
+                $subscribehistory->payid = $payment->id;
+                $subscribehistory->amount = $payment->paid_amount;
+                $subscribehistory->pay_date = $date;
+                $subscribehistory->type = $payment->paid_type;
+                $subscribehistory->packid = $subscribe->packid;
+                $subscribehistory->subscribe_period = $subscribe->sub_period;
+                $subscribehistory->subscribe_date = $subscribe->subscribe_time;
+                $subscribehistory->end_date = $subscribe->end_period;
+                $subscribehistory->save();
                 Yii::$app->session->setFlash('success', 'Subscription Successful');
             } else {
                 Yii::$app->session->setFlash('warning', 'Subscription failed');

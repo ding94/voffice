@@ -13,7 +13,7 @@ use yii\helpers\Url;
                 <tbody>
                   <tr>
                     <td>My Package:</td>
-                    
+                    <td><?php echo $model['package']['type'] ?></td>
                   </tr>
                </tbody>
             </table>

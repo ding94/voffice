@@ -11,6 +11,7 @@ use common\models\Package;
 use kartik\widgets\ActiveForm;
 
 $type = ArrayHelper::map(Package::find()->all(),'id','type');
+$period = array(1 => 'Monthly',12 => 'Annual');
 
 ?>
 
@@ -39,6 +40,7 @@ $type = ArrayHelper::map(Package::find()->all(),'id','type');
 				'id'=>'paid_amount',
 			],
 		]) ?>
+       <?= $form->field($subscribe,'sub_period')->dropDownList($period) ?>
 
     	<div class="form-group">
 	        <?= Html::submitButton('Subscribe', [

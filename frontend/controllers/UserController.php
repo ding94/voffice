@@ -263,7 +263,7 @@ class UserController extends \yii\web\Controller
  	}
 	public function actionUserpackage()
  	{
- 		$model = Userpackage::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
  		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
  		if (empty($model)) 
  		{

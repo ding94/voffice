@@ -3,11 +3,11 @@
 namespace common\models\User;
 
 use Yii;
+use common\models\Package;
 
 /**
  * This is the model class for table "user_package".
  *
- * @property integer $pay_id
  * @property integer $uid
  * @property integer $packid
  * @property string $code
@@ -32,10 +32,9 @@ class UserPackage extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'packid', 'subscribe_time', 'end_period', 'sub_period'], 'required'],
-            [['pay_id', 'uid', 'packid', 'sub_period'], 'integer'],
+            [['uid', 'packid', 'sub_period'], 'integer'],
             [['code'], 'string'],
             [['subscribe_time', 'end_period'], 'safe'],
-            [['pay_id'],'default','value' => '1'],
         ];
     }
 
@@ -45,7 +44,6 @@ class UserPackage extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pay_id' => 'Pay ID',
             'uid' => 'Uid',
             'packid' => 'Package',
             'code' => 'Code',
@@ -58,5 +56,10 @@ class UserPackage extends \yii\db\ActiveRecord
     public static function primaryKey()
     {
         return ['uid'];
+    }
+
+    public function getPackage()
+    {
+        return $this->hasOne(Package::classname(),['id' => 'packid']);
     }
 }
