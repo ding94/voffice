@@ -13,6 +13,7 @@ use common\models\User\UserBalance;
 use common\models\User\UserVoucher;
 use common\models\User\UserLogin;
 use common\models\User\UserPackage;
+use common\models\User\Package;
 use common\models\OfflineTopup\OfflineTopup;
 use kartik\mpdf\Pdf;
 
@@ -271,7 +272,7 @@ class UserController extends \yii\web\Controller
  		}
 
  		$this->layout = 'user';
-		return $this->render('userpackage', ['model' => $model,'offlinetopup' => $offlinetopup]);
+		return $this->render('userpackage', ['model' => $model,'type'=>$type]);
  	}
 
 }

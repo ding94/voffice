@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
+use backend\models\VouchersStatus;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
@@ -62,12 +63,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     ],
                     [
                         'attribute' => 'status',
-                        'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Status',
-                        ],
+                        'value' => function($model)
+                        {
+                            $model->status = VouchersStatus::find()->where('id=:id',[':id' => $model->status])->one()->description;
+                            return $model->status;
+                        },
+                        'filter' => array( "1"=>"Actived(%)","2"=>"Assigned(%)","3"=>"Used(%)","4"=>"Actived(RM)","5"=>"Assigned(RM)","6"=>"Used(RM)"),
                     ],
-                    [
+                    /*[
                         'attribute' => 'usedTimes',
                         'filterInputOptions' => [
                             'class'       => 'form-control',
@@ -80,7 +83,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                             'class'       => 'form-control',
                             'placeholder' => 'Search Person In Charge',
                         ],
-                    ],
+                    ],*/
     	            'startDate:date',
     	            'endDate:date',
         ]

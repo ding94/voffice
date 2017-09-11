@@ -99,6 +99,7 @@ Class UserController extends CommonController
 
 			$voucher->load(Yii::$app->request->post());
 			$voucher->type = $list[$voucher->status];
+			$voucher->endDate = $uservoucher->limitedTime;
 			
 			if (empty($uservoucher->vid) && empty($voucher->discount)) 
 			{
@@ -128,12 +129,11 @@ Class UserController extends CommonController
 
 			elseif (!empty($uservoucher->vid)) 
 			{
-				//var_dump($uservoucher->vid['status'] );exit;
 				if ($uservoucher->vid['status'] == 1 || $uservoucher->vid['status'] == 4) 
 				{
 					$uservoucher = self::actionUservoucher($uservoucher, Yii::$app->request->post('UserVoucher'));
 					$voucher = self::actionExistvoucher($voucher,$list);
-					
+					$voucher->endDate = $uservoucher->limitedTime;
 					if ($uservoucher->validate() && $voucher->validate()) 
 					{
 						$voucher->save();

@@ -61,7 +61,7 @@ class UserWithdraw extends \yii\db\ActiveRecord
         return [
             [['uid', 'withdraw_amount', 'to_bank', 'acc_name'], 'required'],
 		  [['inCharge', 'reason','offlinetopupstatus.title'], 'string'],
-		  [['acc_name'],'match', 'pattern' => '/^[a-zA-Z_-\s]*$/i'], 
+		 // [['acc_name'],'match', 'pattern' => '/^[a-zA-Z_-\s]*$/i'], 
             [['uid', 'action','to_bank','created_at', 'updated_at','offlinetopupstatus.id'], 'integer'],
             [['withdraw_amount'], 'number','min'=>1],
             [[ 'bank_name','from_bank'], 'string', 'max' => 255],
