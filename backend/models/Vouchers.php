@@ -40,6 +40,7 @@ class Vouchers extends \yii\db\ActiveRecord
             [['code', 'inCharge','type'], 'string'],
             ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
             [['usedTimes','status'], 'integer'],
+            ['endDate','safe'],
             ['digit', 'integer','min'=> 8,'max'=> 20],
             ['amount','integer','min'=> 2,'max'=> 100],
             ['discount','integer','min'=> 1],
@@ -79,6 +80,7 @@ class Vouchers extends \yii\db\ActiveRecord
         $query->andFilterWhere(['id' => $this->id]);
         $query->andFilterWhere(['like','code' , $this->code]);
         $query->andFilterWhere(['like','discount' , $this->discount]);
+        $query->andFilterWhere(['like','type' , $this->type]);
         $query->andFilterWhere(['like','status' , $this->status]);
         $query->andFilterWhere(['like','usedTimes' , $this->usedTimes]);
         $query->andFilterWhere(['like','inCharge' , $this->inCharge]);

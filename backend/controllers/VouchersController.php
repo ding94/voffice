@@ -16,7 +16,7 @@ class VouchersController extends CommonController
     {
         $searchModel = new Vouchers();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+        //var_dump(VouchersStatus::find()->where('id=:id',[':id' => 1])->one()->description);exit;
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
