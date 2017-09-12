@@ -20,7 +20,7 @@ use yii\helpers\Url;
 					 <td><?php echo $model['package']['price']; ?></td>
 				</tr>
 				<tr>
-                    <td>Subscribe Period (months):</td>
+                    <td>Subscribe Period (days):</td>
 				<td><?php echo $model['sub_period']; ?></td>
 					</tr>
 					<tr>
@@ -33,8 +33,23 @@ use yii\helpers\Url;
 				</tr>
                </tbody>
             </table>
-            <a class="btn btn-md btn-info" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Pay</a>
-      
+			
+			<table class="table table-user-information"><h3>Package Status</h3>
+                <tbody>
+                  <tr>
+                    <td>My Package:</td>
+                    <td><?php echo $subscribetype; ?></td>
+				</tr>
+				<tr>
+                    <td>Next Payment:</td>
+					<td><?php echo $model['end_period']; ?></td>
+				</tr>
+				</tr>
+               </tbody>
+            </table>
+			
+            <a class="btn btn-md btn-info" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Pay NOW</a>
+			<a class="btn btn-md btn-primary" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Renew</a>
 			
 			
 	</div>

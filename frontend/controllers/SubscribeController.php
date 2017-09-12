@@ -20,6 +20,7 @@ class SubscribeController extends \yii\web\Controller
         $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
+	
 		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
 		//$items = ArrayHelper::map(SubscribeType::find()->where(['options'=> [$_GET['id']=>['Selected'=>'selected']]]));
 		
@@ -46,16 +47,26 @@ class SubscribeController extends \yii\web\Controller
 			
 			$id = $subscribe->sub_period;
 			switch ($id) {
+			case 2:
+			$end_period = strtotime('+1 month',strtotime($date));
+			$end_period = date('Y-m-d h:i:s',$end_period);
+			$subscribe->sub_period =1;
+				break;
 			case 4:
-				$end_period = strtotime('+1 month',strtotime($date));
-				 $end_period = date('Y-m-d h:i:s',$end_period);
+			$end_period = strtotime('+1 month',strtotime($date));
+		    $end_period = date('Y-m-d h:i:s',$end_period);
+		    $subscribe->sub_period =30;
 				break;
 			case 5:
-			$end_period = strtotime('+1 year',strtotime($date));
+			$end_period = strtotime('+1 years',strtotime($date));
 			 $end_period = date('Y-m-d h:i:s',$end_period);
-			 $subscribe->sub_period =12;
-			 
-				break;
+			 $subscribe->sub_period =360;
+			 	break;
+			case 6:
+			$end_period = strtotime('+1 year',strtotime($date));
+			$end_period = date('Y-m-d h:i:s',$end_period);
+			$subscribe->sub_period =365;
+			 	break;
 			default:
 				$end_period="";
 				break;
