@@ -7,6 +7,8 @@ use common\models\User\User;
 use common\models\User\UserBalance;
 use common\models\Payment;
 use common\models\SubscribePackageHistory;
+use common\models\SubscribeType;
+use yii\helpers\ArrayHelper;
 use Yii;
 
 class SubscribeController extends \yii\web\Controller
@@ -18,7 +20,11 @@ class SubscribeController extends \yii\web\Controller
         $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
-
+		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
+		//$items = ArrayHelper::map(SubscribeType::find()->where(['options'=> [$_GET['id']=>['Selected'=>'selected']]]));
+		
+	
+		
         if (empty($subscribe)){
           $subscribe = new UserPackage();
         }
@@ -27,7 +33,9 @@ class SubscribeController extends \yii\web\Controller
         
         if (Yii::$app->request->post())
         {  
-            $post = Yii::$app->request->post();
+            
+			$post = Yii::$app->request->post();
+		
             $subscribe->load($post);
             $payment->load($post);
             $subscribe->uid = Yii::$app->user->identity->id;
@@ -35,13 +43,33 @@ class SubscribeController extends \yii\web\Controller
             $payment->paid_type = 1;
             $payment->item = 'Subscription';
             $payment->original_price = $payment->paid_amount;
-            if ($subscribe->sub_period == 12) {
+			
+			$id = $subscribe->sub_period;
+			switch ($id) {
+			case 4:
+				$end_period = strtotime('+1 month',strtotime($date));
+				 $end_period = date('Y-m-d h:i:s',$end_period);
+				break;
+			case 5:
+			$end_period = strtotime('+1 year',strtotime($date));
+			 $end_period = date('Y-m-d h:i:s',$end_period);
+			 $subscribe->sub_period =12;
+			 
+				break;
+			default:
+				$end_period="";
+				break;
+		}
+		$subscribe->type = $id;
+		//var_dump($subscribe); exit;
+			
+           /* if ($subscribe->sub_period == 12) {
               $end_period = strtotime('+1 year',strtotime($date));
               $end_period = date('Y-m-d h:i:s',$end_period);
             } else {
               $end_period = strtotime('+1 month',strtotime($date));
               $end_period = date('Y-m-d h:i:s',$end_period);
-            }
+            } */
             $subscribe->subscribe_time = $date;
             $subscribe->end_period = $end_period;
 
@@ -61,10 +89,11 @@ class SubscribeController extends \yii\web\Controller
                 $subscribehistory->end_date = $subscribe->end_period;
                 $subscribehistory->save();
                 Yii::$app->session->setFlash('success', 'Subscription Successful');
+				return $this->redirect(['/user/userpackage']);
             } else {
                 Yii::$app->session->setFlash('warning', 'Subscription failed');
             }
         }
-        return $this->render('index',['package' => $package,'subscribe'=>$subscribe, 'payment'=>$payment]);
+        return $this->render('index',['package' => $package,'subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
     }
 }

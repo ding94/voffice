@@ -40,12 +40,14 @@ $period = array(1 => 'Monthly',12 => 'Annual');
 				'id'=>'paid_amount',
 			],
 		]) ?>
-       <?= $form->field($subscribe,'sub_period')->dropDownList($period) ?>
+       <?= $form->field($subscribe,'sub_period')->dropDownList($items) ?>
+	  
 
     	<div class="form-group">
 	        <?= Html::submitButton('Subscribe', [
 	        	'class' => 'btn btn-primary',
 	        	'onClick' => 'return confirm("Confirm Subscription?")',
+				
 	        ]) ?>
 	   </div>
 	<?php ActiveForm::end();?>

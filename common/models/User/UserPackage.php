@@ -32,7 +32,7 @@ class UserPackage extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'packid', 'subscribe_time', 'end_period', 'sub_period'], 'required'],
-            [['uid', 'packid', 'sub_period'], 'integer'],
+            [['uid', 'packid', 'sub_period','type'], 'integer'],
             [['code'], 'string'],
             [['subscribe_time', 'end_period'], 'safe'],
         ];
@@ -47,6 +47,7 @@ class UserPackage extends \yii\db\ActiveRecord
             'uid' => 'Uid',
             'packid' => 'Package',
             'code' => 'Code',
+			'type'=> 'Suscription Type',
             'subscribe_time' => 'Subscribe Time',
             'end_period' => 'End Period',
             'sub_period' => 'Sub Period',

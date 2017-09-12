@@ -71,6 +71,7 @@ class Package extends \yii\db\ActiveRecord
         $amount = self::find()
             ->select(['id','price'])
             ->where(['id' => $package_type])
+			 ->where(['id' => $package_price])
             ->asArray()
             ->all();
 
