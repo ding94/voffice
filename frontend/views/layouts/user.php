@@ -97,8 +97,13 @@ AppAsset::register($this);
     <!-- Side Nav -->
 
 <div class="row">
-    <div class="sidenav col-md-3" style="padding-top: 100px; padding-left: 50px">
-        
+    <div class="sidenav col-md-3" style="padding-top: 50px; padding-left: 50px">
+        <div class="navbar-left">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+            <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
+        </button>
+        </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
     <?php echo SideNav::widget([
     //'type' => $type,
     'encodeLabels' => false,
@@ -122,7 +127,8 @@ AppAsset::register($this);
 
 ?>
     </div>
-    <div class="container-fluid">
+    </div>
+    <div class="container-fluid side-collapse-container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
