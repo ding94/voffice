@@ -29,8 +29,10 @@ class Package extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['price'], 'number'],
+                [['price', 'type','rank'], 'required'],
+			[['price'], 'number'],
             [['type'], 'string'],
+			[['rank'],'integer'],
         ];
     }
 
@@ -43,6 +45,7 @@ class Package extends \yii\db\ActiveRecord
             'id' => 'ID',
             'price' => 'Price',
             'type' => 'Title',
+			'rank' => 'Rank',
         ];
     }
 
