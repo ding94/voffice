@@ -29,7 +29,11 @@ class SubscribeController extends \yii\web\Controller
           $subscribe = new UserPackage();
         }
 
-        $date = Yii::$app->formatter->asDatetime(date('Y-m-d h:i:s'));
+        $year = date('Y');
+        $month = date('m');
+        $day = date('d');
+        $date = mktime(0,1,0,$month,$day,$year);
+        $date = date('Y-m-d h:i:s',$date);
         
         if (Yii::$app->request->post())
         {  
@@ -47,22 +51,22 @@ class SubscribeController extends \yii\web\Controller
 			$id = $subscribe->sub_period;
 			switch ($id) {
 			case 2:
-			$end_period = strtotime('+1 month',strtotime($date));
+			$end_period = mktime(0,1,0, $month+1,$day,$year);
 			$end_period = date('Y-m-d h:i:s',$end_period);
 			$subscribe->sub_period =1;
 				break;
 			case 4:
-			$end_period = strtotime('+1 month',strtotime($date));
+			$end_period = mktime(0,1,0, $month+1,$day,$year);
 		    $end_period = date('Y-m-d h:i:s',$end_period);
 		    $subscribe->sub_period =30;
 				break;
 			case 5:
-			$end_period = strtotime('+1 years',strtotime($date));
-			 $end_period = date('Y-m-d h:i:s',$end_period);
-			 $subscribe->sub_period =360;
+			$end_period = mktime(0,1,0, $month,$day,$year+1);
+			$end_period = date('Y-m-d h:i:s',$end_period);
+			$subscribe->sub_period =360;
 			 	break;
 			case 6:
-			$end_period = strtotime('+1 year',strtotime($date));
+			$end_period = mktime(0,1,0, $month,$day,$year+1);
 			$end_period = date('Y-m-d h:i:s',$end_period);
 			$subscribe->sub_period =365;
 			 	break;
