@@ -840,7 +840,8 @@ body.slide-active{
   }
   #slide-nav .navbar-header {
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 10px 15px;
+      font-size: 1.5em;
   }
   #slide-nav .navbar.slide-active {
       position: absolute;

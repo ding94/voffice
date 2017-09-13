@@ -97,7 +97,7 @@ AppAsset::register($this);
         <div class="container">
         <div class="navbar-header">
         <a class="navbar-toggle">
-            <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
+            <span class="sr-only">Toggle navigation</span><i class="glyphicon glyphicon-menu-hamburger"></i>
         </a>
         </div>
         </div>
