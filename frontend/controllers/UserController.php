@@ -268,6 +268,8 @@ class UserController extends \yii\web\Controller
  		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
  		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
  		$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
+		$model->end_period = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($model->end_period)));
+		//var_dump($model->end_period); exit;
 		//var_dump($subscribetype);exit;
 		if (empty($model)) 
  		{
