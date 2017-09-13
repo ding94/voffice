@@ -107,10 +107,10 @@ use yii\helpers\ArrayHelper;
                     ],
                                 
 				   [
-                    'attribute' => 'username',
+                    'attribute' => 'uid',
                     'filterInputOptions' => [
                             'class'       => 'form-control',
-                            'placeholder' => 'Search Username',
+                            'placeholder' => 'Search User ID',
                          ],
                     ],
                     [
