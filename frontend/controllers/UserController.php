@@ -15,8 +15,9 @@ use common\models\User\UserLogin;
 use common\models\User\UserPackage;
 use common\models\User\Package;
 use common\models\OfflineTopup\OfflineTopup;
+use common\models\SubscribeType;
 use kartik\mpdf\Pdf;
-
+use frontend\controllers\SubscribeController;
 class UserController extends \yii\web\Controller
 {
     public function behaviors()
@@ -266,13 +267,21 @@ class UserController extends \yii\web\Controller
  	{
  		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
  		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
- 		if (empty($model)) 
+ 		$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
+		//var_dump($subscribetype);exit;
+		if (empty($model)) 
  		{
  			$model = new UserPackage();
  		}
-
  		$this->layout = 'usertest';
-		return $this->render('userpackage', ['model' => $model]);
+		return $this->render('userpackage', ['model' => $model,'subscribetype'=>$subscribetype]);
  	}
+	
+	  public function actionPackage()
+    {
+           
+       
+        return $this->render("../package/index");
+    }
 
 }

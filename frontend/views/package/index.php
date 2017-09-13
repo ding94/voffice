@@ -1,34 +1,48 @@
 <?php
+
 /* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model \frontend\models\ContactForm */
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+use yii\grid\ActionColumn;
+
+$this->title = 'Platinum';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
  <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-6 portfolio-item">
-                            <a href="#portfolioModal1" class="portfolio-link">
-                                <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
-                            </a>
-                            <div class="portfolio-caption">
-                                <h4><?php echo $package[0]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[0]['price']; ?></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 portfolio-item">
-                            <a href="#portfolioModal2" class="portfolio-link">
-                                <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
-                            </a>
-                            <div class="portfolio-caption">
-                                <h4><?php echo $package[1]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[1]['price']; ?></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 portfolio-item">
-                            <a href="#portfolioModal3" class="portfolio-link">
-                                <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
-                            </a>
-                            <div class="portfolio-caption">
-                                <h4><?php echo $package[2]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[2]['price']; ?></p>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
+
+	 <div class="col-lg-5 col-lg-offset-5">
+	  
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>Welcome to XMailbox!</p>
+
+ 
+   <!-- Modal 1 -->
+   
+       
+                  <img class="img-fluid d-block mx-auto" src="../web/img/portfolio/roundicons.png" alt=""><br><br>
+				 
+				   
+				 <table>
+				  <tbody>
+                <tr>
+                  Date: January 2017</tr><br><br>
+                   <tr>Client: Threads</tr><br><br>
+                   <tr>Category: Illustration</tr><br><br>
+				    </tbody>
+                	 </table>
+              <div class="form-group">
+	        <?= Html::submitButton('Pay', [
+	        	'class' => 'btn btn-primary',
+	        	'onClick' => 'return confirm("Confirm Subscription?")',
+				
+	        ]) ?>
+	   </div>
+              <a class="btn btn-md btn-primary" href="<?php echo yii\helpers\Url::to(['user/userpackage'])?>">Upgrade</a>
+              </div>
+			  
+            </div>
+        
