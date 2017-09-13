@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 use common\models\Package;
 use common\models\User\UserPackage;
+use common\models\User\UserPackageSubscription;
 use common\models\User\User;
 use common\models\User\UserBalance;
 use common\models\Payment;
@@ -20,10 +21,8 @@ class SubscribeController extends \yii\web\Controller
         $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
-	
+		$userpackagesubscription = Userpackagesubscription::find()->where('uid = :id',[':id' => Yii::$app->user->identity->id])->one();
 		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
-		//$items = ArrayHelper::map(SubscribeType::find()->where(['options'=> [$_GET['id']=>['Selected'=>'selected']]]));
-		
 	
 		
         if (empty($subscribe)){
@@ -71,7 +70,7 @@ class SubscribeController extends \yii\web\Controller
 				$end_period="";
 				break;
 		}
-		//$subscribe->type = $id;
+		$subscribe->type = $id;
 		//var_dump($subscribe); exit;
 			
            /* if ($subscribe->sub_period == 12) {
@@ -99,6 +98,11 @@ class SubscribeController extends \yii\web\Controller
                 $subscribehistory->subscribe_date = $subscribe->subscribe_time;
                 $subscribehistory->end_date = $subscribe->end_period;
                 $subscribehistory->save();
+				
+				$userpackagesubscription->uid = $subscribe->uid;
+				$userpackagesubscription->end_period = $subscribe->end_period;
+				$userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($subscribe->end_period)));
+				$userpackagesubscription->save();
                 Yii::$app->session->setFlash('success', 'Subscription Successful');
 				return $this->redirect(['/user/userpackage']);
             } else {

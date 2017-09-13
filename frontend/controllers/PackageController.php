@@ -23,10 +23,7 @@ class PackageController extends \yii\web\Controller
         $payment = new Payment();
 	
 		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
-		//$items = ArrayHelper::map(SubscribeType::find()->where(['options'=> [$_GET['id']=>['Selected'=>'selected']]]));
-		
 	
-		
         if (empty($subscribe)){
           $subscribe = new UserPackage();
         }

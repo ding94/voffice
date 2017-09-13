@@ -42,7 +42,7 @@ use yii\helpers\Url;
 				</tr>
 				<tr>
                     <td>Next Payment:</td>
-					<td><?php echo $model['end_period']; ?></td>
+					<td><?php echo $userpackagesubscription['next_payment']; ?></td>
 				</tr>
 				</tr>
                </tbody>
