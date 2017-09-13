@@ -60,7 +60,7 @@ class SubscribeController extends \yii\web\Controller
 				$end_period="";
 				break;
 		}
-		$subscribe->type = $id;
+		//$subscribe->type = $id;
 		//var_dump($subscribe); exit;
 			
            /* if ($subscribe->sub_period == 12) {
