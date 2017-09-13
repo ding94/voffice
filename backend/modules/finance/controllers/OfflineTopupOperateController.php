@@ -22,7 +22,7 @@ Class OfflineTopupOperateController extends CommonController
 
 	public static function createOperate($tid,$status,$type)
 	{
-		//var_dump($status);exit;
+	
 		$oldOperate = OfflineTopupOperate::find()->where('tid = :id' ,[':id' => $tid])->orderBy('updated_at DESC')->one();
 
 		if(empty($oldOperate))
@@ -35,7 +35,8 @@ Class OfflineTopupOperateController extends CommonController
 		}
 
 		$operate = new OfflineTopupOperate;
-		$operate->adminname = Yii::$app->user->identity->adminname;
+		$operate->adminid = Yii::$app->user->identity->id;
+		//var_dump($operate->adminid);exit;
     	$operate->tid = $tid;
     	$operate->oldVal = $old;
 

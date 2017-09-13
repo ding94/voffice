@@ -44,13 +44,12 @@ class OfflineTopup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'amount', 'picture'], 'required'],
-            [['username', 'description', 'inCharge', 'rejectReason','offlinetopupstatus.title'], 'string'],
-			[['action','action_before','offlinetopupstatus.id'],'integer'],
+            [['uid', 'amount', 'picture'], 'required'],
+            [[ 'bank_name','description',  'rejectReason','offlinetopupstatus.title'], 'string'],
+			[['uid','id','action','action_before','inCharge','offlinetopupstatus.id'],'integer'],
             [['amount'], 'number','min'=>10,'max'=>100000],
             [['picture'], 'string', 'max' => 100],
-			[['bank_name'], 'string', 'max' => 255],
-			[['id'],'number'],
+		
 		
         ];
 		
@@ -65,7 +64,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
            
 		    
 		    'id'=> 'ID',
-		    'username' => 'Username',
+		    'uid' => 'User ID',
             'amount' => 'Amount',
             'description' => 'Description',
 			'bank_name' => 'Bank Name',
@@ -103,7 +102,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
             ]);
 			
 		  $query 
-				->andFilterWhere(['like','username' ,  $this->username])
+				->andFilterWhere(['like','uid' ,  $this->uid])
 				->andFilterWhere(['like','amount' ,  $this->amount])
 				->andFilterWhere(['like','description' ,  $this->description])
 				->andFilterWhere(['like','bank_name' ,  $this->bank_name])

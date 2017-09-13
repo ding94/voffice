@@ -50,7 +50,7 @@ class UserController extends \yii\web\Controller
 		$user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
 		$userdetails = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 
-    	$this->layout = 'usertest';
+    	$this->layout = 'user';
         return $this->render('index', ['user' => $user, 'userdetails' => $userdetails]);
     }
 
@@ -85,7 +85,7 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update Profile';
-		$this->layout = 'usertest';
+		$this->layout = 'user';
 		return $this->render("useredit",['model' => $model]);
 
 	}
@@ -107,7 +107,7 @@ class UserController extends \yii\web\Controller
 	      
 	    }
 	    $this->view->title = 'Change Password';
-	 	$this->layout = 'usertest';
+	 	$this->layout = 'user';
 	    return $this->render('changepassword',['model'=>$model]); 
  	}
 
@@ -120,7 +120,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserCompany();
  		}
 
- 		$this->layout = 'usertest';
+ 		$this->layout = 'user';
         return $this->render('usercompany', ['model' => $model]);
  	}
 
@@ -155,7 +155,7 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update Company Info';
-		$this->layout = 'usertest';
+		$this->layout = 'user';
 		return $this->render('usercompanyedit', ['model' => $model]);
  	}
 
@@ -167,7 +167,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserActualContact();
  		}
 
- 		$this->layout = 'usertest';
+ 		$this->layout = 'user';
 		return $this->render('usermailingaddress', ['model' => $model]);
  	}
 
@@ -204,20 +204,20 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update User Mailing Address';
-		$this->layout = 'usertest';
+		$this->layout = 'user';
 		return $this->render('usermailingaddressedit', ['model' => $model]);
  	}
 
  	public function actionUserbalance()
  	{
  		$model = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
- 		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
+ 		$offlinetopup = OfflineTopup::find()->where('uid= :uid' ,[':uid' => Yii::$app->user->identity->username])->one();
  		if (empty($model)) 
  		{
  			$model = new UserBalance();
  		}
 
- 		$this->layout = 'usertest';
+ 		$this->layout = 'user';
 		return $this->render('userbalance', ['model' => $model,'offlinetopup' => $offlinetopup]);
  	}
 
@@ -229,7 +229,7 @@ class UserController extends \yii\web\Controller
  			$model = new OfflineTopup();
  		}
 
- 		$this->layout = 'usertest';
+ 		$this->layout = 'user';
  		return $this->renderPartial('rejectreason',['model' => $model]);
  	}
 
@@ -238,7 +238,7 @@ class UserController extends \yii\web\Controller
  		$searchModel = new UserVoucher();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
  		$model = UserVoucher::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
- 		$this->layout = 'usertest';
+ 		$this->layout = 'user';
  		return $this->render('uservouchers',['model' => $model, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
  	}
 

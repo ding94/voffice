@@ -47,9 +47,9 @@ class OfflineTopupOperate extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tid', 'adminname', 'newVal'], 'required'],
-            [['tid','created_at', 'updated_at'], 'integer'],
-            [['adminname','oldVal', 'newVal','type'], 'string', 'max' => 20],
+            [['tid', 'adminid', 'newVal'], 'required'],
+            [['tid','adminid','created_at', 'updated_at'], 'integer'],
+            [['oldVal', 'newVal','type'], 'string', 'max' => 20],
             [['tid'] ,'exist' ,
               'skipOnError' => true,
               'targetClass' => OfflineTopup::className(),
@@ -65,7 +65,7 @@ class OfflineTopupOperate extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'tid' => 'OfflineTopup id',
-            'adminname' => 'Admin name',
+            'adminid' => 'Admin ID',
             'type' => 'type',
             'oldVal' => 'Old record',
             'newVal' => 'New record',

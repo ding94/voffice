@@ -36,8 +36,8 @@ class TopupController extends \yii\web\Controller
 			 
 			self::updateAllTopup($id,3);
 			$model->action = 3;
-			$model->inCharge = Yii::$app->user->identity->adminname;
-			//var_dump($balance); exit; 
+			$model->inCharge = Yii::$app->user->identity->id;
+			var_dump($model->inCharge); exit; 
 			if($model->update(false) !== false)
 			{
 				$balance->save();
@@ -56,10 +56,11 @@ class TopupController extends \yii\web\Controller
 	
 	protected static function saveBalance($model)
 	{
-		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
+		//var_dump($model); exit;
 		
-		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
-		//var_dump($uid);exit;
+	
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$model->uid])->one();
+		//var_dump($balance);exit;
 		$balance ->balance += $model->amount;
 		$balance ->positive += $model->amount;
 		
@@ -104,8 +105,8 @@ class TopupController extends \yii\web\Controller
 	
 	protected static function deductBalance($model)
 	{
-		$uid = User::find()->where('username = :name',[':name'=>$model->username])->one()->id;
-		$balance =UserBalance::find()->where('uid = :name',[':name'=>$uid])->one();
+		
+		$balance =UserBalance::find()->where('uid = :name',[':name'=>$model->uid])->one();
 		$balance ->balance -= $model->amount;
 		$balance ->positive -= $model->amount;
 		
@@ -124,7 +125,7 @@ class TopupController extends \yii\web\Controller
 				//var_dump($model->update()); exit;
 			self::updateAllTopup($id,4);
 			$model->action =4;
-			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->inCharge = Yii::$app->user->identity->id;
 			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Topup rejected!");
@@ -182,7 +183,9 @@ class TopupController extends \yii\web\Controller
 			
 			//var_dump($model->update()); exit;
 			//$model->action =4;
-			$model->inCharge = Yii::$app->user->identity->adminname;
+		//	$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->inCharge = Yii::$app->user->identity->id;
+			//var_dump($model->inCharge); exit; 
 			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Update success");
@@ -215,14 +218,15 @@ class TopupController extends \yii\web\Controller
 	{
 		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
-		//var_dump($data);exit;
+		//var_dump($data->validate() && $operate->validate());exit;
+		//var_dump($status);exit;
 		if(is_null($data) || is_null($operate))
     	{
     		return false;
     	}
        
     	$isValid = $data->validate() && $operate->validate();
-	 //var_dump($data->validate());exit;
+	 
     	if($isValid)
     	{
     		$data->save();
