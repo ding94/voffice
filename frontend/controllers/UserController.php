@@ -279,7 +279,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserPackage();
  		}
 
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
 		return $this->render('userpackage', ['model' => $model,'subscribetype'=>$subscribetype,'userpackagesubscription'=>$userpackagesubscription]);
  	}
 	
