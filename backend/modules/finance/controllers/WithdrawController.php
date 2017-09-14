@@ -20,8 +20,8 @@ class WithdrawController extends CommonController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
 
 		$list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ]);
+		$name=ArrayHelper::map(BankDetails::find()->all() ,'id' ,'bank_name');
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ,'name'=>$name]);
     }
 
 	public function actionApprove($id)

@@ -34,8 +34,9 @@ class TopupController extends \yii\web\Controller
 			if($upload->validate()) //validation
 			{
 				$upload->upload();
-				//var_dump($upload->imageFile);exit;
+			
 				$model->load($post);
+					//var_dump($model);exit;
 				$model->save(false);
 				Yii::$app->session->setFlash('success', 'Upload Successful');
 			}

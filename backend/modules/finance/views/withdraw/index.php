@@ -68,14 +68,16 @@ use kartik\widgets\ActiveForm;
                     'placeholder' => 'Search Bank Acount',
                 ],
             ],
-
-            [
-                'attribute' => 'bank_name',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search Bank Name',
-                ],
-            ],
+			 [
+                    'attribute' => 'bankdetails.bank_name',
+					
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Bank Name',
+                         ],
+						
+                    ],
+            
 
 			[
 				'label' => 'Status',

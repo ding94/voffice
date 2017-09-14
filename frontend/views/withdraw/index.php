@@ -16,7 +16,7 @@ use yii\helpers\Html;
 
              
 					<?= $form->field($model, 'withdraw_amount')->textInput() ?>
-					<?= $form->field($model, 'bank_name')->dropDownList($items)?>
+					<?= $form->field($model, 'bank_name')->dropDownList($name)?>
 				    <?= $form->field($model, 'to_bank')->textInput() ?>		
 					<?= $form->field($model, 'acc_name')->textInput() ?>				   
 					
