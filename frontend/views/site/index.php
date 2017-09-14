@@ -25,7 +25,7 @@ $this->title = 'Virtual Office';
         </div> -->
         <?= Yii::$app->session->getFlash('success');?>
     <!-- Header -->
-    <header>
+    <header style="padding-top: 50px">
 	
         
 
@@ -38,7 +38,7 @@ $this->title = 'Virtual Office';
 			<h2 class="w3-center">Manual Slideshow</h2>
 
 <div class="w3-content w3-display-container">
-<div class="tellmemore"><a href="#about" class="page-scroll btn btn-xl">Tell Me More</a></div>
+<div class="w3-display-middle btn-primary btn-lg"><a href="#about" class="page-scroll">Tell Me More</a></div>
   <img class="mySlides" src="../web/img/rheader-bg.jpg" style="width:100%">
    <img class="mySlides" src="../web/img/rmap-image.jpg" style="width:100%">
   <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
@@ -53,7 +53,7 @@ $this->title = 'Virtual Office';
   <span class="dot" onclick="currentDivs(3)"></span> 
 <span class="dot" onclick="currentDivs(4)"></span>    
 </div>
-			
+	
         <!-- container -->
 		
 		
@@ -123,7 +123,7 @@ $this->title = 'Virtual Office';
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Package</h2>
-                    <h3 class="section-subheading text-muted">---</h3>
+                    <h3 class="section-subheading text-muted"></h3>
                 </div>
             </div>
             <div class="row">
@@ -137,8 +137,8 @@ $this->title = 'Virtual Office';
                         <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Virtual Office</h4>
-                        <p class="text-muted">---</p>
+                        <h4><?php echo $package[0]['type']; ?></h4>
+                        <p class="text-muted">RM<?php echo $package[0]['price']; ?></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
@@ -151,8 +151,8 @@ $this->title = 'Virtual Office';
                         <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Co-Working</h4>
-                        <p class="text-muted">---</p>
+                        <h4><?php echo $package[1]['type']; ?></h4>
+                        <p class="text-muted">RM<?php echo $package[1]['price']; ?></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
@@ -165,8 +165,8 @@ $this->title = 'Virtual Office';
                         <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
                     </a>
                     <div class="portfolio-caption">
-                        <h4>Office Space</h4>
-                        <p class="text-muted">---</p>
+                        <h4><?php echo $package[2]['type']; ?></h4>
+                        <p class="text-muted">RM<?php echo $package[2]['price']; ?></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
@@ -314,29 +314,11 @@ $this->title = 'Virtual Office';
                             </a>
                             <div class="portfolio-caption">
                                 <h4 class="package-name"><?php echo $package[0]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[0]['price']; ?></p>
+                                <p class="text-muted">RM<?php echo $package[0]['price']; ?></p>
                             </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 portfolio-item">
-                            <a href="#portfolioModal2" class="portfolio-link">
-                                <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
-                            </a>
-                            <div class="portfolio-caption">
-                                <h4 class="package-name"><?php echo $package[1]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[1]['price']; ?></p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 portfolio-item">
-                            <a href="#portfolioModal3" class="portfolio-link">
-                                <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
-                            </a>
-                            <div class="portfolio-caption">
-                                <h4 class="package-name"><?php echo $package[2]['type']; ?></h4>
-                                <p class="text-muted"><?php echo $package[2]['price']; ?></p>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         <a href="<?php echo yii\helpers\Url::to(['/subscribe/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
+                        </div>
                             </div>
                         </div>
                     </div>
@@ -357,15 +339,16 @@ $this->title = 'Virtual Office';
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-8 col-lg-offset-2">
-                            <div class="modal-body">
-                                <h2>Co-Working</h2>
-                                <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/startup-framework-preview.png" alt="">
-                                <p><a href="http://designmodo.com/startup/?u=787">---</a> ---</p>
-                                <p>You can preview ---<a href="http://designmodo.com/startup/?u=787">here</a>.</p>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        <div class="col-md-4 col-sm-6 portfolio-item">
+                            <a href="#portfolioModal2" class="portfolio-link">
+                                <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4 class="package-name"><?php echo $package[1]['type']; ?></h4>
+                                <p class="text-muted">RM<?php echo $package[1]['price']; ?></p>
                             </div>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <a href="<?php echo yii\helpers\Url::to(['/subscribe/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
                         </div>
                     </div>
                 </div>
@@ -385,16 +368,16 @@ $this->title = 'Virtual Office';
                 </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-8 col-lg-offset-2">
-                            <div class="modal-body">
-                                <!-- Project Details Go Here -->
-                                <h2>Office Space</h2>
-                                <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/treehouse-preview.png" alt="">
-                                <p>---<a href="https://www.behance.net/MathavanJaya">---</a>. ---</p>
-                                <p>You can ---<a href="http://freebiesxpress.com/gallery/treehouse-free-psd-web-template/">FreebiesXpress.com</a>.</p>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                        <div class="col-md-4 col-sm-6 portfolio-item">
+                            <a href="#portfolioModal3" class="portfolio-link">
+                                <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
+                            </a>
+                            <div class="portfolio-caption">
+                                <h4 class="package-name"><?php echo $package[2]['type']; ?></h4>
+                                <p class="text-muted">RM<?php echo $package[2]['price']; ?></p>
                             </div>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <a href="<?php echo yii\helpers\Url::to(['/subscribe/index'])?>"><button type="button" class="btn btn-primary">Subscribe Package</button></a>
                         </div>
                     </div>
                 </div>
