@@ -6,6 +6,7 @@ use common\models\User\UserBalance;
 use common\models\User\User;
 use common\models\OfflineTopup\OfflineTopupOperate;
 use common\models\OfflineTopup\OfflineTopupStatus;
+use common\models\BankDetails;
 use backend\modules\finance\controllers\OfflineTopupOperateController;
 use backend\modules\finance\controllers\OfflineTopupStatusController;
 use yii\data\ActiveDataProvider;
@@ -22,8 +23,9 @@ class TopupController extends \yii\web\Controller
        $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
 	   $list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-	  
-       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
+		$name=ArrayHelper::map(BankDetails::find()->all() ,'id' ,'bank_name');
+		//var_dump($name);exit;
+       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list,'name'=>$name]);
     }
 	
 	public function actionUpdate($id)
@@ -210,7 +212,7 @@ class TopupController extends \yii\web\Controller
 	   $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
 		$list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-		//var_dump($list);exit;
+		
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list]);
     }
 	
