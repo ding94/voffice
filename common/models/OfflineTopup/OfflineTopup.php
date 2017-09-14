@@ -5,6 +5,7 @@ use yii\data\ActiveDataProvider;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\BankDetails;
 
 
 /**
@@ -31,12 +32,16 @@ class OfflineTopup extends \yii\db\ActiveRecord
 	
 	public function attributes()
     {
-		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title','offlinetopupstatus.labelName']);
+		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title','offlinetopupstatus.labelName','bankdetails.bank_name']);
 	}
 	
 	public function getOfflinetopupstatus()
     {
         return $this->hasOne(OfflineTopupStatus::className(),['id' => 'action']); 
+    }
+	public function getBankdetails()
+    {
+        return $this->hasOne(BankDetails::className(),['id' => 'bank_name']); 
     }
     /**
      * @inheritdoc
@@ -45,10 +50,11 @@ class OfflineTopup extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'amount', 'picture'], 'required'],
-            [[ 'bank_name','description',  'rejectReason','offlinetopupstatus.title'], 'string'],
-			[['uid','id','action','action_before','inCharge','offlinetopupstatus.id'],'integer'],
+            [[ 'description',  'rejectReason','offlinetopupstatus.title'], 'string'],
+			[['uid','id','action','action_before','inCharge','offlinetopupstatus.id','bank_name'],'integer'],
             [['amount'], 'number','min'=>10,'max'=>100000],
             [['picture'], 'string', 'max' => 100],
+			[['bankdetails.bank_name'],'safe'],
 		
 		
         ];
@@ -87,7 +93,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 			//$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
 
 		}
-		$query->joinWith(['offlinetopupstatus' ]);
+		$query->joinWith(['offlinetopupstatus','bankdetails' ]);
         //$query->joinWith(['company']);
 
         $dataProvider = new ActiveDataProvider([
@@ -105,7 +111,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 				->andFilterWhere(['like','uid' ,  $this->uid])
 				->andFilterWhere(['like','amount' ,  $this->amount])
 				->andFilterWhere(['like','description' ,  $this->description])
-				->andFilterWhere(['like','bank_name' ,  $this->bank_name])
+				->andFilterWhere(['like',BankDetails::tableName().'.bank_name' , $this->getAttribute('bankdetails.bank_name')])
 				->andFilterWhere(['like','inCharge' ,  $this->inCharge])
 				->andFilterWhere(['like','rejectReason' ,  $this->rejectReason]);
 				

@@ -17,7 +17,8 @@ class TopupController extends \yii\web\Controller
     	$model = new OfflineTopup;
     	$upload = new Upload;
     	$path = Yii::$app->params['imageLocation'];
-		$items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
+		//$name = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
+		$name = ArrayHelper::map(BankDetails::find()->all(), 'id', 'bank_name');
     	if(Yii::$app->request->post())
     	{
     		$post = Yii::$app->request->post();
@@ -43,7 +44,7 @@ class TopupController extends \yii\web\Controller
 		$model->amount ="";
 		$model->description ="";
 		$this->layout = 'user';
-		    	return $this->render('index' ,['model' => $model ,'items'=>$items, 'upload' => $upload]);
+		    	return $this->render('index' ,['model' => $model ,'name'=>$name, 'upload' => $upload]);
 		//Yii::app()->end();
     }
 	

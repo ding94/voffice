@@ -128,11 +128,13 @@ use yii\helpers\ArrayHelper;
                          ],
                     ],
                     [
-                    'attribute' => 'bank_name',
+                    'attribute' => 'bankdetails.bank_name',
+					
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Bank Name',
                          ],
+						
                     ],
 					 [
 						'label' => 'Status',

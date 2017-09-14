@@ -50,7 +50,7 @@ class UserController extends \yii\web\Controller
 		$user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
 		$userdetails = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 
-    	$this->layout = 'user';
+    	$this->layout = 'usertest';
         return $this->render('index', ['user' => $user, 'userdetails' => $userdetails]);
     }
 
@@ -85,7 +85,7 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update Profile';
-		$this->layout = 'user';
+		$this->layout = 'usertest';
 		return $this->render("useredit",['model' => $model]);
 
 	}
@@ -107,7 +107,7 @@ class UserController extends \yii\web\Controller
 	      
 	    }
 	    $this->view->title = 'Change Password';
-	 	$this->layout = 'user';
+	 	$this->layout = 'usertest';
 	    return $this->render('changepassword',['model'=>$model]); 
  	}
 
@@ -120,7 +120,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserCompany();
  		}
 
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
         return $this->render('usercompany', ['model' => $model]);
  	}
 
@@ -155,7 +155,7 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update Company Info';
-		$this->layout = 'user';
+		$this->layout = 'usertest';
 		return $this->render('usercompanyedit', ['model' => $model]);
  	}
 
@@ -167,7 +167,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserActualContact();
  		}
 
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
 		return $this->render('usermailingaddress', ['model' => $model]);
  	}
 
@@ -204,7 +204,7 @@ class UserController extends \yii\web\Controller
 			}
 		}
 		$this->view->title = 'Update User Mailing Address';
-		$this->layout = 'user';
+		$this->layout = 'usertest';
 		return $this->render('usermailingaddressedit', ['model' => $model]);
  	}
 
@@ -217,7 +217,7 @@ class UserController extends \yii\web\Controller
  			$model = new UserBalance();
  		}
 
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
 		return $this->render('userbalance', ['model' => $model,'offlinetopup' => $offlinetopup]);
  	}
 
@@ -229,7 +229,7 @@ class UserController extends \yii\web\Controller
  			$model = new OfflineTopup();
  		}
 
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
  		return $this->renderPartial('rejectreason',['model' => $model]);
  	}
 
@@ -238,7 +238,7 @@ class UserController extends \yii\web\Controller
  		$searchModel = new UserVoucher();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
  		$model = UserVoucher::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
- 		$this->layout = 'user';
+ 		$this->layout = 'usertest';
  		return $this->render('uservouchers',['model' => $model, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
  	}
 
@@ -267,8 +267,9 @@ class UserController extends \yii\web\Controller
 	public function actionUserpackage()
  	{
  		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
- 		$offlinetopup = OfflineTopup::find()->where('username = :username' ,[':username' => Yii::$app->user->identity->username])->one();
- 		//$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
+ 		$offlinetopup = OfflineTopup::find()->where('uid = :id',[':id' => $model->uid])->one(); 
+ 		//var_dump($offlinetopup);exit;
+		$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
 		$nextpayment =  UserPackageSubscription ::find()->all();
 		//$model->end_period = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($model->end_period)));
 		$userpackagesubscription= UserPackageSubscription::find()->where(['uid' => $model->uid])->one();
@@ -280,7 +281,7 @@ class UserController extends \yii\web\Controller
  		}
 
  		$this->layout = 'usertest';
-		return $this->render('userpackage', ['model' => $model,'userpackagesubscription'=>$userpackagesubscription]);
+		return $this->render('userpackage', ['model' => $model,'userpackagesubscription'=>$userpackagesubscription,'subscribetype'=>$subscribetype]);
  	}
 	
 	  public function actionPackage()

@@ -34,8 +34,9 @@ class WithdrawController extends CommonController
 			$balance = self::deductBalance($model);
 			
 			$model->action = 3;
-			$model->inCharge = Yii::$app->user->identity->adminname;
-			//var_dump($balance); exit; 
+			//$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->inCharge = Yii::$app->user->identity->id;
+		//	var_dump($model->inCharge); exit; 
 			if($model->save(false) !== false)
 			{
 				$balance->save();
@@ -73,7 +74,8 @@ class WithdrawController extends CommonController
 			{
 				$balance = self::addBalance($model);
 				$model->action =4;
-				$model->inCharge = Yii::$app->user->identity->adminname;
+				//$model->inCharge = Yii::$app->user->identity->adminname;
+					$model->inCharge = Yii::$app->user->identity->id;
 				$model->save();
 				$balance->save();
 				Yii::$app->session->setFlash('success', "Approve success");
