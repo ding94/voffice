@@ -1,6 +1,7 @@
 <?php namespace console\controllers; 
 
-use Yii; use yii\console\Controller; 
+use Yii; 
+use yii\console\Controller; 
 use common\rbac\UserRoleRule; 
 
 class RbacController extends Controller {     
