@@ -27,11 +27,19 @@ class NotificationBehavior extends Behavior
 
 		if($available)
 		{
-			$model = new Notification;
-			$model->uid = Yii::$app->user->identity->id;
-			$model->role = $available->role;
-			$model->content = $available->description.' '.Yii::$app->user->identity->username;
-			$model->save();
+			$auth = \Yii::$app->authManager;
+    		$role = $auth->getUserIdsByRole($available->role);
+    		$superadmin =  $auth->getUserIdsByRole('super admin');
+    		$mergeRole = array_merge($role,$superadmin);
+
+    		foreach($mergeRole as $adminid)
+    		{
+    			$model = new Notification;
+				$model->adminid = $adminid;
+				$model->content = $available->description.' '.Yii::$app->user->identity->username;
+				$model->save();
+    		}
+			
 		}
 	}
 }
