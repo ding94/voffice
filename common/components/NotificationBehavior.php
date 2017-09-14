@@ -3,7 +3,8 @@ namespace common\components;
 
 use yii\db\ActiveRecord;
 use yii\base\Behavior;
-use common\models\Notification;
+use common\models\Notification\Notification;
+use common\models\Notification\NotificationSetting;
 use Yii;
 
 class NotificationBehavior extends Behavior
@@ -18,9 +19,19 @@ class NotificationBehavior extends Behavior
 
 	public function afterInsert($event)
 	{
-		$model = new Notification;
-		$model->uid =1;
-		$model->content = "Add new record on".Yii::$app->controller->id;
-		$model->save();
+		$namespace = Yii::$app->controller->module->controllerNamespace;
+		$controller = Yii::$app->controller->id;
+	    $action = Yii::$app->controller->action->id;
+	    $permissionName = $controller.'/'.$action;
+	    $available = NotificationSetting::find()->where('type = :t and name =:n',[':t' => $namespace , ':n' => $permissionName])->one();
+
+		if($available)
+		{
+			$model = new Notification;
+			$model->uid = Yii::$app->user->identity->id;
+			$model->role = $available->role;
+			$model->content = $available->description.' '.Yii::$app->user->identity->username;
+			$model->save();
+		}
 	}
 }

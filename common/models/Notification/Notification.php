@@ -1,16 +1,17 @@
 <?php
 
-namespace common\models;
+namespace common\models\Notification;
 
-use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "notification".
  *
  * @property integer $id
  * @property integer $uid
+ * @property string $role
  * @property string $content
  * @property integer $created_at
  * @property integer $updated_at
@@ -25,19 +26,7 @@ class Notification extends \yii\db\ActiveRecord
         return 'notification';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['uid', 'content'], 'required'],
-            [['uid', 'created_at', 'updated_at'], 'integer'],
-            [['content'], 'string'],
-        ];
-    }
-
-     public function behaviors()
+    public function behaviors()
     {
         return [
             TimestampBehavior::className(),
@@ -47,7 +36,20 @@ class Notification extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-            ], 
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['uid', 'role', 'content'], 'required'],
+            [['uid', 'created_at', 'updated_at'], 'integer'],
+            [['content'], 'string'],
+            [['role'], 'string', 'max' => 20],
         ];
     }
 
@@ -59,6 +61,7 @@ class Notification extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
+            'role' => 'Role',
             'content' => 'Content',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
