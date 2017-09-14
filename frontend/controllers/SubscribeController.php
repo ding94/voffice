@@ -28,6 +28,10 @@ class SubscribeController extends \yii\web\Controller
         if (empty($subscribe)){
           $subscribe = new UserPackage();
         }
+		
+		if (empty($userpackagesubscription)){
+          $userpackagesubscription = new Userpackagesubscription();
+        }
 
         $year = date('Y');
         $month = date('m');
