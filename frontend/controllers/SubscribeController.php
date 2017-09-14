@@ -22,6 +22,9 @@ class SubscribeController extends \yii\web\Controller
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
 		$userpackagesubscription = Userpackagesubscription::find()->where('uid = :id',[':id' => Yii::$app->user->identity->id])->one();
+        if (empty($userpackagesubscription)){
+          $userpackagesubscription = new Userpackagesubscription();
+        }
 		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
 	
 		
