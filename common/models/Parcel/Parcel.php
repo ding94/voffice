@@ -10,6 +10,7 @@ use common\models\Parcel\ParcelOperate;
 use common\models\Parcel\ParcelStatus;
 use common\models\User\User;
 use common\models\User\UserDetails;
+use common\components\NotificationBehavior;
 
 /**
  * This is the model class for table "parcel".
@@ -47,7 +48,8 @@ class Parcel extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-            ],   
+            ], 
+            NotificationBehavior::className(),
         ];
     }
 

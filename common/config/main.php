@@ -33,7 +33,8 @@ return [
             // 'downloadAction' => 'gridview/export/download',
             // 'i18n' => []
         // ]
-        'notifications' => [
+        //remove cause cannot use yii in cmd
+       /* 'notifications' => [
             'class' => '\machour\yii2\notifications\NotificationsModule',
             'notificationClass' => 'common\widgets\Notification',
             'allowDuplicate' => false,
@@ -41,6 +42,6 @@ return [
             'userId' => function() {
                 return \Yii::$app->user->id;
             }
-        ]
+        ]*/
     ],
 ];

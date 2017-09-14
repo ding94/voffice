@@ -28,7 +28,8 @@
         "machour/yii2-notifications": "@dev",
         "kartik-v/yii2-money": "*",
         "rinvex/country": "^2.0",
-        "akavov/yii2-countries": "*"
+        "akavov/yii2-countries": "*",
+        "omnilight/yii2-scheduling": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
