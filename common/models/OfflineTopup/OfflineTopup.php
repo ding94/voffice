@@ -1,6 +1,8 @@
 <?php
 
 namespace common\models\OfflineTopup;
+
+use common\components\NotificationBehavior;
 use yii\data\ActiveDataProvider;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -34,6 +36,13 @@ class OfflineTopup extends \yii\db\ActiveRecord
     {
 		return array_merge(parent::attributes(),['offlinetopupstatus.id','offlinetopupstatus.title','offlinetopupstatus.labelName','bankdetails.bank_name']);
 	}
+
+    public function behaviors()
+    {
+        return [
+            //NotificationBehavior::className(),
+        ];
+    }
 	
 	public function getOfflinetopupstatus()
     {
