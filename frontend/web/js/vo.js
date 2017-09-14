@@ -13,6 +13,8 @@ $("#mainNav a,.intro-text a").on('click',function(event){
 	}
 });
 
+
+//javascript for display package price once package is selected from dropdown.
 $('select#package').on('change', function() {
   if ( this.value == 1 ){
   	$("input:text").val(100);
@@ -23,12 +25,18 @@ $('select#package').on('change', function() {
   }
 });
 
+
+
+//javascript for alert fade.
 window.setTimeout(function() {
     $(".alert").fadeTo(500, 0).slideUp(500, function(){
         $(this).remove(); 
     });
 }, 4000);
 
+
+
+// javascript for user profile sidemenu in mobile view.
 $(document).ready(function () {
     $('#slide-nav.navbar .container').append($('<div id="navbar-height-col"></div>'));
     var toggler = '.navbar-toggle';
