@@ -39,7 +39,7 @@ class TopupController extends \yii\web\Controller
 			self::updateAllTopup($id,3);
 			$model->action = 3;
 			$model->inCharge = Yii::$app->user->identity->id;
-			var_dump($model->inCharge); exit; 
+
 			if($model->update(false) !== false)
 			{
 				$balance->save();
