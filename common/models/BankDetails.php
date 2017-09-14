@@ -54,6 +54,11 @@ class BankDetails extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+	 public function getBankdetails()
+    {
+        return $this->hasOne(BankDetails::className(),['id' => 'id']); 
+    }
+	
     public function attributeLabels()
     {
         return [

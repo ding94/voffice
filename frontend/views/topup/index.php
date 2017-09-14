@@ -20,7 +20,7 @@ use yii\grid\ActionColumn;
 
                 <?= $form->field($model, 'description') ?>
 				
-				<?= $form->field($model, 'bank_name')->dropDownList($items)?>
+				<?= $form->field($model, 'bank_name')->dropDownList($name)?>
 								
                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
                        <div class="form-group">
