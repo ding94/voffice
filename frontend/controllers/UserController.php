@@ -269,12 +269,16 @@ class UserController extends \yii\web\Controller
  		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 		if(empty($model)){
 			$model = new Userpackage();
-			$model->type = 1;
+			//$model->type = 1;
 			$model->save();
 		}
  		$offlinetopup = OfflineTopup::find()->where('uid = :id',[':id' => $model->uid])->one(); 
  		//var_dump($offlinetopup);exit;
-		$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
+		$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one();
+
+		if(!empty($model->type)){
+					$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
+		}
 		$nextpayment =  UserPackageSubscription ::find()->all();
 		//$model->end_period = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($model->end_period)));
 		$userpackagesubscription= UserPackageSubscription::find()->where(['uid' => $model->uid])->one();
