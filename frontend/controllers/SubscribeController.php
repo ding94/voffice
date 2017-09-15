@@ -6,6 +6,7 @@ use common\models\User\UserPackage;
 use common\models\User\UserPackageSubscription;
 use common\models\User\User;
 use common\models\User\UserBalance;
+use common\models\User\UserDetails;
 use common\models\Payment;
 use common\models\SubscribePackageHistory;
 use common\models\SubscribeType;
@@ -116,7 +117,11 @@ class SubscribeController extends \yii\web\Controller
 				$userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($subscribe->end_period)));
 				$userpackagesubscription->save();
                 $model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
-                $email = \Yii::$app->mailer->compose(['html' => 'SubscriptionReceipt-html'],['model' => $model])//pass value)
+                $userdetails = UserDetails::find()->where('uid = :uid',[':uid' => $subscribe->uid])->one();
+                if (empty($userdetails)) {
+                    $userdetails = new UserDetails();
+                }
+                $email = \Yii::$app->mailer->compose(['html' => 'SubscriptionReceipt-html'],['model' => $model,'userpackagesubscription'=>$userpackagesubscription,'userdetails' => $userdetails,'user' => $user])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Subscription Receipt')
