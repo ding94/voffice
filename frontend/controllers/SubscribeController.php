@@ -114,10 +114,10 @@ class SubscribeController extends \yii\web\Controller
 				$userpackagesubscription->end_period = $subscribe->end_period;
 				$userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($subscribe->end_period)));
 				$userpackagesubscription->save();
-                Yii::$app->session->setFlash('success', 'Subscription Successful');
+                Yii::$app->session->setFlash('success', 'Subscription Successful.');
 				return $this->redirect(['/user/userpackage']);
             } else {
-                Yii::$app->session->setFlash('warning', 'Subscription failed');
+                Yii::$app->session->setFlash('warning', 'Failed to subscribe. Not enough balance to subscribe.');
             }
         }
         return $this->render('index',['package' => $package,'subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
