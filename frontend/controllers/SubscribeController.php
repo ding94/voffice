@@ -21,6 +21,7 @@ class SubscribeController extends \yii\web\Controller
         $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
+        $user = User::find()->where('id = :id',[':id' => $subscribe->uid])->one();
 		$userpackagesubscription = Userpackagesubscription::find()->where('uid = :id',[':id' => Yii::$app->user->identity->id])->one();
         if (empty($userpackagesubscription)){
           $userpackagesubscription = new Userpackagesubscription();
@@ -114,6 +115,12 @@ class SubscribeController extends \yii\web\Controller
 				$userpackagesubscription->end_period = $subscribe->end_period;
 				$userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($subscribe->end_period)));
 				$userpackagesubscription->save();
+                $model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+                $email = \Yii::$app->mailer->compose(['html' => 'SubscriptionReceipt-html'],['model' => $model])//pass value)
+                ->setTo($user->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Subscription Receipt')
+                ->send();
                 Yii::$app->session->setFlash('success', 'Subscription Successful.');
 				return $this->redirect(['/user/userpackage']);
             } else {
