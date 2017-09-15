@@ -103,7 +103,7 @@ use common\models\Notification\Notification;
                     </ul>
                 </li>
                 <li class="dropdown notifications-menu">
-                    <?php $notic = Notification::find()->where('adminid = :id and seen = :s',[':id' => Yii::$app->user->identity->id ,':s' => 0])->all(); ?>
+                    <?php $notic = Notification::find()->where('adminid = :id and seen = :s',[':id' => Yii::$app->user->identity->id ,':s' => 0])->limit(10)->all(); ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
                         <span class="label label-warning"><?php echo count($notic)?></span>
@@ -118,11 +118,16 @@ use common\models\Notification\Notification;
                                     <a href="#">
                                         <i class='<?php echo $data->icon; ?>'></i><?php echo $data->content ?>
                                     </a>
+
                                 </li>
                                 <?php endforeach ;?>
                             </ul>
                         </li>
-                        <li class="footer"><a href="#">View all</a></li>
+                        <li class="footer"> <?= Html::a(
+                                    'View all',
+                                    ['/notic/index' ,'id' =>Yii::$app->user->identity->id  ]
+                                )?>  
+                        </li>
                     </ul>
                 </li>
                 <!-- Tasks: style can be found in dropdown.less -->
