@@ -89,7 +89,7 @@ class UserWithdraw extends \yii\db\ActiveRecord
 			'inCharge' => 'In Charge',
             'reason' => 'Reason',
 			'acc_name' => 'Bank Account Name',
-            'to_bank' => 'Bank Account',
+            'to_bank' => 'Bank Account No.',
 			'bank_name' => 'Bank Name',
             'from_bank' => 'From Bank',
             'created_at' => 'Created At',

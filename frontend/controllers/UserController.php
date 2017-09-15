@@ -249,10 +249,11 @@ class UserController extends \yii\web\Controller
  	public function actionSamplePdf()
  	{
  		$user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
- 		$model = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
+ 		$userdetails = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
+ 		
  		$pdf = new Pdf([
  			'mode' => Pdf::MODE_CORE,
- 			'content' => $this->render('useredit',['user' => $user,'model' => $model]),
+ 			'content' => $this->renderPartial('index',['user' => $user,'userdetails' => $userdetails]),
  			'options' => [
  				'title' => 'Sample Only',
  				'subject' => 'Sample Subject',
@@ -264,6 +265,7 @@ class UserController extends \yii\web\Controller
  			]);
  		return $pdf->render();
  	}
+
 	public function actionUserpackage()
  	{
  		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
