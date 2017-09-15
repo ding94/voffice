@@ -23,22 +23,25 @@ class NotificationBehavior extends Behavior
 		$controller = Yii::$app->controller->id;
 	    $action = Yii::$app->controller->action->id;
 	    $permissionName = $controller.'/'.$action;
-	    $available = NotificationSetting::find()->where('type = :t and name =:n',[':t' => $namespace , ':n' => $permissionName])->one();
-
-		if($available)
+	    $available = NotificationSetting::find()->where('type = :t and name =:n',[':t' => $namespace , ':n' => $permissionName])->all();
+	    //var_dump($available);exit;
+		if(count($available) > 0)
 		{
-			$auth = \Yii::$app->authManager;
-    		$role = $auth->getUserIdsByRole($available->role);
-    		$superadmin =  $auth->getUserIdsByRole('super admin');
-    		$mergeRole = array_merge($role,$superadmin);
+			foreach($available as $data)
+			{
+				$auth = \Yii::$app->authManager;
+	    		$role = $auth->getUserIdsByRole($data->role);
 
-    		foreach($mergeRole as $adminid)
-    		{
-    			$model = new Notification;
-				$model->adminid = $adminid;
-				$model->content = $available->description.' '.Yii::$app->user->identity->username;
-				$model->save();
-    		}
+	    		foreach($role as $adminid)
+	    		{
+	    			$model = new Notification;
+					$model->adminid = $adminid;
+					$model->icon = $data->icon;
+					$model->content = $data->description.' '.Yii::$app->user->identity->username;
+					$model->seen = 0;
+					$model->save();
+	    		}
+			}
 			
 		}
 	}

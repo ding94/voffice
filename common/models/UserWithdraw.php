@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use common\models\OfflineTopup\OfflineTopupStatus;
 use common\models\BankDetails;
+use common\components\NotificationBehavior;
 
 /**
  * This is the model class for table "user_withdraw".
@@ -53,7 +54,8 @@ class UserWithdraw extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-            ],   
+            ], 
+            NotificationBehavior::className(),  
         ];
     }
 

@@ -30,8 +30,8 @@ class NotificationSetting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'role', 'name', 'description', 'created_at'], 'required'],
-            [['description'], 'string'],
+            [['type', 'role', 'name', 'description','icon', 'created_at'], 'required'],
+            [['description','icon'], 'string'],
             [['created_at'], 'integer'],
             [['type', 'role'], 'string', 'max' => 20],
             [['name'], 'string', 'max' => 50],

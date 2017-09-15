@@ -46,10 +46,9 @@ class Notification extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['adminid', 'content'], 'required'],
+            [['adminid', 'content','icon'], 'required'],
             [['adminid', 'created_at', 'updated_at','seen'], 'integer'],
-            [['content'], 'string'],
-            [['role'], 'string', 'max' => 20],
+            [['content','icon'], 'string'],
         ];
     }
 

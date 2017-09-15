@@ -40,7 +40,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            //NotificationBehavior::className(),
+            NotificationBehavior::className(),
         ];
     }
 	

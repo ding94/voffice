@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Notification\Notification;
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
@@ -102,16 +103,17 @@ use yii\helpers\Url;
                     </ul>
                 </li>
                 <li class="dropdown notifications-menu">
+                    <?php $notic = Notification::find()->where('adminid = :id and seen = :s',[':id' => Yii::$app->user->identity->id ,':s' => 0])->all(); ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
+                        <span class="label label-warning"><?php echo count($notic)?></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
+                        <li class="header">You have <?php echo count($notic)?> notifications</li>
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
-                                <li>
+                                <!-- <li>
                                     <a href="#">
                                         <i class="fa fa-users text-aqua"></i> 5 new members joined today
                                     </a>
@@ -127,17 +129,19 @@ use yii\helpers\Url;
                                         <i class="fa fa-users text-red"></i> 5 new members joined
                                     </a>
                                 </li>
-
+                                 -->
+                                <?php foreach($notic as $data):?>
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                        <i class='<?php echo $data->icon; ?>'></i><?php echo $data->content ?>
                                     </a>
                                 </li>
-                                <li>
+                                <?php endforeach ;?>
+                                <!-- <li>
                                     <a href="#">
                                         <i class="fa fa-user text-red"></i> You changed your username
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                         <li class="footer"><a href="#">View all</a></li>
