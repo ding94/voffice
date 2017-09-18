@@ -42,7 +42,7 @@ $this->title = 'Virtual Office';
   <?php
   foreach ($banner as $k => $banners) {
   ?>
-    <img src="../web/<?php echo $banners['name'] ?>" class="mySlides" style="width: 100%">
+    <?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%"]);?>
   <?php
     }
   ?>
