@@ -82,7 +82,7 @@ class SubscribeController extends \yii\web\Controller
 			default:
 				$end_period="";
 				break;
-		}
+            }
 		$subscribe->type = $id;
 		//var_dump($subscribe); exit;
 			
