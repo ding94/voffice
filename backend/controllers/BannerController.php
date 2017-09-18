@@ -43,6 +43,10 @@ Class BannerController extends CommonController
 
 	public function actionDelete($id)
 	{
-		
+		$model = Banner::find()->where('bannerid = :bannerid',[':bannerid'=>$id])->one();
+		if ($model) {
+			$model->delete();
+		}
+		return $this->redirect(['index']);
 	}
 }
