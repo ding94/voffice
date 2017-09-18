@@ -45,4 +45,9 @@ class NotificationBehavior extends Behavior
 			
 		}
 	}
+
+	public function afterUpdate($event)
+	{
+		
+	}
 }
