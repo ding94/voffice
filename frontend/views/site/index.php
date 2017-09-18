@@ -51,10 +51,11 @@ $this->title = 'Virtual Office';
 </div>
 	<br>
 	<div style="text-align:center">
-  <span class="dot" onclick="currentDivs(1)"></span> 
-  <span class="dot" onclick="currentDivs(2)"></span> 
-  <span class="dot" onclick="currentDivs(3)"></span> 
-<span class="dot" onclick="currentDivs(4)"></span>    
+<?php foreach ($banner as $k => $banners) {
+    $k += 1;
+    ?>
+<span class="dot" onclick="currentDivs($k)"></span>
+<?php } ?>    
 </div>
 	
         <!-- container -->
