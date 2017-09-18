@@ -39,10 +39,9 @@ $this->title = 'Virtual Office';
 
 <div class="w3-content w3-display-container">
 <div class="w3-display-middle btn-primary btn-lg"><a href="#about" class="page-scroll">Tell Me More</a></div>
-  <img class="mySlides" src="../img/rheader-bg.jpg" style="width:100%">
-   <img class="mySlides" src="../img/rmap-image.jpg" style="width:100%">
-  <img class="mySlides" src="../img/1.jpg" style="width:100%">
-  <img class="mySlides" src="../img/r2.jpg" style="width:100%">
+    <?= Html::img('@web/img/rheader-bg.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
+    <?= Html::img('@web/img/1.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
+    <?= Html::img('@web/img/r2.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
