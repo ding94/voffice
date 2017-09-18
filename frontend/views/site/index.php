@@ -39,10 +39,13 @@ $this->title = 'Virtual Office';
 
 <div class="w3-content w3-display-container">
 <div class="w3-display-middle btn-primary btn-lg"><a href="#about" class="page-scroll">Tell Me More</a></div>
-  <img class="mySlides" src="../web/img/rheader-bg.jpg" style="width:100%">
-   <img class="mySlides" src="../web/img/rmap-image.jpg" style="width:100%">
-  <img class="mySlides" src="../web/img/1.jpg" style="width:100%">
-  <img class="mySlides" src="../web/img/r2.jpg" style="width:100%">
+  <?php
+  foreach ($banner as $k => $banners) {
+  ?>
+    <img src="../web/<?php echo $banners['name'] ?>" class="mySlides" style="width: 100%">
+  <?php
+    }
+  ?>
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>

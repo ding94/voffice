@@ -16,6 +16,7 @@ use common\models\Contact;
 use common\models\User\User;
 use common\models\Package;
 use common\models\User\UserBalance;
+use common\models\Banner;
 use yii\helpers\Url;
 
 /**
@@ -80,7 +81,7 @@ class SiteController extends Controller
 		
         $model = new Contact();
         $package = Package::find()->all();
-
+        $banner = Banner::find()->all();
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
             if ($model->add($post)) {
@@ -95,6 +96,7 @@ class SiteController extends Controller
             return $this->render('index', [
                 'model' => $model,
                 'package' => $package,
+                'banner' => $banner,
             ]);
 		
 		
