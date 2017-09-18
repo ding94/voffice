@@ -39,18 +39,23 @@ $this->title = 'Virtual Office';
 
 <div class="w3-content w3-display-container">
 <div class="w3-display-middle btn-primary btn-lg"><a href="#about" class="page-scroll">Tell Me More</a></div>
-    <?= Html::img('@web/img/rheader-bg.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
-    <?= Html::img('@web/img/1.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
-    <?= Html::img('@web/img/r2.jpg', ['alt'=>'some', 'class'=>'mySlides', 'style'=>"width:100%"]);?>
+  <?php
+  foreach ($banner as $k => $banners) {
+  ?>
+    <?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%"]);?>
+  <?php
+    }
+  ?>
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 </div>
 	<br>
 	<div style="text-align:center">
-  <span class="dot" onclick="currentDivs(1)"></span> 
-  <span class="dot" onclick="currentDivs(2)"></span> 
-  <span class="dot" onclick="currentDivs(3)"></span> 
-<span class="dot" onclick="currentDivs(4)"></span>    
+<?php foreach ($banner as $k => $banners) {
+    $k += 1;
+    ?>
+<span class="dot" onclick="currentDivs($k)"></span>
+<?php } ?>    
 </div>
 	
         <!-- container -->

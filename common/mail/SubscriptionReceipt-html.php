@@ -91,7 +91,7 @@ use yii\helpers\Url;
                 <td></td>
                 
                 <td>
-                   Total: $385.00
+                   <span>Total:<span><span>RM</span><?php echo $model['package']['price']; ?>
                 </td>
             </tr>
         </table>	

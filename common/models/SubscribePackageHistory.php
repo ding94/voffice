@@ -35,7 +35,7 @@ class SubscribePackageHistory extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'payid', 'amount', 'pay_date', 'packid', 'subscribe_period', 'subscribe_date', 'end_date'], 'required'],
-            [['uid', 'payid', 'type', 'packid', 'subscribe_period'], 'integer'],
+            [['uid', 'payid', 'pay_type', 'packid','pack_type','grade', 'subscribe_period'], 'integer'],
             [['amount'], 'number'],
             [['pay_date', 'subscribe_date', 'end_date'], 'safe'],
         ];
@@ -52,8 +52,10 @@ class SubscribePackageHistory extends \yii\db\ActiveRecord
             'payid' => 'Payid',
             'amount' => 'Amount',
             'pay_date' => 'Pay Date',
-            'type' => 'Type',
+            'pay_type' => 'Payment Type',
             'packid' => 'Packid',
+			'pack_type'=>'Package Type',
+			'grade'=>'Grade',
             'subscribe_period' => 'Subscribe Period',
             'subscribe_date' => 'Subscribe Date',
             'end_date' => 'End Date',

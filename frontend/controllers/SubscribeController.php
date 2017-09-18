@@ -17,14 +17,15 @@ class SubscribeController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $package = Package::find()->all();
+       
         $subscribe = UserPackage::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $subscribehistory = new SubscribePackageHistory();
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
         $payment = new Payment();
-        $user = User::find()->where('id = :id',[':id' => $subscribe->uid])->one();
+
 		$userpackagesubscription = Userpackagesubscription::find()->where('uid = :id',[':id' => Yii::$app->user->identity->id])->one();
-        if (empty($userpackagesubscription)){
+       
+	   if (empty($userpackagesubscription)){
           $userpackagesubscription = new Userpackagesubscription();
         }
 		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
@@ -34,10 +35,7 @@ class SubscribeController extends \yii\web\Controller
           $subscribe = new UserPackage();
         }
 		
-		if (empty($userpackagesubscription)){
-          $userpackagesubscription = new Userpackagesubscription();
-        }
-
+		
         $year = date('Y');
         $month = date('m');
         $day = date('d');
@@ -48,8 +46,12 @@ class SubscribeController extends \yii\web\Controller
         {  
             
 			$post = Yii::$app->request->post();
-		
-            $subscribe->load($post);
+			if(!empty($subscribe)){
+				
+			$package = Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
+          
+			} 
+			$subscribe->load($post);
             $payment->load($post);
             $subscribe->uid = Yii::$app->user->identity->id;
             $payment->uid = Yii::$app->user->identity->id;
@@ -82,9 +84,9 @@ class SubscribeController extends \yii\web\Controller
 			default:
 				$end_period="";
 				break;
-		}
+            }
 		$subscribe->type = $id;
-		//var_dump($subscribe); exit;
+	
 			
            /* if ($subscribe->sub_period == 12) {
               $end_period = strtotime('+1 year',strtotime($date));
@@ -95,6 +97,8 @@ class SubscribeController extends \yii\web\Controller
             } */
             $subscribe->subscribe_time = $date;
             $subscribe->end_period = $end_period;
+			
+		// var_dump($package);exit;
 
             if ($userbalance->balance >= $payment->paid_amount) {
                 $subscribe->save();
@@ -105,8 +109,25 @@ class SubscribeController extends \yii\web\Controller
                 $subscribehistory->payid = $payment->id;
                 $subscribehistory->amount = $payment->paid_amount;
                 $subscribehistory->pay_date = $date;
-                $subscribehistory->type = $payment->paid_type;
+                $subscribehistory->pay_type = $payment->paid_type;
                 $subscribehistory->packid = $subscribe->packid;
+				$subscribehistory->pack_type = $subscribe -> type;
+				$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
+
+				if($package < $rank){
+					$subscribehistory->grade = 8; //value retrieve from subscribe_type
+
+				}
+				
+				elseif($package > $rank){
+					$subscribehistory->grade =  9;
+				}
+				
+				else{
+					$subscribehistory->grade =  "";
+				}
+				//var_dump($subscribehistory->grade); exit;
+				
                 $subscribehistory->subscribe_period = $subscribe->sub_period;
                 $subscribehistory->subscribe_date = $subscribe->subscribe_time;
                 $subscribehistory->end_date = $subscribe->end_period;
@@ -116,6 +137,7 @@ class SubscribeController extends \yii\web\Controller
 				$userpackagesubscription->end_period = $subscribe->end_period;
 				$userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($subscribe->end_period)));
 				$userpackagesubscription->save();
+				$user = User::find()->where('id = :id',[':id' => $subscribe->uid])->one();
                 $model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
                 $userdetails = UserDetails::find()->where('uid = :uid',[':uid' => $subscribe->uid])->one();
                 if (empty($userdetails)) {
@@ -132,6 +154,6 @@ class SubscribeController extends \yii\web\Controller
                 Yii::$app->session->setFlash('warning', 'Failed to subscribe. Not enough balance to subscribe.');
             }
         }
-        return $this->render('index',['package' => $package,'subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
+        return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
     }
 }
