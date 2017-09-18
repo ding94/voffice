@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-
+use backend\models\Admin;
 
 	$this->title = 'Offline Topup';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -147,13 +147,25 @@ use yii\helpers\ArrayHelper;
                         },
 						'filter' => $list,
 					],
-                    [
-                    'attribute' => 'inCharge',
+					
+               [ 	'label' => 'In Charge',
+					'attribute' => 'inCharge',
+					'value'=> function($model){
+						$name ="";
+						if(!empty($model->inCharge))
+						{
+							$name = Admin::findOne($model->inCharge)->adminname;
+						}
+						return $name;
+                    
+					},
+				
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Person in Charge',
-                         ],
-                    ],
+                     ],
+            ],
+					
                     [
                     'attribute' => 'rejectReason',
                     'filterInputOptions' => [
