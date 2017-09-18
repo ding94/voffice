@@ -48,7 +48,8 @@ return [
 
         'urlManagerFrontEnd'=>[
             'class' => 'yii\web\urlManager',
-            'baseUrl' => '/voffice/frontend/web',
+            //'baseUrl' => '/voffice/frontend/web', //use for window
+            'baseUrl' => '//xmailbox.dev',  // use for ubuntu
         ]
        
         /* 'urlManager' => [
