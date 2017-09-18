@@ -13,9 +13,9 @@ use common\models\Notification\Notification;
 
 Class NoticController extends Controller
 {
-	public function actionIndex($id)
+	public function actionIndex()
 	{
-
+		self::noticeSeen();
 		$model =  Notification::find()->where(['adminid' => Yii::$app->user->identity->id]);
 
 		$dataProvider = new ActiveDataProvider([
@@ -28,5 +28,10 @@ Class NoticController extends Controller
 	    	],
         ]);
 		return $this->render('index',['model' => $dataProvider]);
+	}
+
+	public static function noticeSeen()
+	{
+		$notic = Notification::updateAll(['seen' => 1],'adminid = :id and seen = :s',[':id' => Yii::$app->user->identity->id ,':s' => 0]);
 	}
 }
