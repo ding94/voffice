@@ -27,7 +27,7 @@ class Banner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','startTime','endTime'], 'required'],
             [['name','redirectUrl','title'], 'string', 'max' => 50],
         ];
     }
@@ -42,6 +42,8 @@ class Banner extends \yii\db\ActiveRecord
             'name' => 'Name',
             'title' => 'Title',
             'redirectUrl' => 'Redirect URL',
+            'startTime' => 'Start Time',
+            'endTime' => 'End Time',
         ];
     }
 

@@ -81,7 +81,7 @@ class SiteController extends Controller
 		
         $model = new Contact();
         $package = Package::find()->all();
-        $banner = Banner::find()->all();
+        $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
         if (Yii::$app->request->isPost) {
 			$post = Yii::$app->request->post();
             if ($model->add($post)) {
