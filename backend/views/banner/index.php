@@ -27,6 +27,10 @@ use yii\helpers\Url;
             ],
 
             [
+                'attribute' => 'title',
+            ],
+
+            [
                 'attribute' => 'redirectUrl',
             ],
 
