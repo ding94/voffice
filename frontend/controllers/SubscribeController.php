@@ -34,7 +34,11 @@ class SubscribeController extends \yii\web\Controller
         if (empty($subscribe)){
           $subscribe = new UserPackage();
         }
-		
+		else{
+				
+			$package = Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
+          
+			} 
 		
         $year = date('Y');
         $month = date('m');
@@ -46,11 +50,11 @@ class SubscribeController extends \yii\web\Controller
         {  
             
 			$post = Yii::$app->request->post();
-			if(!empty($subscribe)){
+			/*if(!empty($subscribe)){
 				
 			$package = Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
           
-			} 
+			} */
 			$subscribe->load($post);
             $payment->load($post);
             $subscribe->uid = Yii::$app->user->identity->id;
@@ -112,7 +116,11 @@ class SubscribeController extends \yii\web\Controller
                 $subscribehistory->pay_type = $payment->paid_type;
                 $subscribehistory->packid = $subscribe->packid;
 				$subscribehistory->pack_type = $subscribe -> type;
-				$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
+				
+				
+				if(!empty($subscribe)){
+				
+			$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
 
 				if($package < $rank){
 					$subscribehistory->grade = 8; //value retrieve from subscribe_type
@@ -126,7 +134,23 @@ class SubscribeController extends \yii\web\Controller
 				else{
 					$subscribehistory->grade =  "";
 				}
-				//var_dump($subscribehistory->grade); exit;
+          
+			}
+				/*$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
+
+				if($package < $rank){
+					$subscribehistory->grade = 8; //value retrieve from subscribe_type
+
+				}
+				
+				elseif($package > $rank){
+					$subscribehistory->grade =  9;
+				}
+				
+				else{
+					$subscribehistory->grade =  "";
+				}
+				//var_dump($subscribehistory->grade); exit;*/
 				
                 $subscribehistory->subscribe_period = $subscribe->sub_period;
                 $subscribehistory->subscribe_date = $subscribe->subscribe_time;
