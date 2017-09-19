@@ -6,6 +6,8 @@ use yii\helpers\Html;
 <?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($upload, 'imageFile')->fileInput() ?>
+
+<?= $form->field($model, 'redirectUrl')->textInput() ?>
     <div class="form-group">
         <?= Html::submitButton('Upload', ['class' => 'btn btn-primary']) ?>
     </div>

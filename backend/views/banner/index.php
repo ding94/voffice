@@ -26,6 +26,10 @@ use yii\helpers\Url;
                 'attribute' => 'name',
             ],
 
+            [
+                'attribute' => 'redirectUrl',
+            ],
+
             ['class' => 'yii\grid\ActionColumn',
              'template' => '{delete}',
         	]

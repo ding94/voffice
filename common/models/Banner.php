@@ -28,7 +28,7 @@ class Banner extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['name'], 'string', 'max' => 50],
+            [['name','redirectUrl'], 'string', 'max' => 50],
         ];
     }
 
@@ -40,6 +40,7 @@ class Banner extends \yii\db\ActiveRecord
         return [
             'bannerid' => 'Bannerid',
             'name' => 'Name',
+            'redirectUrl' => 'Redirect URL'
         ];
     }
 

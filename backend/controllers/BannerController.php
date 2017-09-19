@@ -34,11 +34,12 @@ Class BannerController extends CommonController
     		{
     			$imageName = Url::to('@frontend/web').'/'.$path.'/'.$upload->imageFile->name;
     			$upload->imageFile->saveAs($imageName);
+    			$model->load($post);
     			$model->save();
     			Yii::$app->session->setFlash('success', 'Upload Successful');
     		}
 		}	
-		return $this->render('addbanner',['upload' => $upload]);
+		return $this->render('addbanner',['upload' => $upload, 'model' => $model]);
 	}
 
 	public function actionDelete($id)

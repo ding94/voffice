@@ -42,7 +42,7 @@ $this->title = 'Virtual Office';
   <?php
   foreach ($banner as $k => $banners) {
   ?>
-    <?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%"]);?>
+    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%"]);?></a>
   <?php
     }
   ?>
