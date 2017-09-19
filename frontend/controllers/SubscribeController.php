@@ -27,9 +27,13 @@ class SubscribeController extends \yii\web\Controller
        
 	   if (empty($userpackagesubscription)){
           $userpackagesubscription = new Userpackagesubscription();
+		  $items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
         }
-		$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
-	
+		
+	else{
+		Yii::$app->session->setFlash('error', "Your package is active. You are not allowed to subscribe more than one package, Thanks!");
+		return $this->redirect(['user/userpackage']);
+	}
 		
         if (empty($subscribe)){
           $subscribe = new UserPackage();

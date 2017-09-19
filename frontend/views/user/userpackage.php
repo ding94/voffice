@@ -48,8 +48,8 @@ use yii\helpers\Url;
                </tbody>
             </table>
 			
-            <a class="btn btn-md btn-info" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Pay NOW</a>
-			<a class="btn btn-md btn-primary" href="<?php echo yii\helpers\Url::to(['package/index'])?>">Renew</a>
+       
+			<a class="btn btn-md btn-primary" href="<?php echo yii\helpers\Url::to(['subscribe/index'])?>">Pay Now</a>
 			
 			
 	</div>
