@@ -41,7 +41,7 @@ class SubscribeController extends \yii\web\Controller
 		else{
 				
 			$package = Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
-          
+			$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
 			} 
 		
         $year = date('Y');
@@ -122,10 +122,10 @@ class SubscribeController extends \yii\web\Controller
 				$subscribehistory->pack_type = $subscribe -> type;
 				
 				
-				if(!empty($subscribe)){
+			/*	if(!empty($subscribe)){
 				
 			$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
-
+var_dump($package);exit;
 				if($package < $rank){
 					$subscribehistory->grade = 8; //value retrieve from subscribe_type
 
@@ -139,7 +139,7 @@ class SubscribeController extends \yii\web\Controller
 					$subscribehistory->grade =  "";
 				}
           
-			}
+			}*/
 				/*$rank=Package::find()->where('id = :id',[':id' => $subscribe->packid])->one()->rank;
 
 				if($package < $rank){
