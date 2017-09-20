@@ -29,10 +29,11 @@ class UserBalance extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'balance' ], 'required'],
-			 [['positive'],'required', 'on' => ['positive']],
-			  [['negative'],'required', 'on' => ['negative']],
+			[['positive'],'required', 'on' => ['positive']],
+			[['negative'],'required', 'on' => ['negative']],
             [['uid', 'balance', 'positive', 'negative'], 'integer'],
-            [['balance'],'default','value' => '0']
+            [['balance'],'default','value' => '0'],
+            ['balance', 'compare', 'compareValue' => 0, 'operator' => '>'],
         ];
     }
 

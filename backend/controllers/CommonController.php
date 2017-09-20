@@ -12,7 +12,7 @@ Class CommonController extends Controller
 	{
 		$controller = Yii::$app->controller->id;
 	    $action = Yii::$app->controller->action->id;
-	    $permissionName = $controller.'/'.$action;    
+	    $permissionName = $controller.'/'.$action;  
 	    if(!\Yii::$app->user->can($permissionName) && Yii::$app->getErrorHandler()->exception === null){
 	        throw new \yii\web\UnauthorizedHttpException('Sorry, You do not have permission');
 	    }
