@@ -138,25 +138,12 @@ class SubscribeController extends \yii\web\Controller
 		return $subscribehistory;
 	}
 
-	/*protected static function rank($packid)
-	{
-		$rank = Package::find()->where('id = :id',[':id' => $packid])->one()->rank;
-		$grade = "";
-
-		if($package < $rank){
-			$grade = 8; //value retrieve from subscribe_type
-
-		}
-				
-		elseif($package > $rank){
-			$grade =  9;
-		}
-		return $grade;		
-	}*/
 
 	protected static function makePeriodDuration($subPeriod)
 	{
-		$year = date('Y');
+		
+        $year = date('Y');
+
         $month = date('m');
         $day = date('d');
         $date = mktime(0,1,0,$month,$day,$year);
@@ -188,6 +175,7 @@ class SubscribeController extends \yii\web\Controller
 			default:
 				$end_period= 0;
 				break;
+
         }
 
         $end_period = date('Y-m-d h:i:s',$end_period);
