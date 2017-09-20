@@ -30,4 +30,13 @@ Class NewsController extends CommonController
 
 		return $this->render('addnews',['model' => $model]);
 	}
+
+	public function actionDelete($id)
+	{
+		$model = News::find()->where('id = :id',[':id'=>$id])->one();
+		if ($model) {
+			$model->delete();
+		}
+		return $this->redirect(['index']);
+	}
 }
