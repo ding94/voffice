@@ -34,6 +34,14 @@ use yii\helpers\Url;
                 'attribute' => 'redirectUrl',
             ],
 
+            [
+                'attribute' => 'startTime',
+            ],
+
+            [
+                'attribute' => 'endTime',
+            ],
+
             ['class' => 'yii\grid\ActionColumn',
              'template' => '{delete}',
         	]

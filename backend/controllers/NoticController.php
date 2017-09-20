@@ -17,7 +17,7 @@ Class NoticController extends Controller
 	{
 		self::noticeSeen();
 		$model =  Notification::find()->where(['adminid' => Yii::$app->user->identity->id]);
-
+		var_dump($model);exit;
 		$dataProvider = new ActiveDataProvider([
             'query' => $model,
             'sort' => [
