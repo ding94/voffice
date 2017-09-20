@@ -23,98 +23,89 @@ class SubscribeController extends \yii\web\Controller
 
     	$payment = new Payment();
 
-    	if(Yii::$app->request->isPost)
-    	{
-    		$post = Yii::$app->request->post();
-
-    		$paymentData = self::getPayment($post);
-    		if($paymentData)
-    		{
-    			$isValid = self::makeSubscribeHistory($paymentData['subscribe'],$paymentData['payment']);
-    			if($isValid->save())
-    			{
-    				Yii::$app->session->setFlash('warning', 'Subscribe Success');
-    			}
-    			else
-    			{
-    				var_dump($isValid->errors);exit;
-    			}
-    		}
-    		
-    	}
     	return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
     }
 
-    protected static function getPayment($post)
-    {
-    	$data = "";
-    	$makePayment = self::makePayment($post['Payment']);
+    public function actionMakeSubscribe()
+  	{
+  		$currentDate = date('Y-m-d h:i:s');
 
-    	$userBalance = PaymentController::getPaymentBalance($makePayment['original_price']);
+  		$post= Yii::$app->request->post();
+  		
+  		$subscribeType = SubscribeType::findOne($post['UserPackage']['sub_period']);
 
-    	$makeSubscribe = self::makeSubscribe($post['UserPackage']);
+  		$payment = self::makePayment($post['Payment']['paid_amount'],$subscribeType['times']);
 
-    	$makePackageSubscribe = self::makePackageSubscribe($post['UserPackage']);
-    		
-    	$isValid = $makePayment->validate() && $userBalance->validate() && $makeSubscribe->validate() && $makePackageSubscribe->validate();
-    	
-    	if($isValid)
-    	{
-    		$makePayment->save();
-    		$userBalance->save();
-    		$makeSubscribe->save();
-    		$makePackageSubscribe->save();
-    		$data['payment'] = $makePayment;
-    		$data['subscribe'] = $makeSubscribe;
-    		return $data;
-    	}
-    	else
-    	{
-    		Yii::$app->session->setFlash('warning', 'Subscribe failed');
-    		return $data;
-    	}
-    }
+  		$subscribe = self::makeSubscribe($post['UserPackage'],$currentDate,$subscribeType['sub_period']);
 
-	protected static function makePayment($data)
+  		$userbalance = PaymentController::getPaymentBalance($post['Payment']['paid_amount'],$subscribeType['times']);
+
+  		$packageSubscribe = self::makePackageSubscribe($subscribeType['sub_period'],$subscribeType['next_payment']);
+  		
+  		$isValid = $payment->validate() && $subscribe->validate() && $packageSubscribe->validate() && $userbalance->validate();
+  		
+  		if($isValid)
+  		{
+  			$payment->save();
+  			$subscribe->save();
+  			$packageSubscribe->save();
+  			$subscribeHistory = self::makeSubscribeHistory($subscribe,$payment);
+  			if($subscribeHistory->save())
+  			{
+  				Yii::$app->session->setFlash('success', 'Subscribe Success');
+  			}
+  			else
+  			{
+  				Yii::$app->session->setFlash('warning', 'Subscribe Fail');
+  			}
+  		}
+  		return $this->redirect(['user/userpackage']);
+  	}
+
+	protected static function makePayment($amount,$times)
 	{
 		$payment = new Payment();
 		$payment->uid = Yii::$app->user->identity->id;
         $payment->paid_type = 1;
         $payment->item = 'Subscription';
-        $payment->original_price = $data['paid_amount'];
-        $payment->paid_amount = $data['paid_amount'] ;
-        
+        $payment->original_price = $amount * $times;
+        $payment->paid_amount = $amount * $times;
         return $payment;
 	}
 
-	protected static function makeSubscribe($data)
+	protected static function makeSubscribe($data,$currentDate,$endTime)
 	{
 		$subscribe = new Userpackage();
 		$subscribe->uid = Yii::$app->user->identity->id;
 
         $subscribe->type = $data['sub_period'];
 		$subscribe->packid = $data['packid'];
-		$time = self::makePeriodDuration($data['sub_period']);
-		
-		$subscribe->sub_period = $time['sub_period'];
 
-        $subscribe->subscribe_time = $time['date'];
-        $subscribe->end_period = $time['end_period'];
+		$endDate = date('Y-m-d h:i:s',strtotime($endTime));
+
+		$period = date_diff(date_create($currentDate),date_create($endDate));
+		$subscribe->sub_period = $period->days;
+
+        $subscribe->subscribe_time = $currentDate;
+        $subscribe->end_period = $endDate;
      
         return $subscribe;
 	}
 
-	protected static function makePackageSubscribe($data)
+	protected static function makePackageSubscribe($endTime,$nextTime)
 	{
+		
 		$userpackagesubscription = new Userpackagesubscription();
 
 		$userpackagesubscription->uid = Yii::$app->user->identity->id;
-
-		$time = self::makePeriodDuration($data['sub_period']);
 		
-		$userpackagesubscription->end_period = $time['end_period'];
-        $userpackagesubscription->next_payment = date('Y-m-d h:i:s',strtotime('-330 days',strtotime( $time['end_period'])));
+		$endDate = date('Y-m-d h:i:s',strtotime($endTime));
+		$nextDate = date('Y-m-d h:i:s',strtotime($nextTime));
 
+		$userpackagesubscription->end_period = $endDate;
+
+        $userpackagesubscription->next_payment = $nextDate;
+       
         return $userpackagesubscription;
 	}
 
@@ -136,55 +127,6 @@ class SubscribeController extends \yii\web\Controller
 
 		$subscribehistory->grade = "";
 		return $subscribehistory;
-	}
-
-
-	protected static function makePeriodDuration($subPeriod)
-	{
-		
-        $year = date('Y');
-
-        $month = date('m');
-        $day = date('d');
-        $date = mktime(0,1,0,$month,$day,$year);
-        $date = date('Y-m-d h:i:s',$date);
-        $data = "";
-        $sub = "";
-
-        switch ($subPeriod) {
-			case 2:
-			$end_period = mktime(0,1,0, $month+1,$day,$year);
-		
-			$sub =1;
-				break;
-			case 4:
-			$end_period = mktime(0,1,0, $month+1,$day,$year);
-		    
-		    $sub =30;
-				break;
-			case 5:
-			$end_period = mktime(0,1,0, $month,$day,$year+1);
-			
-			$sub =360;
-			 	break;
-			case 6:
-			$end_period = mktime(0,1,0, $month,$day,$year+1);
-
-			$sub =365;
-			 	break;
-			default:
-				$end_period= 0;
-				break;
-
-        }
-
-        $end_period = date('Y-m-d h:i:s',$end_period);
-
-        $data['date'] = $date;
-        $data['sub_period'] = $sub;
-        $data ['end_period'] = $end_period;
-
-        return $data;
 	}
 }
 

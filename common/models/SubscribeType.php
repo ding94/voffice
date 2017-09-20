@@ -27,7 +27,8 @@ class SubscribeType extends \yii\db\ActiveRecord
     {
         return [
             [['description'], 'required'],
-            [['description'], 'string'],
+            [['description','sub_period','next_payment'], 'string'],
+            ['times' ,'integer'],
         ];
     }
 

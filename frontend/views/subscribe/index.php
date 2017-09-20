@@ -23,6 +23,9 @@ $period = array(1 => 'Monthly',12 => 'Annual');
 		'options'=>[
 			'id'=>'form',
 		],
+		'action' => [
+			'subscribe/make-subscribe',
+		]
 	]);?>
 		<?= $form->field($subscribe, 'packid')->dropDownList($type,[
 			'id'=>'package',
