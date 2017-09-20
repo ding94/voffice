@@ -37,6 +37,9 @@ Class BannerController extends CommonController
     			$model->load($post);
     			$model->save();
     			Yii::$app->session->setFlash('success', 'Upload Successful');
+    		} else{
+    			Yii::$app->session->setFlash('danger', 'Upload Fail');
+    			return $this->redirect(['index']);
     		}
 		}	
 		return $this->render('addbanner',['upload' => $upload, 'model' => $model]);
