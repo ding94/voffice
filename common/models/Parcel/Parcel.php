@@ -60,7 +60,7 @@ class Parcel extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'type', 'status'], 'required'],
-            [['uid', 'status', 'updated_at','created_at' ,'type'], 'integer'],
+            [['uid', 'status', 'updated_at','created_at','updated_at' ,'type'], 'integer'],
             [['type'],'in', 'range' => [1, 2]],
         ];
     }
