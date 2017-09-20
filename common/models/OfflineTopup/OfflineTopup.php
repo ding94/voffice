@@ -96,11 +96,15 @@ class OfflineTopup extends \yii\db\ActiveRecord
 		if ($action == 0){
 			  $query = self::find(); //自己就是table,找一找资料
 		}
-		elseif ($action >=1){
-			$query= self::find()->where('action = :act',[':act' =>$action]);
+		elseif ($action >=1 && $action <=4){
+			$query= self::find()->where('action = :act',[':act' =>$action]);//找自己的资料，根据一个限制(condition)
 			
 			//$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
 
+		}
+		elseif($action==5){
+			$query =self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
+			
 		}
 		$query->joinWith(['offlinetopupstatus','bankdetails' ]);
         //$query->joinWith(['company']);

@@ -40,7 +40,7 @@
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('admin/index'), 
                     ],
-                    [   'label' => 'Banner Controller' , 'icon' => 'circle-o' ,'url' => '#',
+                    [   'label' => 'Banner Controller' , 'icon' => 'square' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Banner List' ,'icon' => 'circle-o' , 'url' => ['/banner/index']],
                                         ['label' => 'Add Banner' ,'icon' => 'circle-o' , 'url' => ['/banner/addbanner']],

@@ -108,7 +108,8 @@ AppAsset::register($this);
     'options' => ['class' => 'in'],
     'items' => [
         ['label' => 'My Account', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
+            ['label' => 'Account ', 'url' => Url::to(['user/userbalance'])],
+            ['label' => 'Account History', 'url' => Url::to(['topup-history/index'])],
             ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
 			['label' => 'My Package', 'url' => Url::to(['user/userpackage'])],
         ]],
