@@ -31,6 +31,16 @@ use yii\helpers\Url;
                 'contentOptions' => ['style'=>'max-width: 300px; overflow: auto; word-wrap: break-word;'],
             ],
 
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>' {preview}',
+             'buttons' => [
+				'preview' => function($url,$model)
+	                {
+	                    return Html::a('Preview',Url::to(['news/preview', 'id' => $model->id]),['target'=>'_blank']); //open page in new tab
+	                },
+              	],
+			],
+
             [
                 'attribute' => 'startTime',
             ],
@@ -38,6 +48,10 @@ use yii\helpers\Url;
             [
                 'attribute' => 'endTime',
             ],
+
+            ['class' => 'yii\grid\ActionColumn',
+             'template' => '{update}',
+        	],
 
             ['class' => 'yii\grid\ActionColumn',
              'template' => '{delete}',
