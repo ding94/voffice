@@ -30,11 +30,11 @@ table, th,td{
 		
 		<h2>My Account History</h2><br>
 
-             <table style="cursor:pointer" class="table table-user-information" id="display">
+             <table class="table table-user-information" id="display">
 <tr class="hover" style="text-align: center; height:60px; font-size:20px;">
-<td class="warning" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
+<td class="warning" >Topup History</td>
 
-<td class="info" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+<td class="info" style="cursor:pointer"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
 </tr>	
 </table>	
 	
