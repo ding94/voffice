@@ -5,6 +5,7 @@ use common\models\Package;
 use common\models\SubscribePackage;
 use common\models\User\User;
 use common\models\User\UserBalance;
+use common\models\Payment;
 use Yii;
 
 class PaymentController extends \yii\web\Controller
@@ -86,6 +87,22 @@ class PaymentController extends \yii\web\Controller
         $userbalance->balance -= $total * $times;
         $userbalance->negative += $total * $times;
         return $userbalance;
+    }
+
+    /*
+    * make payment saving data
+    * amount => package price
+    * times => base on how many month
+    */
+    public static function makeSubscribePayment($amount,$times)
+    {
+        $payment = new Payment();
+        $payment->uid = Yii::$app->user->identity->id;
+        $payment->paid_type = 1;
+        $payment->item = 'Subscription';
+        $payment->original_price = $amount * $times;
+        $payment->paid_amount = $amount * $times;
+        return $payment;
     }
 
     // public function getAmountList($data)

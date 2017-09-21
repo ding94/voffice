@@ -26,7 +26,31 @@ class SubscribeController extends \yii\web\Controller
     	return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
     }
 
+    /*
+     * detect user subscibe already or not
+    */
     public function actionMakeSubscribe()
+  	{
+  		$available = self::availableSubscribe();
+  		if($available == true)
+  		{
+  			Yii::$app->session->setFlash('warning', 'Already Subscribe');
+  		}
+  		else
+  		{
+  			self::processAll();
+  		}
+  		
+  		return $this->redirect(['user/userpackage']);
+  	}
+
+  	/*
+  	* get all the needed database validation
+  	* save the payment and subscribe first to do subscirehistory
+  	* if one fail all will cancel 
+  	*/
+
+  	protected static function processAll()
   	{
   		$currentDate = date('Y-m-d h:i:s');
 
@@ -34,7 +58,7 @@ class SubscribeController extends \yii\web\Controller
   		
   		$subscribeType = SubscribeType::findOne($post['UserPackage']['sub_period']);
 
-  		$payment = self::makePayment($post['Payment']['paid_amount'],$subscribeType['times']);
+  		$payment = PaymentController::makeSubscribePayment($post['Payment']['paid_amount'],$subscribeType['times']);
 
   		$subscribe = self::makeSubscribe($post['UserPackage'],$currentDate,$subscribeType['sub_period']);
 
@@ -48,30 +72,44 @@ class SubscribeController extends \yii\web\Controller
   		{
   			$payment->save();
   			$subscribe->save();
-  			$packageSubscribe->save();
   			$subscribeHistory = self::makeSubscribeHistory($subscribe,$payment);
-  			if($subscribeHistory->save())
+  			if($subscribeHistory->save() && $userbalance->save() &&  $packageSubscribe->save())
   			{
+  				self::makeEmail($packageSubscribe);
   				Yii::$app->session->setFlash('success', 'Subscribe Success');
   			}
   			else
   			{
+  				Payment::deleteAll('id = :id' ,[':id' => $payment['id']] );
+  				Subscribe::deleteAll('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
   				Yii::$app->session->setFlash('warning', 'Subscribe Fail');
   			}
   		}
-  		return $this->redirect(['user/userpackage']);
   	}
 
-	protected static function makePayment($amount,$times)
-	{
-		$payment = new Payment();
-		$payment->uid = Yii::$app->user->identity->id;
-        $payment->paid_type = 1;
-        $payment->item = 'Subscription';
-        $payment->original_price = $amount * $times;
-        $payment->paid_amount = $amount * $times;
-        return $payment;
-	}
+  	/*
+  	* do validation for userpackage avaialable 
+  	*/
+
+  	protected static function availableSubscribe()
+  	{
+  		$data = UserPackage::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+  		if($data)
+  		{
+  			return true;
+  		}
+  		else
+  		{
+  			return false;
+  		}
+  	}
+
+	/*
+	* make subscire saving data
+	* data => post data
+	* currentDate => current time
+	* endTime => which date should ended
+	*/
 
 	protected static function makeSubscribe($data,$currentDate,$endTime)
 	{
@@ -92,6 +130,11 @@ class SubscribeController extends \yii\web\Controller
         return $subscribe;
 	}
 
+	/*
+	* make user package data
+	* endTime => which date should ended
+	* nextTime => next payment date
+	*/
 	protected static function makePackageSubscribe($endTime,$nextTime)
 	{
 		
@@ -108,6 +151,12 @@ class SubscribeController extends \yii\web\Controller
        
         return $userpackagesubscription;
 	}
+
+	/*
+	* make subscire history data
+	* subscribe => all the subscire data
+	* payment => all the payment data
+	*/
 
 	protected static function makeSubscribeHistory($subscribe,$payment)
 	{
@@ -127,6 +176,25 @@ class SubscribeController extends \yii\web\Controller
 
 		$subscribehistory->grade = "";
 		return $subscribehistory;
+	}
+
+	/*
+	* sending email
+	*/
+
+	protected static function makeEmail($userpackagesubscription)
+	{
+		$model = Userpackage::find()->joinWith('package')->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+		$user = Yii::$app->user->identity;
+		$userdetails = UserDetails::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
+        if (empty($userdetails)) {
+            $userdetails = new UserDetails();
+        }
+		$email = \Yii::$app->mailer->compose(['html' => 'SubscriptionReceipt-html'],['model' => $model,'userpackagesubscription'=>$userpackagesubscription,'userdetails' => $userdetails,'user' => $user])//pass value)
+        ->setTo($user['email'])
+        ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+        ->setSubject('Subscription Receipt')
+        ->send();
 	}
 }
 
