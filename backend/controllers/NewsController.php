@@ -25,6 +25,7 @@ Class NewsController extends CommonController
 			if ($model->validate()) {
 				$model->save();
 				Yii::$app->session->setFlash('success', 'Upload Successful');
+				return $this->redirect(['index']);
 			}
 		}
 
@@ -38,5 +39,10 @@ Class NewsController extends CommonController
 			$model->delete();
 		}
 		return $this->redirect(['index']);
+	}
+
+	public function actionUpdate($id)
+	{
+
 	}
 }
