@@ -21,8 +21,10 @@ table, th,td{
 	border:10px white;
 	padding: 5px;
 }
-#display td:hover{background-color: #fdf8e4;}
+
  #display td:active{background-color: #f4d96c;}
+ .topup{
+	td:hover{background-color: #fdf8e4;}
 </style>
 </head>
 <div class="container">
@@ -32,9 +34,9 @@ table, th,td{
 
              <table  class="table table-user-information" id="display">
 <tr class="hover" style="text-align: center; height:60px; font-size:20px;">
-<td class="info" style="cursor:pointer" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
+<td id = "topup" class="info" style="cursor:pointer" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
 
-<td class="warning" >Withdraw History</td>
+<td >Withdraw History</td>
 </tr>	
 </table>		 
  <?= GridView::widget([

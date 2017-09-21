@@ -21,7 +21,10 @@ table, th,td{
 	border:10px white;
 	padding: 5px;
 }
-#display td:hover{background-color: #fdf8e4;}
+
+.withdraw{
+	td:hover{background-color: #fdf8e4;}
+}
  #display td:active{background-color: #f4d96c;}
 </style>
 </head>
@@ -31,10 +34,10 @@ table, th,td{
 		<h2>My Account History</h2><br>
 
              <table class="table table-user-information" id="display">
-<tr class="hover" style="text-align: center; height:60px; font-size:20px;">
-<td class="warning" >Topup History</td>
+<tr style="text-align: center; height:60px; font-size:20px;">
+<td  >Topup History</td>
 
-<td class="info" style="cursor:pointer"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+<td id = "withdraw" class="info" style="cursor:pointer"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
 </tr>	
 </table>	
 	
