@@ -29,14 +29,17 @@
         "kartik-v/yii2-money": "*",
         "rinvex/country": "^2.0",
         "akavov/yii2-countries": "*",
-        "omnilight/yii2-scheduling": "*"
+        "omnilight/yii2-scheduling": "*",
+        "yiidoc/yii2-redactor": "*",
+        "2amigos/yii2-ckeditor-widget": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
         "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "codeception/verify": "~0.3.1",
+        "phpunit/php-token-stream": "<2"
     },
     "config": {
         "process-timeout": 1800,

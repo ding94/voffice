@@ -2,13 +2,17 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use kartik\widgets\DateTimePicker;
+use dosamigos\ckeditor\CKEditor;
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'name')->textInput() ?>
 
-<?= $form->field($model, 'text')->textarea() ?>
+<?= $form->field($model, 'text')->widget(CKEditor::className(), [
+        'options' => ['rows' => 6],
+        'preset' => 'full'
+    ]) ?>
 
 <?= $form->field($model, 'startTime')->widget(DateTimePicker::classname(), [
 		    'options' => ['placeholder' => 'Enter start date and time ...'],
