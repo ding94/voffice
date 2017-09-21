@@ -43,6 +43,23 @@ Class NewsController extends CommonController
 
 	public function actionUpdate($id)
 	{
+		$model = News::find()->where('id = :id',[':id' =>$id])->one();
+		if(Yii::$app->request->post())
+		{
+			$post = Yii::$app->request->post();
+			$model->load($post);
+			if ($model->validate()) {
+				$model->save();
+				Yii::$app->session->setFlash('success', 'Update Successful');
+				return $this->redirect(['index']);
+			}
+		}
+		return $this->render('addnews',['model' => $model]);
+	}
 
+	public function actionPreview($id)
+	{
+		$model = News::find()->where('id = :id',[':id' =>$id])->one();
+		return $this->render('preview',['model' => $model]);
 	}
 }
