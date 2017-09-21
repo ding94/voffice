@@ -15,36 +15,19 @@ use backend\models\Admin;
 	$this->params['breadcrumbs'][] = $this->title;
 	
 ?>
-<head>
-<style>
-table, th,td{
-	border:1px solid #ddd;
-	padding: 5px;
-}
 
-#display td{
-	border-bottom:hidden;	
-}
-
-.withdraw{
-	td:hover{background-color: #fdf8e4;}
-}
- #display td:active{background-color: #f4d96c;}
- 
-</style>
-</head>
-<div class="container">
+<div class="container" id="topup-history-container">
 	<div class="tab-content col-md-7 col-md-offset-1" >
 		
 		<h2>My Account History</h2><br>
 
-             <table class="table table-user-information" id="display">
-<tr style="text-align: center; height:60px; font-size:20px;">
-<td  style="-webkit-box-shadow: -3px -3px 5px -3px black; border-bottom: hidden;" >Topup History</td>	
+       <table class="table table-user-information" id="display">
+        <tr>
+            <td id="topup">Topup History</td>	
 
-<td id = "withdraw" style="cursor:pointer; -webkit-box-shadow: inset 3px -3px 5px -3px black;"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
-</tr>	
-</table>	
+            <td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+        </tr>	
+    </table>	
 	
  <?= GridView::widget([
         'dataProvider' => $model,
