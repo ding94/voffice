@@ -18,14 +18,19 @@ use backend\models\Admin;
 <head>
 <style>
 table, th,td{
-	border:10px white;
+	border:1px solid #ddd;
 	padding: 5px;
+}
+
+#display td{
+	border-bottom:hidden;	
 }
 
 .withdraw{
 	td:hover{background-color: #fdf8e4;}
 }
  #display td:active{background-color: #f4d96c;}
+ 
 </style>
 </head>
 <div class="container">
@@ -35,9 +40,9 @@ table, th,td{
 
              <table class="table table-user-information" id="display">
 <tr style="text-align: center; height:60px; font-size:20px;">
-<td  >Topup History</td>
+<td  style="-webkit-box-shadow: -3px -3px 5px -3px black; border-bottom: hidden;" >Topup History</td>	
 
-<td id = "withdraw" class="info" style="cursor:pointer"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+<td id = "withdraw" style="cursor:pointer; -webkit-box-shadow: inset 3px -3px 5px -3px black;"onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
 </tr>	
 </table>	
 	
