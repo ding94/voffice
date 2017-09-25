@@ -802,7 +802,8 @@ body {
         display: block !important;
     }
 }
-/* testing css */
+
+/* CSS for side navigation */
 body.slide-active{
   overflow-x: hidden;
 }
@@ -879,6 +880,7 @@ body.slide-active{
   }
 }
 
+/* CSS for frontend topup history and withdraw history */
 #topup-history-container table, th,td{
   border:1px solid #ddd;
   padding: 5px;
@@ -888,7 +890,11 @@ body.slide-active{
   border-bottom:hidden; 
 }
 
-#withdraw:hover{
+#topup-history-container #withdraw:hover{
+  background-color: #fdf8e4;
+}
+
+#withdraw-history-container #topup:hover{
   background-color: #fdf8e4;
 }
 
@@ -896,7 +902,8 @@ body.slide-active{
   background-color: #f4d96c;
 }
 
-#topup-history-container #display tr{
+#topup-history-container #display tr,
+#withdraw-history-container #display tr{
   text-align: center; 
   height:60px; 
   font-size:20px;
@@ -913,4 +920,18 @@ body.slide-active{
   -moz-box-shadow: inset 3px -3px 5px -3px black;
   box-shadow: inset 3px -3px 5px -3px black;
   cursor:pointer; 
+}
+
+#withdraw-history-container #topup{
+  cursor:pointer;  
+  -webkit-box-shadow: inset -3px -3px 5px -3px black;
+  -moz-box-shadow: inset -3px -3px 5px -3px black;
+  box-shadow: inset -3px -3px 5px -3px black;
+}
+
+#withdraw-history-container #withdraw{
+  -webkit-box-shadow: 3px -3px 5px -3px black;
+  -moz-box-shadow: 3px -3px 5px -3px black;
+  box-shadow: 3px -3px 5px -3px black;
+  border-bottom: hidden;
 }
