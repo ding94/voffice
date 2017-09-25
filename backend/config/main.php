@@ -19,6 +19,9 @@ return [
         'logistics' => [
             'class' => 'backend\modules\logistics\logistics',
         ],
+        'subscribe' => [
+            'class' => 'backend\modules\subscribe\subscribe',
+        ],
     ],
     'components' => [
         'request' => [
