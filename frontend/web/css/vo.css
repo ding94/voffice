@@ -881,7 +881,12 @@ body.slide-active{
 }
 
 /* CSS for frontend topup history and withdraw history */
-#topup-history-container table, th,td{
+#topup-history-container table, 
+#topup-history-container th,
+#topup-history-container td,
+#withdraw-history-container table, 
+#withdraw-history-container th,
+#withdraw-history-container td{
   border:1px solid #ddd;
   padding: 5px;
 }
