@@ -15,26 +15,20 @@ use backend\models\Admin;
 	$this->params['breadcrumbs'][] = $this->title;
 	
 ?>
-<head>
-<style>
-table, th,td{
-	border:1px solid black;
-	padding: 5px;
-}
-#display td:hover{background-color: #ccc;}
-</style>
-</head>
-<div class="container">
+
+<div class="container" id="topup-history-container">
 	<div class="tab-content col-md-7 col-md-offset-1" >
 		
-		<h1>My Account History</h1>
+		<h2>My Account History</h2><br>
 
-             <table class="table table-user-information" id="display">
-<tr><td class="hover">Topup History</td>
+       <table class="table table-user-information" id="display">
+        <tr>
+            <td id="topup">Topup History</td>	
 
-<td>Withdraw History</td>
-</tr>	
-</table>		  
+            <td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+        </tr>	
+    </table>	
+	
  <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,

@@ -878,3 +878,39 @@ body.slide-active{
     z-index: 3;
   }
 }
+
+#topup-history-container table, th,td{
+  border:1px solid #ddd;
+  padding: 5px;
+}
+
+#topup-history-container #display td{
+  border-bottom:hidden; 
+}
+
+#withdraw:hover{
+  background-color: #fdf8e4;
+}
+
+#topup-history-container #display td:active{
+  background-color: #f4d96c;
+}
+
+#topup-history-container #display tr{
+  text-align: center; 
+  height:60px; 
+  font-size:20px;
+}
+
+#topup-history-container #topup{
+  -webkit-box-shadow: -3px -3px 5px -3px black;
+  -moz-box-shadow: -3px -3px 5px -3px black;
+  box-shadow: -3px -3px 5px -3px black;
+}
+
+#topup-history-container #withdraw{
+  -webkit-box-shadow: inset 3px -3px 5px -3px black;
+  -moz-box-shadow: inset 3px -3px 5px -3px black;
+  box-shadow: inset 3px -3px 5px -3px black;
+  cursor:pointer; 
+}

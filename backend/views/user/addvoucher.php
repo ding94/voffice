@@ -10,7 +10,7 @@ use kartik\widgets\DatePicker;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
     $this->title =  'Add Voucher';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Voucher'), 'url' => ['/user/uservoucherlist']];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Voucher'), 'url' => ['/user/uservoucherlist']];
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Voucher'), 'url
 	        <?= Html::submitButton('Add', [
                 'class' => 'btn btn-danger', 
                 'data' => [
-                    'confirm' => 'If code alr exist, it will replace by its discount, continue?',
+                    'confirm' => 'If code alr exist, it will replace by its own discounts, continue?',
                     'method' => 'post',
             ]]);?>
             
