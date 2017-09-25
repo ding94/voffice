@@ -5,7 +5,8 @@ namespace backend\models;
 use yii\base\Model;
 use common\models\SubscribePackageHistory;
 use yii\data\ActiveDataProvider;
-
+use common\models\Package;
+use common\models\SubscribeType;
 class SubscribeHistorySearch extends SubscribePackageHistory
 {
 	public function attributes()
@@ -35,9 +36,9 @@ class SubscribeHistorySearch extends SubscribePackageHistory
 				->andFilterWhere(['like','id' ,  $this->id])
 				->andFilterWhere(['like','amount' ,  $this->amount])
 				->andFilterWhere(['like','user.username' , $this->getAttribute('user.username')])
-				
-				->andFilterWhere(['like','package.type' , $this->getAttribute('package.type')])
-				->andFilterWhere(['like','subscribeType.description' ,$this->getAttribute('subscribeType.description')])
+				->andFilterWhere(['like',Package::tableName().'.type' ,$this->getAttribute('package.type')])
+				->andFilterWhere(['like',SubscribeType::tableName().'.description' ,$this->getAttribute('subscribeType.description')])
+			
 				->andFilterWhere(['like','pay_date' ,  $this->pay_date])
 				->andFilterWhere(['like','subscribe_date' ,  $this->subscribe_date])
 				->andFilterWhere(['like','end_date' ,$this->end_date])

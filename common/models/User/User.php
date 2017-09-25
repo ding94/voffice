@@ -62,6 +62,14 @@ class User extends ActiveRecord implements IdentityInterface
             [['username' ,'userdetails.fullname'] ,'safe'],
         ];
     }
+	
+	public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            
+        ];
+    }
 
     // public function login($data)
     // {

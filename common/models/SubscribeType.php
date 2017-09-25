@@ -39,7 +39,7 @@ class SubscribeType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'description' => 'Description',
+            'description' => 'Subscribe Description',
         ];
     }
 }

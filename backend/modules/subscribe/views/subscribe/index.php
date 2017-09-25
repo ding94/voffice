@@ -18,29 +18,19 @@ use common\models\Package;
         'filterModel' => $searchModel,
         'columns' => [
 		[
-                    'attribute' => 'uid',
+                    'attribute' => 'user.username',
                     'filterInputOptions' => [
                             'class'       => 'form-control',
-                            'placeholder' => 'Search User ID',
+                            'placeholder' => 'Search Username',
                          ],
        ],
-					 [ 	'label' => 'Package Type',
-					 'attribute' => 'packid',
-					'value'=> function($model){
-						$names ="";
-						if(!empty($model->packid))
-						{
-							$names = Package::findOne($model->packid)->type;
-						}
-						return $names;
-                    
-					},
-				
+			  [
+                    'attribute' => 'package.type',
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Package Type',
-                     ],
-            ],
+                         ],
+       ],
 		 [
                     'attribute' => 'code',
                     'filterInputOptions' => [
@@ -48,25 +38,13 @@ use common\models\Package;
                             'placeholder' => 'Search Code',
                          ],
                     ],
-           
-		    [ 	'label' => 'Subscription Type',
-					'attribute' => 'type',
-					'value'=> function($model){
-						$name ="";
-						if(!empty($model->type))
-						{
-							$name = SubscribeType::findOne($model->type)->description;
-						}
-						return $name;
-                    
-					},
-				
+           [
+                    'attribute' => 'subscribetype.description',
                     'filterInputOptions' => [
                             'class'       => 'form-control',
-                            'placeholder' => 'Search Subscription Type',
-                     ],
-            ],
-		 
+                            'placeholder' => 'Search Subscribe Description',
+                         ],
+       ],
 		
 			  [                  
                  'attribute' => 'subscribe_time',
@@ -95,10 +73,9 @@ use common\models\Package;
 					
             [
                     'attribute' => 'userpackagesubscription.next_payment',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Sub Period',
-                         ],
+					 'value' => 'userpackagesubscription.next_payment',
+                     'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'userpackagesubscription.next_payment', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
                     ],
            
 		],
