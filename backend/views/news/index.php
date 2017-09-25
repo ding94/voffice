@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
-
+<?= Html::a('Add News', ['/news/addnews'], ['class'=>'btn btn-success']) ?>
 <?= GridView::widget([
         'dataProvider' => $model,
         'columns' => [
