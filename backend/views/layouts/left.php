@@ -58,7 +58,7 @@
 					[   'label' => 'Subscribe Controller', 'icon' => 'handshake-o', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'User Subscribe List', 'icon' => 'circle-o', 'url' => ['/subscribe/subscribe/index']],
-                                        [ 'label' => 'Subscribe History', 'icon' => 'circle-o', 'url' => ['/subscribe/subscribe-history/index']],
+                                        [ 'label' => 'User Subscribe History', 'icon' => 'circle-o', 'url' => ['/subscribe/subscribe-history/index']],
                                     ],
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('user/index'), 

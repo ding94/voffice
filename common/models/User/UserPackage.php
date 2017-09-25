@@ -41,7 +41,7 @@ class UserPackage extends \yii\db\ActiveRecord
             [['uid', 'packid', 'subscribe_time', 'end_period', 'sub_period'], 'required'],
             [['uid', 'packid', 'sub_period','type'], 'integer'],
             [['code'], 'string'],
-            [['subscribe_time', 'end_period'], 'safe'],
+            [['subscribe_time', 'end_period','sub_period'], 'safe'],
         ];
     }
 
@@ -89,9 +89,10 @@ class UserPackage extends \yii\db\ActiveRecord
 				->andFilterWhere(['like','packid' ,  $this->packid])
 				->andFilterWhere(['like','code' ,  $this->code])
 				->andFilterWhere(['like','type' ,  $this->type])
-				->andFilterWhere(['like','subscribe_time' ,  $this->subscribe_time])
-				->andFilterWhere(['like','end_period' ,  $this->end_period])
+				->andFilterWhere(['like','subscribe_time' ,$this->subscribe_time])
+				->andFilterWhere(['like',self::tableName().'.end_period' ,  $this->end_period])
 				->andFilterWhere(['like','sub_period' ,  $this->sub_period]);
+				//->andFilterWhere(['like', '	userpackagesubscription.next_payment' ,$this->	userpackagesubscription.next_payment]);
  
         return $dataProvider;
     }

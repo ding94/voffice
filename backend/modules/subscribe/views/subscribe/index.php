@@ -7,7 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use common\models\SubscribeType;
-
+use common\models\Package;
     $this->title = 'User Subscribe List';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,14 +23,24 @@ use common\models\SubscribeType;
                             'class'       => 'form-control',
                             'placeholder' => 'Search User ID',
                          ],
-                    ],
-         [
-                    'attribute' => 'packid',
+       ],
+					 [ 	'label' => 'Package Type',
+					 'attribute' => 'packid',
+					'value'=> function($model){
+						$names ="";
+						if(!empty($model->packid))
+						{
+							$names = Package::findOne($model->packid)->type;
+						}
+						return $names;
+                    
+					},
+				
                     'filterInputOptions' => [
                             'class'       => 'form-control',
-                            'placeholder' => 'Search Package ID',
-                         ],
-                    ],
+                            'placeholder' => 'Search Package Type',
+                     ],
+            ],
 		 [
                     'attribute' => 'code',
                     'filterInputOptions' => [
@@ -58,20 +68,22 @@ use common\models\SubscribeType;
             ],
 		 
 		
-			  [
-                    'attribute' => 'subscribe_time',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Subscription Time',
-                         ],
-                    ],
-			  [
-                    'attribute' => 'end_period',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search End Period',
-                         ],
-                    ],
+			  [                  
+                 'attribute' => 'subscribe_time',
+				 'value' => 'subscribe_time',
+       			 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'subscribe_time', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
+          
+            ],
+                    
+			  
+			 [                  
+                 'attribute' => 'end_period',
+				 'value' => 'end_period',
+       			 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'end_period', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
+          
+            ],
 					
 			 [
                     'attribute' => 'sub_period',
@@ -80,6 +92,7 @@ use common\models\SubscribeType;
                             'placeholder' => 'Search Sub Period',
                          ],
                     ],
+					
             [
                     'attribute' => 'userpackagesubscription.next_payment',
                     'filterInputOptions' => [
@@ -88,16 +101,5 @@ use common\models\SubscribeType;
                          ],
                     ],
            
-        /*     ['class' => 'yii\grid\ActionColumn' , 
-                'template'=>'{edit} ',
-                'buttons' => [
-                    'edit' => function($url , $model)
-                    {
-                        $url = Url::to(['' ,'id'=>$model->id]);
-                    
-                        return  Html::a(FA::icon('pencil') , $url , ['title' => '']) ;
-                    },
-                ]
-            ], */
-        ],
+		],
     ]); ?>
