@@ -4,6 +4,9 @@ namespace common\models\User;
 
 use Yii;
 use common\models\Package;
+use common\models\User\UserPackageSubscription;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_package".
@@ -28,6 +31,10 @@ class UserPackage extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+	 public function getUserpackagesubscription()
+    {
+        return $this->hasOne(UserPackageSubscription::className(),['uid' => 'uid']); 
+    }
     public function rules()
     {
         return [
@@ -44,10 +51,10 @@ class UserPackage extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'uid' => 'Uid',
+            'uid' => 'UID',
             'packid' => 'Package',
             'code' => 'Code',
-			'type'=> 'Suscription Type',
+			'type'=> 'Subscription Type',
             'subscribe_time' => 'Subscribe Time',
             'end_period' => 'End Period',
             'sub_period' => 'Sub Period',
@@ -63,4 +70,31 @@ class UserPackage extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Package::classname(),['id' => 'packid']);
     }
+	
+	public function search($params)
+    {
+		
+		
+			  $query = self::find(); //自己就是table,找一找资料
+			  $query->joinWith(['userpackagesubscription' ]);
+		
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+		 
+		    $query 
+				->andFilterWhere(['like','uid' ,  $this->uid])
+				->andFilterWhere(['like','packid' ,  $this->packid])
+				->andFilterWhere(['like','code' ,  $this->code])
+				->andFilterWhere(['like','type' ,  $this->type])
+				->andFilterWhere(['like','subscribe_time' ,  $this->subscribe_time])
+				->andFilterWhere(['like','end_period' ,  $this->end_period])
+				->andFilterWhere(['like','sub_period' ,  $this->sub_period]);
+ 
+        return $dataProvider;
+    }
 }
+
+

@@ -55,7 +55,15 @@
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('user/index'), 
                     ],
-                    [   'label' => 'Package Controller', 'icon' => 'dashboard', 'url' => '#',
+					[   'label' => 'Subscribe Controller', 'icon' => 'handshake-o', 'url' => "#",
+                        'items' =>  [
+                                        [ 'label' => 'User Subscribe List', 'icon' => 'circle-o', 'url' => ['/subscribe/subscribe/index']],
+                                        [ 'label' => 'Subscribe History', 'icon' => 'circle-o', 'url' => ['/subscribe/subscribe-history/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('user/index'), 
+                    ],
+                    [   'label' => 'Package Controller', 'icon' => 'bars', 'url' => '#',
                         'items' =>  [
                                         ['label' => 'Package List', 'icon' => 'circle-o', 'url' => ['/package/index']],
                                         [ 'label' => 'Add Package', 'icon' => 'circle-o', 'url' => ['/package/add']],
@@ -63,7 +71,7 @@
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('package/index'), 
                     ],
-                    [   'label' => 'Voucher Controller' , 'icon' => 'dashboard' ,'url' => '#',
+                    [   'label' => 'Voucher Controller' , 'icon' => 'gift' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Vouchers List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
                                     ],
