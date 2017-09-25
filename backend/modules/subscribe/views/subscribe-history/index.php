@@ -16,15 +16,77 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
-            'user.username',
-            'amount',
-            'package.type',
-            'subscribeType.description',
-            'pay_date',
-            'subscribe_period',
-            'subscribe_date',
-            'end_date',
+           
+			[
+                    'attribute' =>  'id',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search History ID',
+                         ],
+       ],
+           
+			[
+                    'attribute' =>  'user.username',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Username',
+                         ],
+       ],
+           
+			[
+                    'attribute' =>  'amount',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Amount',
+                         ],
+       ],
+            
+			[
+                    'attribute' => 'package.type',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Package Type',
+                         ],
+       ],
+            
+			[
+                    'attribute' => 'subscribeType.description',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Subscribe Description',
+                         ],
+       ],
+           
+			[                  
+                   'attribute' =>  'pay_date',
+				 'value' =>  'pay_date',
+       			 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=> 'pay_date', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
+          
+            ],
+                  
+			[
+                    'attribute' => 'subscribe_period',
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Subscribe Period',
+                         ],
+       ],
+			[                  
+                'attribute' => 'subscribe_date',
+				 'value' =>  'subscribe_date',
+       		    'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'subscribe_date', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
+          
+            ],           
+		   [                  
+                'attribute' => 'end_date',
+				 'value' =>  'end_date',
+       			 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=> 'end_date', 'dateFormat' => 'yyyy-MM-dd',]),
+				 'format' => 'html',
+          
+            ],  
+
              ['class' => 'yii\grid\ActionColumn' , 
                 'template'=>'{payment} ',
                 'buttons' => [

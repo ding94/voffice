@@ -16,7 +16,7 @@ class SubscribeHistorySearch extends SubscribePackageHistory
 	public function rules()
 	{
 		return[
-			[['id','amount','user.username' ,'package.type' ,'subscribeType.description'],'safe'],
+			[['id','amount','user.username' ,'package.type' ,'subscribeType.description','pay_date', 'subscribe_date', 'end_date','subscribe_period'],'safe'],
 		];
 	}
 
@@ -31,7 +31,17 @@ class SubscribeHistorySearch extends SubscribePackageHistory
         $query->joinWith(['user','package','subscribeType']);
 
         $this->load($params);
-
+		$query 
+				->andFilterWhere(['like','id' ,  $this->id])
+				->andFilterWhere(['like','amount' ,  $this->amount])
+				->andFilterWhere(['like','user.username' , $this->getAttribute('user.username')])
+				
+				->andFilterWhere(['like','package.type' , $this->getAttribute('package.type')])
+				->andFilterWhere(['like','subscribeType.description' ,$this->getAttribute('subscribeType.description')])
+				->andFilterWhere(['like','pay_date' ,  $this->pay_date])
+				->andFilterWhere(['like','subscribe_date' ,  $this->subscribe_date])
+				->andFilterWhere(['like','end_date' ,$this->end_date])
+				->andFilterWhere(['like','subscribe_period' ,  $this->subscribe_period]);
 
         $dataProvider->sort->attributes['user.username'] = [
             'asc'=>['username'=>SORT_ASC],
