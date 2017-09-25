@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <?= Html::a('Back', ['/news/index'], ['class'=>'btn btn-success']) ?>
 <div class="container">
 	<div class="row">
-		<h4><?php echo $model['name'] ?></h4>
+		<h1><?php echo $model['name'] ?></h4>
 			<?php echo $model['text'] ?>
 	</div>
 </div>
