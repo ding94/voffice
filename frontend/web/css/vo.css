@@ -886,7 +886,8 @@ body.slide-active{
   padding: 5px;
 }
 
-#topup-history-container #display td{
+#topup-history-container #display td,
+#withdraw-history-container #display td{
   border-bottom:hidden; 
 }
 
@@ -898,7 +899,8 @@ body.slide-active{
   background-color: #fdf8e4;
 }
 
-#topup-history-container #display td:active{
+#topup-history-container #display td:active,
+#withdraw-history-container #display td:active{
   background-color: #f4d96c;
 }
 
