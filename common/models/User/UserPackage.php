@@ -106,7 +106,7 @@ class UserPackage extends \yii\db\ActiveRecord
 				->andFilterWhere(['like',SubscribeType::tableName().'.description' ,$this->getAttribute('subscribetype.description')])
 				->andFilterWhere(['like','subscribe_time' ,$this->subscribe_time])
 				->andFilterWhere(['like',self::tableName().'.end_period' ,  $this->end_period])
-				->andFilterWhere(['like','sub_period' ,  $this->sub_period])
+				->andFilterWhere(['like',self::tableName().'.sub_period' ,  $this->sub_period])
 				->andFilterWhere(['like',UserPackageSubscription::tableName().'.next_payment' ,$this->getAttribute('userpackagesubscription.next_payment')]);
  
         return $dataProvider;
