@@ -125,6 +125,9 @@ AppAsset::register($this);
         ['label' => 'Parcel', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'My Mail', 'url' => Url::to(['parcel/index'])],
         ]],
+        ['label' => 'News', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'News', 'url' => Url::to(['user/news-all'])],
+        ]],
 ]]);     
 
 ?>

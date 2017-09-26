@@ -20,6 +20,8 @@ use common\models\SubscribeType;
 use common\models\News;
 use kartik\mpdf\Pdf;
 use frontend\controllers\SubscribeController;
+use yii\data\ActiveDataProvider;
+
 class UserController extends \yii\web\Controller
 {
     public function behaviors()
@@ -306,9 +308,22 @@ class UserController extends \yii\web\Controller
 		return $this->render("../user/userpackage");
 	}
 
+	public function actionNewsAll()
+	{
+		// $query = News::find()->orderBy('id DESC')->all();
+		// var_dump($query);exit;
+		$dataProvider = new ActiveDataProvider([
+            'query' => News::find()->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+		return $this->render('../news/newsall',['dataProvider'=>$dataProvider]);
+	}
+
 	public function actionNews($id)
 	{
-		$model=News::find()->orderBy('id DESC')->all();
+		$model=News::find()->orderBy('id DESC')->limit(10)->all();
 		$news=News::find()->where('id = :id',[':id' => $id])->one();
 		return $this->render('usernews',['model'=>$model,'id'=>$id,'news'=>$news]);
 	}

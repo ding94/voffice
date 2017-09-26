@@ -2,21 +2,28 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<div style="padding-top: 100px; width: 300px; min-height: 100vh; float: left;">
+<div class="container"  style="padding-top: 50px;">
+	<div class="row">
+<div id="news-list" style="padding-top: 100px; width: 300px; min-height: 100vh; float: left;">
 	<ul>
+		<li style="background: white; border-left: 5px solid #FFBA00; font-size: 2vh; margin:5px; padding:15px;">
+			Website Notice
+		</li>
 	<?php foreach ($model as $k => $n) { ?>
 		<li>
 		<?= Html::a('<span>'.$n['name'].'</span>', Url::toRoute(['user/news', 'id' => $n['id']]), ['class' => 'profile-link']) ?>
-		<span class="pull-right"><?php echo $n['startTime']; ?></span>
 		</li>
 	<?php } ?>
+		<li class="text-right">
+			<?= Html::a('<span>MORE</span><i class="fa fa-arrow-right" aria-hidden="true"></i>', Url::toRoute(['user/news-all']), ['class' => 'profile-link']) ?>
+		</li>
 	</ul>
 </div>
-<div class="container" style="padding-top: 50px;">
-	<div class="row">
+<div style="width: 800px; float: left; margin-left: 50px;">
 		<div class="h1" style="border-bottom: 1px solid;">
 			<?php echo $news['name']; ?>
 		</div>
 		<?php echo $news['text']; ?>
+	</div>
 	</div>
 </div>
