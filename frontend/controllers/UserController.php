@@ -17,8 +17,11 @@ use common\models\User\Package;
 use common\models\User\UserPackageSubscription;
 use common\models\OfflineTopup\OfflineTopup;
 use common\models\SubscribeType;
+use common\models\News;
 use kartik\mpdf\Pdf;
 use frontend\controllers\SubscribeController;
+use yii\data\ActiveDataProvider;
+
 class UserController extends \yii\web\Controller
 {
     public function behaviors()
@@ -281,7 +284,7 @@ class UserController extends \yii\web\Controller
 		if(!empty($model->type)){
 					$subscribetype = SubscribeType::find()->where(['id'=>$model->type])->one()->description;
 		}
-		$nextpayment =  UserPackageSubscription ::find()->all();
+		$nextpayment =  UserPackageSubscription::find()->all();
 		//$model->end_period = date('Y-m-d h:i:s',strtotime('-330 days',strtotime($model->end_period)));
 		$userpackagesubscription= UserPackageSubscription::find()->where(['uid' => $model->uid])->one();
 		//var_dump($userpackagesubscription); exit;
@@ -295,15 +298,33 @@ class UserController extends \yii\web\Controller
 		return $this->render('userpackage', ['model' => $model,'userpackagesubscription'=>$userpackagesubscription,'subscribetype'=>$subscribetype]);
  	}
 	
-	  public function actionPackage()
+	public function actionPackage()
     {
-           
-       
         return $this->render("../package/index");
     }
 	
 	public function actionUserpackagesubscribe()
 	{
 		return $this->render("../user/userpackage");
+	}
+
+	public function actionNewsAll()
+	{
+		// $query = News::find()->orderBy('id DESC')->all();
+		// var_dump($query);exit;
+		$dataProvider = new ActiveDataProvider([
+            'query' => News::find()->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+		return $this->render('../news/newsall',['dataProvider'=>$dataProvider]);
+	}
+
+	public function actionNews($id)
+	{
+		$model=News::find()->orderBy('id DESC')->limit(10)->all();
+		$news=News::find()->where('id = :id',[':id' => $id])->one();
+		return $this->render('usernews',['model'=>$model,'id'=>$id,'news'=>$news]);
 	}
 }

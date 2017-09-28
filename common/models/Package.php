@@ -44,7 +44,7 @@ class Package extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'price' => 'Price',
-            'type' => 'Title',
+            'type' => 'Package Type',
 			'rank' => 'Rank',
         ];
     }

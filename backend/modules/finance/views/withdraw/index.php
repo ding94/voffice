@@ -8,6 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
+use backend\models\Admin;
 
 	$this->title = 'User Withdraw';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -92,12 +93,22 @@ use kartik\widgets\ActiveForm;
 				'filter' => $list,
 			],
 			
-			[
-                'attribute' => 'inCharge',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search In Charge Person',
-                ],
+			[ 	'label' => 'In Charge',
+					'attribute' => 'inCharge',
+					'value'=> function($model){
+						$name ="";
+						if(!empty($model->inCharge))
+						{
+							$name = Admin::findOne($model->inCharge)->adminname;
+						}
+						return $name;
+                    
+					},
+				
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Person in Charge',
+                     ],
             ],
 
             [

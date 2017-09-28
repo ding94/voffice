@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use common\models\User\User;
+use common\models\Package;
+use common\models\SubscribeType;
 
 /**
  * This is the model class for table "subscribe_package_history".
@@ -60,5 +63,20 @@ class SubscribePackageHistory extends \yii\db\ActiveRecord
             'subscribe_date' => 'Subscribe Date',
             'end_date' => 'End Date',
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'uid']);
+    }
+
+    public function getPackage()
+    {
+        return $this->hasOne(Package::className(),['id' => 'packid']);
+    }
+
+    public function getSubscribeType()
+    {
+        return $this->hasOne(SubscribeType::className(),['id' => 'pack_type']);
     }
 }

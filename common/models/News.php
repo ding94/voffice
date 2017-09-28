@@ -61,4 +61,9 @@ class News extends \yii\db\ActiveRecord
         $this->load($params);
         return $dataProvider;
     }
+
+    public function getNewsDate()
+    {
+        return date('Y-m-d', strtotime($this->startTime));
+    }
 }

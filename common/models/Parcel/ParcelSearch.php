@@ -18,7 +18,6 @@ class ParcelSearch extends Parcel
 	public $titlename ="";
 
     public function attributes()
-
     {
         return array_merge(parent::attributes(),['parceldetail.sender','parceldetail.signer','parceldetail.address1','parceldetail.address2','parceldetail.address3','parceldetail.postcode','parceldetail.city','parceldetail.state','parceldetail.country','parceldetail.weight','user.username','user.userdetail.fullname','parcelstatusname.description','parcelstatusname.id']);
     }

@@ -108,7 +108,7 @@ AppAsset::register($this);
     'options' => ['class' => 'in'],
     'items' => [
         ['label' => 'My Account', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'Account ', 'url' => Url::to(['user/userbalance'])],
+            ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
             ['label' => 'Account History', 'url' => Url::to(['topup-history/index'])],
 			
             ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
@@ -122,6 +122,9 @@ AppAsset::register($this);
         ]],
         ['label' => 'Parcel', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'My Mail', 'url' => Url::to(['parcel/index'])],
+        ]],
+        ['label' => 'News', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'News', 'url' => Url::to(['user/news-all'])],
         ]],
 ]]);     
 
