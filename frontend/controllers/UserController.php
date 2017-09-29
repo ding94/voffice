@@ -213,7 +213,8 @@ class UserController extends \yii\web\Controller
 
  	public function actionUserbalance()
  	{
- 		$model = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		
+		$model = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
  		$offlinetopup = OfflineTopup::find()->where('uid= :uid' ,[':uid' => Yii::$app->user->identity->username])->one();
  		if (empty($model)) 
  		{

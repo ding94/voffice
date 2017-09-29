@@ -138,7 +138,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/roundicons.png',['class' => 'img-responsive']);?>
                     </a>
                     <div class="portfolio-caption">
                         <h4><?php echo $package[0]['type']; ?></h4>
@@ -152,7 +152,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/startup-framework.png',['class' => 'img-responsive']);?>
                     </a>
                     <div class="portfolio-caption">
                         <h4><?php echo $package[1]['type']; ?></h4>
@@ -166,7 +166,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/treehouse.png',['class' => 'img-responsive']);?>
                     </a>
                     <div class="portfolio-caption">
                         <h4><?php echo $package[2]['type']; ?></h4>
@@ -180,7 +180,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/golden.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/golden.png',['class' => 'img-responsive']);?>
                     </a>
                     <div class="portfolio-caption">
                         <h4>Businessworld</h4>
@@ -194,7 +194,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/escape.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/escape.png',['class' => 'img-responsive']);?> 
                     </a>
                     <div class="portfolio-caption">
                         <h4>Office Space</h4>
@@ -208,7 +208,7 @@ $this->title = 'Virtual Office';
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="img/portfolio/dreams.png" class="img-responsive" alt="">
+                        <?= Html::img('img/portfolio/dreams.png',['class' => 'img-responsive']);?>
                     </a>
                     <div class="portfolio-caption">
                         <h4>Events</h4>
@@ -314,7 +314,7 @@ $this->title = 'Virtual Office';
                     <div class="row">
                         <div class="col-md-4 col-sm-6 portfolio-item">
                             <a href="#portfolioModal1" class="portfolio-link">
-                                <img src="img/portfolio/roundicons.png" class="img-responsive" alt="">
+                                <?= Html::img('img/portfolio/roundicons.png',['class' => 'img-responsive']);?>
                             </a>
                             <div class="portfolio-caption">
                                 <h4 class="package-name"><?php echo $package[0]['type']; ?></h4>
@@ -345,7 +345,7 @@ $this->title = 'Virtual Office';
                     <div class="row">
                         <div class="col-md-4 col-sm-6 portfolio-item">
                             <a href="#portfolioModal2" class="portfolio-link">
-                                <img src="img/portfolio/startup-framework.png" class="img-responsive" alt="">
+                                <?= Html::img('img/portfolio/startup-framework.png',['class' => 'img-responsive']);?>
                             </a>
                             <div class="portfolio-caption">
                                 <h4 class="package-name"><?php echo $package[1]['type']; ?></h4>
@@ -374,7 +374,7 @@ $this->title = 'Virtual Office';
                     <div class="row">
                         <div class="col-md-4 col-sm-6 portfolio-item">
                             <a href="#portfolioModal3" class="portfolio-link">
-                                <img src="img/portfolio/treehouse.png" class="img-responsive" alt="">
+                                <?= Html::img('img/portfolio/treehouse.png',['class' => 'img-responsive']);?>
                             </a>
                             <div class="portfolio-caption">
                                 <h4 class="package-name"><?php echo $package[2]['type']; ?></h4>
@@ -406,7 +406,7 @@ $this->title = 'Virtual Office';
                                 <!-- Project Details Go Here -->
                                 <h2>Businessworld</h2>
                                 <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/golden-preview.png" alt="">
+                                 <?= Html::img('img/portfolio/golden-preview.png',['class' => 'img-responsive img-centered']);?>
                                 <p>--- <a href="https://www.behance.net/MathavanJaya">---</a>. ---</p>
                                 <p>You can d---<a href="http://freebiesxpress.com/gallery/golden-free-one-page-web-template/">FreebiesXpress.com</a>.</p>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
@@ -435,7 +435,7 @@ $this->title = 'Virtual Office';
                                 <!-- Project Details Go Here -->
                                 <h2>Office Space</h2>
                                 <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/escape-preview.png" alt="">
+                                <?= Html::img('img/portfolio/escape-preview.png',['class' => 'img-responsive img-centered']);?>
                                 <p>--- <a href="https://www.behance.net/MathavanJaya">---</a>. - --</p>
                                 <p>You can --- <a href="http://freebiesxpress.com/gallery/escape-one-page-psd-web-template/">FreebiesXpress.com</a>.</p>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
@@ -464,7 +464,7 @@ $this->title = 'Virtual Office';
                                 <!-- Project Details Go Here -->
                                 <h2>Events</h2>
                                 <p class="item-intro text-muted">---</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/dreams-preview.png" alt="">
+                                 <?= Html::img('img/portfolio/dreams-preview.png',['class' => 'img-responsive img-centered']);?>
                                 <p>--- <a href="https://www.behance.net/MathavanJaya">---</a>.---</p>
                                 <p>You can--- <a href="http://freebiesxpress.com/gallery/dreams-free-one-page-web-template/">FreebiesXpress.com</a>.</p>
                                 <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>

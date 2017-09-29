@@ -77,12 +77,15 @@ class TopupController extends \yii\web\Controller
 		
 		if ($model->action == 3)
 		{
-			self::updateAllTopup($id,1);
+			//self::updateAllTopup($id,1);
+			
 			$balance = self::deductBalance($model);
-			if($model->amount > $balance->balance){
-			Yii::$app->session->setFlash('warning', "Fail to undo");
-			return $this->redirect(['direct']);
-		}
+				if($balance == false)
+				{
+					Yii::$app->session->setFlash('warning', "Fail to undo");
+					return $this->redirect(['direct']);
+				}
+			//var_dump($balance);exit;
 			$balance->save();
 			
 			//var_dump($balance->validate(); exit;
@@ -110,8 +113,18 @@ class TopupController extends \yii\web\Controller
 	{
 		
 		$balance =UserBalance::find()->where('uid = :name',[':name'=>$model->uid])->one();
-		$balance ->balance -= $model->amount;
+		
+				if($model->amount > $balance->balance){
+			
+			//var_dump($balance);exit;
+			return false;
+		}
+		
+		 $balance->balance -= $model->amount;
+							
+
 		$balance ->positive -= $model->amount;
+
 		
 		return $balance;
 	}
@@ -221,7 +234,7 @@ class TopupController extends \yii\web\Controller
 	{
 		$data = self::updOfflineTopupStatus($id,$status);
 		$operate = OfflineTopupOperateController::createOperate($id,$status,1);
-		//var_dump($data->validate() && $operate->validate());exit;
+	//	var_dump($data->validate() && $operate->validate());exit;
 		//var_dump($status);exit;
 		if(is_null($data) || is_null($operate))
     	{
