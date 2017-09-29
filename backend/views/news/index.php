@@ -2,6 +2,7 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\StringHelper;
 
 ?>
 <?= Html::a('Add News', ['/news/addnews'], ['class'=>'btn btn-success']) ?>
@@ -28,7 +29,11 @@ use yii\helpers\Url;
 
             [
                 'attribute' => 'text',
-                'contentOptions' => ['style'=>'max-width: 300px; overflow: auto; word-wrap: break-word;'],
+                'value' => function($model)
+                {
+                    return StringHelper::truncate($model->text,50);
+                },
+                'contentOptions' => [' overflow: auto; word-wrap: break-word;'],
             ],
 
             ['class' => 'yii\grid\ActionColumn' , 
