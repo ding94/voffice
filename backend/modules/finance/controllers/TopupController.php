@@ -23,7 +23,7 @@ class TopupController extends \yii\web\Controller
        $searchModel = new OfflineTopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
 	   $list = ArrayHelper::map(OfflineTopupStatus::find()->all() ,'title' ,'title');
-		$name=ArrayHelper::map(BankDetails::find()->all() ,'id' ,'bank_name');
+	   $name=ArrayHelper::map(BankDetails::find()->all() ,'id' ,'bank_name');
 		//var_dump($name);exit;
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list,'name'=>$name]);
     }
