@@ -129,7 +129,7 @@ class OfflineTopup extends \yii\db\ActiveRecord
 				->andFilterWhere(['like','rejectReason' ,  $this->rejectReason]);
 				
 			
-        //var_dump($query);
+        // var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 
         //使用'or'寻找两边column资料
