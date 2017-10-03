@@ -1,24 +1,23 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "vouchers_status".
+ * This is the model class for table "vouchers_discount_item".
  *
  * @property integer $id
  * @property string $description
- * @property string $type
  */
-class VouchersStatus extends \yii\db\ActiveRecord
+class VouchersDiscountItem extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'vouchers_status';
+        return 'vouchers_discount_item';
     }
 
     /**

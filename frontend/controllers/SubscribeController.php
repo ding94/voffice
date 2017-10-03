@@ -6,11 +6,14 @@ use common\models\User\UserPackage;
 use common\models\User\UserPackageSubscription;
 use common\models\User\User;
 use common\models\User\UserDetails;
+use common\models\User\Uservoucher;
+use backend\models\Vouchers;
 use common\models\Payment;
 use common\models\SubscribePackageHistory;
 use common\models\SubscribeType;
 use frontend\controllers\PaymentController;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use Yii;
 
 class SubscribeController extends \yii\web\Controller
@@ -24,6 +27,23 @@ class SubscribeController extends \yii\web\Controller
     	$payment = new Payment();
 
     	return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
+    }
+
+     public function actionGetdiscount($dis)
+    {
+       $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
+       if (!empty($valid)) {
+          $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+
+       }
+       elseif(empty($valid)) {
+       
+        $value = 0;
+       }
+       $value = Json::encode($value);
+
+       return $value;
+
     }
 
     /*

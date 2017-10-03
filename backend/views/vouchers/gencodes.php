@@ -21,14 +21,15 @@ use kartik\widgets\DatePicker;
     
     <?= $form->field($model, 'amount')->textInput()->label('Amount of vouchers to generate') ?>
     <?= $form->field($model, 'discount')->textInput()->label('Each voucher discount') ?>
-    <?= $form->field($model ,'status')->dropDownList($list)?>
+    <?= $form->field($model ,'discount_type')->dropDownList($list)?>
+    <?= $form->field($model ,'discount_item')->dropDownList($item)?>
     <?= $form->field($model, 'digit')->textInput()->label('Digits of voucher Code') ?>
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [
     		'options' => ['placeholder' => 'Date vouchers active to use'],
     		'pluginOptions' => [
-    			//'language' => 'ru',
     		'format' => 'yyyy-mm-dd',
+            'startDate' => date('Y-m-d h:i:s'), 
 	    	'todayHighlight' => true,
 	        'todayBtn' => true,]]) 
 	    ?>
@@ -36,8 +37,8 @@ use kartik\widgets\DatePicker;
         <?= $form->field($model, 'endDate' )->widget(DatePicker::classname(), [
             'options' => ['placeholder' => 'Date vouchers deactivated (default 30 days after start date)'],
             'pluginOptions' => [
-                //'language' => 'ru',
             'format' => 'yyyy-mm-dd',
+            'startDate' => date('Y-m-d h:i:s'), 
             'todayHighlight' => true,
             'todayBtn' => true,]]) 
         ?>

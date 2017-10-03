@@ -18,22 +18,23 @@ use kartik\widgets\DatePicker;
 	<?php $form = ActiveForm::begin();?>
     <?= $form->field($model, 'code')->textInput() ?>
     <?= $form->field($model, 'discount')->textInput() ?>
-    <?= $form->field($model ,'status')->dropDownList($list)?>
+    <?= $form->field($model ,'discount_type')->dropDownList($list)?>
+    <?= $form->field($model ,'discount_item')->dropDownList($item)?>
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [
     		'options' => ['placeholder' => 'Date voucher active to use'],
     		'pluginOptions' => [
-    			//'language' => 'ru',
     		'format' => 'yyyy-mm-dd',
+            'startDate' => date('Y-m-d'), 
 	    	'todayHighlight' => true,
 	        'todayBtn' => true,]]) 
 	    ?>
 
         <?= $form->field($model, 'endDate' )->widget(DatePicker::classname(), [
-            'options' => ['placeholder' => 'Date voucher deactivated (default 30 days after start date)'],
+            'options' => ['placeholder' => 'Date voucher deactivated'],
             'pluginOptions' => [
-                //'language' => 'ru',
             'format' => 'yyyy-mm-dd',
+            'startDate' => date('Y-m-d h:i:s'), 
             'todayHighlight' => true,
             'todayBtn' => true,]]) 
         ?>

@@ -33,16 +33,16 @@ class Vouchers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['id','safe'],
-            [['code','inCharge','startDate'], 'required'],
+            [['id','startDate'],'safe'],
+            [['code','inCharge'], 'required'],
             [['amount','digit'],'required', 'on' => ['generate']], // 'on' = 判断senario, 为了给controller 知道放哪里 
             [['discount'],'required', 'on' => ['generate','add']],
-            [['code', 'inCharge','type'], 'string'],
+            [['code'], 'string'],
             ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
-            [['usedTimes','status'], 'integer'],
+            [['usedTimes','status','discount_type','discount_item', 'inCharge'], 'integer'],
             ['endDate','safe'],
             ['digit', 'integer','min'=> 8,'max'=> 20],
-            ['amount','integer','min'=> 2,'max'=> 100],
+            ['amount','integer','min'=> 1,'max'=> 100],
             ['discount','integer','min'=> 1],
 
         ];
@@ -57,6 +57,8 @@ class Vouchers extends \yii\db\ActiveRecord
             'id' => 'ID',
             'code' => 'Code',
             'discount' => 'Discount',
+            'discount_type' => 'Discount Type',
+            'discount_item' => 'Discount Item',
             'status' => 'Status', 
             'usedTimes' => 'Used Times',
             'inCharge' => 'In Charge',
@@ -80,7 +82,7 @@ class Vouchers extends \yii\db\ActiveRecord
         $query->andFilterWhere(['id' => $this->id]);
         $query->andFilterWhere(['like','code' , $this->code]);
         $query->andFilterWhere(['like','discount' , $this->discount]);
-        $query->andFilterWhere(['like','type' , $this->type]);
+        $query->andFilterWhere(['like','discount_type' , $this->discount_type]);
         $query->andFilterWhere(['like','status' , $this->status]);
         $query->andFilterWhere(['like','usedTimes' , $this->usedTimes]);
         $query->andFilterWhere(['like','inCharge' , $this->inCharge]);

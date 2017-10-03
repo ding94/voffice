@@ -55,7 +55,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         ],
                     ],
                     [
-                        'attribute' => 'type',
+                        'attribute' => 'discount_type',
                         'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Discount',
@@ -68,7 +68,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                             $model->status = VouchersStatus::find()->where('id=:id',[':id' => $model->status])->one()->description;
                             return $model->status;
                         },
-                        'filter' => array( "1"=>"Actived(%)","2"=>"Assigned(%)","3"=>"Used(%)","4"=>"Actived(RM)","5"=>"Assigned(RM)","6"=>"Used(RM)"),
+                        'filter' => array( "1"=>"Actived","2"=>"Assigned","3"=>"Used","4"=>"Expired"),
                     ],
                     /*[
                         'attribute' => 'usedTimes',
