@@ -28,9 +28,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <div class="form-group">
+                <div class="form-group" style="display: inline;">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
+                <?php $authAuthChoice = yii\authclient\widgets\AuthChoice::begin([
+                    'options' =>['style' => 'float:right;'],
+                    'baseAuthUrl' => ['site/auth']
+                    ]); ?>
+                    <ul class="auth-clients">
+                        <?php foreach ($authAuthChoice->getClients() as $client): ?>
+                            <li><?= $authAuthChoice->clientLink($client,
+                                '<span class="fa fa-'.$client->getName().'"></span> Sign up with '.$client->getTitle(),
+                                [
+                                    'class' => 'btn btn-block btn-social btn-'.$client->getName(),
+                                    ]) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <?php yii\authclient\widgets\AuthChoice::end(); ?>
 
             <?php ActiveForm::end(); ?>
         </div>

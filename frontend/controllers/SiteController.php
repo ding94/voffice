@@ -27,6 +27,8 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+    public $successUrl ='Success';
+
     public function behaviors()
     {
         return [
@@ -61,6 +63,10 @@ class SiteController extends Controller
     public function actions()
     {
         return [
+            'auth' => [
+              'class' => 'yii\authclient\AuthAction',
+              'successCallback' => [$this, 'oAuthSuccess'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -315,5 +321,30 @@ class SiteController extends Controller
     {
         return $this->render('validation');
     }
+
+    public function oAuthSuccess($client) {
+
+      $userAttributes = $client->getUserAttributes();
+      $user = User::find()->where('email= :email',[':email' => $userAttributes['email']])->one();
+      if ($user == null) {
+          $user = new User();
+          $user->username = $userAttributes['name'];
+          $user->email = $userAttributes['email'];
+          $user->fb_status = 1;
+          $user->status = 10;
+          $user->save();
+          $balance = new UserBalance();
+          $balance->uid = $user->id;
+          $balance->balance = 0;
+          $balance->negative = 0;
+          $balance->positive = 0;
+          $balance->save();
+          Yii::$app->getUser()->login($user);
+          $this->successUrl = Url::to(['index']);
+      } else if ($user->fb_status == 1){
+        Yii::$app->getUser()->login($user);
+        $this->successUrl = Url::to(['index']);
+      }
+  }
     
 }
