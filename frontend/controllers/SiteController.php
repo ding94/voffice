@@ -17,6 +17,7 @@ use common\models\User\User;
 use common\models\Package;
 use common\models\User\UserBalance;
 use common\models\Banner;
+use common\models\AuthFb;
 use yii\helpers\Url;
 
 /**
@@ -322,29 +323,80 @@ class SiteController extends Controller
         return $this->render('validation');
     }
 
-    public function oAuthSuccess($client) {
+  public function oAuthSuccess($client)
+    {
+       $attributes = $client->getUserAttributes();
 
-      $userAttributes = $client->getUserAttributes();
-      $user = User::find()->where('email= :email',[':email' => $userAttributes['email']])->one();
-      if ($user == null) {
-          $user = new User();
-          $user->username = $userAttributes['name'];
-          $user->email = $userAttributes['email'];
-          $user->fb_status = 1;
-          $user->status = 10;
-          $user->save();
-          $balance = new UserBalance();
-          $balance->uid = $user->id;
-          $balance->balance = 0;
-          $balance->negative = 0;
-          $balance->positive = 0;
-          $balance->save();
-          Yii::$app->getUser()->login($user);
-          $this->successUrl = Url::to(['index']);
-      } else if ($user->fb_status == 1){
-        Yii::$app->getUser()->login($user);
-        $this->successUrl = Url::to(['index']);
-      }
+        /** @var Auth $auth */
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+
+        if (Yii::$app->user->isGuest) {
+            if ($auth) { // login
+                $user = User::find()->where(['id' => $auth->user_id])->one();
+                Yii::$app->user->login($user);
+                $this->successUrl = Url::to(['index']);
+            } else { // signup
+                if (User::find()->where(['email' => $attributes['email']])->exists()) {
+                    Yii::$app->getSession()->setFlash('error', [
+                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
+                    ]);
+                } else {
+                    $user = new User([
+                        'username' => $attributes['name'],
+                        'email' => $attributes['email'],
+                    ]);
+                    $user->generateAuthKey();
+                    $transaction = $user->getDb()->beginTransaction();
+                    if ($user->save()) {
+                        $auth = new AuthFb([
+                            'user_id' => $user->id,
+                            'source' => $client->getId(),
+                            'source_id' => (string)$attributes['id'],
+                        ]);
+                        $balance = self::newBalance($user);
+                        if ($auth->save() && $balance->save()) {
+                            $transaction->commit();
+                            Yii::$app->user->login($user);
+                            $this->successUrl = Url::to(['index']);
+                        } else {
+                            print_r($auth->getErrors());
+                        }
+                    } else {
+                        print_r($user->getErrors());
+                    }
+                }
+            }
+        } else { // user already logged in
+            if (!$auth) { // add auth provider
+                $auth = new AuthFb([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $client->getId(),
+                    'source_id' => $attributes['id'],
+                ]);
+                $auth->save();
+            }
+        }
+    }
+
+  public static function newUser($attribute){
+    $user = new User();
+    $user->username = $attribute['name'];
+    $user->email = $attribute['email'];
+    $user->fb_status = 1;
+    $user->status = 10;
+    return $user;
+  }
+
+  public static function newBalance($user){
+    $balance = new UserBalance();
+    $balance->uid = $user->id;
+    $balance->balance = 0;
+    $balance->negative = 0;
+    $balance->positive = 0;
+    return $balance;
   }
     
 }

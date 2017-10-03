@@ -20,7 +20,7 @@ return [
               'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
               'clientId' => '637855819746693',
               'clientSecret' => '2191347802626b8cc9742553abab3d93',
-              'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
+              'attributeNames' => ['name', 'email', 'first_name', 'last_name','age_range'],
           ],
       ],
   ],
