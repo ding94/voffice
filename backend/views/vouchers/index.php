@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use backend\models\VouchersStatus;
+use common\models\VouchersDiscount;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
@@ -56,10 +57,17 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     ],
                     [
                         'attribute' => 'discount_type',
+                        'value' => function($model)
+                        {
+                            $model->discount_type = VouchersDiscount::find()->where('id=:id',[':id' => $model->discount_type])->one()->description;
+                            return $model->discount_type;
+                        },
                         'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Discount',
+
                         ],
+                        'filter' => array( "1"=>"Discount by %","2"=>"Discount by amount"),
                     ],
                     [
                         'attribute' => 'status',
