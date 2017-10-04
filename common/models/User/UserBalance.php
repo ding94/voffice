@@ -34,7 +34,7 @@ class UserBalance extends \yii\db\ActiveRecord
             [['uid'], 'integer'],
             [['balance'],'default','value' => '0'],
             ['balance', 'compare', 'compareValue' => 0, 'operator' => '>='],
-			  [['balance', 'positive', 'negative'], 'number'],
+			[['balance', 'positive', 'negative'], 'number'],
         ];
     }
 
