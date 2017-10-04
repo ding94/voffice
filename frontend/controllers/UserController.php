@@ -18,6 +18,7 @@ use common\models\User\UserPackageSubscription;
 use common\models\OfflineTopup\OfflineTopup;
 use common\models\SubscribeType;
 use common\models\News;
+use backend\models\Vouchers;
 use kartik\mpdf\Pdf;
 use frontend\controllers\SubscribeController;
 use yii\data\ActiveDataProvider;
@@ -240,9 +241,11 @@ class UserController extends \yii\web\Controller
  	public function actionUservouchers()
  	{
  		$searchModel = new UserVoucher();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
  		$model = UserVoucher::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+ 		
  		$this->layout = 'user';
+
  		return $this->render('uservouchers',['model' => $model, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
  	}
 
