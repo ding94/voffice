@@ -23,7 +23,8 @@ switch ($fprice) {
 		break;
 }
 ?>
-<html><head></head><body>
+<html>
+<head></head><body>
 <div class="container" style="padding-top: 200px">
 	<div class="row">
 		<div class="col-md-7 col-md-offset-1">
@@ -38,15 +39,18 @@ switch ($fprice) {
 			]);?>
 				<?= $form->field($subscribe, 'packid')->dropDownList($type,[
 					'id'=>'package',
+					'onchange' => 'js:changepack();',
+
 				]); ?>
+
+				<label>Package Price/per month</label>
+
 				<?= $form->field($payment, 'paid_amount',['template' => '
 		       		<div class="input-group" id="amount">
-		          		<span class="input-group-addon">
-		             		RM
-		          		</span>
-		          		{input}
-		       		</div>
-		       {error}{hint}'])->textInput([
+		          		<span class="input-group-addon">RM</span>{input}
+		       		</div>{error}{hint}',
+		       		])->textInput([
+		       		
 		       		'readonly' => true,
 		       		'value' =>$fprice,
 					'options'=>[
@@ -54,30 +58,35 @@ switch ($fprice) {
 					],
 				]) ?>
 
-				<div id='coupon' style="display: none"><?= $form->field($payment,'coupon')->textInput()->input('',['placeholder' => "Enter your coupon code"])?> </div><div id ="check" style="display: none"><a  onclick="discount()"><font color="blue">Apply</font></a></div>
-				<div id ="click"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></div><br>
+		       <?= $form->field($subscribe,'sub_period')->dropDownList($items,[
+					'id'=>'package',
+					'onchange' => 'js:changeperiod();',
+				]) ?>
 
-
-		       <?= $form->field($subscribe,'sub_period')->dropDownList($items) ?>
-			  
-
-		    	<div class="form-group">
+				<div class="form-group">
 			        <?= Html::submitButton('Subscribe', [
 			        	'class' => 'btn btn-primary',
-			        	'onClick' => 'return confirm("Confirm Subscription?")',
+			        	'id' =>'subscribe',
+			        	//'onClick' => 'return confirm("Confirm Subscription?")',
 						
 			        ]) ?>
-			   </div>
-			<?php ActiveForm::end();?>
+			   	</div>
+				<?php ActiveForm::end();?>
+
+			</div>
 		</div>
 	</div>
 </div>
 
-<script >
+
+
+
+
+<script>
+
   function showHidden()
   {
       document.getElementById("coupon").style.display ='block';
-      document.getElementById("check").style.display ='block';
       document.getElementById("click").style.display = 'none';
   }
 
@@ -86,46 +95,7 @@ switch ($fprice) {
   	alert(document.getElementById("payment-coupon").value);
   }
 
-
-
-
-  function discount()
-  {
-  	$.ajax({
-   url :"index.php?r=subscribe/getdiscount",
-   type: "get",
-   data :{
-        dis: document.getElementById("payment-coupon").value,
-   },
-   success: function (data) {
-      var obj = JSON.parse(data);
-      console.log(obj);
-      if (obj['discount_type'] == 1) 
-      {
-      	if (obj['discount_item'] == 2) 
-      	{
-      		document.getElementById("payment-paid_amount").value = parseInt(document.getElementById("payment-paid_amount").value) *( (100 - obj['discount']) /100); 
-      	}
-      }
-      else if (obj['discount_type'] == 2) 
-      {
-      	if (obj['discount_item'] == 2) 
-      	{
-      		document.getElementById("payment-paid_amount").value = parseInt(document.getElementById("payment-paid_amount").value) - obj['discount']; 
-      	}
-      }
-
-      document.getElementById("coupon").style.display ='none';
-      document.getElementById("check").style.display ='none';
-      document.getElementById("click").style.display = 'none';
-      
-   },
-   error: function (request, status, error) {
-    //alert(request.responseText);
-   }
-
-   });
-  }
+  
 
   </script>
 

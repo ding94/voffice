@@ -83,9 +83,9 @@ class PaymentController extends \yii\web\Controller
     public static function getPaymentBalance($total,$times)
     {
         $userbalance = UserBalance::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
- 
-        $userbalance->balance -= $total * $times;
-        $userbalance->negative += $total * $times;
+        
+        $userbalance->balance -= $total;
+        $userbalance->negative += $total;
         return $userbalance;
     }
 
