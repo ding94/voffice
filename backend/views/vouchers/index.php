@@ -75,6 +75,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         {
                             $model->status = VouchersStatus::find()->where('id=:id',[':id' => $model->status])->one()->description;
                             return $model->status;
+                            
                         },
                         'filter' => array( "1"=>"Actived","2"=>"Assigned","3"=>"Used","4"=>"Expired"),
                     ],

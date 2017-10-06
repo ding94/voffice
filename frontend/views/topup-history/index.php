@@ -11,9 +11,6 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
-	$this->title = 'My Account History';
-	$this->params['breadcrumbs'][] = $this->title;
-	
 ?>
 
 <div class="container" id="topup-history-container">
