@@ -9,6 +9,7 @@ use common\models\User\UserDetails;
 use common\models\User\Uservoucher;
 use backend\models\Vouchers;
 use common\models\Payment;
+use common\models\PaymentType;
 use common\models\SubscribePackageHistory;
 use common\models\SubscribeType;
 use frontend\controllers\PaymentController;
@@ -84,10 +85,12 @@ class SubscribeController extends \yii\web\Controller
 
       if (Yii::$app->request->post()) {
         if (!empty(Yii::$app->request->post('Payment')['paid_type'])) {
-          $valid = self::processAll();
+          $payment = self::processAll();
+          return $this->redirect(['subscribe/invoice','payid'=>$payment['id']]);
         }
         else if (empty(Yii::$app->request->post('Payment')['paid_type'])) {
           Yii::$app->session->setFlash('warning', 'Please Choose Your Payment Method.');
+          
         }
         
       }
@@ -114,41 +117,46 @@ class SubscribeController extends \yii\web\Controller
       
       if (!empty($post['Payment']['voucher_id'])) {
         $voucher = Vouchers::find()->where('code =:c AND status =:s',[':c'=>Yii::$app->request->post('Payment')['coupon'],':s'=>2])->one();
+        if (!empty($voucher)) {
+          switch ($voucher->discount_item) 
+          {
+            case 1:
+              if ($voucher->discount_type == 1) 
+             {
+                $payment->paid_amount = $payment->paid_amount *((100 - $voucher->discount) /100); 
+              
+             }
+             else if ($voucher->discount_type == 2) 
+             {
 
-        switch ($voucher->discount_item) 
-        {
-          case 1:
-            if ($voucher->discount_type == 1) 
-           {
-              $payment->paid_amount = $payment->paid_amount *((100 - $voucher->discount) /100); 
-            
-           }
-           else if ($voucher->discount_type == 2) 
-           {
+                $payment->paid_amount = $payment->paid_amount - $voucher->discount;  
+             }
+              break;
 
-              $payment->paid_amount = $payment->paid_amount - $voucher->discount;  
-           }
-            break;
+          case 2:
+               if ($voucher->discount_type == 1) 
+             {
+                $payment->paid_amount = ($package->price * (100 - $voucher->discount)/100)* $subscribeType->times;
+              
+             }
+             else if ($voucher->discount_type == 2) 
+             {
+                $payment->paid_amount = ($package->price - $voucher->discount)* $subscribeType->times;
+             }
+              break;
+          default:
 
-        case 2:
-             if ($voucher->discount_type == 1) 
-           {
-              $payment->paid_amount = ($package->price * (100 - $voucher->discount)/100)* $subscribeType->times;
-            
-           }
-           else if ($voucher->discount_type == 2) 
-           {
-              $payment->paid_amount = ($package->price - $voucher->discount)* $subscribeType->times;
-           }
-            break;
-        default:
+              break;
+          }
 
-            break;
+          $payment->voucher_id = $voucher->id;
+          $payment->discount = $payment->original_price - $payment->paid_amount;
+          $voucher->status = 3;
+          if ($voucher->validate()) {
+            $voucher->save();
+          }
         }
-
-        $payment->voucher_id = $voucher->id;
-        $payment->discount = $payment->original_price - $payment->paid_amount;
-        $voucher->status = 3;
+        
       }
 
   		$subscribe = self::makeSubscribe($package['id'],$subscribeType['id'],$currentDate,$subscribeType['sub_period']);
@@ -156,8 +164,8 @@ class SubscribeController extends \yii\web\Controller
   		$userbalance = PaymentController::getPaymentBalance($payment['paid_amount'],$subscribeType['times']);
   		$packageSubscribe = self::makePackageSubscribe($subscribeType['sub_period'],$subscribeType['next_payment']);
 
-  		$isValid = $payment->validate() && $subscribe->validate() && $packageSubscribe->validate() && $userbalance->validate() && $voucher->validate();
-  		var_dump($isValid);exit;
+  		$isValid = $payment->validate() && $subscribe->validate() && $packageSubscribe->validate() && $userbalance->validate();
+  		
   		if($isValid)
   		{
   			$payment->save();
@@ -167,6 +175,7 @@ class SubscribeController extends \yii\web\Controller
   			{
   				self::makeEmail($packageSubscribe);
   				Yii::$app->session->setFlash('success', 'Subscribe Success');
+          return $payment;
   			}
   			else
   			{
@@ -176,6 +185,19 @@ class SubscribeController extends \yii\web\Controller
   			}
   		}
   	}
+
+    public function actionInvoice($payid)
+    {
+      $payment = Payment::find()->where('id = :id',[':id'=>$payid])->one();
+      $package = UserPackage::find()->where('uid = :id',[':id'=>$payment['uid']])->one();
+      $package['packid'] = Package::find()->where('id = :id',[':id'=>$package['packid']])->one()->type;
+      $next = UserPackageSubscription::find()->where('uid = :id',[':id'=>$payment['uid']])->one();
+      $voucher = Vouchers::find()->where('id = :id',[':id'=>$payment['voucher_id']])->one();
+      $payment['paid_type'] = PaymentType::find()->where('id = :id',[':id'=>$payment['paid_type']])->one()->description;
+
+      return $this->render('invoice',['payment'=>$payment,'package'=>$package,'next'=>$next,'voucher'=>$voucher]);
+
+    }
 
   	/*
   	* do validation for userpackage avaialable 

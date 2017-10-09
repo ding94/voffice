@@ -64,7 +64,7 @@ switch ($fprice) {
 				]) ?>
 
 				<div class="form-group">
-			        <?= Html::submitButton('Subscribe', [
+			        <?= Html::submitButton('Proceed Next Step', [
 			        	'class' => 'btn btn-primary',
 			        	'id' =>'subscribe',
 			        	//'onClick' => 'return confirm("Confirm Subscription?")',
