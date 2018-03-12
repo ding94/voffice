@@ -6,11 +6,15 @@ use common\models\User\UserPackage;
 use common\models\User\UserPackageSubscription;
 use common\models\User\User;
 use common\models\User\UserDetails;
+use common\models\User\Uservoucher;
+use backend\models\Vouchers;
 use common\models\Payment;
+use common\models\PaymentType;
 use common\models\SubscribePackageHistory;
 use common\models\SubscribeType;
 use frontend\controllers\PaymentController;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use Yii;
 
 class SubscribeController extends \yii\web\Controller
@@ -20,10 +24,31 @@ class SubscribeController extends \yii\web\Controller
     	$subscribe = new UserPackage();
 
     	$items = ArrayHelper::map(SubscribeType::find()->where(['or',['id'=>2],['id'=>4],['id'=>5],['id'=>6]])->all(),'id','description');
-
+      //var_dump(Payment::find()->one());exit;
     	$payment = new Payment();
 
     	return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
+    }
+
+     public function actionGetdiscount($dis)
+    {
+       $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
+       if (!empty($valid)) {
+          if ($valid->limitedTime > date('Y-m-d')) {
+            $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+          }
+          elseif ($valid->limitedTime < date('Y-m-d')) {
+           $value = 0;
+          }
+       }
+       elseif(empty($valid)) {
+       
+        $value = 0;
+       }
+       $value = Json::encode($value);
+
+       return $value;
+
     }
 
     /*
@@ -35,14 +60,43 @@ class SubscribeController extends \yii\web\Controller
   		if($available == true)
   		{
   			Yii::$app->session->setFlash('warning', 'Already Subscribe');
+        return $this->redirect(['user/userpackage']);
   		}
-  		else
+  		elseif($available == false)
   		{
-  			self::processAll();
+        $post = Yii::$app->request->post();
+         return $this->redirect(['subscribe/payment','pack' => $post['UserPackage']['packid'],'period' => $post['UserPackage']['sub_period']]);
+  			//self::processAll();
   		}
+      else
+      {
+        return $this->redirect(['user/userpackage']);
+      }
   		
-  		return $this->redirect(['user/userpackage']);
   	}
+
+    public function actionPayment($pack,$period)
+    {
+      
+      $package = Package::find()->where('id = :id',[':id' => $pack])->one();
+      $subscribe = SubscribeType::find()->where('id =:id',[':id'=>$period])->one();
+      $payment = new Payment;
+      $this->layout = 'user';
+
+      if (Yii::$app->request->post()) {
+        if (!empty(Yii::$app->request->post('Payment')['paid_type'])) {
+          $payment = self::processAll();
+          return $this->redirect(['subscribe/invoice','payid'=>$payment['id']]);
+        }
+        else if (empty(Yii::$app->request->post('Payment')['paid_type'])) {
+          Yii::$app->session->setFlash('warning', 'Please Choose Your Payment Method.');
+          
+        }
+        
+      }
+      //var_dump($package);var_dump($subscribe);exit;
+      return $this->render('payment',['package'=>$package,'subscribe'=>$subscribe,'payment'=>$payment]);
+    }
 
   	/*
   	* get all the needed database validation
@@ -55,17 +109,61 @@ class SubscribeController extends \yii\web\Controller
   		$currentDate = date('Y-m-d h:i:s');
 
   		$post= Yii::$app->request->post();
-  		
-  		$subscribeType = SubscribeType::findOne($post['UserPackage']['sub_period']);
 
-  		$payment = PaymentController::makeSubscribePayment($post['Payment']['paid_amount'],$subscribeType['times']);
+  		$subscribeType = SubscribeType::findOne($post['SubscribeType']['id']);
+      $package = Package::findOne($post['Package']['id']);
 
-  		$subscribe = self::makeSubscribe($post['UserPackage'],$currentDate,$subscribeType['sub_period']);
+  		$payment = PaymentController::makeSubscribePayment($package['price'],$subscribeType['times']);
+      
+      if (!empty($post['Payment']['voucher_id'])) {
+        $voucher = Vouchers::find()->where('code =:c AND status =:s',[':c'=>Yii::$app->request->post('Payment')['coupon'],':s'=>2])->one();
+        if (!empty($voucher)) {
+          switch ($voucher->discount_item) 
+          {
+            case 1:
+              if ($voucher->discount_type == 1) 
+             {
+                $payment->paid_amount = $payment->paid_amount *((100 - $voucher->discount) /100); 
+              
+             }
+             else if ($voucher->discount_type == 2) 
+             {
 
-  		$userbalance = PaymentController::getPaymentBalance($post['Payment']['paid_amount'],$subscribeType['times']);
+                $payment->paid_amount = $payment->paid_amount - $voucher->discount;  
+             }
+              break;
 
+          case 2:
+               if ($voucher->discount_type == 1) 
+             {
+                $payment->paid_amount = ($package->price * (100 - $voucher->discount)/100)* $subscribeType->times;
+              
+             }
+             else if ($voucher->discount_type == 2) 
+             {
+                $payment->paid_amount = ($package->price - $voucher->discount)* $subscribeType->times;
+             }
+              break;
+          default:
+
+              break;
+          }
+
+          $payment->voucher_id = $voucher->id;
+          $payment->discount = $payment->original_price - $payment->paid_amount;
+          $voucher->status = 3;
+          if ($voucher->validate()) {
+            $voucher->save();
+          }
+        }
+        
+      }
+
+  		$subscribe = self::makeSubscribe($package['id'],$subscribeType['id'],$currentDate,$subscribeType['sub_period']);
+
+  		$userbalance = PaymentController::getPaymentBalance($payment['paid_amount'],$subscribeType['times']);
   		$packageSubscribe = self::makePackageSubscribe($subscribeType['sub_period'],$subscribeType['next_payment']);
-  		
+
   		$isValid = $payment->validate() && $subscribe->validate() && $packageSubscribe->validate() && $userbalance->validate();
   		
   		if($isValid)
@@ -77,6 +175,7 @@ class SubscribeController extends \yii\web\Controller
   			{
   				self::makeEmail($packageSubscribe);
   				Yii::$app->session->setFlash('success', 'Subscribe Success');
+          return $payment;
   			}
   			else
   			{
@@ -86,6 +185,19 @@ class SubscribeController extends \yii\web\Controller
   			}
   		}
   	}
+
+    public function actionInvoice($payid)
+    {
+      $payment = Payment::find()->where('id = :id',[':id'=>$payid])->one();
+      $package = UserPackage::find()->where('uid = :id',[':id'=>$payment['uid']])->one();
+      $package['packid'] = Package::find()->where('id = :id',[':id'=>$package['packid']])->one()->type;
+      $next = UserPackageSubscription::find()->where('uid = :id',[':id'=>$payment['uid']])->one();
+      $voucher = Vouchers::find()->where('id = :id',[':id'=>$payment['voucher_id']])->one();
+      $payment['paid_type'] = PaymentType::find()->where('id = :id',[':id'=>$payment['paid_type']])->one()->description;
+
+      return $this->render('invoice',['payment'=>$payment,'package'=>$package,'next'=>$next,'voucher'=>$voucher]);
+
+    }
 
   	/*
   	* do validation for userpackage avaialable 
@@ -111,13 +223,18 @@ class SubscribeController extends \yii\web\Controller
 	* endTime => which date should ended
 	*/
 
-	protected static function makeSubscribe($data,$currentDate,$endTime)
+	protected static function makeSubscribe($packid,$period,$currentDate,$endTime)
 	{
 		$subscribe = new Userpackage();
 		$subscribe->uid = Yii::$app->user->identity->id;
 
+<<<<<<< HEAD
     $subscribe->type = $data['sub_period'];
 		$subscribe->packid = $data['packid'];
+=======
+    $subscribe->type = $period;
+		$subscribe->packid = $packid;
+>>>>>>> 7dd4d95b095119400fd1b9746bb864aac17859a8
 
 		$endDate = date('Y-m-d h:i:s',strtotime($endTime));
 
@@ -163,16 +280,16 @@ class SubscribeController extends \yii\web\Controller
 		$subscribehistory = new SubscribePackageHistory();
 		$subscribehistory->uid = $subscribe['uid'];
 
-        $subscribehistory->pay_date = $subscribe['subscribe_time'];
-        $subscribehistory->subscribe_date = $subscribe['subscribe_time'];
-        $subscribehistory->subscribe_period = $subscribe['sub_period'];
-        $subscribehistory->end_date = $subscribe['end_period']; 
-        $subscribehistory->pay_type = $payment['paid_type'];
-        $subscribehistory->packid = $subscribe['packid'];
+    $subscribehistory->pay_date = $subscribe['subscribe_time'];
+    $subscribehistory->subscribe_date = $subscribe['subscribe_time'];
+    $subscribehistory->subscribe_period = $subscribe['sub_period'];
+    $subscribehistory->end_date = $subscribe['end_period']; 
+    $subscribehistory->pay_type = $payment['paid_type'];
+    $subscribehistory->packid = $subscribe['packid'];
 		$subscribehistory->pack_type = $subscribe['type'];
 
 		$subscribehistory->payid = $payment['id'];
-        $subscribehistory->amount = $payment['paid_amount'];
+    $subscribehistory->amount = $payment['paid_amount'];
 
 		$subscribehistory->grade = "";
 		return $subscribehistory;

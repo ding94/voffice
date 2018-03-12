@@ -7,6 +7,8 @@ use yii\helpers\ArrayHelper;
 use backend\models\Vouchers;
 use common\models\User\UserVoucher;
 use backend\models\VouchersStatus;
+use common\models\VouchersDiscount;
+use common\models\VouchersDiscountItem;
 use backend\models\Admin;
 
 
@@ -16,7 +18,7 @@ class VouchersController extends CommonController
     {
         $searchModel = new Vouchers();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //var_dump(VouchersStatus::find()->where('id=:id',[':id' => 1])->one()->description);exit;
+
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
@@ -25,40 +27,36 @@ class VouchersController extends CommonController
 
         $model = new Vouchers;
         $model->scenario = 'add';
-        $model->inCharge = Admin::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->adminname;
-        $model->startDate = date('Y-m-d');
+        $model->inCharge = Yii::$app->user->identity->adminname;
+        //$model->startDate = date('Y-m-d');
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
-        $list = ArrayHelper::map(VouchersStatus::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
         
-        if( $model->load(Yii::$app->request->post()))
+        if( Yii::$app->request->post())
         {
-            $valid = self::discountvalid(Yii::$app->request->post());
-            if ($valid) 
+            $model->load(Yii::$app->request->post());
+            $valid = self::discountvalid(Yii::$app->request->post(),1);
+            if ($valid == false) 
             {
-                return $this->redirect(['add']);
+                return $this->render('addvouchers', ['model' => $model,'list'=>$list]);
             }
-            $model->status = Yii::$app->request->post('Vouchers')['status'];
-            $model->type = $list[$model->status];
+            $model->status = 1;
             $isValid = $model->validate();
-          	$checkcode = Vouchers::find()->where('code = :c', [':c' => $model->code])->one(); //查询是否重复code
 
-          	if($isValid && (empty($checkcode)))
+          	if($isValid)
           	{
                 $model->save();
                 Yii::$app->session->setFlash('success', "Created!");
                 return $this->redirect(['add']);
           	}
-            elseif(!empty($checkcode))
-            {
-                Yii::$app->session->setFlash('error', "Duplicated Voucher Code");//是重复，警告
-            }
             else
             {
                 Yii::$app->session->setFlash('danger', "Unexpected error, please contact IT department");
             }
         }
                
-        return $this->render('addvouchers', ['model' => $model,'list'=>$list]);
+        return $this->render('addvouchers', ['model' => $model,'list'=>$list,'item'=>$item]);
     }
 
 
@@ -104,19 +102,23 @@ class VouchersController extends CommonController
 		$model->startDate = date('Y-m-d');
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
         $model->digit = 16;
-        $list = ArrayHelper::map(VouchersStatus::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
     	if( $model->load(Yii::$app->request->post()))
         {
-        	
-        	$valid = self::discountvalid(Yii::$app->request->post());
-            if ($valid) 
+        	$valid = self::discountvalid(Yii::$app->request->post(),2);
+            
+            if ($valid == false) 
             {
-                return $this->redirect(['gencodes']);
+                return $this->render('gencodes', ['model' => $model,'list'=>$list,'item'=>$item]);
             }
+           
     		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
     		$amount = $model->amount;
     		$digit = $model->digit;
     		$dis = $model->discount;
+            $typ = $model->discount_type;
+            $ite = $model->discount_item;
     		$startDate = $model->startDate;
     		$endDate = $model->endDate;
     		$count = 0;
@@ -124,10 +126,11 @@ class VouchersController extends CommonController
         	for ($j=1; $j <= $amount ; $j++) { 
 
         		$model = new Vouchers;
-        		$model->inCharge = Yii::$app->user->identity->adminname;
-      			$model->status = Yii::$app->request->post('Vouchers')['status'];
-                $model->type = $list[$model->status];
-      			$model->discount = $dis;
+        		$model->inCharge = Yii::$app->user->identity->id;
+      			$model->status = 1;
+                $model->discount = $dis;
+                $model->discount_type = $typ;
+                $model->discount_item = $ite;
       			$model->startDate = $startDate;
     			$model->endDate = $endDate;
 
@@ -143,37 +146,69 @@ class VouchersController extends CommonController
     				}
     			}
     			else{
-    				$model->save(false);
-    				$model->discount='';
-    				$model->code =16;
-    				
+    				$model->save();
     			}
     		
         	}
-        	
         	Yii::$app->session->setFlash('success', $amount." Code Generated!");
+        	return $this->redirect(['vouchers/gencodes']);
     	}
 
-    	return $this->render('gencodes', ['model' => $model,'list'=>$list]);
+    	return $this->render('gencodes', ['model' => $model,'list'=>$list,'item'=>$item]);
     	
     }
 
-    public static function discountvalid($post)
+    public static function discountvalid($post,$case)
     {
-        if ($post['Vouchers']['status'] == 1) {
-                if ($post['Vouchers']['discount']<=0 || $post['Vouchers']['discount'] >= 100) {
-                    Yii::$app->session->setFlash('error', "Failed, discount exceed limit!");
+        
+            switch ($case) {
+                case 1:
+                    $check = Vouchers::find()->where('code = :c',[':c'=>$post['Vouchers']['code']])->one();//查询是否重复code
+                    if (empty($check)) {
+                        if ($post['Vouchers']['discount_type'] == 1) {
+                            if ($post['Vouchers']['discount'] >= 101) {
+                                Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
+                                return false;
+                            }
+                        }
+                    elseif ($post['Vouchers']['discount_type'] == 2) {
+                        if ($post['Vouchers']['discount'] >= 500) {
+                            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
+                            return false;
+                            }
+                        }
+                    }
+                    elseif(!empty($check))
+                    {
+                        Yii::$app->session->setFlash('error', "Voucher Code was used!");
+                        return false;
+                        
+                    }
                     return true;
-                }
+                    break;
+                
+                case 2:
+                    if ($post['Vouchers']['discount_type'] == 1) {
+                            if ($post['Vouchers']['discount'] >= 101) {
+                                Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
+                                return false;
+                            }
+                        }
+                    elseif ($post['Vouchers']['discount_type'] == 2) {
+                        if ($post['Vouchers']['discount'] >= 500) {
+                            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
+                            return false;
+                            }
+                        }
+                        return true;
+                    break;
+                default:
+                        Yii::$app->session->setFlash('error', "Something went wrong!");
+                        return false;
+                    break;
             }
-        elseif ($post['Vouchers']['status'] == 4) {
-                if ($post['Vouchers']['discount']<=0) {
-                    Yii::$app->session->setFlash('error', "Failed, discount cannot less than 1!");
-                    return true;
-
-                }
-            }
-     }
+        
+  }
     
 
 }

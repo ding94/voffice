@@ -12,6 +12,18 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'authClientCollection' => [
+          'class' => 'yii\authclient\Collection',
+          'clients' => [
+            'facebook' => [
+              'class' => 'yii\authclient\clients\Facebook',
+              'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+              'clientId' => '637855819746693',
+              'clientSecret' => '2191347802626b8cc9742553abab3d93',
+              'attributeNames' => ['name', 'email', 'first_name', 'last_name','age_range'],
+          ],
+      ],
+  ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],

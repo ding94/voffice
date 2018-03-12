@@ -7,6 +7,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use backend\models\VouchersStatus;
+use common\models\VouchersDiscount;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
@@ -55,11 +56,18 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         ],
                     ],
                     [
-                        'attribute' => 'type',
+                        'attribute' => 'discount_type',
+                        'value' => function($model)
+                        {
+                            $model->discount_type = VouchersDiscount::find()->where('id=:id',[':id' => $model->discount_type])->one()->description;
+                            return $model->discount_type;
+                        },
                         'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Discount',
+
                         ],
+                        'filter' => array( "1"=>"Discount by %","2"=>"Discount by amount"),
                     ],
                     [
                         'attribute' => 'status',
@@ -67,8 +75,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         {
                             $model->status = VouchersStatus::find()->where('id=:id',[':id' => $model->status])->one()->description;
                             return $model->status;
+                            
                         },
-                        'filter' => array( "1"=>"Actived(%)","2"=>"Assigned(%)","3"=>"Used(%)","4"=>"Actived(RM)","5"=>"Assigned(RM)","6"=>"Used(RM)"),
+                        'filter' => array( "1"=>"Actived","2"=>"Assigned","3"=>"Used","4"=>"Expired"),
                     ],
                     /*[
                         'attribute' => 'usedTimes',

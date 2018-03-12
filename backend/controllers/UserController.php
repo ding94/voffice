@@ -12,6 +12,8 @@ use common\models\Parcel\ParcelSearch;
 use common\models\User\UserVoucher;
 use backend\models\Vouchers;
 use backend\models\VouchersStatus;
+use common\models\VouchersDiscount;
+use common\models\VouchersDiscountItem;
 use backend\models\Admin;
 use backend\modules\logistics\controllers\ParcelStatusNameController;
 Class UserController extends CommonController
@@ -82,14 +84,15 @@ Class UserController extends CommonController
 		$uservoucher = new UserVoucher;
 		$uservoucher->limitedTime = date('Y-m-d',strtotime('+30 day'));
 
-        $list = ArrayHelper::map(VouchersStatus::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
 
 		if ( $uservoucher->load(Yii::$app->request->post())) 
 		{
 			
 			$valid = self::discountvalid(Yii::$app->request->post());
 			
-			if ($valid) 
+			if ($valid == false) 
 			{
 				return $this->redirect(['addvoucher','id'=>$id]);
 			}
@@ -98,7 +101,9 @@ Class UserController extends CommonController
 			$uservoucher->vid = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
 
 			$voucher->load(Yii::$app->request->post());
-			$voucher->type = $list[$voucher->status];
+			$voucher->status = 1;
+			$voucher->inCharge = Yii::$app->user->identity->id;
+			$voucher->startDate = date('Y-m-d');
 			$voucher->endDate = $uservoucher->limitedTime;
 			
 			if (empty($uservoucher->vid) && empty($voucher->discount)) 
@@ -108,15 +113,16 @@ Class UserController extends CommonController
 
 			elseif (empty($uservoucher->vid) && !empty($voucher->discount)) 
 			{
-				
 				$voucher = self::actionNewvoucher($voucher, Yii::$app->request->post('UserVoucher'));
+
+				
 				if ($voucher->validate()) 
 				{
 					$voucher->save();
 				}
 
 				$uservoucher = self::actionUservoucher($uservoucher, Yii::$app->request->post('UserVoucher'));
-				
+
 				if ($uservoucher->validate()) 
 				{
 					$uservoucher->save();
@@ -129,7 +135,7 @@ Class UserController extends CommonController
 
 			elseif (!empty($uservoucher->vid)) 
 			{
-				if ($uservoucher->vid['status'] == 1 || $uservoucher->vid['status'] == 4) 
+				if ($uservoucher->vid['status'] == 1) 
 				{
 					$uservoucher = self::actionUservoucher($uservoucher, Yii::$app->request->post('UserVoucher'));
 					$voucher = self::actionExistvoucher($voucher,$list);
@@ -144,7 +150,7 @@ Class UserController extends CommonController
 					return $this->redirect(['uservoucherlist']);
 				}
 
-				elseif ($uservoucher->vid['status'] != 1 || $uservoucher->vid['status'] != 4) 
+				elseif ($uservoucher->vid['status'] != 1) 
 				{
 					Yii::$app->session->setFlash('error', "Used Voucher!");
 				}
@@ -156,29 +162,35 @@ Class UserController extends CommonController
 				
 			}
 		}
-		return $this->render('addvoucher',['uservoucher' => $uservoucher, 'voucher' => $voucher, 'list' => $list, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
+		return $this->render('addvoucher',['uservoucher' => $uservoucher, 'voucher' => $voucher, 'list' => $list,'item'=>$item, 'dataProvider' => $dataProvider , 'searchModel'=> $searchModel]);
 	}
 
 
 	public static function discountvalid($post)
 	{
-
-		if (Vouchers::find()->where('code = :c', [':c'=>$post['UserVoucher']['code']])->one() == false) {
-
-		if ($post['Vouchers']['status'] == 1) {
-				if ($post['Vouchers']['discount']<=0 || $post['Vouchers']['discount'] >= 100) {
-					Yii::$app->session->setFlash('error', "Failed, discount not given or exceed limit!");
-					return true;
-				}
-			}
-		elseif ($post['Vouchers']['status'] == 4) {
-				if ($post['Vouchers']['discount']<=0) {
-					Yii::$app->session->setFlash('error', "Failed, discount cannot less than 1!");
-					return true;
-
-				}
-			}
-		}
+		$check = Vouchers::find()->where('code = :c',[':c'=>$post['UserVoucher']['code']])->one();//查询是否重复code
+        if (empty($check)) {
+            if ($post['Vouchers']['discount_type'] == 1) {
+                if ($post['Vouchers']['discount'] >= 101) {
+                    Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
+                                return false;
+                	}
+                }
+                elseif ($post['Vouchers']['discount_type'] == 2) {
+                if ($post['Vouchers']['discount'] >= 500) {
+                    Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
+                    return false;
+                    }
+                }
+        }
+        elseif(!empty($check))
+        {
+        	if ($check->status >=2) {
+        		Yii::$app->session->setFlash('error', "Voucher Code was used!");
+            	return false;
+        	}
+        }
+        return true;
 	}
 
 	public function actionNewvoucher($voucher, $post)
@@ -187,7 +199,7 @@ Class UserController extends CommonController
 
 		$voucher->status +=1; 
 		$voucher->code = $post['code'];
-		$voucher->inCharge = Yii::$app->user->identity->adminname;
+		$voucher->inCharge = Yii::$app->user->identity->id;
 		$voucher->startDate = date('Y-m-d');
 		$voucher->endDate = $post['limitedTime'];
 
@@ -206,7 +218,6 @@ Class UserController extends CommonController
 	public function actionExistvoucher($voucher,$list)
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
-		$voucher->type = $list[$voucher->status];
 		$voucher->status +=1;
 		
 		return $voucher;

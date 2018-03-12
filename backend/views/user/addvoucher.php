@@ -21,12 +21,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     		'options' => ['placeholder' => 'Date voucher deactived'],
     		'pluginOptions' => [
     		'format' => 'yyyy-mm-dd',
+            'startDate' => date('Y-m-d h:i:s'), 
 	    	'todayHighlight' => true,
 	        'todayBtn' => true,]]) 
 	    ?>
 
         <?= $form->field($voucher, 'discount')->textInput()->input('',['placeholder' => 'Not required when existing code used']) ?>
-        <?= $form->field($voucher ,'status')->dropDownList($list)?>
+        <?= $form->field($voucher ,'discount_type')->dropDownList($list)?>
+         <?= $form->field($voucher ,'discount_item')->dropDownList($item)?>
 
     	<div class="form-group">
 	        <?= Html::submitButton('Add', [
