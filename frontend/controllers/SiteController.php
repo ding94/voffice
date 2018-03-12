@@ -78,7 +78,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		
         $model = new Contact();
         $package = Package::find()->all();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
