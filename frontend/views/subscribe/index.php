@@ -79,25 +79,5 @@ switch ($fprice) {
 </div>
 
 
-
-
-
-<script>
-
-  function showHidden()
-  {
-      document.getElementById("coupon").style.display ='block';
-      document.getElementById("click").style.display = 'none';
-  }
-
-  function discounts()
-  {
-  	alert(document.getElementById("payment-coupon").value);
-  }
-
-  
-
-  </script>
-
 </body>
 </html>
