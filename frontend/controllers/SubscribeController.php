@@ -152,6 +152,7 @@ class SubscribeController extends \yii\web\Controller
           $payment->voucher_id = $voucher->id;
           $payment->discount = $payment->original_price - $payment->paid_amount;
           $voucher->status = 3;
+          $voucher->usedTimes += 1;
           if ($voucher->validate()) {
             $voucher->save();
           }
