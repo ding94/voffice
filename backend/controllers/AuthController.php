@@ -67,7 +67,7 @@ Class AuthController extends Controller
 		{
 			$data = $auth->getRole($id);
 		}
-
+		
 		if($auth->remove($data))
 		{
 			Yii::$app->session->setFlash('success', "Delete Completed");
@@ -90,7 +90,7 @@ Class AuthController extends Controller
 		{
 			return $this->redirect(['view' ,'id' => $id]);
 		}
-		
+
 		$result = $this->modifyRole($id,$data,2);
 		if($result == true)
 		{
@@ -136,6 +136,7 @@ Class AuthController extends Controller
 			Yii::$app->session->setFlash('warning', "Please Select One");
 			return 1;
 		}
+
 		$data = array_filter($item['child']);	
 
 		if(empty($data))
@@ -153,7 +154,6 @@ Class AuthController extends Controller
 				$allchild[] = $value;
 			}
 		}
-
 
 		return $allchild;
 	}

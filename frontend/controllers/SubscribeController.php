@@ -229,18 +229,23 @@ class SubscribeController extends \yii\web\Controller
 		$subscribe = new Userpackage();
 		$subscribe->uid = Yii::$app->user->identity->id;
 
+<<<<<<< HEAD
+    $subscribe->type = $data['sub_period'];
+		$subscribe->packid = $data['packid'];
+=======
     $subscribe->type = $period;
 		$subscribe->packid = $packid;
+>>>>>>> 7dd4d95b095119400fd1b9746bb864aac17859a8
 
 		$endDate = date('Y-m-d h:i:s',strtotime($endTime));
 
 		$period = date_diff(date_create($currentDate),date_create($endDate));
 		$subscribe->sub_period = $period->days;
 
-        $subscribe->subscribe_time = $currentDate;
-        $subscribe->end_period = $endDate;
+    $subscribe->subscribe_time = $currentDate;
+    $subscribe->end_period = $endDate;
      
-        return $subscribe;
+    return $subscribe;
 	}
 
 	/*
