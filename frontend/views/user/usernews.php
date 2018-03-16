@@ -21,7 +21,7 @@ use yii\helpers\Url;
 </div>
 <div style="width: 800px; float: left; margin-left: 50px;">
 		<div class="h1" style="border-bottom: 1px solid;">
-			<?php echo $news['name']; ?>
+			<span><?php echo $news['name']; ?></span><span class="pull-right" style="font-size: 2.2vh;"><?php echo $news['NewsDate'] ?></span>
 		</div>
 		<?php echo $news['text']; ?>
 	</div>
