@@ -28,7 +28,7 @@ class VouchersController extends CommonController
         $model = new Vouchers;
         $model->scenario = 'add';
         $model->inCharge = Yii::$app->user->identity->adminname;
-        //$model->startDate = date('Y-m-d');
+        $model->startDate = date('Y-m-d');
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
         $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
@@ -37,21 +37,17 @@ class VouchersController extends CommonController
         {
             $model->load(Yii::$app->request->post());
             $valid = self::discountvalid(Yii::$app->request->post(),1);
-            if ($valid == false) 
-            {
+            if ($valid == false){
                 return $this->render('addvouchers', ['model' => $model,'list'=>$list]);
             }
-            $model->status = 1;
-            $isValid = $model->validate();
 
-          	if($isValid)
-          	{
+            $model->status = 1;
+          	if($model->validate()){
                 $model->save();
                 Yii::$app->session->setFlash('success', "Created!");
-                return $this->redirect(['add']);
+                return $this->redirect(['/vouchers/add']);
           	}
-            else
-            {
+            else{
                 Yii::$app->session->setFlash('danger', "Unexpected error, please contact IT department");
             }
         }
@@ -160,55 +156,48 @@ class VouchersController extends CommonController
 
     public static function discountvalid($post,$case)
     {
-        
-            switch ($case) {
-                case 1:
-                    $check = Vouchers::find()->where('code = :c',[':c'=>$post['Vouchers']['code']])->one();//查询是否重复code
-                    if (empty($check)) {
-                        if ($post['Vouchers']['discount_type'] == 1) {
-                            if ($post['Vouchers']['discount'] >= 101) {
-                                Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
-                                return false;
-                            }
-                        }
-                    elseif ($post['Vouchers']['discount_type'] == 2) {
-                        if ($post['Vouchers']['discount'] >= 500) {
-                            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
-                            return false;
-                            }
-                        }
-                    }
-                    elseif(!empty($check))
-                    {
-                        Yii::$app->session->setFlash('error', "Voucher Code was used!");
-                        return false;
-                        
-                    }
-                    return true;
-                    break;
-                
-                case 2:
-                    if ($post['Vouchers']['discount_type'] == 1) {
-                            if ($post['Vouchers']['discount'] >= 101) {
-                                Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
-                                return false;
-                            }
-                        }
-                    elseif ($post['Vouchers']['discount_type'] == 2) {
-                        if ($post['Vouchers']['discount'] >= 500) {
-                            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
-                            return false;
-                            }
-                        }
+        switch ($case) {
+            case 1:
+                $check = Vouchers::find()->where('code = :c',[':c'=>$post['Vouchers']['code']])->one();//查询是否重复code
+                if (empty($check)) {
+                    $valid = self::discountExceed($post['Vouchers']['discount_type'],$post['Vouchers']['discount']);
+                    if ($valid == true) {
                         return true;
-                    break;
-                default:
-                        Yii::$app->session->setFlash('error', "Something went wrong!");
-                        return false;
-                    break;
-            }
-        
-  }
-    
+                    }
+                    return false;
+                }
+                elseif(!empty($check))
+                {
+                    Yii::$app->session->setFlash('error', "Voucher Code was used!");
+                    return false;
+                }
+                return true;
+                break;
+                
+            case 2:
+                $valid = self::discountExceed($post['Vouchers']['discount_type'],$post['Vouchers']['discount']);
+                    if ($valid == true) {
+                        return true;
+                    }
+                    return false;
+                break;
+            default:
+                Yii::$app->session->setFlash('error', "Something went wrong!");
+                return false;
+                break;
+        }
+    }
 
+    public static function discountExceed($type,$discount)
+    {
+        if ($type == 1 && $discount >= 101){
+            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed 100%!");
+            return false;
+        }
+        elseif ($type == 2 && $discount >= 500){
+            Yii::$app->session->setFlash('error', "Failed, discount cannot exceed RM500!");
+            return false;
+        }
+        return true;
+    }
 }
