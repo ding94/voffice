@@ -139,10 +139,10 @@ use kartik\widgets\ActiveForm;
 		        break;
 
 		        
-		}
+		  }
 
      	document.getElementById("payment-voucher_id").value = obj['id'] ;
-		document.getElementById("reset").style.display ='block';
+		  document.getElementById("reset").style.display ='block';
     	document.getElementById("coupon").style.display ='none';
     	document.getElementById("apply").style.display ='none';
     	document.getElementById("click").style.display = 'none';	

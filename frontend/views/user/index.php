@@ -4,7 +4,6 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 /* @var $this yii\web\View */
 ?>
-
 <div class="container">
 	<div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
 		<table class="table table-user-information"><h1>User Profile</h1>

@@ -259,7 +259,7 @@ class UserController extends \yii\web\Controller
  		$userdetails = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
  		
  		$pdf = new Pdf([
- 			'mode' => Pdf::MODE_CORE,
+ 			'mode' => Pdf::MODE_UTF8,
  			'content' => $this->renderPartial('index',['user' => $user,'userdetails' => $userdetails]),
  			'options' => [
  				'title' => 'Sample Only',
