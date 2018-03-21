@@ -17,9 +17,9 @@ use kartik\widgets\DatePicker;
 
 	<?php $form = ActiveForm::begin();?>
     <?= $form->field($model, 'code')->textInput() ?>
-    <?= $form->field($model, 'discount')->textInput() ?>
-    <?= $form->field($model ,'discount_type')->dropDownList($list)?>
-    <?= $form->field($model ,'discount_item')->dropDownList($item)?>
+    <?= $form->field($discount, 'discount')->textInput() ?>
+    <?= $form->field($discount ,'discount_type')->dropDownList($list)?>
+    <?= $form->field($discount ,'discount_item')->dropDownList($item)?>
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [
     		'options' => ['placeholder' => 'Date voucher active to use'],

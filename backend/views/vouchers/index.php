@@ -6,8 +6,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
-use backend\models\VouchersStatus;
-use common\models\VouchersDiscount;
+use common\models\vouchers\{VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem};
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
@@ -43,11 +42,24 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     ],
                     [
                         'attribute' => 'code',
+                        'value' => 'voucher.code',
                         'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Code',
                         ],
                     ],
+
+                    [
+                        'class' => 'yii\grid\ActionColumn' ,
+                        'template'=>'{morediscount}',
+                        'buttons' => [
+                            'morediscount' => function($url,$model)
+                            {
+                                return Html::a("Add discount" ,['vouchers/morediscount','vid'=>$model['vid']], ['title' => 'Add more discount item to this voucher']);
+                            },
+                        ],
+                    ],
+
                     [
                         'attribute' => 'discount',
                         'filterInputOptions' => [
@@ -59,7 +71,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         'attribute' => 'discount_type',
                         'value' => function($model)
                         {
-                            $model->discount_type = VouchersDiscount::find()->where('id=:id',[':id' => $model->discount_type])->one()->description;
+                            $model->discount_type = VouchersDiscountType::find()->where('id=:id',[':id' => $model->discount_type])->one()->description;
                             return $model->discount_type;
                         },
                         'filterInputOptions' => [
@@ -70,11 +82,21 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         'filter' => array( "1"=>"Discount by %","2"=>"Discount by amount"),
                     ],
                     [
-                        'attribute' => 'status',
+                        'attribute' => 'discount_item',
+                        'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Discount',
+
+                        ],
+                        'filter' => array( "1"=>"Discount by %","2"=>"Discount by amount"),
+                    ],
+                    [
+                        'attribute' => 'vouchers.status',
                         'value' => function($model)
                         {
-                            $model->status = VouchersStatus::find()->where('id=:id',[':id' => $model->status])->one()->description;
-                            return $model->status;
+                            //var_dump($model);exit;
+                            $status = VouchersStatus::find()->where('id=:id',[':id' => $model['voucher']['status']])->one()->description;
+                            return $status;
                             
                         },
                         'filter' => array( "1"=>"Actived","2"=>"Assigned","3"=>"Used","4"=>"Expired"),
@@ -93,8 +115,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                             'placeholder' => 'Search Person In Charge',
                         ],
                     ],*/
-    	            'startDate:date',
-    	            'endDate:date',
+    	            'voucher.startDate:date',
+    	            'voucher.endDate:date',
         ]
     ])?>
     <?= Html::endForm();?> 

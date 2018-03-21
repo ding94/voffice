@@ -4,11 +4,8 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
-use backend\models\Vouchers;
 use common\models\User\UserVoucher;
-use backend\models\VouchersStatus;
-use common\models\VouchersDiscount;
-use common\models\VouchersDiscountItem;
+use common\models\vouchers\{Vouchers,VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem};
 use backend\models\Admin;
 
 
@@ -16,7 +13,7 @@ class VouchersController extends CommonController
 {
     public function actionIndex()
     {
-        $searchModel = new Vouchers();
+        $searchModel = new VouchersDiscount();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
@@ -26,25 +23,36 @@ class VouchersController extends CommonController
     {
 
         $model = new Vouchers;
-        $model->scenario = 'add';
-        $model->inCharge = Yii::$app->user->identity->adminname;
+        $discount = new VouchersDiscount;
+        //$model->scenario = 'add';
+        $model->inCharge = Yii::$app->user->identity->id;
         $model->startDate = date('Y-m-d');
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
-        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
         
         if( Yii::$app->request->post())
         {
             $model->load(Yii::$app->request->post());
+            $discount->load(Yii::$app->request->post());
             $valid = self::discountvalid(Yii::$app->request->post(),1);
             if ($valid == false){
-                return $this->render('addvouchers', ['model' => $model,'list'=>$list]);
+                return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item]);
             }
 
             $model->status = 1;
           	if($model->validate()){
                 $model->save();
-                Yii::$app->session->setFlash('success', "Created!");
+                $discount['vid'] = $model['id'];
+                if ($discount->validate()) {
+                    $discount->save();
+                    Yii::$app->session->setFlash('success', "Created!");
+                }
+                else{
+                    $model->delete();
+                    Yii::$app->session->setFlash('error', "Voucher Create Failed. Discount can't saved.");
+                }
+                
                 return $this->redirect(['/vouchers/add']);
           	}
             else{
@@ -52,13 +60,12 @@ class VouchersController extends CommonController
             }
         }
                
-        return $this->render('addvouchers', ['model' => $model,'list'=>$list,'item'=>$item]);
+        return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item]);
     }
 
 
     //批量做法
     public function actionBatch(){
-        
     	if (Yii::$app->request->post('selection')) {
     		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
     		$del = self::actionBatchDelete($selection); //传走去 actionBatchDelete
@@ -71,23 +78,62 @@ class VouchersController extends CommonController
     //批量删除
     public function actionBatchDelete($selection)
     {
-    		
-    		 if (!empty($selection)) {
-    	 			foreach($selection as $id){
-                        if (UserVoucher::find()->where('vid = :id', [':id' => $id])->one()) {
-                            $del = UserVoucher::find()->where('vid = :id', [':id' => $id])->one();
-                            $del->delete();
-                        }
-                        
-           			 	$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个
-          		 		$delete->delete();
-          		 		Yii::$app->session->setFlash('success', "Deleted!");
-        			}
-    	 	}
-    	 	else
-    	 	{
-    	 		Yii::$app->session->setFlash('warning', "No Voucher/Record was selected!");
-    	 	}
+    	if (!empty($selection)) {
+    	 	foreach($selection as $id){
+
+                $discount = VouchersDiscount::find()->where('id=:id',[':id'=>$id])->all();
+                $number = count($discount);
+                foreach ($discount as $k => $vou) {
+                    $vou->delete();
+                }
+
+                if ($user = UserVoucher::find()->where('vid = :id', [':id' => $vou['vid']])->one()) {
+                    $user->delete();
+                }
+                //var_dump($number);exit;
+                if (empty(VouchersDiscount::find()->where('vid=:id',[':id'=>$vou['vid']])->one())) {
+                    $voucher=Vouchers::findOne($vou['vid']);//make a typecasting //找一个删一个
+                    $voucher->delete();
+                }
+
+          		Yii::$app->session->setFlash('success', "Deleted!");
+        	}
+        }
+    	else
+    	{
+    	   Yii::$app->session->setFlash('warning', "No Voucher/Record was selected!");
+    	}
+    }
+
+    public function actionMorediscount($vid)
+    {
+        $voucher = VouchersDiscount::find()->where('vid=:vid',[':vid'=>$vid])->all();
+        $discount = new VouchersDiscount();
+        $item = ArrayHelper::Map(VouchersDiscountItem::find()->all(),'id','description');
+        $type = ArrayHelper::Map(VouchersDiscountType::find()->all(),'id','description');
+        foreach ($voucher as $k => $vou) {
+            //var_dump($vou);exit;
+            unset($item[$vou['discount_item']]);
+        }
+
+        if (empty($item)) {
+            Yii::$app->session->setFlash('warning', "No selection can be used for this coupon!");
+            return $this->redirect(['/vouchers/index']);
+        }
+
+        if (Yii::$app->request->post()) {
+            $discount->load(Yii::$app->request->post());
+            $discount['vid'] = $vou['vid'];
+            if ($discount->validate()) {
+                $discount->save();
+                Yii::$app->session->setFlash('success', "Success!");
+            }
+            return $this->redirect(['/vouchers/index']);
+        }
+        
+        
+        //var_dump($item);exit;
+        return $this->render('morediscount',['item'=>$item,'voucher'=>$voucher,'discount'=>$discount,'type'=>$type]);
     }
 
      //批量制造code
@@ -98,39 +144,25 @@ class VouchersController extends CommonController
 		$model->startDate = date('Y-m-d');
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
         $model->digit = 16;
-        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $discount = new VouchersDiscount();
+        $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
-    	if( $model->load(Yii::$app->request->post()))
+    	if(Yii::$app->request->post())
         {
+            $model->load(Yii::$app->request->post());
+            $discount->load(Yii::$app->request->post());
         	$valid = self::discountvalid(Yii::$app->request->post(),2);
-            
-            if ($valid == false) 
-            {
+            if ($valid == false){
                 return $this->render('gencodes', ['model' => $model,'list'=>$list,'item'=>$item]);
             }
            
     		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
-    		$amount = $model->amount;
-    		$digit = $model->digit;
-    		$dis = $model->discount;
-            $typ = $model->discount_type;
-            $ite = $model->discount_item;
-    		$startDate = $model->startDate;
-    		$endDate = $model->endDate;
     		$count = 0;
         	//第一个for 制造code 的数量，第二个for制造code包含16个字母
-        	for ($j=1; $j <= $amount ; $j++) { 
 
-        		$model = new Vouchers;
-        		$model->inCharge = Yii::$app->user->identity->id;
-      			$model->status = 1;
-                $model->discount = $dis;
-                $model->discount_type = $typ;
-                $model->discount_item = $ite;
-      			$model->startDate = $startDate;
-    			$model->endDate = $endDate;
-
-           		for($i=0;$i<$digit; $i++){
+        	for ($j=1; $j <= $model['amount'] ; $j++) { 
+                $model->code='';
+           		for($i=0;$i<$model['digit']; $i++){
        				$model->code .= $chars[rand(0,strlen($chars)-1)];
     			}
     			if (Vouchers::find()->where('code = :c', [':c' => $model->code])->one()==true) {
@@ -141,17 +173,51 @@ class VouchersController extends CommonController
     					return $this->redirect(Yii::$app->request->referrer);
     				}
     			}
-    			else{
-    				$model->save();
-    			}
-    		
+    			$valid =self::createVoucher($model['code'],1,$model['startDate'],$model->endDate,$discount->discount,$discount->discount_type,$discount->discount_item);
         	}
-        	Yii::$app->session->setFlash('success', $amount." Code Generated!");
+            if ($valid == true) {
+                Yii::$app->session->setFlash('success', $model['amount']." Code Generated!");
+            }
+            else{
+                Yii::$app->session->setFlash('warning', "Something went wrong.");
+            }
+        	
         	return $this->redirect(['vouchers/gencodes']);
     	}
 
-    	return $this->render('gencodes', ['model' => $model,'list'=>$list,'item'=>$item]);
+    	return $this->render('gencodes', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item]);
     	
+    }
+
+    // code, status, startDate, endDate, discount, discount_type, discount_item
+    public static function createVoucher($code,$status=1,$sdate,$edate=0,$disamount,$distype,$disitem)
+    {
+        $model = new Vouchers;
+        $model->inCharge = Yii::$app->user->identity->id;
+        $model->code = $code;
+        $model->status = $status;
+        $model->startDate = $sdate;
+        $model->endDate = $edate;
+        if ($model->validate()) {
+            $model->save();
+            $discount = new VouchersDiscount();
+            $discount->vid=$model['id'];
+            $discount['discount'] = $disamount;
+            $discount['discount_type'] = $distype;
+            $discount['discount_item'] = $disitem;
+            if ($discount->validate()) {
+                $discount->save();
+                return true;
+            }
+            else{
+                $model->delete();
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+        
     }
 
     public static function discountvalid($post,$case)
@@ -160,7 +226,7 @@ class VouchersController extends CommonController
             case 1:
                 $check = Vouchers::find()->where('code = :c',[':c'=>$post['Vouchers']['code']])->one();//查询是否重复code
                 if (empty($check)) {
-                    $valid = self::discountExceed($post['Vouchers']['discount_type'],$post['Vouchers']['discount']);
+                    $valid = self::discountExceed($post['VouchersDiscount']['discount_type'],$post['VouchersDiscount']['discount']);
                     if ($valid == true) {
                         return true;
                     }
@@ -175,7 +241,7 @@ class VouchersController extends CommonController
                 break;
                 
             case 2:
-                $valid = self::discountExceed($post['Vouchers']['discount_type'],$post['Vouchers']['discount']);
+                $valid = self::discountExceed($post['VouchersDiscount']['discount_type'],$post['VouchersDiscount']['discount']);
                     if ($valid == true) {
                         return true;
                     }

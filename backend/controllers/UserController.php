@@ -10,10 +10,7 @@ use common\models\User\UserSearch;
 use common\models\Parcel\Parcel;
 use common\models\Parcel\ParcelSearch;
 use common\models\User\UserVoucher;
-use backend\models\Vouchers;
-use backend\models\VouchersStatus;
-use common\models\VouchersDiscount;
-use common\models\VouchersDiscountItem;
+use common\models\vouchers\{Vouchers,VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem};
 use backend\models\Admin;
 use backend\modules\logistics\controllers\ParcelStatusNameController;
 Class UserController extends CommonController
@@ -84,7 +81,7 @@ Class UserController extends CommonController
 		$uservoucher = new UserVoucher;
 		$uservoucher->limitedTime = date('Y-m-d',strtotime('+30 day'));
 
-        $list = ArrayHelper::map(VouchersDiscount::find()->all(),'id','description');
+        $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
 
 		if ( $uservoucher->load(Yii::$app->request->post())) 

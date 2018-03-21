@@ -3,8 +3,7 @@
 namespace common\models\user;
 use yii\data\ActiveDataProvider;
 use Yii;
-use backend\models\Vouchers;
-use common\models\VouchersDiscountItem;
+use common\models\vouchers\{Vouchers,VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem};
 /**
  * This is the model class for table "user_voucher".
  *
