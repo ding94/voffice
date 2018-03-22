@@ -74,6 +74,7 @@
                     [   'label' => 'Voucher Controller' , 'icon' => 'gift' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Vouchers List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
+                                        ['label' => 'Special Voucher' ,'icon' => 'circle-o' , 'url' => ['/vouchers/special-voucher']],
                                     ],
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('vouchers/index'), 

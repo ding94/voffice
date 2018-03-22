@@ -10,12 +10,16 @@ use common\models\vouchers\{VouchersStatus,VouchersDiscount,VouchersDiscountType
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
-	$this->title = 'Voucher List';
+	$this->title = $title;
 	$this->params['breadcrumbs'][] = $this->title;
 ?>
 
     <?= Html::beginForm(['vouchers/batch'],'post');?>
-	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
+    <?php if($title == 'Voucher List'): ?>
+	   <?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
+    <?php elseif($title == 'Special Voucher'): ?>
+        <?= Html::a('Add Special Voucher', ['/vouchers/specadd'], ['class'=>'btn btn-success']) ?>
+    <?php endif;?>
     <?= Html::submitButton('Remove Vouchers',  [
         'class' => 'btn btn-danger', 
         'data' => [

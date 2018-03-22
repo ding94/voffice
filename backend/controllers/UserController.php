@@ -84,10 +84,10 @@ Class UserController extends CommonController
         $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
 
-		if ( $uservoucher->load(Yii::$app->request->post())) 
+		if (Yii::$app->request->post()) 
 		{
-			
-			$valid = self::discountvalid(Yii::$app->request->post());
+			$uservoucher->load(Yii::$app->request->post());
+			$valid = self::discountvalid($uservoucher['code'],Yii::$app->request->post('Vouchers')['discount_type'],Yii::$app->request->post('Vouchers')['discount']);
 			
 			if ($valid == false) 
 			{
@@ -112,7 +112,6 @@ Class UserController extends CommonController
 			{
 				$voucher = self::actionNewvoucher($voucher, Yii::$app->request->post('UserVoucher'));
 
-				
 				if ($voucher->validate()) 
 				{
 					$voucher->save();
@@ -135,7 +134,9 @@ Class UserController extends CommonController
 				if ($uservoucher->vid['status'] == 1) 
 				{
 					$uservoucher = self::actionUservoucher($uservoucher, Yii::$app->request->post('UserVoucher'));
-					$voucher = self::actionExistvoucher($voucher,$list);
+					//$voucher = self::actionExistvoucher($uservoucher->vid);
+					$voucher = Vouchers::find()->where('id = :id', [':id'=>$uservoucher->vid])->one();
+					$voucher->status +=1;
 					$voucher->endDate = $uservoucher->limitedTime;
 					if ($uservoucher->validate() && $voucher->validate()) 
 					{
@@ -163,9 +164,9 @@ Class UserController extends CommonController
 	}
 
 
-	public static function discountvalid($post)
+	public static function discountvalid($code,$type,$discount)
 	{
-		$check = Vouchers::find()->where('code = :c',[':c'=>$post['UserVoucher']['code']])->one();//查询是否重复code
+		$check = Vouchers::find()->where('code = :c',[':c'=>$code])->one();//查询是否重复code
         if (empty($check)) {
             if ($post['Vouchers']['discount_type'] == 1) {
                 if ($post['Vouchers']['discount'] >= 101) {
@@ -192,8 +193,6 @@ Class UserController extends CommonController
 
 	public function actionNewvoucher($voucher, $post)
 	{
-
-
 		$voucher->status +=1; 
 		$voucher->code = $post['code'];
 		$voucher->inCharge = Yii::$app->user->identity->id;
@@ -212,9 +211,9 @@ Class UserController extends CommonController
 		return $uservoucher;
 	}
 
-	public function actionExistvoucher($voucher,$list)
+	public function actionExistvoucher($vid)
 	{
-		$voucher = Vouchers::find()->where('code = :c', [':c'=>Yii::$app->request->post('UserVoucher')['code']])->one();
+		$voucher = Vouchers::find()->where('id = :id', [':id'=>$vid])->one();
 		$voucher->status +=1;
 		
 		return $voucher;
