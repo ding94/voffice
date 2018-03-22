@@ -20,9 +20,9 @@ use kartik\widgets\DatePicker;
 
     
     <?= $form->field($model, 'amount')->textInput()->label('Amount of vouchers to generate') ?>
-    <?= $form->field($model, 'discount')->textInput()->label('Each voucher discount') ?>
-    <?= $form->field($model ,'discount_type')->dropDownList($list)?>
-    <?= $form->field($model ,'discount_item')->dropDownList($item)?>
+    <?= $form->field($discount, 'discount')->textInput()->label('Each voucher discount') ?>
+    <?= $form->field($discount ,'discount_type')->dropDownList($list)?>
+    <?= $form->field($discount ,'discount_item')->dropDownList($item)?>
     <?= $form->field($model, 'digit')->textInput()->label('Digits of voucher Code') ?>
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [

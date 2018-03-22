@@ -72,6 +72,10 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function(){
+    $('.img-slider').bxSlider();
+  });
+
 // (function($) {
 //     "use strict"; // Start of use strict
 
