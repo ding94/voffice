@@ -45,6 +45,7 @@ class UserController extends \yii\web\Controller
     public function actionIndex()
     {
 		$user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id]);
+		$balance = UserBalance::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 		if (empty($user)) {
 			return $this->render('site/login', [
                 'model' => $model,
@@ -55,7 +56,7 @@ class UserController extends \yii\web\Controller
 		$userdetails = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
 
     	$this->layout = 'user';
-        return $this->render('index', ['user' => $user, 'userdetails' => $userdetails]);
+        return $this->render('index', ['user' => $user, 'userdetails' => $userdetails,'balance'=>$balance]);
     }
 
     public function actionUseredit()

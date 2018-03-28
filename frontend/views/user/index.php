@@ -26,14 +26,14 @@ use yii\helpers\Html;
         </div>
     </div>
         <div class="col-sm-9 userprofile-right">
+          <h4><b>User Balance</b></h4>
+          <div class="row outer-row">
+              <div class="userprofile-label">RM <?= $balance['balance']?></div>
+          </div>
+        </div>
+        <div class="col-sm-9 userprofile-right">
           <h4><b>User Details</b></h4>
           <div class="userprofile-input">
-              <div class="row outer-row">
-                <div class="inner-row">
-                  <div class="userprofile-label">Username: </div>
-                  <div class="userprofile-text"><?php echo $user['username']; ?></div>
-                </div>
-              </div>
               <div class="row outer-row">
                 <div class="userprofile-label">Email: </div>
                 <div class="userprofile-text"><?php echo $user['email']; ?></div>
@@ -71,33 +71,7 @@ use yii\helpers\Html;
               <div class="row outer-row">
                 <div class="inner-row">
                   <div class="userprofile-label">Address: </div>
-                  <div class="userprofile-text"><?php echo $userdetails['address1']; ?>,</div>
-                  <div class="userprofile-text"><?php echo $userdetails['address2']; ?>,</div>
-                  <div class="userprofile-text"><?php echo $userdetails['address3']; ?></div>
-                </div>
-              </div>
-              <div class="row outer-row">
-                <div class="inner-row">
-                  <div class="userprofile-label">Postcode: </div>
-                  <div class="userprofile-text"><?php echo $userdetails['postcode']; ?></div>
-                </div>
-              </div>
-              <div class="row outer-row">
-                <div class="inner-row">
-                  <div class="userprofile-label">City: </div>
-                  <div class="userprofile-text"><?php echo $userdetails['city']; ?></div>
-                </div>
-              </div>
-              <div class="row outer-row">
-                <div class="inner-row">
-                  <div class="userprofile-label">State: </div>
-                  <div class="userprofile-text"><?php echo $userdetails['state']; ?></div>
-                </div>
-              </div>
-              <div class="row outer-row">
-                <div class="inner-row">
-                  <div class="userprofile-label">Country: </div>
-                  <div class="userprofile-text"><?php echo $userdetails['country']; ?></div>
+                  <div class="userprofile-text"><?= $userdetails['address1'].', '.$userdetails['address2'].', '.$userdetails['address3'].', '.$userdetails['postcode'].', '.$userdetails['city'].', '.$userdetails['state'].', '.$userdetails['country']; ?></div>
                 </div>
               </div>
               <div class="row outer-row">
