@@ -34,6 +34,9 @@ class SubscribeController extends \yii\web\Controller
 
     public function actionGetpackage($pid)
     {
+      if (empty($pid)) {
+        return Json::encode(0);
+      }
       $price = Package::find()->where('id=:id',[':id'=>$pid])->one()->price;
       return Json::encode($price);
     }

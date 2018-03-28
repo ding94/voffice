@@ -1,16 +1,14 @@
 $("#mainNav a,.intro-text a").on('click',function(event){
-	if (this.hash !== ""){
-		event.preventDefault();
-
-		var hash = this.hash;
-
-		$('html,body').animate({
-			scrollTop:$(hash).offset().top
-			},800,function(){
-				window.location.hash = hash;
-			});
-		
-	}
+    if (this.hash !== ""){
+        event.preventDefault();
+        var hash = this.hash;
+        $('html,body').animate({
+            scrollTop:$(hash).offset().top
+        },800,function(){
+            window.location.hash = hash;
+        }
+        );
+    }
 });
 
 
@@ -28,22 +26,26 @@ $("#mainNav a,.intro-text a").on('click',function(event){
 */
 
 $('select#package').on('change', function() {
-$.ajax({
-   url :"index.php?r=subscribe/getpackage",
-   type: "get",
-   data :{
-        pid: document.getElementById("package").value,
-   },
-   success: function (data) {
-      var obj = JSON.parse(data);
-      $("input:text").val(obj);
-   },
-   error: function (request, status, error) {
-    alert('Error!');
-   }
-
-   });
-  }
+    //alert(document.getElementById("package").value);
+    $.ajax({
+        url :"index.php?r=subscribe/getpackage",
+        type: "get",
+        data :{
+            pid: document.getElementById("package").value,
+        },
+        success: function (data) {
+            var obj = JSON.parse(data);
+            if (obj != 0) {
+                $("input:text").val(obj);
+            }
+            else{
+                $("input:text").val('');
+            }
+        },
+        error: function (request, status, error) {
+            alert('Error!');
+        }
+    });
 });
 
 
