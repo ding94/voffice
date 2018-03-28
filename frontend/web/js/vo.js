@@ -15,13 +15,34 @@ $("#mainNav a,.intro-text a").on('click',function(event){
 
 
 //javascript for display package price once package is selected from dropdown.
-$('select#package').on('change', function() {
+/*$('select#package').on('change', function() {
+    alert(document.getElementById("package").value);
   if ( this.value == 1 ){
   	$("input:text").val(100);
   } else if ( this.value == 2 ){
   	$("input:text").val(200);
   } else if( this.value == 3 ){
   	$("input:text").val(300);
+  }
+});
+*/
+
+$('select#package').on('change', function() {
+$.ajax({
+   url :"index.php?r=subscribe/getpackage",
+   type: "get",
+   data :{
+        pid: document.getElementById("package").value,
+   },
+   success: function (data) {
+      var obj = JSON.parse(data);
+      $("input:text").val(obj);
+   },
+   error: function (request, status, error) {
+    alert('Error!');
+   }
+
+   });
   }
 });
 
