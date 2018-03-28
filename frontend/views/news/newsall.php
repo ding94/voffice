@@ -5,7 +5,7 @@ use yii\widgets\ListView;
 ?>
 
 
-<div class="container" id="news-container">
+<div class="container page-wrap" id="news-container">
 	<div class="row">
 		<h2>All News</h2>
 		<?= 

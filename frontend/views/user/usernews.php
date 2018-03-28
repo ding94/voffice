@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<div class="container"  style="padding-top: 50px;">
+<div class="container" style="padding-top: 50px;">
 	<div class="row">
 <div id="news-list" style="padding-top: 100px; width: 300px; min-height: 100vh; float: left;">
 	<ul>
