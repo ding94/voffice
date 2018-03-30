@@ -77,7 +77,7 @@ $this->title = 'Virtual Office';
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
                        <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
                     </span>
-                    <h4 class="service-heading">Mail Received</h4>
+                    <h4 class="service-heading">Receive Mail</h4>
                     <p class="text-muted">loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum </p>
                 </div>
                 <div class="col-md-4">
@@ -198,40 +198,46 @@ $this->title = 'Virtual Office';
             </div>
     </section>
    
-     <!-- Contact Section -->
+    <!-- Contact Section -->
     <section id="contact">
-        <div class="container">
-		<!--<h1><?= Html::encode($this->title) ?></h1> -->
-		<?php $form = ActiveForm::begin();?>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Contact Us<br>
-                  
-                </h2>
-				
-				 <div class="text-center">
-				 <p><font size="4" color="white"><i>Give us a call or send us an email and we will get back to you as soon as possible!</font></i></p><br>
-                    <i class="fa fa-phone" style="font-size:50px;color:gold;"></i>
-                    <p><font size="4" color="gold">123-456-789</font></p>
-					<br>
-					<p><font size="3" color="white">OR</font></p><br>
-					<p><font size="4" color="gold">Leave Us Message</font></p><br>
+        <h2 class="section-heading text-center">Contact Us</h2>
+        <div class="container-fluid">
+            <!--<h1><?= Html::encode($this->title) ?></h1> -->
+            <div class="location-container">
+                <div>
+                    <div><h2>Find Us at Medini 6</h2></div>
+                    <div><p>Loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum loren ipsum</p></div>
                 </div>
-				</div>
-            </div> 
-		<div class="col-lg-8 col-lg-offset-2">
-    	<?= $form->field($model, 'username') ?>
-    	<?= $form->field($model, 'email') ?>
-    	<?= $form->field($model, 'phone')  ?>
-    	<?= $form->field($model, 'message')->textarea(['rows' => 1])?>
-    	
-    	
-		 <div class="text-center">
-    	<div class="form-group">
-	        <?= Html::submitButton('Send', ['class' => 'btn btn-primary'])?>
-	   </div>
-	   	</div>
-		</div>
-	   </div>
-	<?php ActiveForm::end();?>
+                <iframe width="600" height="700" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJmfMVOPQL2jER0rG3llIcP2c&key=AIzaSyBb8GwvmSM3KrX5hxDJcI9QiXUE0WoIcAY" allowfullscreen></iframe>
+            </div>
+            <div>
+                <div class="row contact-text-container">
+                    <div class="col-lg-8 text-center">
+                        <br>
+                        <div class="text-center">
+                        <p><font size="4" color="white"><i>Give us a call or send us an email and we will get back to you as soon as possible!</font></i></p><br>
+                        <i class="fa fa-phone" style="font-size:50px;color:gold;"></i>
+                        <p><font size="4" color="gold">123-456-789</font></p>
+                        <br>
+                        <p><font size="3" color="white">OR</font></p><br>
+                        <p><font size="4" color="gold">Leave Us Message</font></p><br>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-lg-10 col-lg-offset-2">
+                    <?php $form = ActiveForm::begin();?>
+                    <?= $form->field($model, 'username') ?>
+                    <?= $form->field($model, 'email') ?>
+                    <?= $form->field($model, 'phone')  ?>
+                    <?= $form->field($model, 'message')->textarea(['rows' => 1])?>
+
+                    <div class="text-center">
+                        <div class="form-group">
+                            <?= Html::submitButton('Send', ['class' => 'btn btn-primary'])?>
+                        </div>
+                    </div>
+                    <?php ActiveForm::end();?>
+                </div>
+            </div>
+        </div>
     </section>
