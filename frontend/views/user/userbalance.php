@@ -7,30 +7,6 @@ use yii\bootstrap\Modal;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 ?>
-
-<div class="container">
-	<div class="tab-content col-md-6 col-md-offset-1" id="userprofile">
-		<table class="table table-user-information"><h1>User Balance</h1>
-                <tbody>
-                  <tr>
-                    <td>My Balance:</td>
-                    <td><?php echo $model['balance']; ?></td>
-                  </tr>
-               </tbody>
-            </table>
-            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['topup/index'])?>">Top Up</a>
-            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['withdraw/index'])?>">Withdraw</a>
-            <?php 
-              if ($offlinetopup['rejectReason']!= null) { 
-               echo Html::a('Reject Reason', '#', ['id' => 'rejectreason','data-toggle' => 'modal','data-target' => '#reason-modal','class' => 'btn btn-success',]);
-              }
-              ?>
-              
-
-
-	</div>
-</div>
-
 <?php 
 Modal::begin([
 'id' => 'reason-modal',
@@ -48,3 +24,36 @@ JS;
 $this->registerJs($js);
 Modal::end(); 
 ?>
+
+<div class="balance">
+    <div id="userprofile" class="row">
+       <div class="userprofile-header">
+            <div class="userprofile-header-title">Account Balance</div>
+        </div>
+        <div class="topup-detail">
+            <div class="col-sm-2" style="padding-bottom:20px;">
+                <div class="nav-url">
+                  <ul class="nav nav-pills nav-stacked">
+                      <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Account Balance</a></li>
+                      <li role="presentation"><?php echo Html::a('Account History',['topup-history/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                      <li role="presentation"><?php echo Html::a('Top Up',['topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                      <li role="presentation"><?php echo Html::a('Withdraw',['withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="col-sm-10 right-side">
+              <div class="row outer-row">
+                <div class="inner-row">
+                  <div class="userprofile-label">My Balance: </div>
+                  <div class="userprofile-text">RM<?php echo $model['balance']; ?></div>
+                </div>
+              </div>
+              <?php 
+              if ($offlinetopup['rejectReason']!= null) { 
+               echo Html::a('Reject Reason', '#', ['id' => 'rejectreason','data-toggle' => 'modal','data-target' => '#reason-modal','class' => 'btn btn-success',]);
+              }
+              ?>
+            </div>
+        </div>
+    </div>
+</div>

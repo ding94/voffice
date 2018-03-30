@@ -37,22 +37,22 @@ switch ($fprice) {
 					'subscribe/make-subscribe',
 				]
 			]);?>
-				<?= $form->field($subscribe, 'packid')->dropDownList($type,[
-					'id'=>'package',
-					'onchange' => 'js:changepack();',
 
-				]); ?>
+			<?= $form->field($subscribe, 'packid')->dropDownList($type,[
+				'id'=>'package',
+				'onchange' => 'js:changepack();',
+				'prompt'=>'Please choose package',
+			]); ?>
 
-				<label>Package Price/per month</label>
+			<label>Package Price/per month</label>
 
-				<?= $form->field($payment, 'paid_amount',['template' => '
-		       		<div class="input-group" id="amount">
-		          		<span class="input-group-addon">RM</span>{input}
-		       		</div>{error}{hint}',
-		       		])->textInput([
-		       		
+			<?= $form->field($payment, 'paid_amount',['template' => '
+		       	<div class="input-group" id="amount">
+		        <span class="input-group-addon">RM</span>{input}
+		       	</div>{error}{hint}',
+		       	])->textInput([
 		       		'readonly' => true,
-		       		'value' =>$fprice,
+		       		//'value' =>$fprice,
 					'options'=>[
 						'id'=>'paid_amount',
 					],
@@ -68,7 +68,6 @@ switch ($fprice) {
 			        	'class' => 'btn btn-primary',
 			        	'id' =>'subscribe',
 			        	//'onClick' => 'return confirm("Confirm Subscription?")',
-						
 			        ]) ?>
 			   	</div>
 				<?php ActiveForm::end();?>

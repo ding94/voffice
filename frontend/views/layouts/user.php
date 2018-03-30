@@ -9,12 +9,14 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
+use frontend\assets\UserAsset;
 use frontend\assets\BowerAsset;
 use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 
 AppAsset::register($this);
+UserAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -93,59 +95,27 @@ AppAsset::register($this);
         </div>
         <!-- /.container-fluid -->
     </nav>
-
+</div>
     <!-- Side Nav -->
 
-<div class="row">
-    <div class="sidenav col-md-3" style="padding-top: 50px;">
-        <div class="navbar-left">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-            <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
-        </button>
-        </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-    <?php echo SideNav::widget([
-    //'type' => $type,
-    'encodeLabels' => false,
-    'options' => ['class' => 'in'],
-    'items' => [
-        ['label' => 'My Account', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
-             ['label' => 'Account History', 'url' => Url::to(['topup-history/index'])],
 
-            ['label' => 'eVoucher', 'url' => Url::to(['user/uservouchers'])],
-			['label' => 'My Package', 'url' => Url::to(['user/userpackage'])],
-        ]],
-        ['label' => 'Member Settings','options' => ['class' => 'active'], 'items' => [
-            ['label' => 'User Profile', 'url' => Url::to(['user/index'])],
-            ['label' => 'Change Password', 'url' => Url::to(['user/changepassword'])],
-            ['label' => 'Mailing Address', 'url' => Url::to(['user/usermailingaddress'])],
-            ['label' => 'Company Info', 'url' => Url::to(['user/usercompany'])],
-        ]],
-        ['label' => 'Parcel', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'My Mail', 'url' => Url::to(['parcel/index'])],
-        ]],
-        ['label' => 'News', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'News', 'url' => Url::to(['user/news-all'])],
-        ]],
-]]);     
-
-?>
-    </div>
-    </div>
-    <div class="container-fluid side-collapse-container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+    <div class="container page-wrap">
         <?= Alert::widget([ 'options' => [
             'class' => 'alert-info text-center alert-style',
             ],]); ?>
-        <div class="content">
+        <div class="container vertical-divider">
+            <ul id="user-nav" class="nav nav-default">
+                <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>User Profile</span>',['user/index'])?></label></li>
+                <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>User Balance</span>',['user/userbalance'])?></label></li>
+                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>User Parcel</span>',['parcel/index'])?></label></li>
+                <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>News</span>',['user/news-all'])?></label></li>
+            </ul>
+        </div>
+        <div class="outer-content">
             <?= $content ?>
         </div>
     </div>
-</div>
-</div>
+
 
 
 

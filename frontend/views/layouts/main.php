@@ -118,16 +118,16 @@ BowerAsset::register($this);
         </div>
         <!-- /.container-fluid -->
     </nav>
+</div>
 
-    <div>
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+<div>
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
-            ],]) ?>
-        <?= $content ?>
-    </div>
+    <?= Alert::widget([ 'options' => [
+        'class' => 'alert-info text-center alert-style',
+        ],]) ?>
+    <?= $content ?>
 </div>
 
 <footer class="footer">

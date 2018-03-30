@@ -22,8 +22,8 @@ $this->title = 'Virtual Office';
             ],]); ?>
         <?= Yii::$app->session->getFlash('success');?>
     <!-- Header -->
+    <header>
 
-    <header style="padding-top: 50px">
         <div class="header-container">
             <div class="header-img">
                 <?= Html::img('@web/img/header.jpg');?>
@@ -211,7 +211,7 @@ $this->title = 'Virtual Office';
                 </h2>
 				
 				 <div class="text-center">
-				 <p><font size="4" color="white"><i>Give us a call or send us an email and we will get back to you as soon as possible!</i></p><br>
+				 <p><font size="4" color="white"><i>Give us a call or send us an email and we will get back to you as soon as possible!</font></i></p><br>
                     <i class="fa fa-phone" style="font-size:50px;color:gold;"></i>
                     <p><font size="4" color="gold">123-456-789</font></p>
 					<br>

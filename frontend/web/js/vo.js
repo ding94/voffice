@@ -1,21 +1,20 @@
 $("#mainNav a,.intro-text a").on('click',function(event){
-	if (this.hash !== ""){
-		event.preventDefault();
-
-		var hash = this.hash;
-
-		$('html,body').animate({
-			scrollTop:$(hash).offset().top
-			},800,function(){
-				window.location.hash = hash;
-			});
-		
-	}
+    if (this.hash !== ""){
+        event.preventDefault();
+        var hash = this.hash;
+        $('html,body').animate({
+            scrollTop:$(hash).offset().top
+        },800,function(){
+            window.location.hash = hash;
+        }
+        );
+    }
 });
 
 
 //javascript for display package price once package is selected from dropdown.
-$('select#package').on('change', function() {
+/*$('select#package').on('change', function() {
+    alert(document.getElementById("package").value);
   if ( this.value == 1 ){
   	$("input:text").val(100);
   } else if ( this.value == 2 ){
@@ -23,6 +22,30 @@ $('select#package').on('change', function() {
   } else if( this.value == 3 ){
   	$("input:text").val(300);
   }
+});
+*/
+
+$('select#package').on('change', function() {
+    //alert(document.getElementById("package").value);
+    $.ajax({
+        url :"index.php?r=subscribe/getpackage",
+        type: "get",
+        data :{
+            pid: document.getElementById("package").value,
+        },
+        success: function (data) {
+            var obj = JSON.parse(data);
+            if (obj != 0) {
+                $("input:text").val(obj);
+            }
+            else{
+                $("input:text").val('');
+            }
+        },
+        error: function (request, status, error) {
+            alert('Error!');
+        }
+    });
 });
 
 
@@ -75,36 +98,4 @@ $(document).ready(function () {
 $(document).ready(function(){
     $('.img-slider').bxSlider();
   });
-
-// (function($) {
-//     "use strict"; // Start of use strict
-
-//     // jQuery for page scrolling feature - requires jQuery Easing plugin
-//     $('a.page-scroll').bind('click', function(event) {
-//         var $anchor = $(this);
-//         $('html, body').stop().animate({
-//             scrollTop: ($($anchor.attr('href')).offset().top - 50)
-//         }, 1250, 'easeInOutExpo');
-//         event.preventDefault();
-//     });
-
-//     //Highlight the top nav as scrolling occurs
-//     $('body').scrollspy({
-//         target: '.navbar-fixed-top',
-//         offset: 51
-//     });
-
-//     // Closes the Responsive Menu on Menu Item Click
-//     $('.navbar-collapse ul li a').click(function(){ 
-//             $('.navbar-toggle:visible').click();
-//     });
-
-//     //Offset for Main Navigation
-//     $('#mainNav').affix({
-//         offset: {
-//             top: 100
-//         }
-//     })
-
-// })(jQuery); // End of use strict
 

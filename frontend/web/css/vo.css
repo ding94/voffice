@@ -3,7 +3,11 @@
 body {
   overflow-x: hidden;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+/*   padding-top: 15px; */
 }
+
 .text-muted {
   color: #777777;
 }
@@ -799,144 +803,11 @@ body {
     }
 }
 
-/* CSS for side navigation */
-body.slide-active{
-  overflow-x: hidden;
-}
-
-.no-margin-top{
-  margin-top: 0px!important;
-}
-
-#page-content{
-  position: relative;
-  left: 0px;
-}
-
-#slide-nav .navbar-toggle{
-  cursor: pointer;
-  position: relative;
-  line-height: 0;
-  float: left;
-  margin: 0;
-  width: 30px;
-  height: 40px;
-  padding:10px 0 0 10px;
-  border: 0;
-  background: transparent;
-}
-
-@media (max-width:991px) { 
-  #slide-nav .navbar-toggle{
-    display: block!important;
-  }
-#slide-nav .container {
-      margin: 0;
-      padding: 0!important;
-      background: transparent;
-  }
-  #slide-nav .navbar-header {
-      margin: 0 auto;
-      padding: 10px 15px;
-      font-size: 1.5em;
-  }
-  #slide-nav .navbar.slide-active {
-      position: absolute;
-      width: 40%;
-      top: -1px;
-      z-index: 1000;
-  }
-  #slide-nav .navbar-toggle.slide-active{
-      position: absolute;
-      left: 40%;
-      z-index: 3;
-  }
-  #slide-nav #slidemenu {
-      background: #f7f7f7;
-      left: -100%;
-      width: 40%;
-      min-width: 0;
-      position: absolute;
-      padding-left: 13px;
-      z-index: 2;
-      top: 50px;
-      margin: 0;
-  }
-  #slide-nav #slidemenu .navbar-nav {
-      min-width: 0;
-      width: 100%;
-      margin: 0;
-  }
-}
-
 @media (min-width: 992px){
   #slide-nav {
     margin: 20px;
     z-index: 3;
   }
-}
-
-/* CSS for frontend topup history and withdraw history */
-#topup-history-container table, 
-#topup-history-container th,
-#topup-history-container td,
-#withdraw-history-container table, 
-#withdraw-history-container th,
-#withdraw-history-container td{
-  border:1px solid #ddd;
-  padding: 5px;
-}
-
-#topup-history-container #display td,
-#withdraw-history-container #display td{
-  border-bottom:hidden; 
-}
-
-#topup-history-container #withdraw:hover{
-  background-color: #fdf8e4;
-}
-
-#withdraw-history-container #topup:hover{
-  background-color: #fdf8e4;
-}
-
-#topup-history-container #display td:active,
-#withdraw-history-container #display td:active{
-  background-color: #f4d96c;
-}
-
-#topup-history-container #display tr,
-#withdraw-history-container #display tr{
-  text-align: center; 
-  height:60px; 
-  font-size:20px;
-}
-
-#topup-history-container #topup{
-  -webkit-box-shadow: -3px -3px 5px -3px black;
-  -moz-box-shadow: -3px -3px 5px -3px black;
-  box-shadow: -3px -3px 5px -3px black;
-}
-
-#topup-history-container #withdraw{
-  -webkit-box-shadow: inset 3px -3px 5px -3px black;
-  -moz-box-shadow: inset 3px -3px 5px -3px black;
-  box-shadow: inset 3px -3px 5px -3px black;
-  cursor:pointer; 
-}
-
-#withdraw-history-container #topup{
-  cursor:pointer;  
-  -webkit-box-shadow: inset -3px -3px 5px -3px black;
-  -moz-box-shadow: inset -3px -3px 5px -3px black;
-  box-shadow: inset -3px -3px 5px -3px black;
-}
-
-#withdraw-history-container #withdraw{
-  -webkit-box-shadow: 3px -3px 5px -3px black;
-  -moz-box-shadow: 3px -3px 5px -3px black;
-  box-shadow: 3px -3px 5px -3px black;
-  border-bottom: hidden;
 }
 
 /* CSS for Frontend News */
