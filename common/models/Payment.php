@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
 class Payment extends \yii\db\ActiveRecord
 {
     public $coupon;
+    public $code;
     /**
      * @inheritdoc
      */
@@ -54,7 +55,7 @@ class Payment extends \yii\db\ActiveRecord
             [['uid', 'paid_type', 'bank_acc', 'voucher_id', 'discount','created_at','updated_at'], 'integer'],
             [['paid_amount', 'original_price'], 'number'],
             [['item'], 'string'],
-            [['coupon'],'string'],
+            [['coupon','code'],'string'],
         ];
     }
 

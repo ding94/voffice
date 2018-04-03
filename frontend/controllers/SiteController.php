@@ -99,7 +99,7 @@ class SiteController extends Controller
 
            
         } 
-            return $this->render('index', [
+            return $this->render('indextest', [
                 'model' => $model,
                 'package' => $package,
                 'banner' => $banner,

@@ -38,7 +38,7 @@ class Vouchers extends \yii\db\ActiveRecord
             [['amount','digit'],'required', 'on' => ['generate']], // 'on' = 判断senario
             //[['discount'],'required', 'on' => ['generate','add']],
             [['code'], 'string'],
-            ['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
+            //['code', 'unique', 'targetClass' => '\backend\models\Vouchers', 'message' => 'These digits codes has already been used.'],
             [['usedTimes','status','discount_type','discount_item', 'inCharge'], 'integer'],
             [['endDate','status'],'safe'],
             ['digit', 'integer','min'=> 8,'max'=> 20],

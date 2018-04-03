@@ -54,8 +54,9 @@ use kartik\widgets\ActiveForm;
             	<td id="click"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Here</font></a></td>
             	
 
-	            <td id="coupon" style="display : none">
-		        	<?= $form->field($payment,'coupon')->textInput()->input('',['placeholder' => "Enter your coupon code"])->label(false) ?>
+	            <td id="code" style="display : none">
+		        	<?= $form->field($payment,'code')->textInput()->input('',['placeholder' => "Enter your coupon code"])->label(false) ?>
+              <?= $form->field($payment,'coupon')->hiddenInput()->label(false)?>
 		        </td>
 		        <td>
 		        	<a id="apply" style="display : none" onclick="discount()"><font color="blue">Apply</font></a>
@@ -89,7 +90,7 @@ use kartik\widgets\ActiveForm;
 <script>
 	 function showHidden()
   {
-      document.getElementById("coupon").style.display ='block';
+      document.getElementById("code").style.display ='block';
       document.getElementById("apply").style.display ='block';
       document.getElementById("hide").style.display = 'none';
       document.getElementById("click").style.display = 'none';
@@ -97,67 +98,51 @@ use kartik\widgets\ActiveForm;
 
   function discount()
   {
+    //alert(parseInt(document.getElementById("totalprice").innerHTML));
   	$.ajax({
    url :"index.php?r=subscribe/getdiscount",
    type: "get",
    data :{
-        dis: document.getElementById("payment-coupon").value,
+        code: document.getElementById("payment-code").value,
+        pakprice: parseInt(document.getElementById("pakprice").innerHTML),
+        total: parseInt(document.getElementById("totalprice").innerHTML),
    },
    success: function (data) {
       var obj = JSON.parse(data);
-      if (obj != 0 ) 
-      {
-      	 switch(obj['discount_item']) {
-		    case 1:
-		        if (obj['discount_type'] == 1) 
-			     {
-			     		document.getElementById("totalprice").innerHTML = parseInt(document.getElementById("totalprice").innerHTML) *((100 - obj['discount']) /100); 
-			     	
-			     }
-			     else if (obj['discount_type'] == 2) 
-			     {
+      //alert(obj['item']);
+      if (obj['error'] == 0 ) {
+        document.getElementById("pakprice").innerHTML = obj['package'];
+        document.getElementById("totalprice").innerHTML = obj['total'];
+        document.getElementById("payment-coupon").value = document.getElementById("payment-code").value ;
+      }
+      else if (obj['error'] == 1) {
+        if (obj['item']==0) {
+          alert('No coupon was found.Please check in your profile. (Profile > Voucher)');
+          return false;
+        }
+        else if (obj['item']==1) {
+          alert('Condition of coupon does not fulfilled.');
+          return false;
+        }
+        else{
+          alert('Something went wrong!');
+          return false;
+        }
+      }
+      else{
+        alert('Something went wrong!');
+        return false;
+      }
 
-			     		document.getElementById("totalprice").innerHTML = parseInt(document.getElementById("totalprice").innerHTML) - obj['discount'];  
-			     }
-		        break;
-
-		    case 2:
-		         if (obj['discount_type'] == 1) 
-			     {
-			     		document.getElementById("pakprice").innerHTML = parseInt(document.getElementById("pakprice").innerHTML) *((100 - obj['discount']) /100); 
-			     		document.getElementById("totalprice").innerHTML = parseInt(document.getElementById("pakprice").innerHTML) *<?php echo $subscribe['times']; ?>; 
-			     	
-			     }
-			     else if (obj['discount_type'] == 2) 
-			     {
-			     		document.getElementById("pakprice").innerHTML = parseInt(document.getElementById("pakprice").innerHTML) - obj['discount'];
-			     		document.getElementById("totalprice").innerHTML = parseInt(document.getElementById("pakprice").innerHTML) *<?php echo $subscribe['times']; ?>;  
-			     }
-		        break;
-		    default:
-
-		        break;
-
-		        
-		  }
-
-     	document.getElementById("payment-voucher_id").value = obj['id'] ;
+     	//document.getElementById("payment-voucher_id").value = obj['id'] ;
 		  document.getElementById("reset").style.display ='block';
-    	document.getElementById("coupon").style.display ='none';
+    	document.getElementById("code").style.display ='none';
     	document.getElementById("apply").style.display ='none';
     	document.getElementById("click").style.display = 'none';	
 
-      }
-
-      else if (obj ==0) 
-      {
-      	alert("No coupon found or coupon expired! Please check your account > eVoucher");
-      }
-     
-      
    },
    error: function (request, status, error) {
-    //alert(request.responseText);
+    alert('Error!');
    }
 
    });

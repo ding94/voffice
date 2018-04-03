@@ -1,12 +1,14 @@
 <?php
 
 namespace frontend\controllers;
+use frontend\controllers\DiscountController;
 use common\models\Package;
 use common\models\User\UserPackage;
 use common\models\User\UserPackageSubscription;
 use common\models\User\User;
 use common\models\User\UserDetails;
 use common\models\User\Uservoucher;
+use common\models\Vouchers\{VouchersDiscount,VouchersSetCondition};
 use backend\models\Vouchers;
 use common\models\Payment;
 use common\models\PaymentType;
@@ -30,26 +32,77 @@ class SubscribeController extends \yii\web\Controller
     	return $this->render('index',['subscribe'=>$subscribe,'items'=>$items, 'payment'=>$payment]);
     }
 
-     public function actionGetdiscount($dis)
+    public function actionGetpackage($pid)
     {
-       $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
-       if (!empty($valid)) {
-          if ($valid->limitedTime > date('Y-m-d')) {
-            $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
-          }
-          elseif ($valid->limitedTime < date('Y-m-d')) {
-           $value = 0;
-          }
-       }
-       elseif(empty($valid)) {
-       
-        $value = 0;
-       }
-       $value = Json::encode($value);
-
-       return $value;
-
+      if (empty($pid)) {
+        return Json::encode(0);
+      }
+      $price = Package::find()->where('id=:id',[':id'=>$pid])->one()->price;
+      return Json::encode($price);
     }
+
+     public function actionGetdiscount($code,$pakprice,$total)
+    {
+      if (empty($code)) {
+        $value['error'] = 1;
+        $value['item'] = 0;
+        return Json::encode($value);
+      }
+      
+      //check voucher assigned to user or not
+      $voucher = Vouchers::find()->where('code = :c',[':c'=>$code])->andWhere(['or',['=','status',2],['=','status',5]])->one();
+      $special = VouchersSetCondition::find()->where('vid=:id',[':id'=>$voucher['id']])->all();
+      // check voucher condition(s), if valiable then check condition true/false
+      if (empty($voucher)) {
+        $value['error'] = 1;
+        $value['item'] = 0;
+        return Json::encode($value);
+      }
+      if (!empty($special)) {
+        foreach ($special as $k => $spe) {
+          $valid = DiscountController::specialVoucherUse($voucher,$spe,$total);
+          if ($valid == false) {
+            $value['error']= 1;
+            $value['item'] = 1;
+            $value['condition'] = $spe['condition_id'];
+            //if condition is 2, then send amount too
+            if ($spe['condition_id'] == 2) {
+              $value['amount'] = $spe['amount'];
+            }
+            return Json::encode($value);
+          }
+        }
+      }
+
+      $valid = UserVoucher::find()->where('vid = :id',[':id'=>$voucher['id']])->one();
+      if ($voucher['status'] == 5) {
+           $valid['endDate'] = date('Y-m-d',strtotime('+1 day')); // valid has ['enddate'] attribute, so was not count as empty
+      }
+
+      if (!empty($valid) && ($voucher['status'] == 2 || $voucher['status'] == 5) && $valid['endDate'] > date('Y-m-d'))
+      {
+        $discount = VouchersDiscount::find()->where('vid=:id',[':id'=>$voucher['id']])->all();
+        $value['package'] = $pakprice;
+        $value['total'] = $total;
+        $price = DiscountController::getDiscountedValue($voucher,$value);
+        if ($price == false) {
+          $value['error'] = 1;
+          $value['item'] = 2;
+        }
+        else{
+          $value['error'] = 0;
+          $value['item'] = 1;
+          $value['pak'] = $price['package'];
+          $value['total'] = $price['total'];
+        }
+        return Json::encode($value);
+      }
+      else if(empty($valid)){
+        $value['error'] = 1;
+        $value['item'] = 0;
+        return Json::encode($value);
+      }
+    } 
 
     /*
      * detect user subscibe already or not
@@ -85,14 +138,17 @@ class SubscribeController extends \yii\web\Controller
 
       if (Yii::$app->request->post()) {
         if (!empty(Yii::$app->request->post('Payment')['paid_type'])) {
-          $payment = self::processAll();
-          return $this->redirect(['subscribe/invoice','payid'=>$payment['id']]);
+          $pay = self::processAll();
+          if ($pay != false) {
+            return $this->redirect(['subscribe/invoice','payid'=>$pay['id']]);
+          }
+          else{
+            Yii::$app->session->setFlash('warning', 'Subscribe Fail');
+          }
         }
         else if (empty(Yii::$app->request->post('Payment')['paid_type'])) {
           Yii::$app->session->setFlash('warning', 'Please Choose Your Payment Method.');
-          
         }
-        
       }
       //var_dump($package);var_dump($subscribe);exit;
       return $this->render('payment',['package'=>$package,'subscribe'=>$subscribe,'payment'=>$payment]);
@@ -114,50 +170,23 @@ class SubscribeController extends \yii\web\Controller
       $package = Package::findOne($post['Package']['id']);
 
   		$payment = PaymentController::makeSubscribePayment($package['price'],$subscribeType['times']);
-      
-      if (!empty($post['Payment']['voucher_id'])) {
-        $voucher = Vouchers::find()->where('code =:c AND status =:s',[':c'=>Yii::$app->request->post('Payment')['coupon'],':s'=>2])->one();
+      if (!empty(Yii::$app->request->post('Payment')['coupon'])) {
+        $voucher = Vouchers::find()->where('code =:c',[':c'=>Yii::$app->request->post('Payment')['coupon']])->andwhere(['or',['=','status',2],['=','status',5]])->one();
         if (!empty($voucher)) {
-          switch ($voucher->discount_item) 
-          {
-            case 1:
-              if ($voucher->discount_type == 1) 
-             {
-                $payment->paid_amount = $payment->paid_amount *((100 - $voucher->discount) /100); 
-              
-             }
-             else if ($voucher->discount_type == 2) 
-             {
-
-                $payment->paid_amount = $payment->paid_amount - $voucher->discount;  
-             }
-              break;
-
-          case 2:
-               if ($voucher->discount_type == 1) 
-             {
-                $payment->paid_amount = ($package->price * (100 - $voucher->discount)/100)* $subscribeType->times;
-              
-             }
-             else if ($voucher->discount_type == 2) 
-             {
-                $payment->paid_amount = ($package->price - $voucher->discount)* $subscribeType->times;
-             }
-              break;
-          default:
-
-              break;
-          }
-
+          $value['package'] = $package['price'];
+          $value['total'] = $payment['original_price'];
+          $price = DiscountController::getDiscountedValue($voucher,$value);
+          $payment['paid_amount'] = (int)$price['total'];
           $payment->voucher_id = $voucher->id;
           $payment->discount = $payment->original_price - $payment->paid_amount;
-          $voucher->status = 3;
-          $voucher->usedTimes += 1;
-          if ($voucher->validate()) {
-            $voucher->save();
+          if ($voucher['status'] != 5) {
+            $voucher->status = 3;
+            $voucher->usedTimes += 1;
+            if ($voucher->validate()) {
+              $voucher->save();
+            }
           }
         }
-        
       }
 
   		$subscribe = self::makeSubscribe($package['id'],$subscribeType['id'],$currentDate,$subscribeType['sub_period']);
@@ -166,7 +195,6 @@ class SubscribeController extends \yii\web\Controller
   		$packageSubscribe = self::makePackageSubscribe($subscribeType['sub_period'],$subscribeType['next_payment']);
 
   		$isValid = $payment->validate() && $subscribe->validate() && $packageSubscribe->validate() && $userbalance->validate();
-  		
   		if($isValid)
   		{
   			$payment->save();
@@ -182,9 +210,19 @@ class SubscribeController extends \yii\web\Controller
   			{
   				Payment::deleteAll('id = :id' ,[':id' => $payment['id']] );
   				Subscribe::deleteAll('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
-  				Yii::$app->session->setFlash('warning', 'Subscribe Fail');
+          //Yii::$app->session->setFlash('warning', 'Subscribe Fail');
+          return false;
   			}
   		}
+      else{
+        if (!empty(Yii::$app->request->post('Payment')['coupon'])) {
+          if ($voucher['status']!=5) {
+            $voucher->status = 2;
+            $voucher->usedTimes = $voucher->usedTimes - 1;
+            $voucher->save();
+          }
+        }
+      }
   	}
 
     public function actionInvoice($payid)
@@ -229,13 +267,9 @@ class SubscribeController extends \yii\web\Controller
 		$subscribe = new Userpackage();
 		$subscribe->uid = Yii::$app->user->identity->id;
 
-<<<<<<< HEAD
-    $subscribe->type = $data['sub_period'];
-		$subscribe->packid = $data['packid'];
-=======
     $subscribe->type = $period;
 		$subscribe->packid = $packid;
->>>>>>> 7dd4d95b095119400fd1b9746bb864aac17859a8
+
 
 		$endDate = date('Y-m-d h:i:s',strtotime($endTime));
 

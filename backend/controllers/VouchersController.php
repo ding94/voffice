@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use common\models\User\UserVoucher;
-use common\models\vouchers\{Vouchers,VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem};
+use common\models\vouchers\{Vouchers,VouchersStatus,VouchersDiscount,VouchersDiscountType,VouchersDiscountItem,VouchersConditions,VouchersSetCondition};
 use backend\models\Admin;
 
 
@@ -14,9 +14,9 @@ class VouchersController extends CommonController
     public function actionIndex()
     {
         $searchModel = new VouchersDiscount();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
+        $title = 'Voucher List';
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'title'=>$title]);
     }
 
     public function actionAdd()
@@ -30,14 +30,14 @@ class VouchersController extends CommonController
         //$model->endDate = date('Y-m-d',strtotime('+30 day'));
         $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
         $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
-        
+        $title = 'New voucher';
         if( Yii::$app->request->post())
         {
             $model->load(Yii::$app->request->post());
             $discount->load(Yii::$app->request->post());
             $valid = self::discountvalid(Yii::$app->request->post(),1);
             if ($valid == false){
-                return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item]);
+                return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item,'title'=>$title]);
             }
 
             $model->status = 1;
@@ -60,7 +60,7 @@ class VouchersController extends CommonController
             }
         }
                
-        return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item]);
+        return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item,'title'=>$title]);
     }
 
 
@@ -189,6 +189,66 @@ class VouchersController extends CommonController
     	
     }
 
+    public function actionSpecialVoucher()
+    {
+        $searchModel = new VouchersDiscount();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+        $title = 'Special Voucher';
+
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'title'=>$title]);
+    }
+
+    public function actionSpecadd()
+    {
+        $model = new Vouchers;
+        $discount = new VouchersDiscount;
+        $condition = new VouchersSetcondition;
+        $model->inCharge = Yii::$app->user->identity->id;
+        $model->startDate = date('Y-m-d');
+        $list = ArrayHelper::map(VouchersDiscountType::find()->all(),'id','description');
+        $item = ArrayHelper::map(VouchersDiscountItem::find()->all(),'id','description');
+        $con = ArrayHelper::map(VouchersConditions::find()->all(),'id','description');
+        $title = 'New Special Voucher';
+
+        if( Yii::$app->request->post())
+        {
+            $model->load(Yii::$app->request->post());
+            $discount->load(Yii::$app->request->post());
+            $condition->load(Yii::$app->request->post());
+
+            $valid = self::discountvalid(Yii::$app->request->post(),1);
+            $valid2 = self::conditionvalid($condition['condition_id'],$condition['amount']);
+            if ($valid == false || $valid2 == false){
+                return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item,'con'=>$con,'condition'=>$condition,'title'=>$title]);
+            }
+
+            $model->status = 5;
+            if($model->validate()){
+                $model->save();
+                $discount['vid'] = $model['id'];
+                $condition['vid'] = $model['id'];
+                if (!empty($condition['condition_id'])) {
+                    $condition->save();
+                }
+                if ($discount->validate()) {
+                    $discount->save();
+                    Yii::$app->session->setFlash('success', "Created!!");
+                }
+                else{
+                    $model->delete();
+                    Yii::$app->session->setFlash('error', "Voucher Create Failed. Discount can't saved.");
+                }
+                
+                return $this->redirect(['/vouchers/specadd']);
+            }
+            else{
+                Yii::$app->session->setFlash('danger', "Unexpected error, please contact IT department");
+            }
+        }
+               
+        return $this->render('addvouchers', ['model' => $model,'discount'=>$discount,'list'=>$list,'item'=>$item,'con'=>$con,'condition'=>$condition,'title'=>$title]);
+    }
+
     // code, status, startDate, endDate, discount, discount_type, discount_item
     public static function createVoucher($code,$status=1,$sdate,$edate=0,$disamount,$distype,$disitem)
     {
@@ -265,5 +325,25 @@ class VouchersController extends CommonController
             return false;
         }
         return true;
+    }
+
+    public static function conditionvalid($cid,$amount)
+    {
+        switch ($cid) {
+            case 1:
+                return true;
+                break;
+
+            case 2:
+                if (empty($amount)) {
+                    Yii::$app->session->setFlash('warning','Amount Required for this condition.');
+                    return false;
+                }
+                break;
+            
+            default:
+                return true;
+                break;
+        }
     }
 }

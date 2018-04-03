@@ -13,76 +13,77 @@ use backend\models\Admin;
 
 ?>
 
-<div class="container" id="topup-history-container">
-	<div class="tab-content col-md-7 col-md-offset-1" >
-		
-		<h2>My Account History</h2><br>
+<div class="balance">
+    <div id="userprofile" class="row">
+       <div class="userprofile-header">
+            <div class="userprofile-header-title">Account History</div>
+        </div>
+        <div class="topup-detail">
+            <div class="col-sm-2" style="padding-bottom:20px;">
+                <div class="nav-url">
+                  <ul class="nav nav-pills nav-stacked">
+                      <li role="presentation"><?php echo Html::a('Account Balance',['user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                      <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Account History</a></li>
+                      <li role="presentation"><?php echo Html::a('Top Up',['topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                      <li role="presentation"><?php echo Html::a('Withdraw',['withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="col-sm-10 right-side" id="topup-history-container">
+                <table class="table table-user-information" id="display">
+                    <tr>
+                        <td id="topup">Topup History</td>
+                        <td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
+                    </tr>   
+                </table>    
+                <?= GridView::widget([
+                    'dataProvider' => $model,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        [
+                            'attribute' => 'amount',
+                            'filterInputOptions' => [
+                                'class'       => 'form-control',
+                                'placeholder' => 'Search Amount',
+                            ],
+                        ],
+                        [
+                            'attribute' => 'description',
+                            'filterInputOptions' => [
+                                'class'       => 'form-control',
+                                'placeholder' => 'Search Description',
+                            ],
+                        ],
+                        [
+                            'attribute' => 'bankdetails.bank_name',
 
-       <table class="table table-user-information" id="display">
-        <tr>
-            <td id="topup">Topup History</td>	
-
-            <td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
-        </tr>	
-    </table>	
-	
- <?= GridView::widget([
-        'dataProvider' => $model,
-        'filterModel' => $searchModel,
-        'columns' => [
-		
-			
-			  [
-                    'attribute' => 'amount',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Amount',
-                         ],
-                    ],
-					[
-                    'attribute' => 'description',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Description',
-                         ],
-                    ],
-					    
-                    [
-                    'attribute' => 'bankdetails.bank_name',
-					
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Bank Name',
-                         ],
-						
-                    ],
-							 [
-						'label' => 'Status',
-                        'format' => 'raw',
-                        'headerOptions' => ['width' => "15px"],
-                        'contentOptions' => ['style' => 'font-size:20px;'],
-						'attribute' => 'offlinetopupstatus.title',
-						'value' => function($model){
-                            return Html::tag('span' , $model->offlinetopupstatus->title ,['class' => $model->offlinetopupstatus->labelName ]);
-                        },
-						'filter' => $list,
-					],
-					
-              
-					
-                    [
-                    'attribute' => 'rejectReason',
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Reason',
-                         ],
-                    ],
-					
-					  ],])?>
-					  
-					  
-	</div>
+                            'filterInputOptions' => [
+                                'class'       => 'form-control',
+                                'placeholder' => 'Search Bank Name',
+                            ],
+                        ],
+                        [
+                            'label' => 'Status',
+                            'format' => 'raw',
+                            'headerOptions' => ['width' => "15px"],
+                            'contentOptions' => ['style' => 'font-size:20px;'],
+                            'attribute' => 'offlinetopupstatus.title',
+                            'value' => function($model){
+                                return Html::tag('span' , $model->offlinetopupstatus->title ,['class' => $model->offlinetopupstatus->labelName ]);
+                            },
+                            'filter' => $list,
+                        ],
+                        [
+                            'attribute' => 'rejectReason',
+                            'filterInputOptions' => [
+                                'class'       => 'form-control',
+                                'placeholder' => 'Search Reason',
+                            ],
+                        ],
+                    ],])?>
+            </div>
+        </div>
+    </div>
 </div>
-
   
            

@@ -54,10 +54,18 @@ class VouchersDiscount extends \yii\db\ActiveRecord
         ];
     }
 
-    public function search($params)
+    public function search($params,$case)
     {
-        $query = self::find();
-
+        switch ($case) {
+            case 2:
+                $query = self::find()->andWhere(['=','vouchers.status',5]);
+                break;
+            
+            default:
+                $query = self::find()->andWhere(['!=','vouchers.status',5]);
+                break;
+        }
+        
         $query->joinWith(['voucher']);
 
         $dataProvider = new ActiveDataProvider([

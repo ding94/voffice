@@ -342,7 +342,8 @@
                     "LICENSE",
                     "package.json"
                 ]
-            }
+            },
+            "time": "2018-03-01T15:28:45+00:00"
         },
         {
             "name": "bower-asset/inputmask",
@@ -401,7 +402,8 @@
                 "jquery",
                 "mask",
                 "plugins"
-            ]
+            ],
+            "time": "2017-11-21T11:46:23+00:00"
         },
         {
             "name": "bower-asset/jquery",
@@ -432,7 +434,8 @@
                 "javascript",
                 "jquery",
                 "library"
-            ]
+            ],
+            "time": "2017-03-20T19:02:00+00:00"
         },
         {
             "name": "bower-asset/jquery-ui",
@@ -460,7 +463,8 @@
             },
             "license": [
                 "MIT"
-            ]
+            ],
+            "time": "2016-09-16T05:47:55+00:00"
         },
         {
             "name": "bower-asset/microplugin",
@@ -630,7 +634,8 @@
                 "search",
                 "sift",
                 "sort"
-            ]
+            ],
+            "time": "2017-12-01T03:21:28+00:00"
         },
         {
             "name": "bower-asset/yii2-pjax",
@@ -664,7 +669,8 @@
             },
             "license": [
                 "MIT"
-            ]
+            ],
+            "time": "2017-10-12T10:11:14+00:00"
         },
         {
             "name": "cebe/markdown",

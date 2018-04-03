@@ -7,22 +7,14 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class AppAsset extends AssetBundle
+class UserAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site-test.css',
-        'css/vo.css',
-        'css/font-awesome.min.css',
-		// 'css/slideshow.css',
-		'css/test.css',
-		'css/jquery.bxslider.css',
+        'css/user.css',
     ];
     public $js = [
-        'js/vo.js',
-		// 'js/slideshow.js',
-        'js/jquery.bxslider.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

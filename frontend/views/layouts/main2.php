@@ -76,7 +76,7 @@ BowerAsset::register($this);
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="../web/index">X MailBox</a>
+                <?= Html::a('X MailBox',['/site/index'],['class'=>'navbar-brand page-scroll']); ?>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -111,16 +111,13 @@ BowerAsset::register($this);
         </div>
         <!-- /.container-fluid -->
     </nav>
+</div>
 
-    <div class="container-fluid">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
-            ],]) ?>
-        <?= $content ?>
-    </div>
+<div class="page-wrap">
+    <?= Alert::widget([ 'options' => [
+        'class' => 'alert-info text-center alert-style',
+        ],]) ?>
+    <?= $content ?>
 </div>
 
 <footer class="footer">

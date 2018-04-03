@@ -19,11 +19,6 @@ BowerAsset::register($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-     <!-- Custom Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -76,7 +71,8 @@ BowerAsset::register($this);
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="../web/index">X MailBox</a>
+                <?= Html::a('X MailBox',['/site/index'],['class'=>'navbar-brand page-scroll']); ?>
+             
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,7 +85,7 @@ BowerAsset::register($this);
                         <a class="page-scroll" href="#services">Services</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#portfolio">Package</a>
+                        <a class="page-scroll" href="#packages">Package</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -122,16 +118,16 @@ BowerAsset::register($this);
         </div>
         <!-- /.container-fluid -->
     </nav>
+</div>
 
-    <div class="container-fluid">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+<div>
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
-            ],]) ?>
-        <?= $content ?>
-    </div>
+    <?= Alert::widget([ 'options' => [
+        'class' => 'alert-info text-center alert-style',
+        ],]) ?>
+    <?= $content ?>
 </div>
 
 <footer class="footer">
