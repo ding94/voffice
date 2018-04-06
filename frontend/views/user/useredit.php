@@ -8,6 +8,7 @@ use common\widgets\Alert;
 use kartik\widgets\Select2;
 use common\models\Country;
 use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 
 $country = Country::find()->all();
 $data = ArrayHelper::map($country,'name_en','name_en');
@@ -32,6 +33,11 @@ $data = ArrayHelper::map($country,'name_en','name_en');
     </div>
         <div class="col-sm-8 userprofile-edit-input">
             <?php $form = ActiveForm::begin();?>
+
+                <?= $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                    ])->label('Upload Image'); ?>
+               
 				<?= $form->field($model, 'Fname')->textInput() ?>
 				<?= $form->field($model, 'Lname')->textInput() ?>
 				<?= $form->field($model, 'gender')->radioList(array('Male'=>'Male','Female'=>'Female')); ?>

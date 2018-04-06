@@ -18,10 +18,12 @@ use common\models\User\UserPackageSubscription;
 use common\models\OfflineTopup\OfflineTopup;
 use common\models\SubscribeType;
 use common\models\News;
+use common\models\Upload;
 use backend\models\Vouchers;
 use kartik\mpdf\Pdf;
 use frontend\controllers\SubscribeController;
 use yii\data\ActiveDataProvider;
+use yii\web\UploadedFile;
 
 class UserController extends \yii\web\Controller
 {
@@ -60,9 +62,20 @@ class UserController extends \yii\web\Controller
     }
 
     public function actionUseredit()
-	{
+	{	 
+		$upload = new Upload();
+
+        $upload->scenario = 'profile';
+
+        $path = Yii::$app->params['userprofilepic'];
+
+        $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
+
 		$userid = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
 		$model = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
+
+		
+
 		if(empty($model))
 			{
 				$model = new UserDetails;
@@ -77,10 +90,31 @@ class UserController extends \yii\web\Controller
 				}
 			}
 		else
-		{
+		{	
+			if (!empty($upload->imageFile))
+            {
+                $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
+               
+                if(!empty($model->picture))
+                {
+                	 
+                   $upload->upload($path,$path.$model->picture);
+                  
+                }
+                else
+                {
+                
+                  $upload->upload($path);  
+
+                }
+                
+             
+            }
+
 			$model = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
 			if(Yii::$app->request->isPost)
-			{
+			{	
+				$model->picture =$upload->imageFile->name;
 				$post = Yii::$app->request->post();
 				if($model->add($post))
 				{
@@ -91,7 +125,7 @@ class UserController extends \yii\web\Controller
 		}
 		$this->view->title = 'Update Profile';
 		$this->layout = 'user';
-		return $this->render("useredit",['model' => $model]);
+		return $this->render("useredit",['upload'=>$upload,'model' => $model]);
 
 	}
 
