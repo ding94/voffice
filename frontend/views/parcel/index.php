@@ -5,10 +5,14 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use yii\widgets\LinkPager;
+use frontend\assets\ParcelAsset ;
 use common\models\Parcel\ParcelStatusName;
-use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\bootstrap\Modal;
+use kartik\widgets\Select2;
 
+
+ParcelAsset::register($this);
 ?>
 <?php
 Modal::begin([
@@ -32,24 +36,46 @@ $this->registerJs("
             });
         })
 ");
+
+$this->title = 'My Parcel'." : ".$title;
 ?>
 
 <div class="parcel">
     <div id="userprofile" class="row">
-       <div class="userprofile-header">
-            <div class="userprofile-header-title">Parcel</div>
+        <div class="userprofile-header">
+            <div class="userprofile-header-title"><?php echo HTML::encode($this->title) ?></div>
         </div>
         <div class="parcel-detail">
             <div class="col-sm-2" style="padding-bottom:20px;">
+                <div class="dropdown-url">
+                    <?php echo Select2::widget([
+                      'name' => 'url-redirect',
+                      'hideSearch' => true,
+                      'data' => $link,
+                      'options' => [
+                          'placeholder' => 'Go To ...',
+                          'multiple' => false,  
+                        ],
+                      'pluginEvents' => [
+                            "change" => 'function (e){
+                              location.href =this.value;
+                          }',
+                      ]
+                    ]);?>
+                </div>
                 <div class="nav-url">
-                  <ul class="nav nav-pills nav-stacked">
-                      <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">My Parcel</a></li>
+                  <ul id="my-parcel-nav"class="nav nav-pills nav-stacked">
+                       <li role="presentation" ><?php echo Html::a('All',['/parcel/index'],['class'=>' btn-block userprofile-edit-left-nav'])?></li>
+                      <?php foreach($countParcel as $i=> $count): ?>
+                          <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/parcel/index','status'=>$statusid[$i]],['class'=>' btn-block userprofile-edit-left-nav'])?></li>
+                      <?php endforeach ;?>
                   </ul>
                 </div>
             </div>
-            <div class="col-sm-10 right-side">
+            <div class="col-sm-10 right-side ">
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'tableOptions'=>['class'=>'table table-striped table-bordered my-parcel-table'],
                     'filterModel'=>$searchModel,
                     'columns' => [
                         [
@@ -92,7 +118,7 @@ $this->registerJs("
                     //'size' => 'modal-lg',
                         'value' => function($model)
                         {
-                            return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success','data-toggle'=>"modal",'data-target'=>"#myModal",'data-title'=>"Detail Data",]);
+                            return Html::a(Yii::t('app','{modelClass}',['modelClass' => 'details']),['parcel/view' ,'parid'=>$model->id],['class'=>'btn btn-success ','data-toggle'=>"modal",'data-target'=>"#myModal",'data-title'=>"Detail Data",]);
                         },
                         'format' => 'raw'
                     ],
@@ -118,7 +144,7 @@ $this->registerJs("
                             {
                                 $url =  Url::to(['parcel/confirmreceived' ,'id'=>$model->id,'status'=>$model->status]);
 
-                                return $model->status == 3 ? Html::a('Confirm Received' , $url , ['class' => 'text-underline','title' => 'Confirm Received','data-confirm'=>"Confirm action?"]): '' ;
+                                return $model->status == 3 ? Html::a('Confirm Received' , $url , ['class' => 'btn btn-primary','title' => 'Confirm Received','data-confirm'=>"Confirm action?"]): '' ;
                             },
                         ],
                     ],
