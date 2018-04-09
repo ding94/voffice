@@ -95,20 +95,9 @@ class UserController extends \yii\web\Controller
             {
                 $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
                
-                if(!empty($model->picture))
-                {
-                	 
-                   $upload->upload($path,$path.$model->picture);
-                  
-                }
-                else
-                {
-                
-                  $upload->upload($path);  
-
-                }
-                
-             
+                    if ($upload->validate()) {
+		            	$upload->imageFile->saveAs('img/userprofilepic/' . $upload->imageFile->baseName . '.' . $upload->imageFile->extension);
+					}
             }
 
 			$model = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();

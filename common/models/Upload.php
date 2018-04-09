@@ -19,15 +19,4 @@ class Upload extends Model
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg','on' => ['profile']],
         ];
     }
-
-     public function upload()
-    {
-        if ($this->validate()) {
-            $this->imageFile->saveAs('img/userprofilepic/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-		
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
