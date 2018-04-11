@@ -63,19 +63,16 @@ class UserController extends \yii\web\Controller
 	{
 		$userid = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
 		$model = UserDetails::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id])->one();
-		if(empty($model))
-			{
-				$model = new UserDetails;
-				if(Yii::$app->request->isPost)
-				{
-					$post = Yii::$app->request->post();
-					if($model->add($post))
-					{
-					   Yii::$app->session->setFlash('success', 'Update Successful');
-					   return $this->redirect(['index']);
-					}
+		if(empty($model)){
+			$model = new UserDetails;
+			if(Yii::$app->request->isPost){
+				$post = Yii::$app->request->post();
+				if($model->add($post)){
+					Yii::$app->session->setFlash('success', 'Update Successful');
+					return $this->redirect(['index']);
 				}
 			}
+		}
 		else
 		{
 			$model = UserDetails::find()->where('uid = :uid'  , [':uid' => Yii::$app->user->identity->id])->one();
