@@ -16,18 +16,19 @@ class Upload extends Model
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg','on' => ['profile']],
         ];
     }
 
-     public function upload()
-    {
+     public function upload($path){
         if ($this->validate()) {
-            $this->imageFile->saveAs('img/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->imageFile->saveAs($path. $this->imageFile->baseName. '.' .$this->imageFile->extension);
 		
             return true;
         } else {
             return false;
         }
+
+        
     }
 }

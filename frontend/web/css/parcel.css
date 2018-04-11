@@ -1,0 +1,27 @@
+
+@media (max-width: 767px){
+	.my-parcel-table > table, thead, tbody, th, td, tr { 
+    display: block; 
+ }
+
+.my-parcel-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+.my-parcel-table tr { border: 1px solid #ccc; }
+  
+.my-parcel-table td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 50%; 
+    display: flex;
+  }
+}
+.btn{
+	width:100%;
+}
+
+

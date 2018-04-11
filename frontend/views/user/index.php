@@ -15,10 +15,19 @@ use yii\helpers\Html;
     <div class="userprofile-detail">
         <div class="col-sm-3 userprofile-left">
           <div class="userprofile-avatar">
-              <?php 
-                $picpath = Url::to('@web/img/DefaultPic.png');
+               <?php 
+              
+                if(is_null($userdetails->picture)) :
+
+                  $picpath = Url::to('@web/img/DefaultPic.png');
+                else :
+                  if(file_exists(Yii::$app->params['userprofilepic'].$userdetails->picture)) :
+                     $picpath = Url::to("@web/".Yii::$app->params['userprofilepic'].$userdetails->picture);
+                  else :
+                    $picpath = Url::to('@web/imageLocation/DefaultPic.png');
+                  endif ;
+                endif ;
               ?>
-            
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
               <?= Html::a('Edit', ['user/useredit'], ['class'=>'btn btn-default userprofile-editbutton']) ?>
               <?= Html::a('Logout', ['/site/logout'], ['class'=>'btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
