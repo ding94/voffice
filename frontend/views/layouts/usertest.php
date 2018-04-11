@@ -9,12 +9,14 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
+use frontend\assets\UserAsset;
 use frontend\assets\BowerAsset;
 use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 
 AppAsset::register($this);
+UserAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -102,6 +104,7 @@ AppAsset::register($this);
         </div>
         </div>
     <div id="slidemenu">
+    <!-- old version of redirection bar
     <?php echo SideNav::widget([
     //'type' => $type,
     'encodeLabels' => false,
@@ -126,9 +129,9 @@ AppAsset::register($this);
         ['label' => 'News', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'News', 'url' => Url::to(['user/news-all'])],
         ]],
-]]);     
-
+]]);
 ?>
+-->
     </div>
     </div>
     <div id="page-content">
@@ -136,9 +139,21 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+
         <?= Alert::widget([ 'options' => [
             'class' => 'alert-info text-center alert-style',
             ],]); ?>
+        <div class="container vertical-divider">
+            <ul id="user-nav" class="nav nav-default">
+                <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>User Profile</span>',['user/index'])?></label></li>
+                <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-star fa-lg"></i><?php echo Html::a('<span>User Package</span>',['user/userpackage'])?></label></li>
+                <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>User Balance</span>',['user/userbalance'])?></label></li>
+                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-envelope fa-lg"></i><?php echo Html::a('<span>User Parcel</span>',['parcel/index'])?></label></li>
+                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-minus-square fa-lg"></i><?php echo Html::a('<span>Vouchers</span>',['user/uservouchers'])?></label></li>
+                <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>News</span>',['user/news-all'])?></label></li>
+            </ul>
+        </div>
+        
         <div class="content">
             <?= $content ?>
         </div>
