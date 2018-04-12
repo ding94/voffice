@@ -78,7 +78,7 @@ class ParcelController extends \yii\web\Controller
                     break;
 
                 case 4:
-                    $countParcel['Confirm']['total'] += 1;
+                    $countParcel['Confirm received']['total'] += 1;
                     break;
                 
                 case 5:
