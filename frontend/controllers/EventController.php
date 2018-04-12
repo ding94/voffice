@@ -48,7 +48,7 @@ class EventController extends \yii\web\Controller
 
     public function actionGoing($id)
     {
-    	$model = EventActions::find()->where('id=:id',[':id'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+    	$model = EventActions::find()->where('eid=:eid',[':eid'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
     	if(empty($model)){
     		$model = new EventActions;
     		$model->uid = Yii::$app->user->identity->id;
@@ -71,7 +71,7 @@ class EventController extends \yii\web\Controller
 
     public function actionDecline($id)
     {
-    	$model = EventActions::find()->where('id=:id',[':id'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+    	$model = EventActions::find()->where('eid=:eid',[':eid'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
     	if(empty($model)){
     		$model = new EventActions;
     		$model->uid = Yii::$app->user->identity->id;
@@ -94,7 +94,7 @@ class EventController extends \yii\web\Controller
 
     public function actionIgnore($id)
     {
-    	$model = EventActions::find()->where('id=:id',[':id'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+    	$model = EventActions::find()->where('eid=:eid',[':eid'=>(int)$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
     	if(empty($model)){
     		$model = new EventActions;
     		$model->uid = Yii::$app->user->identity->id;
@@ -118,7 +118,7 @@ class EventController extends \yii\web\Controller
     public function actionEventContent($id)
     {
     	$model = Events::find()->where('id=:id',[':id'=>$id])->one();
-    	$actionstatus = EventActions::find()->where('id=:id',[':id'=>$id])->one();
+    	$actionstatus = EventActions::find()->where('eid=:eid',[':eid'=>$id])->andWhere('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
     	return $this->renderPartial('eventcontent',['model'=>$model,'actionstatus'=>$actionstatus]);
     }
 }

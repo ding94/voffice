@@ -40,7 +40,8 @@ EOF; -->
 				    'themeSystem'=>'bootstrap4',
 				],
 				'eventRender' => 'function (event,element) {
-							        element.attr("href", "?r=event/event-content&id="+event.id);
+							        // element.attr("href", "event-content?id="+event.id);
+									element.attr("href", "?r=event/event-content&id="+event.id);
 							        element.attr("data-toggle","modal");
 							        element.attr("data-target","#eventModal");
 							        element.attr("data-title",event.title);
