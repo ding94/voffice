@@ -102,6 +102,13 @@
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('parcel/type-mail'), 
                     ],
+                    [   'label' => 'Events Controller', 'icon' => 'dashboard', 'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Events List', 'icon' => 'circle-o', 'url' => ['/events/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('parcel/type-mail'), 
+                    ],
                     [   'label' => 'News Controller' , 'icon' => 'newspaper-o' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'News List' ,'icon' => 'circle-o' , 'url' => ['/news/index']],

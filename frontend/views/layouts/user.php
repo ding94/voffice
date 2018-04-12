@@ -101,7 +101,7 @@ UserAsset::register($this);
 
     <div class="container page-wrap">
         <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
+            'class' => 'alert-info flash-alert text-center alert-style',
             ],]); ?>
         <div class="container vertical-divider">
             <ul id="user-nav" class="nav nav-default">
@@ -109,6 +109,7 @@ UserAsset::register($this);
                 <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>User Balance</span>',['user/userbalance'])?></label></li>
                 <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>User Parcel</span>',['parcel/index'])?></label></li>
                 <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>News</span>',['user/news-all'])?></label></li>
+                <li id="events" role="presentation"><label class="label-btn"><i class="fa fa-calendar fa-lg"></i><?php echo Html::a('<span>Events</span>',['event/index'])?></label></li>
             </ul>
         </div>
         <div class="outer-content">

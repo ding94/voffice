@@ -52,7 +52,7 @@ $('select#package').on('change', function() {
 
 //javascript for alert fade.
 window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+    $(".flash-alert").fadeTo(500, 0).slideUp(500, function(){
         $(this).remove(); 
     });
 }, 4000);
@@ -99,3 +99,17 @@ $(document).ready(function(){
     $('.img-slider').bxSlider();
   });
 
+$(function(){
+  $('#eventModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var modal = $(this);
+    var href = button.attr('href');
+    var title = button.attr('data-title');
+    modal.find('.modal-header').html('<h2>'+ title +'</h2>');
+    modal.find('.modal-body').html('<center><i class=\"fa fa-spinner fa-spin fa-3x\"></i><center>');
+    $.post({url : href, async: true, backdropLimit: 1})
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data);
+                  });
+  });
+})

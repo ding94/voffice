@@ -137,7 +137,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
+            'class' => 'alert-info flash-alert text-center alert-style',
             ],]); ?>
         <div class="content">
             <?= $content ?>
