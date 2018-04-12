@@ -106,8 +106,10 @@ UserAsset::register($this);
         <div class="container vertical-divider">
             <ul id="user-nav" class="nav nav-default">
                 <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>User Profile</span>',['user/index'])?></label></li>
+                <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-star fa-lg"></i><?php echo Html::a('<span>User Package</span>',['user/userpackage'])?></label></li>
                 <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>User Balance</span>',['user/userbalance'])?></label></li>
-                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>User Parcel</span>',['parcel/index'])?></label></li>
+                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-envelope fa-lg"></i><?php echo Html::a('<span>User Parcel</span>',['parcel/index'])?></label></li>
+                <li  id="parcel" role="presentation"><label class="label-btn"><i class="fa fa-minus-square fa-lg"></i><?php echo Html::a('<span>Vouchers</span>',['user/uservouchers'])?></label></li>
                 <li id="news" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>News</span>',['user/news-all'])?></label></li>
                 <li id="events" role="presentation"><label class="label-btn"><i class="fa fa-calendar fa-lg"></i><?php echo Html::a('<span>Events</span>',['event/index'])?></label></li>
             </ul>

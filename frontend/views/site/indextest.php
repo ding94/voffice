@@ -146,7 +146,7 @@ $this->title = 'Virtual Office';
                             <li>loren ipsum</li>
                         </ul>
                     </div>
-                    <div class="package-btn silver package-btn-silver-hover">Subscribe Now</div>
+                    <div><?= Html::a('Subscribe Now',['/subscribe/index'],['class'=>'package-btn silver package-btn-silver-hover']); ?></div>
                 </div>
                 <div class="package-div gold-border">
                     <div class="gold package-header-container">
@@ -169,7 +169,7 @@ $this->title = 'Virtual Office';
                             <li>loren ipsum</li>
                         </ul>
                     </div>
-                    <div class="package-btn gold package-btn-gold-hover">Subscribe Now</div>
+                    <div><?= Html::a('Subscribe Now',['/subscribe/index'],['class'=>'package-btn gold package-btn-gold-hover']); ?></div>
                 </div>
                 <div class="package-div platinum-border">
                     <div class="platinum package-header-container">
@@ -194,7 +194,7 @@ $this->title = 'Virtual Office';
                             <li>loren ipsum</li>
                         </ul>
                     </div>
-                    <div class="package-btn platinum package-btn-platinum-hover">Subscribe Now</div>
+                    <div><?= Html::a('Subscribe Now',['/subscribe/index'],['class'=>'package-btn platinum package-btn-platinum-hover']); ?></div>
                 </div>
             </div>
     </section>

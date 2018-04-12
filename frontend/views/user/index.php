@@ -17,7 +17,7 @@ use yii\helpers\Html;
           <div class="userprofile-avatar">
                <?php 
               
-                if(is_null($userdetails->picture)) :
+                if(empty($userdetails->picture)) :
 
                   $picpath = Url::to('@web/img/DefaultPic.png');
                 else :
@@ -29,7 +29,9 @@ use yii\helpers\Html;
                 endif ;
               ?>
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
-              <?= Html::a('Edit', ['user/useredit'], ['class'=>'btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a('Edit Details', ['user/useredit'], ['class'=>'btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a('Edit Mailing Address', ['/user/usermailingaddress'], ['class'=>'btn btn-primary userprofile-logoutbutton']) ?>
+              <?= Html::a('Edit Company Info', ['/user/usercompany'], ['class'=>'btn btn-primary userprofile-logoutbutton']) ?>
               <?= Html::a('Logout', ['/site/logout'], ['class'=>'btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
           </div>
         </div>
