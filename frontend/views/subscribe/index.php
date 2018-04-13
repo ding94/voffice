@@ -40,7 +40,6 @@ switch ($fprice) {
 
 			<?= $form->field($subscribe, 'packid')->dropDownList($type,[
 				'id'=>'package',
-				'onchange' => 'js:changepack();',
 				'prompt'=>'Please choose package',
 			]); ?>
 
