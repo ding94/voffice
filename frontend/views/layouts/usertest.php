@@ -141,7 +141,7 @@ UserAsset::register($this);
         ]) ?>
 
         <?= Alert::widget([ 'options' => [
-            'class' => 'alert-info text-center alert-style',
+            'class' => 'alert-info flash-alert text-center alert-style',
             ],]); ?>
         <div class="container vertical-divider">
             <ul id="user-nav" class="nav nav-default">

@@ -23,9 +23,7 @@ switch ($fprice) {
 		break;
 }
 ?>
-<html>
-<head></head><body>
-<div class="container" style="padding-top: 200px">
+<div class="container page-wrap">
 	<div class="row">
 		<div class="col-md-7 col-md-offset-1">
 			<h1><?= Html::encode($this->title) ?></h1>
@@ -75,7 +73,3 @@ switch ($fprice) {
 		</div>
 	</div>
 </div>
-
-
-</body>
-</html>

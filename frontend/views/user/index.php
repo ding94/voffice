@@ -17,7 +17,7 @@ use yii\helpers\Html;
           <div class="userprofile-avatar">
                <?php 
               
-                if(is_null($userdetails->picture)) :
+                if(empty($userdetails->picture)) :
 
                   $picpath = Url::to('@web/img/DefaultPic.png');
                 else :
